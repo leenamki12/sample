@@ -1,0 +1,70 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": ["plugin:import/typescript"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "plugins": ["import", "react", "@typescript-eslint"],
+
+    "rules": {
+        "react/react-in-jsx-scope": ["off"],
+        "react/jsx-uses-react": ["off"],
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin", // js내장 라이브러리 + react
+                    "external",
+                    "internal",
+                    "unknown", // src폴더 하위
+                    ["parent", "sibling"],
+                    "index" // 원래는 ./이지만 style 관련도 추가
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "react*",
+                        "group": "builtin",
+                        "position": "before"
+                    },
+                    {
+                        "pattern": "./*.styled",
+                        "group": "index"
+                    },
+                    {
+                        "pattern": "styles",
+                        "group": "index",
+                        "patternOptions": { "matchBase": true }
+                    }
+                ],
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                },
+                "pathGroupsExcludedImportTypes": ["react*"],
+                "newlines-between": "always"
+            }
+        ],
+        "max-len": [
+            "error",
+            {
+                "code": 100,
+                "tabWidth": 2,
+                "ignoreComments": true,
+                "ignoreUrls": true,
+                "ignoreTemplateLiterals": true,
+                "ignoreRegExpLiterals": true,
+                "ignoreStrings": true,
+                "ignorePattern": "^import\\s.+\\sfrom\\s.+$"
+            }
+        ]
+    }
+}
