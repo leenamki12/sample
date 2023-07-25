@@ -9,7 +9,8 @@ use Inertia\Inertia;
 
 //Home 첫번째 화면
 Route::get('/', function () {
-    return Inertia::render('Home', [
+    $auth = Auth::getUser();
+    return $auth ? to_route($auth->roles->first()->name) : Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
