@@ -40,6 +40,11 @@
                         "group": "index"
                     },
                     {
+                        "pattern": "@assets/**",
+                        "group": "unknown",
+                        "patternOptions": { "partial": true, "nocomment": true }
+                    },
+                    {
                         "pattern": "styles",
                         "group": "index",
                         "patternOptions": { "matchBase": true }
