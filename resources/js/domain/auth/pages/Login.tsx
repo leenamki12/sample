@@ -15,7 +15,7 @@ type Props = {
     requestPath?: 'hospital' | 'company' | 'admin';
 };
 
-export default function Login({ status, canResetPassword, requestPath }: Props) {
+export default function Login({ canResetPassword, requestPath }: Props) {
     console.log(requestPath, 'requestPath');
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -38,10 +38,7 @@ export default function Login({ status, canResetPassword, requestPath }: Props) 
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
-
-            {status && <div className="mb-4 text-sm font-medium text-green-600">{status}</div>}
-
+            <Head title="로그인" />
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
