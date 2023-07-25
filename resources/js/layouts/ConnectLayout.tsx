@@ -2,7 +2,7 @@ import React, { PropsWithChildren, ReactElement, useMemo } from 'react';
 
 import { usePage } from '@inertiajs/react';
 
-import { PageProps } from '@/types';
+import { PageProps, StrKeyArray } from '@/types';
 import { User } from '@/types/user';
 
 import AdminLayout from './admin/AdminLayout';
@@ -14,11 +14,7 @@ type Props = {
     name: string;
 };
 
-type LayoutType = {
-    [key: string]: React.ComponentType<PropsWithChildren<{ user: User }>>;
-};
-
-const Layouts: LayoutType = {
+const Layouts: StrKeyArray<React.ComponentType<PropsWithChildren<{ user: User }>>> = {
     admin: AdminLayout,
     hospital: HospitalLayout,
     company: CompanyLayout,
