@@ -13,7 +13,24 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['NanumSquareNeo', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                primary: '#1743B1',
+                secondary: '#dadada',
+            },
+            borderRadius: {
+                none: '0',
+                sm: '5px',
+                DEFAULT: '10px',
+                lg: '15px',
+                full: '9999px',
+            },
+            fontWeight: {
+                fontLight: 'font-weight: 100',
+                fontNormal: 'font-weight: 300',
+                fontMedium: 'font-weight: 400',
+                fontBold: 'font-weight: 700',
             },
         },
     },

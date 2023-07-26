@@ -1,13 +1,12 @@
 import { useEffect, FormEventHandler } from 'react';
 
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 
-import Checkbox from '@/components/inertia/Checkbox';
-import InputError from '@/components/inertia/InputError';
-import InputLabel from '@/components/inertia/InputLabel';
-import PrimaryButton from '@/components/inertia/PrimaryButton';
-import TextInput from '@/components/inertia/TextInput';
+import ApplicationLogo from '@/components/inertia/ApplicationLogo';
+import { TextInput } from '@/components/ui';
 import GuestLayout from '@/layouts/GuestLayout';
+
+import * as S from './styles/Login.styled';
 
 type Props = {
     status?: string;
@@ -15,10 +14,10 @@ type Props = {
     requestPath?: 'hospital' | 'company' | 'admin';
 };
 
-export default function Login({ canResetPassword, requestPath }: Props) {
+export default function Login({ requestPath }: Props) {
     console.log(requestPath, 'requestPath');
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, reset } = useForm({
         email: '',
         password: '',
         remember: false,
@@ -33,71 +32,36 @@ export default function Login({ canResetPassword, requestPath }: Props) {
     const submit: FormEventHandler = e => {
         e.preventDefault();
 
-        post(route('login'));
+        console.log(data);
+
+        //post(route('login'));
     };
 
     return (
         <GuestLayout>
             <Head title="로그인" />
             <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={e => setData('email', e.target.value)}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={e => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4 block">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={e => setData('remember', e.target.checked)}
+                <S.Wrapper className="w-[375px]">
+                    <div className="mb-[30px]">
+                        <ApplicationLogo width="w-[104px]" />
+                    </div>
+                    <S.InputList>
+                        <TextInput
+                            type="email"
+                            name="email"
+                            placeholder="이메일"
+                            isFocused
+                            onChange={setData}
                         />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
-                </div>
+                        <TextInput
+                            type="password"
+                            name="password"
+                            placeholder="비밀번호"
+                            onChange={setData}
+                        />
+                    </S.InputList>
+                </S.Wrapper>
+                <button type="submit">로그인</button>
             </form>
         </GuestLayout>
     );

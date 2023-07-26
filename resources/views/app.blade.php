@@ -16,16 +16,9 @@
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/domain/{$page['component']}.tsx"])
     @inertiaHead
-
-    <style>
-    body {
-        font-family: 'NanumSquareNeo', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        font-weight: 400;
-    }
-    </style>
 </head>
 
-<body class="antialiased">
+<body class="font-sans antialiased">
     @inertia
 </body>
 
