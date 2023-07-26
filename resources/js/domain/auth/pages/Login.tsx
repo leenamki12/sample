@@ -9,13 +9,15 @@ import PrimaryButton from '@/components/inertia/PrimaryButton';
 import TextInput from '@/components/inertia/TextInput';
 import GuestLayout from '@/layouts/GuestLayout';
 
-export default function Login({
-    status,
-    canResetPassword,
-}: {
+type Props = {
     status?: string;
     canResetPassword: boolean;
-}) {
+    requestPath?: 'hospital' | 'company' | 'admin';
+};
+
+export default function Login({ canResetPassword, requestPath }: Props) {
+    console.log(requestPath, 'requestPath');
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -36,10 +38,7 @@ export default function Login({
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
-
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
+            <Head title="로그인" />
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
@@ -74,7 +73,7 @@ export default function Login({
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="block mt-4">
+                <div className="mt-4 block">
                     <label className="flex items-center">
                         <Checkbox
                             name="remember"
@@ -85,11 +84,11 @@ export default function Login({
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="mt-4 flex items-center justify-end">
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Forgot your password?
                         </Link>
