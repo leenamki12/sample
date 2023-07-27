@@ -12,20 +12,20 @@ import * as S from './TextInput.styled';
 
 type Props = {
     isFocused?: boolean;
-    isEnterActive?: boolean;
+    isEnterDisabled?: boolean;
     onChange: (name: string, value: string) => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & { isFocused?: boolean };
 
 /**
  * @param isFocused 페이지 접근 focus 여부
- * @param isEnterActive 입력 후 input Active 기능 사용 여부
+ * @param isEnterDisabled 입력 후 input Active 기능 비활성
  */
 
 export default forwardRef(function TextInput(
     {
         onChange,
         defaultValue,
-        isEnterActive = false,
+        isEnterDisabled = false,
         isFocused = false,
         className,
         name,
@@ -49,7 +49,7 @@ export default forwardRef(function TextInput(
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (name) onChange(name, event.target.value);
 
-        if (isEnterActive) setIsEnter(event.target.value !== '');
+        if (!isEnterDisabled) setIsEnter(event.target.value !== '');
     };
 
     return (

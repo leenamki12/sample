@@ -32,6 +32,13 @@ export default {
                 fontMedium: 'font-weight: 400',
                 fontBold: 'font-weight: 700',
             },
+            fontSize: {
+                xl: ['12px', '18px'],
+                sm: ['13px', '20px'],
+                base: ['14px', '22px'],
+                lg: ['16px', '26px'],
+                xl: ['18px', '30px'],
+            },
         },
     },
 
