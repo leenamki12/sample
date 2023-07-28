@@ -13,5 +13,17 @@ export const InputList = styled.div`
 `;
 
 export const CheckboxWrapper = styled.div`
-    ${tw`mt-[20px]`}
+    ${tw`mt-[20px] text-[0px]`}
+`;
+
+export const ButtonBox = styled.div`
+    ${tw`mt-[30px]`}
+`;
+
+export const ButtonGroup = styled.div`
+    ${tw`mt-[25px] flex items-center justify-center gap-[15px]`}
+`;
+
+export const VeticalDivider = styled.span`
+    ${tw`block h-[10px] w-[1px] bg-[#1743B1] opacity-50`}
 `;
