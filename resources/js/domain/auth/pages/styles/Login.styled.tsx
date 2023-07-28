@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Wrapper = styled.div`
-    ${tw`p-[60px 20px 80px] rounded bg-white`}
+    ${tw`p-[60px 40px 80px] rounded bg-white`}
 `;
 
 export const ImageBox = styled.div`

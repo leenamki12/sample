@@ -57,7 +57,7 @@ export default function Login({ requestPath }: Props) {
         <GuestLayout>
             <Head title="로그인" />
             <form onSubmit={submit}>
-                <S.Wrapper className="w-[375px]">
+                <S.Wrapper className="w-[415px]">
                     <S.ImageBox>
                         <ApplicationLogo width="w-[104px]" />
                     </S.ImageBox>

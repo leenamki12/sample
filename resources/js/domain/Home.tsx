@@ -20,6 +20,7 @@ export default function Home() {
                     <Link href={'hospital'}>우리 병원 관리하기</Link>
                 </div>
             </S.InnerBox>
+            <Link href="">제휴 기업 신청하기</Link>
         </S.Wrapper>
     );
 }
