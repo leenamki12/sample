@@ -1,29 +1,36 @@
-import { useEffect, FormEventHandler } from 'react';
+import { useEffect, FormEventHandler, useMemo } from 'react';
 
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 
 import ApplicationLogo from '@/components/inertia/ApplicationLogo';
-import { Checkbox, TextInput } from '@/components/ui';
+import { Checkbox, PrimaryButton, TextButton, TextInput } from '@/components/ui';
 import GuestLayout from '@/layouts/GuestLayout';
 import { ReactComponent as EmailIcon } from '@assets/common/icon_login_email.svg';
 import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_password.svg';
 
 import * as S from './styles/Login.styled';
+import { UserType } from '../types/enums';
 
 type FormProps = 'email' | 'password' | 'remember';
 
-// type Props = {
-//     status?: string;
-//     canResetPassword: boolean;
-//     //requestPath?: 'hospital' | 'company' | 'admin';
-// };
+type Props = {
+    status?: string;
+    canResetPassword: boolean;
+    requestPath?: 'hospital' | 'company' | 'admin';
+};
 
-export default function Login() {
+export default function Login({ requestPath }: Props) {
     const { setData, post, reset, errors, clearErrors } = useForm({
         email: '',
         password: '',
         remember: false,
     });
+
+    const userType = useMemo(() => {
+        return requestPath
+            ? `${UserType[requestPath]} ${requestPath !== 'admin' ? '사용자' : ''}`
+            : '';
+    }, [requestPath]);
 
     useEffect(() => {
         return () => {
@@ -39,9 +46,11 @@ export default function Login() {
     const submit: FormEventHandler = e => {
         e.preventDefault();
 
-        console.log(errors);
-
         post(route('login'));
+    };
+
+    const handleClickRouteLink = (link: string) => {
+        router.visit(route(link));
     };
 
     return (
@@ -74,8 +83,27 @@ export default function Login() {
                     <S.CheckboxWrapper>
                         <Checkbox label="아이디 저장" />
                     </S.CheckboxWrapper>
+                    <S.ButtonBox>
+                        <PrimaryButton type="submit" label={`${userType} 로그인`} />
+                    </S.ButtonBox>
+                    {requestPath !== 'admin' && (
+                        <S.ButtonGroup>
+                            <TextButton
+                                label="아이디 찾기"
+                                color="#888"
+                                onClick={() => handleClickRouteLink('password.request')}
+                            />
+                            <S.VeticalDivider />
+                            <TextButton label="비밀번호 찾기" color="#888" />
+                            <S.VeticalDivider />
+                            <TextButton
+                                label={`${userType} 회원가입`}
+                                color="#888"
+                                onClick={() => handleClickRouteLink('register')}
+                            />
+                        </S.ButtonGroup>
+                    )}
                 </S.Wrapper>
-                <button type="submit">로그인</button>
             </form>
         </GuestLayout>
     );
