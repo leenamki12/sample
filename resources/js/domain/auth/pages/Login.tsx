@@ -5,19 +5,21 @@ import { Head, useForm } from '@inertiajs/react';
 import ApplicationLogo from '@/components/inertia/ApplicationLogo';
 import { Checkbox, TextInput } from '@/components/ui';
 import GuestLayout from '@/layouts/GuestLayout';
+import { ReactComponent as EmailIcon } from '@assets/common/icon_login_email.svg';
+import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_password.svg';
 
 import * as S from './styles/Login.styled';
 
-type Props = {
-    status?: string;
-    canResetPassword: boolean;
-    requestPath?: 'hospital' | 'company' | 'admin';
-};
+type FormProps = 'email' | 'password' | 'remember';
 
-export default function Login({ requestPath }: Props) {
-    console.log(requestPath, 'requestPath');
+// type Props = {
+//     status?: string;
+//     canResetPassword: boolean;
+//     //requestPath?: 'hospital' | 'company' | 'admin';
+// };
 
-    const { data, setData, reset } = useForm({
+export default function Login() {
+    const { setData, post, reset, errors, clearErrors } = useForm({
         email: '',
         password: '',
         remember: false,
@@ -29,12 +31,17 @@ export default function Login({ requestPath }: Props) {
         };
     }, []);
 
+    const handleChangeInputData = (id: string, value: string) => {
+        setData(id as FormProps, value);
+        clearErrors(id as FormProps);
+    };
+
     const submit: FormEventHandler = e => {
         e.preventDefault();
 
-        console.log(data);
+        console.log(errors);
 
-        //post(route('login'));
+        post(route('login'));
     };
 
     return (
@@ -48,16 +55,20 @@ export default function Login({ requestPath }: Props) {
                     <S.InputList>
                         <TextInput
                             type="email"
-                            name="email"
+                            id="email"
                             placeholder="이메일"
                             isFocused
-                            onChange={setData}
+                            onChange={handleChangeInputData}
+                            icon={EmailIcon}
+                            error={errors.email}
                         />
                         <TextInput
                             type="password"
-                            name="password"
+                            id="password"
                             placeholder="비밀번호"
-                            onChange={setData}
+                            onChange={handleChangeInputData}
+                            icon={PasswordIcon}
+                            error={errors.password}
                         />
                     </S.InputList>
                     <S.CheckboxWrapper>

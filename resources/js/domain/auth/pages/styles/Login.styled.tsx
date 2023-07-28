@@ -13,5 +13,5 @@ export const InputList = styled.div`
 `;
 
 export const CheckboxWrapper = styled.div`
-    ${tw`mt-[20px]`}
+    ${tw`mt-[20px] text-[0px]`}
 `;
