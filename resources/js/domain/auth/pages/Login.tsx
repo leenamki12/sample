@@ -95,12 +95,16 @@ export default function Login({ requestPath }: Props) {
                             />
                             <S.VeticalDivider />
                             <TextButton label="비밀번호 찾기" color="#888" />
-                            <S.VeticalDivider />
-                            <TextButton
-                                label={`${userType} 회원가입`}
-                                color="#888"
-                                onClick={() => handleClickRouteLink('register')}
-                            />
+                            {requestPath === 'company' && (
+                                <>
+                                    <S.VeticalDivider />
+                                    <TextButton
+                                        label={`${userType} 회원가입`}
+                                        color="#888"
+                                        onClick={() => handleClickRouteLink('register')}
+                                    />
+                                </>
+                            )}
                         </S.ButtonGroup>
                     )}
                 </S.Wrapper>

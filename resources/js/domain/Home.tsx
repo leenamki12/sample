@@ -11,10 +11,13 @@ export default function Home() {
             <img src={Logo} />
             <S.InnerBox>
                 <div>
-                    <Link href={'company'}>기업</Link>
+                    <Link href={'company'} className="text-center">
+                        제휴 병원
+                        <br /> 혜택 보러가기
+                    </Link>
                 </div>
                 <div>
-                    <Link href={'hospital'}>병원</Link>
+                    <Link href={'hospital'}>우리 병원 관리하기</Link>
                 </div>
             </S.InnerBox>
         </S.Wrapper>
