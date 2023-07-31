@@ -57,7 +57,7 @@ export default function Login({ requestPath }: Props) {
         <GuestLayout>
             <Head title="로그인" />
             <form onSubmit={submit}>
-                <S.Wrapper className="w-[375px]">
+                <S.Wrapper className="w-[415px]">
                     <S.ImageBox>
                         <ApplicationLogo width="w-[104px]" />
                     </S.ImageBox>
@@ -95,12 +95,16 @@ export default function Login({ requestPath }: Props) {
                             />
                             <S.VeticalDivider />
                             <TextButton label="비밀번호 찾기" color="#888" />
-                            <S.VeticalDivider />
-                            <TextButton
-                                label={`${userType} 회원가입`}
-                                color="#888"
-                                onClick={() => handleClickRouteLink('register')}
-                            />
+                            {requestPath === 'company' && (
+                                <>
+                                    <S.VeticalDivider />
+                                    <TextButton
+                                        label={`${userType} 회원가입`}
+                                        color="#888"
+                                        onClick={() => handleClickRouteLink('register')}
+                                    />
+                                </>
+                            )}
                         </S.ButtonGroup>
                     )}
                 </S.Wrapper>
