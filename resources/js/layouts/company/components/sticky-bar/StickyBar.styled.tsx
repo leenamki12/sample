@@ -9,15 +9,10 @@ export const List = styled.ul`
 `;
 
 export const Item = styled.li`
-    ${tw` h-full w-full`}
+    ${tw`h-full w-full`}
 
     a {
-        ${tw`flex h-full flex-col items-center justify-center gap-2 text-xs font-bold`}
-        color: #bbb;
-
-        &.active {
-            ${tw`text-primary`}
-        }
+        ${tw`flex h-full flex-col items-center justify-center gap-2 text-xs`}
 
         img {
             ${tw`h-9 w-auto`}

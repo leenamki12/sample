@@ -26,7 +26,7 @@ function HomeList() {
                 </div>
                 <div className="px-5 py-6">
                     <div className="mb-[9px] flex items-center">
-                        <div className="mr-[5px] flex max-w-[55px] items-center justify-center rounded-[20px] bg-primary px-[8px] py-[4px] ">
+                        <div className="mr-[5px] flex max-w-[55px] items-center justify-center rounded-xl bg-primary px-[8px] py-[4px]">
                             <img src={IconPartner} alt="" className="w-[10px]" />{' '}
                             <span className="pl-[4px] text-[11px] text-white">제휴</span>
                         </div>
@@ -34,7 +34,7 @@ function HomeList() {
                             디에이성형외과의원
                         </strong>
                     </div>
-                    <p className="mb-[9px] text-[#666]">
+                    <p className="mb-[9px] text-base text-[#666]">
                         눈, 코, 가슴, 안면윤곽, 리프팅 등 분야별 체계적인 협진과 대학병원급 설비
                         시스템, 강남역 12번 출구
                     </p>
