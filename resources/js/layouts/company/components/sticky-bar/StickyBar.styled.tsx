@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Container = styled.div`
-    ${tw`sticky bottom-0 h-[100px] border-t bg-white`}
+    ${tw`sticky bottom-0 z-10 h-[100px] border-t bg-white`}
 `;
 
 export const List = styled.ul`
