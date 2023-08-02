@@ -48,11 +48,6 @@ function HomeList() {
                     endTime: '19:00',
                 },
                 {
-                    dayOfWeek: 3,
-                    startTime: '10:00',
-                    endTime: '19:00',
-                },
-                {
                     dayOfWeek: 4,
                     startTime: '10:00',
                     endTime: '19:00',
@@ -89,8 +84,8 @@ function HomeList() {
                 },
                 {
                     dayOfWeek: 3,
-                    startTime: '10:00',
-                    endTime: '19:00',
+                    startTime: '08:00',
+                    endTime: '11:00',
                 },
                 {
                     dayOfWeek: 4,
@@ -245,13 +240,15 @@ function HomeList() {
             let workingHours = '';
 
             if (currentDayHours) {
-                isWorking = currentDayHours.startTime < now && now < currentDayHours.endTime;
+                const beforeStart = currentDayHours.startTime < now;
+                const afterEnd = now < currentDayHours.endTime;
+                isWorking = beforeStart && afterEnd;
                 workingHours = `${currentDayHours.startTime} - ${currentDayHours.endTime}`;
 
                 if (isWorking) {
                     workingStatus = '진료중';
                 } else {
-                    workingStatus = '진료종료';
+                    !beforeStart ? (workingStatus = '진료예정') : (workingStatus = '진료종료');
                 }
             } else {
                 workingStatus = '진료없음';

@@ -12,7 +12,6 @@ export default function CompanyLayout({
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="m-auto min-h-screen max-w-[435px] bg-white">
-                {' '}
                 {/*  overflow-hidden */}
                 <Header />
                 <div>{children}</div>

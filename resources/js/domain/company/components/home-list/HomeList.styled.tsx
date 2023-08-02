@@ -21,15 +21,15 @@ export const TitleBox = styled.div`
 `;
 
 export const PartnerBox = styled.div`
-    ${tw`p-[4px 8px] mr-[5px] flex max-w-[55px] items-center justify-center rounded-xl bg-primary`}
+    ${tw`p-[4px 7px] mr-[7px] flex max-w-[55px] shrink-0 items-center justify-center rounded-xl bg-primary`}
 
     span {
-        ${tw`pl-[4px] text-[11px] text-white`}
+        ${tw`pl-[4px] text-[11px] leading-[normal] text-white`}
     }
 `;
 
 export const Title = styled.strong`
-    ${tw`block text-[19px] font-extrabold`}
+    ${tw`line-clamp-2 text-[19px] font-extrabold`}
 `;
 
 export const InfoBox = styled.div`

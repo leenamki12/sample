@@ -15,7 +15,7 @@ import * as S from './Dashboard.styled';
 function Dashboard() {
     return (
         <S.Container>
-            <div className="mb-12">
+            <S.BannerBox>
                 <Swiper
                     modules={[Pagination, Autoplay, A11y]}
                     autoplay={{
@@ -44,7 +44,7 @@ function Dashboard() {
                         />
                     </SwiperSlide>
                 </Swiper>
-            </div>
+            </S.BannerBox>
             <HomeList />
         </S.Container>
     );
