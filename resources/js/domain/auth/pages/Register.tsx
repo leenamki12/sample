@@ -8,12 +8,21 @@ import PrimaryButton from '@/components/inertia/PrimaryButton';
 import TextInput from '@/components/inertia/TextInput';
 import GuestLayout from '@/layouts/GuestLayout';
 
+type Props = {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+    file: File | null;
+};
+
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, processing, errors, reset } = useForm<Props>({
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
+        file: null,
     });
 
     useEffect(() => {
@@ -25,7 +34,8 @@ export default function Register() {
     const submit: FormEventHandler = e => {
         e.preventDefault();
 
-        post(route('register'));
+        console.log(data);
+        // post(route('register'));
     };
 
     return (
@@ -95,6 +105,22 @@ export default function Register() {
                         className="mt-1 block w-full"
                         autoComplete="new-password"
                         onChange={e => setData('password_confirmation', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.password_confirmation} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+
+                    <TextInput
+                        id="file"
+                        type="file"
+                        name="file"
+                        className="mt-1 block w-full"
+                        autoComplete="new-password"
+                        onChange={e => setData('file', e.target.files ? e.target.files[0] : null)}
                         required
                     />
 
