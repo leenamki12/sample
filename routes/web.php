@@ -43,6 +43,10 @@ Route::middleware(['auth', 'role:company'])
         Route::get('/', function () {
             return Inertia::render('company/pages/Dashboard');
         })->name('company');
+
+        Route::get('/detail/{id}', function ($id) {
+            return Inertia::render('company/pages/hospital-detail/HospitalDetail', compact('id'));
+        })->name('company.detail');
 })->name('company');
 
 Route::middleware(['auth', 'role:hospital'])
