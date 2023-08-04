@@ -1,62 +1,20 @@
-import { useMemo } from 'react';
-
 import { Link } from '@inertiajs/react';
-import dayjs from 'dayjs';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import IconPartner from '@assets/company/common/icon-partner.svg';
 
 import 'swiper/css/pagination';
-import hospitals, { HospitalItem } from '../../datas';
+import useHospitalData from '../../datas';
 
 import * as S from './HomeList.styled';
 
 function HomeList() {
-    const hospitalItems = useMemo(() => {
-        const newItem: HospitalItem[] = [];
-
-        hospitals.forEach(hospital => {
-            const currentDayOfWeek = dayjs().day();
-            const currentDayHours = hospital.hours.find(
-                date => currentDayOfWeek === date.dayOfWeek
-            );
-
-            const now = dayjs().format('HH:mm');
-
-            let isWorking = false;
-            let workingStatus = '';
-            let workingHours = '';
-
-            if (currentDayHours) {
-                const beforeStart = currentDayHours.startTime < now;
-                const afterEnd = now < currentDayHours.endTime;
-                isWorking = beforeStart && afterEnd;
-                workingHours = `${currentDayHours.startTime} - ${currentDayHours.endTime}`;
-
-                if (isWorking) {
-                    workingStatus = '진료중';
-                } else {
-                    !beforeStart ? (workingStatus = '진료예정') : (workingStatus = '진료종료');
-                }
-            } else {
-                workingStatus = '진료없음';
-            }
-
-            newItem.push({
-                ...hospital,
-                isWorking,
-                workingStatus,
-                workingHours,
-            });
-        });
-
-        return newItem;
-    }, [hospitals]);
+    const hospitalData = useHospitalData();
 
     return (
         <S.Container>
-            {hospitalItems.map(hospital => (
+            {hospitalData.map(hospital => (
                 <S.Item key={hospital.id}>
                     <Link href={`company/detail/${hospital.id}`}>
                         <div>
