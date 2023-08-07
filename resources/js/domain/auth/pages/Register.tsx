@@ -1,9 +1,7 @@
 import { useEffect, FormEventHandler } from 'react';
 
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 
-import InputError from '@/components/inertia/InputError';
-import InputLabel from '@/components/inertia/InputLabel';
 import { LabelTextInput, TextInput, PrimaryButton, SecondaryButton } from '@/components/ui';
 import Header from '@/layouts/Header';
 
@@ -18,7 +16,7 @@ type Props = {
 };
 
 export default function Register() {
-    const { data, setData, processing, errors, reset } = useForm<Props>({
+    const { data, reset } = useForm<Props>({
         name: '',
         email: '',
         password: '',
