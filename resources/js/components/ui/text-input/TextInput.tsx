@@ -14,7 +14,7 @@ type Props = {
     isFocused?: boolean;
     isEnterDisabled?: boolean;
     icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-    onChange: (id: string, value: string) => void;
+    onChange?: (id: string, value: string) => void;
     error?: string;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & { isFocused?: boolean };
 
@@ -54,7 +54,7 @@ export default forwardRef(function TextInput(
     }, []);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (id) onChange(id, event.target.value);
+        if (id) onChange?.(id, event.target.value);
 
         if (!isEnterDisabled) setIsEnter(event.target.value !== '');
     };
@@ -81,3 +81,5 @@ export default forwardRef(function TextInput(
         </div>
     );
 });
+
+export type { Props as TextInputProps };

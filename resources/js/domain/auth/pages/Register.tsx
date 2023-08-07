@@ -4,9 +4,10 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 import InputError from '@/components/inertia/InputError';
 import InputLabel from '@/components/inertia/InputLabel';
-import PrimaryButton from '@/components/inertia/PrimaryButton';
-import TextInput from '@/components/inertia/TextInput';
-import GuestLayout from '@/layouts/GuestLayout';
+import { LabelTextInput, TextInput, PrimaryButton, SecondaryButton } from '@/components/ui';
+import Header from '@/layouts/Header';
+
+import * as S from './styles/Register.styled';
 
 type Props = {
     name: string;
@@ -39,107 +40,61 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
+        <S.Wrapper>
+            <Header label="회원가입" maxWidth="435px" />
             <Head title="Register" />
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={e => setData('name', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={e => setData('email', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={e => setData('password', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={e => setData('password_confirmation', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password_confirmation} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
-                    <TextInput
-                        id="file"
-                        type="file"
-                        name="file"
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={e => setData('file', e.target.files ? e.target.files[0] : null)}
-                        required
-                    />
-
-                    <InputError message={errors.password_confirmation} className="mt-2" />
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Already registered?
-                    </Link>
-
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
-            </form>
-        </GuestLayout>
+            <S.InnerWrapper>
+                <S.Form onSubmit={submit}>
+                    <div>
+                        <LabelTextInput
+                            type="text"
+                            id="identifier"
+                            placeholder="아이디를 입력해주세요."
+                            isFocused
+                            label="아이디"
+                            isRequired
+                        />
+                    </div>
+                    <div>
+                        <LabelTextInput
+                            type="password"
+                            id="password"
+                            placeholder="비밀번호를 입력해주세요."
+                            label="비밀번호"
+                            isRequired
+                        />
+                    </div>
+                    <div>
+                        <LabelTextInput
+                            type="password"
+                            id="password_confirmation"
+                            placeholder="비밀번호를 다시 입력해주세요."
+                            label="비밀번호 확인"
+                            isRequired
+                        />
+                    </div>
+                    <S.RowBox>
+                        <S.InputButtonBox>
+                            <LabelTextInput
+                                type="tel"
+                                id="phone"
+                                placeholder="(-) 제외한 숫자만 입력해주세요."
+                                label="휴대폰번호"
+                                isRequired
+                            />
+                            <SecondaryButton label="인증번호발송" disabled />
+                        </S.InputButtonBox>
+                        <S.InputButtonBox>
+                            <TextInput
+                                type="tel"
+                                id="phone_auth"
+                                placeholder="인증번호를 입력해 주세요."
+                            />
+                            <PrimaryButton label="인증번호 확인" disabled />
+                        </S.InputButtonBox>
+                    </S.RowBox>
+                </S.Form>
+            </S.InnerWrapper>
+        </S.Wrapper>
     );
 }

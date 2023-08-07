@@ -1,7 +1,8 @@
-import tw, { styled } from 'twin.macro';
+import tw, { css, styled } from 'twin.macro';
 
 export type ButtonProps = {
     hasRounded?: boolean;
+    disabled?: boolean;
 };
 
 export const Button = styled.button<ButtonProps>`
@@ -12,4 +13,10 @@ export const Button = styled.button<ButtonProps>`
     &:hover {
         ${tw`opacity-90`}
     }
+
+    ${({ disabled }) =>
+        disabled &&
+        css`
+            background-color: #d5d5d5 !important;
+        `}
 `;
