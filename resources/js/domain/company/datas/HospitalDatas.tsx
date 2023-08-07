@@ -245,4 +245,47 @@ export const hospitals: HospitalItem[] = [
     },
 ];
 
-export default hospitals;
+const useHospitalData = (): HospitalItem[] => {
+    return useMemo(() => {
+        const newItem: HospitalItem[] = [];
+
+        hospitals.forEach(hospital => {
+            const currentDayOfWeek = dayjs().day();
+            const currentDayHours = hospital.hours.find(
+                date => currentDayOfWeek === date.dayOfWeek
+            );
+
+            const now = dayjs().format('HH:mm');
+
+            let isWorking = false;
+            let workingStatus = '';
+            let workingHours = '';
+
+            if (currentDayHours) {
+                const beforeStart = currentDayHours.startTime < now;
+                const afterEnd = now < currentDayHours.endTime;
+                isWorking = beforeStart && afterEnd;
+                workingHours = `${currentDayHours.startTime} - ${currentDayHours.endTime}`;
+
+                if (isWorking) {
+                    workingStatus = '진료중';
+                } else {
+                    !beforeStart ? (workingStatus = '진료예정') : (workingStatus = '진료종료');
+                }
+            } else {
+                workingStatus = '진료없음';
+            }
+
+            newItem.push({
+                ...hospital,
+                isWorking,
+                workingStatus,
+                workingHours,
+            });
+        });
+
+        return newItem;
+    }, [hospitals]);
+};
+
+export default useHospitalData;

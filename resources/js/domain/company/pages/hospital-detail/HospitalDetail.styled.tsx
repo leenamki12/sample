@@ -1,19 +1,11 @@
 import tw, { styled } from 'twin.macro';
 
 export const Container = styled.div`
-    ${tw``}
+    ${tw`bg-[#F8F8F8]`}
 `;
 
-export const Item = styled.div`
-    ${tw`mb-10 cursor-pointer overflow-hidden rounded-2xl shadow-[10px_10px_30px_5px_rgba(0,0,0,0.08)]`}
-
-    &:last-of-type {
-        ${tw`mb-0`}
-    }
-
-    .swiper-pagination {
-        ${tw`p-[3px 5px] absolute bottom-[15px] left-[inherit] right-[15px] w-[inherit] min-w-[45px] rounded-lg bg-[rgba(0,0,0,0.30);] text-[11px] text-white`}
-    }
+export const TextBox = styled.div`
+    ${tw`p-[30px 30px 40px]`}
 `;
 
 export const TitleBox = styled.div`
@@ -45,5 +37,21 @@ export const WorkHour = styled.p`
 
     &:before {
         ${tw`absolute left-0 top-1/2 -mt-[4px] h-[8px] w-px bg-secondary content-['']`}
+    }
+`;
+
+export const Section = styled.div`
+    ${tw`p-[40px 30px] mt-[10px] overflow-hidden bg-white`}
+`;
+
+export const SectionTitle = styled.strong`
+    ${tw`block text-[20px] font-bold`}
+`;
+
+export const TreatmentList = styled.ul`
+    ${tw`mt-[20px] flex flex-wrap gap-[10px]`}
+
+    li {
+        ${tw`p-[10px 15px] rounded bg-[#F2F2F2] text-base`}
     }
 `;
