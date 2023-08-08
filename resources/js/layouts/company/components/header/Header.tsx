@@ -1,20 +1,42 @@
+import { usePage } from '@inertiajs/react';
+
+import useHospitalData from '@/domain/company/datas';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon-mypage.svg';
 
+import * as S from './Header.styled';
+
 function Header() {
+    const { id } = usePage().props;
+
+    const HospitalName = useHospitalData().find(data => data.id === Number(id))?.name;
+
+    const handleBack = () => {
+        return window.history.back();
+    };
+
     return (
-        <header className="shrink-0 shadow-[0_4px_20px_0_rgba(0,0,0,0.05)]">
-            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-8">
-                <a href="/" className="-m-1.5 p-1.5">
-                    <img className="h-8 w-auto" src={Logo} alt="위드닥" />
-                </a>
-                <div className="flex items-center gap-x-8">
-                    <a href="#" className="-m-1.5 p-1.5">
-                        <img className="h-7 w-auto" src={IconMypage} alt="마이페이지" />
+        <S.Container>
+            <S.InnerBox>
+                {HospitalName ? (
+                    <>
+                        <S.BackButton onClick={handleBack}>
+                            <span className="sr-only">뒤로가기</span>
+                        </S.BackButton>
+                        <S.DetailTitle>{HospitalName}</S.DetailTitle>
+                    </>
+                ) : (
+                    <S.Logo href="/">
+                        <img src={Logo} alt="위드닥" />
+                    </S.Logo>
+                )}
+                <S.MypageBox>
+                    <a href="#">
+                        <img src={IconMypage} alt="마이페이지" />
                     </a>
-                </div>
-            </div>
-        </header>
+                </S.MypageBox>
+            </S.InnerBox>
+        </S.Container>
     );
 }
 
