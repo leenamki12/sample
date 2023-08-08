@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { HomeIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 import NavLink from '@/components/inertia/NavLink';

@@ -5,13 +5,9 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import {
     Bars3Icon,
     BellIcon,
-    Cog6ToothIcon,
-    HomeIcon,
-    XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { Link } from '@inertiajs/react';
 
-import NavLink from '@/components/inertia/NavLink';
 import { User } from '@/types/user';
 
 import Sidebar from './components/side-bar/SideBar';
@@ -26,15 +22,14 @@ export default function HospitalLayout({
 }: PropsWithChildren<{ user: User; header?: ReactNode }>) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // const navigation = [{ name: 'Home', href: 'admin', icon: HomeIcon }];
     const userNavigation = [
         { name: 'Your profile', href: '#' },
         { name: 'Sign out', href: 'logout' },
     ];
 
     return (
-        <div>
-            <div>
+        <div className='h-full bg-gray-900 min-h-screen'>
+            <div className='h-full'>
                 <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             </div>
             <div className="lg:pl-72">
