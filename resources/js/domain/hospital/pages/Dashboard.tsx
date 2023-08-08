@@ -3,6 +3,9 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
+import Badge from '@/components/ui/badges/Badge';
+import IconPartner from '@assets/company/common/icon-partner.svg';
+
 import ReservationList from '../components/reservation-list';
 
 export type ReservationItem = {
@@ -147,6 +150,13 @@ export default function Dashboard() {
                 </header>
 
                 <ReservationList Reservations={Reservations} />
+                <Badge
+                    text="제휴 제휴 제휴 제휴 제휴 제휴 제휴 제휴"
+                    icon={IconPartner}
+                    variant="filled"
+                />
+                <Badge text="신규" dot variant="outlined" />
+                <Badge text="기존" />
             </div>
         </>
     );
