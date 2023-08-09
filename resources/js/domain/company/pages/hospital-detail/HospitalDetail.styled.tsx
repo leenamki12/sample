@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Container = styled.div`
-    ${tw`bg-[#F8F8F8]`}
+    ${tw``}
 `;
 
 export const TextBox = styled.div`
@@ -21,7 +21,7 @@ export const PartnerBox = styled.div`
 `;
 
 export const Title = styled.strong`
-    ${tw`line-clamp-2 text-[19px] font-extrabold`}
+    ${tw`text-[19px] font-extrabold`}
 `;
 
 export const InfoBox = styled.div`
@@ -41,7 +41,7 @@ export const WorkHour = styled.p`
 `;
 
 export const Section = styled.div`
-    ${tw`p-[40px 30px] mt-[10px] overflow-hidden bg-white`}
+    ${tw`p-[40px 30px] overflow-hidden border-t-[10px] border-[#F8F8F8]`}
 `;
 
 export const SectionTitle = styled.strong`

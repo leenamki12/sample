@@ -8,6 +8,7 @@ import IconPartner from '@assets/company/common/icon-partner.svg';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import DetailSticky from '../../components/detail-sticky';
 import OtherPartnerList from '../../components/other-partner-list/OtherPartnerList';
 import useHospitalData from '../../datas';
 
@@ -90,6 +91,7 @@ function HospitalDetail() {
                 <S.SectionTitle>다른 제휴병원 혜택 확인하기</S.SectionTitle>
                 <OtherPartnerList />
             </S.Section>
+            <DetailSticky />
         </S.Container>
     );
 }

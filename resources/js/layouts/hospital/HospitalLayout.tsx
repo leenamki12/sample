@@ -2,16 +2,9 @@ import { useState, PropsWithChildren, ReactNode, Fragment } from 'react';
 
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import {
-    Bars3Icon,
-    BellIcon,
-    Cog6ToothIcon,
-    HomeIcon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { Link } from '@inertiajs/react';
 
-import NavLink from '@/components/inertia/NavLink';
 import { User } from '@/types/user';
 
 import Sidebar from './components/side-bar/SideBar';
@@ -26,19 +19,18 @@ export default function HospitalLayout({
 }: PropsWithChildren<{ user: User; header?: ReactNode }>) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // const navigation = [{ name: 'Home', href: 'admin', icon: HomeIcon }];
     const userNavigation = [
         { name: 'Your profile', href: '#' },
         { name: 'Sign out', href: 'logout' },
     ];
 
     return (
-        <div>
-            <div>
+        <div className="h-full min-h-screen bg-gray-900">
+            <div className="h-full">
                 <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             </div>
             <div className="lg:pl-72">
-                <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+                <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-600 bg-gray-900 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
                     <button
                         type="button"
                         className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
@@ -51,7 +43,7 @@ export default function HospitalLayout({
                     {/* Separator */}
                     <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
 
-                    <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+                    <div className="flex flex-1 gap-x-4 self-stretch bg-gray-900">
                         <form className="relative flex flex-1" action="#" method="GET">
                             <label htmlFor="search-field" className="sr-only">
                                 Search
@@ -62,7 +54,7 @@ export default function HospitalLayout({
                             />
                             <input
                                 id="search-field"
-                                className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                                className="block h-full w-full border-0 bg-gray-900 py-0 pl-8 pr-0 text-white placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                                 placeholder="Search..."
                                 type="search"
                                 name="search"
@@ -89,7 +81,7 @@ export default function HospitalLayout({
                                     <span className="sr-only">Open user menu</span>
                                     <span className="hidden lg:flex lg:items-center">
                                         <span
-                                            className="text-sm font-semibold leading-6 text-gray-900"
+                                            className="text-sm font-semibold leading-6 text-white"
                                             aria-hidden="true"
                                         >
                                             {user.name}
@@ -133,10 +125,7 @@ export default function HospitalLayout({
                         </div>
                     </div>
                 </div>
-
-                <main className="py-10">
-                    <div className="px-4 sm:px-6 lg:px-8">{children}</div>
-                </main>
+                <main className="px-4 sm:px-6 lg:px-8">{children}</main>
             </div>
         </div>
     );
