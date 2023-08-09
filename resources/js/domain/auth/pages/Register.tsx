@@ -2,7 +2,13 @@ import { useEffect, FormEventHandler } from 'react';
 
 import { Head, useForm } from '@inertiajs/react';
 
-import { LabelTextInput, TextInput, PrimaryButton, SecondaryButton } from '@/components/ui';
+import {
+    LabelTextInput,
+    TextInput,
+    PrimaryButton,
+    SecondaryButton,
+    TertiaryButton,
+} from '@/components/ui';
 import Header from '@/layouts/Header';
 
 import * as S from './styles/Register.styled';
@@ -91,6 +97,59 @@ export default function Register() {
                             <PrimaryButton label="인증번호 확인" disabled />
                         </S.InputButtonBox>
                     </S.RowBox>
+                    <div>
+                        <LabelTextInput
+                            type="email"
+                            id="emamil"
+                            placeholder="이메일 ('@' 이후까지 입력해 주세요.)"
+                            label="이메일"
+                            isRequired
+                        />
+                    </div>
+                    <div>
+                        <LabelTextInput
+                            type="number"
+                            id="employees"
+                            placeholder="임직원수를 입력해주세요."
+                            label="임직원수"
+                            isRequired
+                        />
+                    </div>
+                    <S.RowBox>
+                        <S.InputButtonBox>
+                            <LabelTextInput
+                                type="text"
+                                id="address"
+                                placeholder="도로명 주소"
+                                label="주소"
+                                isRequired
+                                readOnly
+                            />
+                            <TertiaryButton label="주소검색" />
+                        </S.InputButtonBox>
+                        <S.InputAddressBox>
+                            <TextInput
+                                type="text"
+                                id="postal_code"
+                                placeholder="우편번호"
+                                readOnly
+                            />
+                            <TextInput
+                                type="text"
+                                id="address_detail"
+                                placeholder="상세주소를 입력해 주세요."
+                            />
+                        </S.InputAddressBox>
+                    </S.RowBox>
+                    <div>
+                        <LabelTextInput
+                            type="file"
+                            id="business_license"
+                            placeholder="사업자등록증을 첨부해주세요."
+                            label="사업자등록증"
+                            isRequired
+                        />
+                    </div>
                 </S.Form>
             </S.InnerWrapper>
         </S.Wrapper>

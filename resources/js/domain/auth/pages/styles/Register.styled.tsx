@@ -19,11 +19,23 @@ export const Form = styled.form`
 export const InputButtonBox = styled.div`
     ${tw`flex w-full space-x-[5px]`}
 
-    label ,  & > div {
+    label,  & > div {
         ${tw`w-full`}
     }
 
     button {
+        ${tw`inline-flex min-w-[125px] max-w-[125px] items-center justify-center self-end text-base font-medium`}
+    }
+`;
+
+export const InputAddressBox = styled.div`
+    ${tw`flex w-full space-x-[5px]`}
+
+    & > div {
+        ${tw`w-full`}
+    }
+
+    & > div:first-of-type {
         ${tw`inline-flex min-w-[125px] max-w-[125px] items-center justify-center self-end text-base font-medium`}
     }
 `;
