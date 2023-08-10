@@ -19,6 +19,7 @@ input:where(:not([type])):focus,
 [type='tel']:focus,
 [type='time']:focus,
 [type='week']:focus,
+[type='file']:focus,
 [multiple]:focus,
 textarea:focus,
 select:focus {

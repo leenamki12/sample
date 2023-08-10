@@ -1,6 +1,8 @@
 //inputs
-export { default as TextInput } from './text-input/TextInput';
-export { default as LabelTextInput } from './label-text-input/LabelTextInput';
+export { default as TextInput } from './inputs/text-input/TextInput';
+export { default as FileInput } from './inputs/file-input/FileInput';
+export { default as LabelTextInput } from './inputs/label-text-input/LabelTextInput';
+export { default as LabelFileInput } from './inputs/label-file-input/LabelFileInput';
 
 //checkbox
 export { default as Checkbox } from './checkbox/Checkbox';

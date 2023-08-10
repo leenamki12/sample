@@ -43,3 +43,11 @@ export const InputAddressBox = styled.div`
 export const RowBox = styled.div`
     ${tw`space-y-[10px]`}
 `;
+
+export const Divider = styled.div`
+    ${tw`ml-[-30px] mr-[-30px] h-[10px] bg-[#f8f8f8]`}
+`;
+
+export const PrivacyList = styled.div`
+    ${tw`pt-[10px]`}
+`;

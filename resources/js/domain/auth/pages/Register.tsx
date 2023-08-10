@@ -8,10 +8,12 @@ import {
     PrimaryButton,
     SecondaryButton,
     TertiaryButton,
+    LabelFileInput,
 } from '@/components/ui';
 import Header from '@/layouts/Header';
 
 import * as S from './styles/Register.styled';
+import { PrivacyCheckItem } from '../components';
 
 type Props = {
     name: string;
@@ -142,13 +144,22 @@ export default function Register() {
                         </S.InputAddressBox>
                     </S.RowBox>
                     <div>
-                        <LabelTextInput
-                            type="file"
-                            id="business_license"
-                            placeholder="사업자등록증을 첨부해주세요."
+                        <LabelFileInput
                             label="사업자등록증"
+                            placeholder="사업자등록증을 첨부해 주세요."
                             isRequired
                         />
+                    </div>
+                    <S.Divider />
+                    <S.PrivacyList>
+                        <PrivacyCheckItem id="agreement">이용약관 동의(필수)</PrivacyCheckItem>
+                        <PrivacyCheckItem id="privacy">
+                            개인정보 수집 및 이용 동의(필수)
+                        </PrivacyCheckItem>
+                        <PrivacyCheckItem id="marketing">마케팅 활용동의(선택)</PrivacyCheckItem>
+                    </S.PrivacyList>
+                    <div className="pt-[10px]">
+                        <PrimaryButton label="가입신청하기" />
                     </div>
                 </S.Form>
             </S.InnerWrapper>
