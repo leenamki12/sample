@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Container = styled.div`
-    ${tw`sticky bottom-[100px] z-10 h-[70px] px-[30px]`}
+    ${tw`p-[10px 30px 20px] sticky bottom-[100px] z-10`}
 `;
 
 export const Box = styled.div`
