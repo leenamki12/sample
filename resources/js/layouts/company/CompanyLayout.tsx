@@ -2,9 +2,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 
 import { User } from '@/types/user';
 
-import Footer from './components/footer';
-import Header from './components/header';
-import StickyBar from './components/sticky-bar';
+import { Header, Footer, StickyBar } from './components';
 
 export default function CompanyLayout({
     children,

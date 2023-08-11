@@ -20,11 +20,11 @@ function DetailSticky() {
                 <BorderButton
                     label="예약문의"
                     onClick={openModal}
-                    className="!h-[50px] !text-[15px]"
+                    className="!h-[50px] !text-lg"
                 ></BorderButton>
                 <PrimaryButton
                     label="전화상담"
-                    className="!h-[50px] !w-1/2 !text-[15px]"
+                    className="!h-[50px] !w-1/2 !text-lg"
                 ></PrimaryButton>
             </S.Box>
             <Reservation open={open} setOpen={setOpen} />

@@ -4,6 +4,12 @@ export const Container = styled.div`
     ${tw``}
 `;
 
+export const SwiperBox = styled.div`
+    .swiper-pagination {
+        ${tw`p-[3px 5px] absolute bottom-[15px] left-[inherit] right-[15px] w-[inherit] min-w-[45px] rounded-lg bg-[rgba(0,0,0,0.30);] text-[11px] text-white`}
+    }
+`;
+
 export const TextBox = styled.div`
     ${tw`p-[30px 30px 40px]`}
 `;
@@ -40,8 +46,10 @@ export const WorkHour = styled.p`
     }
 `;
 
-export const Section = styled.div`
-    ${tw`p-[40px 30px] overflow-hidden border-t-[10px] border-[#F8F8F8]`}
+export const ColBox = styled.div`
+    & + & {
+        ${tw`p-[40px 30px] overflow-hidden border-t-[10px] border-[#F8F8F8]`}
+    }
 `;
 
 export const SectionTitle = styled.strong`

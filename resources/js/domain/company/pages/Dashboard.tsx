@@ -8,7 +8,8 @@ import ImageBanner03 from '@assets/company/home/main-banner03.png';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-import HomeList from '../components/home-list';
+
+import { HomeList } from '../components';
 
 import * as S from './Dashboard.styled';
 
