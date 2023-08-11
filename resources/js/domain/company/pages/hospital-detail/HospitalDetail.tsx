@@ -1,4 +1,4 @@
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -8,8 +8,7 @@ import IconPartner from '@assets/company/common/icon-partner.svg';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import DetailSticky from '../../components/detail-sticky';
-import OtherPartnerList from '../../components/other-partner-list/OtherPartnerList';
+import { DetailSticky, OtherPartnerList } from '../../components';
 import useHospitalData from '../../datas';
 
 import * as S from './HospitalDetail.styled';
@@ -20,8 +19,9 @@ function HospitalDetail() {
 
     return (
         <S.Container>
-            <div className="bg-white">
-                <div>
+            <Head title={hospitalData?.name} />
+            <S.ColBox>
+                <S.SwiperBox>
                     <Swiper
                         modules={[Pagination]}
                         pagination={{
@@ -45,12 +45,8 @@ function HospitalDetail() {
                                 <img src={image} alt="" />
                             </SwiperSlide>
                         ))}
-                        <SwiperSlide className="w-full bg-red-300 pb-[100%]"></SwiperSlide>
-                        <SwiperSlide className="w-full bg-blue-300 pb-[100%]"></SwiperSlide>
-                        <SwiperSlide className="w-full bg-purple-300 pb-[100%]"></SwiperSlide>
-                        <SwiperSlide className="w-full bg-red-100 pb-[100%]"></SwiperSlide>
                     </Swiper>
-                </div>
+                </S.SwiperBox>
                 <S.TextBox>
                     <S.TitleBox>
                         <S.PartnerBox>
@@ -76,8 +72,8 @@ function HospitalDetail() {
                         </S.WorkHour>
                     </S.InfoBox>
                 </S.TextBox>
-            </div>
-            <S.Section>
+            </S.ColBox>
+            <S.ColBox>
                 <S.SectionTitle>
                     진료항목{' '}
                     <span className="text-primary">{hospitalData?.treatmentItems.length}</span>
@@ -85,12 +81,12 @@ function HospitalDetail() {
                 <S.TreatmentList>
                     {hospitalData?.treatmentItems.map(item => <li key={item}>{item}</li>)}
                 </S.TreatmentList>
-            </S.Section>
-            <S.Section>
+            </S.ColBox>
+            <S.ColBox>
                 <div className="mb-[40px] h-[500px] bg-slate-300">이미지 영역</div>
                 <S.SectionTitle>다른 제휴병원 혜택 확인하기</S.SectionTitle>
                 <OtherPartnerList />
-            </S.Section>
+            </S.ColBox>
             <DetailSticky />
         </S.Container>
     );

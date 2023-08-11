@@ -13,7 +13,7 @@ function HomeList() {
     const hospitalData = useHospitalData();
 
     return (
-        <S.Container>
+        <>
             {hospitalData.map(hospital => (
                 <S.Item key={hospital.id}>
                     <Link href={`company/detail/${hospital.id}`}>
@@ -75,7 +75,7 @@ function HomeList() {
                     </Link>
                 </S.Item>
             ))}
-        </S.Container>
+        </>
     );
 }
 

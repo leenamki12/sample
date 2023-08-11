@@ -31,7 +31,7 @@ export const hospitals: HospitalItem[] = [
     {
         id: 1,
         name: '디에이성형외과의원',
-        images: [Hospital01Image01],
+        images: [Hospital01Image01, Hospital01Image01, Hospital01Image01],
         content:
             '눈, 코, 가슴, 안면윤곽, 리프팅 등 분야별 체계적인 협진과 대학병원급 설비 시스템, 강남역 12번 출구',
         address: '서울 강남구 역삼역',
