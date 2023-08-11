@@ -1,7 +1,6 @@
-import { useEffect, FormEventHandler } from 'react';
+import { useEffect, FormEventHandler, useRef } from 'react';
 
 import { Head, useForm } from '@inertiajs/react';
-import axios from 'axios';
 
 import {
     LabelTextInput,
@@ -21,17 +20,22 @@ type FormProps = {
     password: string;
     password_confirmation: string;
     phone: string;
+    phone_auth: string;
 };
 
-type FormKey = 'email' | 'password' | 'password_confirmation' | 'phone';
+type FormKey = 'email' | 'password' | 'password_confirmation' | 'phone' | 'phone_auth';
 
 export default function Register() {
-    const { data, setData, reset } = useForm<FormProps>({
+    const { data, setData, reset, errors, post } = useForm<FormProps>({
         email: '',
         password: '',
         password_confirmation: '',
         phone: '',
+        phone_auth: '',
     });
+
+    //const [smsCode, setSmsCode] = useState('');
+    const smsInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         return () => {
@@ -50,20 +54,39 @@ export default function Register() {
         // post(route('register'));
     };
 
-    const onSubmitVerifySms = () => {
-        axios
-            .post('/verify-sms', {
-                phone: data.phone,
-            })
-            .then(response => {
-                // Handle the response data
-                console.log(response.data);
-            })
-            .catch(error => {
-                // Handle errors if needed
-                console.error(error);
-            });
+    const onSendSms = () => {
+        const min = 100000; // 6자리 숫자의 최소값
+        const max = 999999; // 6자리 숫자의 최대값
+        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+        const verifyData = {
+            code: `${randomNumber}`,
+            phone: data.phone,
+        };
+        post('/verify-sms', {
+            data: verifyData,
+            replace: false,
+            onSuccess: e => {
+                console.log(e);
+            },
+        });
+
+        smsInputRef.current?.focus();
     };
+
+    // const onVerifySms = () => {
+    //     console.log(data.phone_auth, smsCode);
+    //     if (data.phone_auth !== smsCode) {
+    //         setError('phone_auth', '인증번호를 다시 입력해주세요.');
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     smsInputRef.current?.focus();
+    // }, [smsCode]);
+
+    useEffect(() => {
+        console.log(errors);
+    }, [errors]);
 
     return (
         <S.Wrapper>
@@ -111,21 +134,31 @@ export default function Register() {
                                 label="휴대폰번호"
                                 isRequired
                                 onChange={handleChangeInputData}
+                                error={errors.phone}
                             />
                             <SecondaryButton
                                 label="인증번호발송"
-                                onClick={onSubmitVerifySms}
+                                onClick={onSendSms}
                                 disabled={!data.phone}
                             />
                         </S.InputButtonBox>
-                        <S.InputButtonBox>
-                            <TextInput
-                                type="tel"
-                                id="phone_auth"
-                                placeholder="인증번호를 입력해 주세요."
-                            />
-                            <PrimaryButton label="인증번호 확인" disabled />
-                        </S.InputButtonBox>
+                        {/* {smsCode && (
+                            <S.InputButtonBox>
+                                <TextInput
+                                    ref={smsInputRef}
+                                    type="tel"
+                                    id="phone_auth"
+                                    placeholder="인증번호를 입력해 주세요."
+                                    onChange={handleChangeInputData}
+                                    error={errors.phone_auth}
+                                />
+                                <PrimaryButton
+                                    label="인증번호 확인"
+                                    onClick={onVerifySms}
+                                    disabled={!data.phone_auth}
+                                />
+                            </S.InputButtonBox>
+                        )} */}
                     </S.RowBox>
                     <div>
                         <LabelTextInput

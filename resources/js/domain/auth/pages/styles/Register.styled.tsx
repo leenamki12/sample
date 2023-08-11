@@ -17,7 +17,7 @@ export const Form = styled.form`
 `;
 
 export const InputButtonBox = styled.div`
-    ${tw`flex w-full space-x-[5px]`}
+    ${tw`flex w-full items-start space-x-[5px]`}
 
     label,  & > div {
         ${tw`w-full`}

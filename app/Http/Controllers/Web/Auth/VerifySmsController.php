@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Domains\Auth\UserVerifys;
+use App\Domains\Auth\UserVerifysService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\VerifySmsRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class VerifySmsController extends Controller
 {
@@ -27,22 +32,30 @@ class VerifySmsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VerifySmsRequest $request)
     {
         $verifySms = new UserVerifys();
 
+
         $validatedData = $request->validate([
-            'phone' => 'required|string|max:16',
+            'phone' => 'required|string|min:11|max:11',
         ]);
 
-        $randomNumber = rand(100000,999999);
-        
-        $verifySms->phone = $validatedData['phone'];
-        $verifySms->code = $randomNumber;
-        $verifySms->status = 'effective';
-        $verifySms->save();
+        Log::debug($request);
 
-        return $verifySms;
+        $verifySms->phone = $validatedData['phone'];
+        $verifySms->code =  $request->code;
+        $verifySms->status = 'effective';
+
+        $sendTalk = UserVerifysService::sendSms($verifySms->phone, '[위드닥] 인증코드 '.$verifySms->code, '{}');
+
+        Log::debug($sendTalk[1]->code);
+
+        if($sendTalk[1]->code !== '0000'){
+            return '';
+        }
+
+        return Inertia::render($verifySms);
     }
 
     /**
