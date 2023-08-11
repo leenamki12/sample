@@ -1,6 +1,7 @@
 import { useEffect, FormEventHandler } from 'react';
 
 import { Head, useForm } from '@inertiajs/react';
+import axios from 'axios';
 
 import {
     LabelTextInput,
@@ -15,21 +16,21 @@ import Header from '@/layouts/Header';
 import * as S from './styles/Register.styled';
 import { PrivacyCheckItem } from '../components';
 
-type Props = {
-    name: string;
+type FormProps = {
     email: string;
     password: string;
     password_confirmation: string;
-    file: File | null;
+    phone: string;
 };
 
+type FormKey = 'email' | 'password' | 'password_confirmation' | 'phone';
+
 export default function Register() {
-    const { data, reset } = useForm<Props>({
-        name: '',
+    const { data, setData, reset } = useForm<FormProps>({
         email: '',
         password: '',
         password_confirmation: '',
-        file: null,
+        phone: '',
     });
 
     useEffect(() => {
@@ -38,11 +39,30 @@ export default function Register() {
         };
     }, []);
 
+    const handleChangeInputData = (id: string, value: string) => {
+        setData(id as FormKey, value);
+    };
+
     const submit: FormEventHandler = e => {
         e.preventDefault();
 
         console.log(data);
         // post(route('register'));
+    };
+
+    const onSubmitVerifySms = () => {
+        axios
+            .post('/verify-sms', {
+                phone: data.phone,
+            })
+            .then(response => {
+                // Handle the response data
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Handle errors if needed
+                console.error(error);
+            });
     };
 
     return (
@@ -53,12 +73,13 @@ export default function Register() {
                 <S.Form onSubmit={submit}>
                     <div>
                         <LabelTextInput
-                            type="text"
-                            id="identifier"
-                            placeholder="아이디를 입력해주세요."
+                            type="email"
+                            id="email"
+                            placeholder="이메일 ('@' 이후까지 입력해 주세요.)"
                             isFocused
-                            label="아이디"
+                            label="이메일"
                             isRequired
+                            onChange={handleChangeInputData}
                         />
                     </div>
                     <div>
@@ -68,6 +89,7 @@ export default function Register() {
                             placeholder="비밀번호를 입력해주세요."
                             label="비밀번호"
                             isRequired
+                            onChange={handleChangeInputData}
                         />
                     </div>
                     <div>
@@ -77,6 +99,7 @@ export default function Register() {
                             placeholder="비밀번호를 다시 입력해주세요."
                             label="비밀번호 확인"
                             isRequired
+                            onChange={handleChangeInputData}
                         />
                     </div>
                     <S.RowBox>
@@ -87,8 +110,13 @@ export default function Register() {
                                 placeholder="(-) 제외한 숫자만 입력해주세요."
                                 label="휴대폰번호"
                                 isRequired
+                                onChange={handleChangeInputData}
                             />
-                            <SecondaryButton label="인증번호발송" disabled />
+                            <SecondaryButton
+                                label="인증번호발송"
+                                onClick={onSubmitVerifySms}
+                                disabled={!data.phone}
+                            />
                         </S.InputButtonBox>
                         <S.InputButtonBox>
                             <TextInput
@@ -99,15 +127,6 @@ export default function Register() {
                             <PrimaryButton label="인증번호 확인" disabled />
                         </S.InputButtonBox>
                     </S.RowBox>
-                    <div>
-                        <LabelTextInput
-                            type="email"
-                            id="emamil"
-                            placeholder="이메일 ('@' 이후까지 입력해 주세요.)"
-                            label="이메일"
-                            isRequired
-                        />
-                    </div>
                     <div>
                         <LabelTextInput
                             type="number"
@@ -159,7 +178,7 @@ export default function Register() {
                         <PrivacyCheckItem id="marketing">마케팅 활용동의(선택)</PrivacyCheckItem>
                     </S.PrivacyList>
                     <div className="pt-[10px]">
-                        <PrimaryButton label="가입신청하기" />
+                        <PrimaryButton type="submit" label="가입신청하기" />
                     </div>
                 </S.Form>
             </S.InnerWrapper>
