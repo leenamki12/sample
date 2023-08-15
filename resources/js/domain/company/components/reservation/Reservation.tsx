@@ -32,6 +32,10 @@ function Reservation({ open, setOpen }: ModalProps) {
         console.log('submit', data);
     };
 
+    const onClose = () => {
+        setOpen(false);
+    };
+
     return (
         <Transition show={open} as={Fragment}>
             <Dialog
@@ -108,7 +112,10 @@ function Reservation({ open, setOpen }: ModalProps) {
                                                     />
                                                 </div>
                                                 <div className="flex space-x-[10px]">
-                                                    <BaseButton className="!text-lg">
+                                                    <BaseButton
+                                                        className="!text-lg"
+                                                        onClick={onClose}
+                                                    >
                                                         취소
                                                     </BaseButton>
                                                     <PrimaryButton
