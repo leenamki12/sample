@@ -17,6 +17,10 @@ function HospitalDetail() {
 
     const hospitalData = useHospitalData().find(data => data.id === Number(id));
 
+    if (!hospitalData) {
+        return null;
+    }
+
     return (
         <S.Container>
             <Head title={hospitalData?.name} />
@@ -87,7 +91,7 @@ function HospitalDetail() {
                 <S.SectionTitle>다른 제휴병원 혜택 확인하기</S.SectionTitle>
                 <OtherPartnerList />
             </S.ColBox>
-            <DetailSticky />
+            <DetailSticky id={hospitalData.id} />
         </S.Container>
     );
 }

@@ -11,25 +11,41 @@ import * as S from './Reservation.styled';
 type ModalProps = {
     open: boolean;
     setOpen: (open: boolean) => void;
+    hospitalId: number;
 };
 
 type Props = {
+    hospital_id: number;
     date: string;
-    time: string;
+    company: string;
     name: string;
     phone: string;
 };
 
-function Reservation({ open, setOpen }: ModalProps) {
-    const { data } = useForm<Props>({
+type FormKey = 'hospital_id' | 'date' | 'company' | 'name' | 'phone';
+
+function Reservation({ open, setOpen, hospitalId }: ModalProps) {
+    const { data, setData, post } = useForm<Props>({
+        hospital_id: hospitalId,
         date: '',
-        time: '',
+        company: '',
         name: '',
         phone: '',
     });
 
-    const submit = () => {
+    const handleSubmit = () => {
         console.log('submit', data);
+        post(route('reservations.store'));
+
+        /* , {
+            onSuccess: () => console.log('success', data),
+            onError: error => console.log(error),
+        } */
+    };
+
+    const handleChangeInputData = (id: string, value: string) => {
+        setData(id as FormKey, value);
+        console.log(data);
     };
 
     const onClose = () => {
@@ -76,21 +92,25 @@ function Reservation({ open, setOpen }: ModalProps) {
                                             </Dialog.Title>
                                         </div>
                                         <S.ContentsBox>
-                                            <S.Form onSubmit={submit}>
+                                            <S.Form onSubmit={handleSubmit}>
                                                 <div>
                                                     <LabelTextInput
                                                         label="예약 희망 일자"
                                                         type="date"
                                                         isRequired
                                                         id="date"
+                                                        value={data.date}
+                                                        onChange={handleChangeInputData}
                                                     />
                                                 </div>
                                                 <div>
                                                     <LabelTextInput
-                                                        label="예약 희망 시간"
-                                                        type="time"
+                                                        label="기업명"
+                                                        type="text"
                                                         isRequired
-                                                        id="time"
+                                                        id="company"
+                                                        value={data.company}
+                                                        onChange={handleChangeInputData}
                                                     />
                                                 </div>
                                                 <div>
@@ -100,6 +120,8 @@ function Reservation({ open, setOpen }: ModalProps) {
                                                         placeholder="고객명을 입력해주세요."
                                                         isRequired
                                                         id="name"
+                                                        value={data.name}
+                                                        onChange={handleChangeInputData}
                                                     />
                                                 </div>
                                                 <div>
@@ -109,6 +131,8 @@ function Reservation({ open, setOpen }: ModalProps) {
                                                         placeholder="연락처를 입력해주세요."
                                                         isRequired
                                                         id="phone"
+                                                        value={data.phone}
+                                                        onChange={handleChangeInputData}
                                                     />
                                                 </div>
                                                 <div className="flex space-x-[10px]">
