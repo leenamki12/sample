@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Domains\Auth\UserVerifys;
+use App\Domains\Auth\UserVerifysService;
 use App\Domains\User\User;
+use App\DTOs\Register\VerifySmsDTO;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -13,6 +16,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Str;
+
+
+use App\Http\Requests\Auth\VerifySmsRequest;
+use Illuminate\Support\Facades\Log;
 
 class RegisteredUserController extends Controller
 {
@@ -48,5 +56,33 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function verifySmsStore(VerifySmsRequest $request)
+    {
+
+        $verifySms = new UserVerifys();
+        $randomNumber = random_int(100000, 999999);
+
+        $validatedData = $request->validate([
+            'phone' => 'required|string|min:11|max:11',
+        ]);
+
+        $verifySms->phone = $validatedData['phone'];
+        $verifySms->code =  $randomNumber;
+        $verifySms->status = 'effective';
+
+        $resultSendTalk = UserVerifysService::sendSms($verifySms->phone, '[위드닥] 인증코드 '.$verifySms->code, '{}');
+
+        if($resultSendTalk[1]->code !== '0000'){
+            return '';
+        }
+
+        $verifySms->save();
+
+        return Inertia::render('auth/pages/Register', [
+            'UserVerifySmsCode' => (string) $verifySms->code
+        ]);
+
     }
 }

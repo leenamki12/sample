@@ -11,6 +11,7 @@ import {
     LabelFileInput,
 } from '@/components/ui';
 import Header from '@/layouts/Header';
+import { PageProps } from '@/types';
 
 import * as S from './styles/Register.styled';
 import { PrivacyCheckItem } from '../components';
@@ -22,11 +23,10 @@ type FormProps = {
     phone: string;
     phone_auth: string;
 };
-
 type FormKey = 'email' | 'password' | 'password_confirmation' | 'phone' | 'phone_auth';
 
-export default function Register() {
-    const { data, setData, reset, errors, post } = useForm<FormProps>({
+export default function Register({ UserVerifySmsCode }: PageProps) {
+    const { data, setData, reset, errors, post, setError, clearErrors } = useForm<FormProps>({
         email: '',
         password: '',
         password_confirmation: '',
@@ -34,14 +34,7 @@ export default function Register() {
         phone_auth: '',
     });
 
-    //const [smsCode, setSmsCode] = useState('');
     const smsInputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        return () => {
-            reset('password', 'password_confirmation');
-        };
-    }, []);
 
     const handleChangeInputData = (id: string, value: string) => {
         setData(id as FormKey, value);
@@ -55,38 +48,28 @@ export default function Register() {
     };
 
     const onSendSms = () => {
-        const min = 100000; // 6자리 숫자의 최소값
-        const max = 999999; // 6자리 숫자의 최대값
-        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-        const verifyData = {
-            code: `${randomNumber}`,
-            phone: data.phone,
-        };
-        post('/verify-sms', {
-            data: verifyData,
+        post(route('register.verifySmsStore'), {
             replace: false,
-            onSuccess: e => {
-                console.log(e);
-            },
+            preserveScroll: true,
         });
 
         smsInputRef.current?.focus();
     };
 
-    // const onVerifySms = () => {
-    //     console.log(data.phone_auth, smsCode);
-    //     if (data.phone_auth !== smsCode) {
-    //         setError('phone_auth', '인증번호를 다시 입력해주세요.');
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     smsInputRef.current?.focus();
-    // }, [smsCode]);
+    const onVerifySms = () => {
+        console.log(data.phone_auth, UserVerifySmsCode);
+        if (data.phone_auth !== UserVerifySmsCode) {
+            setError('phone_auth', '인증번호를 다시 입력해주세요.');
+        } else {
+            clearErrors('phone_auth');
+        }
+    };
 
     useEffect(() => {
-        console.log(errors);
-    }, [errors]);
+        return () => {
+            reset('password', 'password_confirmation');
+        };
+    }, []);
 
     return (
         <S.Wrapper>
@@ -126,7 +109,7 @@ export default function Register() {
                         />
                     </div>
                     <S.RowBox>
-                        <S.InputButtonBox>
+                        <S.InputButtonBox isLabel>
                             <LabelTextInput
                                 type="tel"
                                 id="phone"
@@ -142,7 +125,7 @@ export default function Register() {
                                 disabled={!data.phone}
                             />
                         </S.InputButtonBox>
-                        {/* {smsCode && (
+                        {UserVerifySmsCode && (
                             <S.InputButtonBox>
                                 <TextInput
                                     ref={smsInputRef}
@@ -158,7 +141,7 @@ export default function Register() {
                                     disabled={!data.phone_auth}
                                 />
                             </S.InputButtonBox>
-                        )} */}
+                        )}
                     </S.RowBox>
                     <div>
                         <LabelTextInput

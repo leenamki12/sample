@@ -1,4 +1,4 @@
-import tw, { styled } from 'twin.macro';
+import tw, { css, styled } from 'twin.macro';
 
 export const Wrapper = styled.div`
     ${tw`flex min-h-screen flex-col items-center bg-gray-100 sm:justify-start`}
@@ -16,7 +16,11 @@ export const Form = styled.form`
     }
 `;
 
-export const InputButtonBox = styled.div`
+type InputButtonBoxProps = {
+    isLabel?: boolean;
+};
+
+export const InputButtonBox = styled.div<InputButtonBoxProps>`
     ${tw`flex w-full items-start space-x-[5px]`}
 
     label,  & > div {
@@ -24,7 +28,13 @@ export const InputButtonBox = styled.div`
     }
 
     button {
-        ${tw`inline-flex min-w-[125px] max-w-[125px] items-center justify-center self-end text-base font-medium`}
+        ${tw`mt-[0] inline-flex min-w-[125px] max-w-[125px] items-center justify-center self-start text-base font-medium`}
+
+        ${({ isLabel }) =>
+            isLabel &&
+            css`
+                margin-top: 27px;
+            `};
     }
 `;
 

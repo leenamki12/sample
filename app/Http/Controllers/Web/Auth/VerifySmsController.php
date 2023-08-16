@@ -34,6 +34,8 @@ class VerifySmsController extends Controller
      */
     public function store(VerifySmsRequest $request)
     {
+        Log::debug($request);
+
         $verifySms = new UserVerifys();
 
 
@@ -55,7 +57,9 @@ class VerifySmsController extends Controller
             return '';
         }
 
-        return Inertia::render($verifySms);
+        return Inertia::render('auth/pages/Register', [
+            'data' => 'qwe'
+        ]);
     }
 
     /**

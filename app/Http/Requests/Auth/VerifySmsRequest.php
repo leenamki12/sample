@@ -27,8 +27,8 @@ class VerifySmsRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.min' => __('messages.required.email'),
-            'phone.max' => __('messages.required.password')
+            'phone.min' => __('messages.verify.min'),
+            'phone.max' => __('messages.verify.max')
         ];
     }
 }

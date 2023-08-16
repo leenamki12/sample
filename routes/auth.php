@@ -9,7 +9,6 @@ use App\Http\Controllers\Web\Auth\PasswordController;
 use App\Http\Controllers\Web\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Web\Auth\RegisteredUserController;
 use App\Http\Controllers\Web\Auth\VerifyEmailController;
-use App\Http\Controllers\Web\Auth\VerifySmsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -34,9 +33,9 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
-                
-    Route::post('verify-sms', [VerifySmsController::class, 'store'])
-    ->name('verify-sms.store');
+
+    Route::post('register', [RegisteredUserController::class, 'verifySmsStore'])
+    ->name('register.verifySmsStore');
 });
 
 Route::middleware('auth')->group(function () {
