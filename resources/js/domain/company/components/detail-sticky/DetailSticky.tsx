@@ -2,11 +2,12 @@ import { useState } from 'react';
 
 import { BorderButton, PrimaryButton } from '@/components/ui';
 
+import { HospitalItem } from '../../datas';
 import Reservation from '../reservation/Reservation';
 
 import * as S from './DetailSticky.styled';
 
-function DetailSticky() {
+function DetailSticky({ id }: Pick<HospitalItem, 'id'>) {
     const [open, setOpen] = useState<boolean>(false);
 
     function openModal() {
@@ -27,7 +28,7 @@ function DetailSticky() {
                     className="!h-[50px] !w-1/2 !text-lg"
                 ></PrimaryButton>
             </S.Box>
-            <Reservation open={open} setOpen={setOpen} />
+            <Reservation open={open} setOpen={setOpen} hospitalId={id} />
         </S.Container>
     );
 }
