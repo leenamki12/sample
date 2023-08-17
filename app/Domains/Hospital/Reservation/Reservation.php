@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Hospital;
+namespace App\Domains\Hospital\Reservation;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

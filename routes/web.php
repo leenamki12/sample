@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\User\User;
+use App\Http\Controllers\Web\Hospital\ReservationController;
 use App\Http\Controllers\Web\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,8 @@ Route::middleware(['auth', 'role:company'])
         Route::get('/detail/{id}', function ($id) {
             return Inertia::render('company/pages/hospital-detail/HospitalDetail', compact('id'));
         })->name('company.detail');
+
+        Route::post('/detail/{id}', [ReservationController::class, 'store'])->name('reservations.store');
 })->name('company');
 
 Route::middleware(['auth', 'role:hospital'])
