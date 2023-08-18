@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Hospital;
 
-use App\Domains\Hospital\Reservation;
+use App\Domains\Hospital\Reservation\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Hospital\ReservationRequest;
 use Illuminate\Http\Request;
@@ -17,11 +17,6 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        /* $user_id = auth()->id();
-        $reservation = Reservation::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
-
-        //return Reservation::all();
-        return Inertia::render('company.detail', ['reservations' => $reservation]); */
     }
 
     /**
@@ -40,7 +35,6 @@ class ReservationController extends Controller
         $reservation = Reservation::create($reservationRequest->validated());
 
         return Redirect::route('company.detail', ['id' => $reservation->hospital_id]);
-        //return Reservation::all();
     }
 
     /**

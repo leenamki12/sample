@@ -26,4 +26,15 @@ class ReservationRequest extends FormRequest
             'phone' => ['required', 'string', 'regex:/^(?!-)[0-9-]+$/', 'max:11', 'min:11'],
         ];
     }
+
+    public function messages(): array
+    {
+        return[
+            'name' => __('messages.required.name'),
+            'reservation_date' => __('messages.required.reservation_date'),
+            'phone' => __('messages.required.phone'),
+            'phone.min' => __('messages.verify.min'),
+            'phone.max' => __('messages.verify.max')
+        ];
+    }
 }
