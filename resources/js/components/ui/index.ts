@@ -16,3 +16,9 @@ export { default as BorderButton } from './buttons/BorderButton';
 
 //badge
 export { default as Badge } from './badges/Badge';
+
+//privacy checkbox
+export { default as PrivacyCheckItem } from './privacy-check-item/PrivacyCheckItem';
+
+//privacy modal
+export { default as PrivacyModal } from './modals/PrivacyModal';

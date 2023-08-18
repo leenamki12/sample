@@ -19,6 +19,7 @@ export const ContentsBox = styled.div`
         ${tw` bg-gray-200`}
     }
 
+    & input,
     & input::placeholder {
         ${tw`text-base`}
     }

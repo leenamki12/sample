@@ -1,9 +1,10 @@
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 
-import { LabelTextInput, PrimaryButton } from '@/components/ui';
+import Modal from '@/components/inertia/Modal';
+import { LabelTextInput, PrimaryButton, PrivacyCheckItem, PrivacyModal } from '@/components/ui';
 import BaseButton from '@/components/ui/buttons/BaseButton';
 
 import * as S from './ReservationForm.styled';
@@ -24,6 +25,10 @@ type Props = {
 type FormKey = 'hospital_id' | 'reservation_date' | 'company_name' | 'name' | 'phone';
 
 function Reservation({ setOpen, hospitalId }: ModalProps) {
+    const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
+    const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
+    const [privacyCheckedError, setPrivacyCheckedError] = useState<string>('');
+
     const { data, setData, post, errors } = useForm<Props>({
         hospital_id: hospitalId,
         reservation_date: '',
@@ -35,8 +40,17 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
     const handleSubmit: FormEventHandler = e => {
         e.preventDefault();
 
+        if (!isPrivacyChecked) {
+            setPrivacyCheckedError('개인정보수집 및 활용동의는 필수입니다.');
+
+            return;
+        }
+
         post(route('reservations.store', { id: hospitalId }), {
-            onSuccess: () => alert('예약문의가 접수되었습니다.'),
+            onSuccess: () => {
+                alert('예약문의가 접수되었습니다.');
+                setOpen(false);
+            },
             onError: error => console.log(error),
         });
     };
@@ -45,9 +59,25 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
         setData(id as FormKey, value);
     };
 
+    const handlePrivacyModal = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        setShowPrivacyModal(true);
+    };
+
+    const handleClosePrivacyModal = () => {
+        setShowPrivacyModal(false);
+    };
+
     const onClose = () => {
         setOpen(false);
     };
+
+    useEffect(() => {
+        if (isPrivacyChecked) {
+            setPrivacyCheckedError('');
+        }
+    }, [isPrivacyChecked]);
 
     return (
         <S.ModalContainer>
@@ -107,6 +137,89 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                     <S.Warning>
                         ※ 예약 신청 후, 병원 및 예약센터에서 확인 후 순차적으로 연락을 드립니다.
                     </S.Warning>
+                    <div>
+                        <PrivacyCheckItem
+                            id="privacy"
+                            onClick={handlePrivacyModal}
+                            checked={isPrivacyChecked}
+                            onChange={() => setIsPrivacyChecked(!isPrivacyChecked)}
+                            error={privacyCheckedError}
+                        >
+                            개인정보수집 및 활용동의 (필수)
+                        </PrivacyCheckItem>
+                        <Modal
+                            show={showPrivacyModal}
+                            onClose={handleClosePrivacyModal}
+                            maxWidth="md"
+                        >
+                            <PrivacyModal
+                                title="개인정보수집 및 활용동의 안내"
+                                close={handleClosePrivacyModal}
+                            >
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용 개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용 개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                                <br />
+                                개인정보수집 및 활용동의 내용내용
+                            </PrivacyModal>
+                        </Modal>
+                    </div>
                     <div className="flex space-x-[10px]">
                         <BaseButton className="!text-lg" onClick={onClose}>
                             취소
