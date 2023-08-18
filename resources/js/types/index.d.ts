@@ -1,4 +1,4 @@
-import { User, UserVerifySmsCode } from './user';
+import { User } from './user';
 
 export type StrKeyArray<T> = {
     [key: string]: T;
@@ -8,6 +8,4 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
-
-    UserVerifySmsCode: string;
 };

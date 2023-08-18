@@ -33,7 +33,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user() 
+                'user' => $request->user()
                 ? UserDTO::from($request->user())
                 : null
             ],
@@ -41,6 +41,12 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
+            },
+            'userVerifys' => function () use ($request) {
+                return [
+                    'code' => $request->session()->get('userVerifyCode'),
+                    'status' =>$request->session()->get('userVerifyStatus')
+                ];
             },
         ]);
     }

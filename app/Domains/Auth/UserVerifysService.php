@@ -2,21 +2,39 @@
 
 namespace App\Domains\Auth;
 
+use App\Domains\Auth\UserVerifys;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class UserVerifysService
 {
-  public static function sendSms($phone, $message, $payload)
-  {
+
+    public static function verifyChecked($request)
+    {
+
+        $verify =  UserVerifys::where('phone', $request->phone)->latest()->first();
+
+        if(!$verify){
+            throw ValidationException::withMessages([
+                'phone' => __('전화번호를 다시 확인 해주세요.'),
+            ]);
+        }
+
+        Log::debug($verify);
+
+    }
+
+    public static function sendSms($phone, $message, $payload)
+    {
     $headers = array( 'Content-Type: application/json');
 
     $post_data = [
-      'auth_code'=> env('MTS_AUTH_CODE', ''), //미인증
-      'sender_key'=> env('MTS_SENDER_KEY', ''),
-      'callback_number'=> '02-546-7946',
-      'phone_number'=> $phone,
-      'message'=> $message,
-      'add_etc1' => $payload
+        'auth_code'=> env('MTS_AUTH_CODE', ''), //미인증
+        'sender_key'=> env('MTS_SENDER_KEY', ''),
+        'callback_number'=> '02-546-7946',
+        'phone_number'=> $phone,
+        'message'=> $message,
+        'add_etc1' => $payload
     ];
 
     $json = json_encode($post_data);
@@ -38,35 +56,35 @@ class UserVerifysService
 
     if($output === false || $output === '')
     {
-      $errno = curl_errno($ch);
-      $error = curl_error($ch);
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
 
-      Log::debug('[MTS ERROR] NO:'.$errno.' '.$error);
-      Log::debug('[MTS ERROR] '.implode($post_data));
+        Log::debug('[MTS ERROR] NO:'.$errno.' '.$error);
+        Log::debug('[MTS ERROR] '.implode($post_data));
 
 
-      curl_close($ch);
+        curl_close($ch);
 
-      return [false, $errno, $error];
+        return [false, $errno, $error];
     }
 
     curl_close($ch);
 
     return [true, json_decode($output)];
-  }
+    }
 
-  /**
-   * return [ $result, ?$errno, ?$error ]
-   */
-  public static function sendTalk(
+    /**
+     * return [ $result, ?$errno, ?$error ]
+     */
+    public static function sendTalk(
     $phone,
     $message,
     $callbackUrl="",
     $etc1="",
     $etc2="",
     $etc3=""
-  )
-  {
+    )
+    {
     $headers = array( 'Content-Type: application/json');
 
     $post_data = [
@@ -86,9 +104,9 @@ class UserVerifysService
 
     $json = json_encode($post_data);
     /*
-      json_encode부분에서 \n을 \\로 변경을 해주는데
-      새로생긴 \는 replace로 제거가 안됨.
-      그래서 \\n -> n로 만들면 \n으로 문자열이 완성이 됨.
+        json_encode부분에서 \n을 \\로 변경을 해주는데
+        새로생긴 \는 replace로 제거가 안됨.
+        그래서 \\n -> n로 만들면 \n으로 문자열이 완성이 됨.
     */
     $json = str_replace("\\n", "n", $json);
 
@@ -109,19 +127,19 @@ class UserVerifysService
 
     if($output === false || $output === '')
     {
-      $errno = curl_errno($ch);
-      $error = curl_error($ch);
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
 
-      Log::debug('[MTS ERROR] NO:'.$errno.' '.$error);
-      Log::debug('[MTS ERROR] '.implode($post_data));
+        Log::debug('[MTS ERROR] NO:'.$errno.' '.$error);
+        Log::debug('[MTS ERROR] '.implode($post_data));
 
-      curl_close($ch);
+        curl_close($ch);
 
-      return [false, $errno, $error];
+        return [false, $errno, $error];
     }
 
     curl_close($ch);
 
     return [true, json_decode($output)];
-  }
+    }
 }

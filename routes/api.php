@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Auth\VerifySmsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

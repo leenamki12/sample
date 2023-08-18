@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('phone', 16)->comment('검증할 휴대폰 번호');
             $table->string('code', 6)->comment('인증 번호');
-            $table->enum('status', ['effective', 'not_valid', 'completed'])->comment('인증코드 유효 | 유효하지 않음 | 인증 완료');
+            $table->boolean('status')->comment('인증 번호 유효 여부');
+            $table->timestamp('expiration_at')->comment('인증번호 유효 시간');
             $table->timestamps();
         });
     }

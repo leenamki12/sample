@@ -1,6 +1,6 @@
-import { useEffect, FormEventHandler, useRef } from 'react';
+import { useEffect, FormEventHandler, useRef, useState } from 'react';
 
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, router } from '@inertiajs/react';
 
 import {
     LabelTextInput,
@@ -11,10 +11,10 @@ import {
     LabelFileInput,
 } from '@/components/ui';
 import Header from '@/layouts/Header';
-import { PageProps } from '@/types';
 
 import * as S from './styles/Register.styled';
 import { PrivacyCheckItem } from '../components';
+import { UserVerifys } from '../types/register';
 
 type FormProps = {
     email: string;
@@ -23,16 +23,20 @@ type FormProps = {
     phone: string;
     phone_auth: string;
 };
+
 type FormKey = 'email' | 'password' | 'password_confirmation' | 'phone' | 'phone_auth';
 
-export default function Register({ UserVerifySmsCode }: PageProps) {
-    const { data, setData, reset, errors, post, setError, clearErrors } = useForm<FormProps>({
-        email: '',
-        password: '',
-        password_confirmation: '',
-        phone: '',
-        phone_auth: '',
-    });
+export default function Register() {
+    const { data, setData, reset, errors, setError, post, clearErrors, hasErrors } =
+        useForm<FormProps>({
+            email: '',
+            password: '',
+            password_confirmation: '',
+            phone: '',
+            phone_auth: '',
+        });
+
+    const [verifyCode, setVerifyCode] = useState('');
 
     const smsInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,21 +51,56 @@ export default function Register({ UserVerifySmsCode }: PageProps) {
         // post(route('register'));
     };
 
-    const onSendSms = () => {
-        post(route('register.verifySmsStore'), {
-            replace: false,
-            preserveScroll: true,
-        });
+    const onSendSms = async () => {
+        router.post(
+            route('verifySms.store'),
+            {
+                phone: data.phone,
+            },
+            {
+                preserveState: true,
+                replace: false,
+                preserveScroll: true,
+                onSuccess: e => {
+                    const responseData = e.props.userVerifys as UserVerifys;
+                    setVerifyCode(responseData.code);
+                    if (hasErrors) {
+                        clearErrors('phone');
+                    }
+                },
+                onError: e => {
+                    setError('phone', e.phone);
+                },
+            }
+        );
 
         smsInputRef.current?.focus();
     };
 
     const onVerifySms = () => {
-        console.log(data.phone_auth, UserVerifySmsCode);
-        if (data.phone_auth !== UserVerifySmsCode) {
+        if (data.phone_auth !== verifyCode) {
             setError('phone_auth', '인증번호를 다시 입력해주세요.');
         } else {
             clearErrors('phone_auth');
+
+            router.get(
+                route('verifySms.check'),
+                {
+                    code: data.phone_auth,
+                    phone: data.phone,
+                },
+                {
+                    preserveState: true,
+                    replace: false,
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        clearErrors('phone');
+                    },
+                    onError: e => {
+                        if (e.phone) setError('phone', e.phone);
+                    },
+                }
+            );
         }
     };
 
@@ -95,6 +134,7 @@ export default function Register({ UserVerifySmsCode }: PageProps) {
                             placeholder="비밀번호를 입력해주세요."
                             label="비밀번호"
                             isRequired
+                            error={errors.password}
                             onChange={handleChangeInputData}
                         />
                     </div>
@@ -105,6 +145,7 @@ export default function Register({ UserVerifySmsCode }: PageProps) {
                             placeholder="비밀번호를 다시 입력해주세요."
                             label="비밀번호 확인"
                             isRequired
+                            error={errors.password_confirmation}
                             onChange={handleChangeInputData}
                         />
                     </div>
@@ -120,18 +161,19 @@ export default function Register({ UserVerifySmsCode }: PageProps) {
                                 error={errors.phone}
                             />
                             <SecondaryButton
-                                label="인증번호발송"
+                                type="button"
+                                label={verifyCode ? '재발송' : '인증번호발송'}
                                 onClick={onSendSms}
                                 disabled={!data.phone}
                             />
                         </S.InputButtonBox>
-                        {UserVerifySmsCode && (
+                        {verifyCode && (
                             <S.InputButtonBox>
                                 <TextInput
                                     ref={smsInputRef}
-                                    type="tel"
+                                    type="number"
                                     id="phone_auth"
-                                    placeholder="인증번호를 입력해 주세요."
+                                    placeholder="인증번호 6자리를 입력해 주세요."
                                     onChange={handleChangeInputData}
                                     error={errors.phone_auth}
                                 />
@@ -153,7 +195,7 @@ export default function Register({ UserVerifySmsCode }: PageProps) {
                         />
                     </div>
                     <S.RowBox>
-                        <S.InputButtonBox>
+                        <S.InputButtonBox isLabel>
                             <LabelTextInput
                                 type="text"
                                 id="address"

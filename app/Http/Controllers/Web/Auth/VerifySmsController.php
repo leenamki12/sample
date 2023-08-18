@@ -5,93 +5,47 @@ namespace App\Http\Controllers\Web\Auth;
 use App\Domains\Auth\UserVerifys;
 use App\Domains\Auth\UserVerifysService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\VerifySmsRequest;
+use App\Http\Requests\Auth\VerifyPhoneRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 
 class VerifySmsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function check(Request $request)
     {
-        //
+        UserVerifysService::verifyChecked($request);
+
+        return redirect()->back()->with([
+            'userVerifyStatus' => true,
+            'userVerifyCode' => (string) $request->code
+        ]);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(VerifySmsRequest $request)
+    public function store(VerifyPhoneRequest $request)
     {
-        Log::debug($request);
 
         $verifySms = new UserVerifys();
-
+        $randomNumber = random_int(100000, 999999);
 
         $validatedData = $request->validate([
             'phone' => 'required|string|min:11|max:11',
         ]);
 
-        Log::debug($request);
-
         $verifySms->phone = $validatedData['phone'];
-        $verifySms->code =  $request->code;
-        $verifySms->status = 'effective';
+        $verifySms->code =  $randomNumber;
+        $verifySms->status = true;
+        $verifySms->expiration_at  = now()->addMinutes(10);
 
-        $sendTalk = UserVerifysService::sendSms($verifySms->phone, '[위드닥] 인증코드 '.$verifySms->code, '{}');
+        $resultSendTalk = UserVerifysService::sendSms($verifySms->phone, '[위드닥] 인증코드 '.$verifySms->code, '{}');
 
-        Log::debug($sendTalk[1]->code);
-
-        if($sendTalk[1]->code !== '0000'){
+        if($resultSendTalk[1]->code !== '0000'){
             return '';
         }
 
-        return Inertia::render('auth/pages/Register', [
-            'data' => 'qwe'
-        ]);
-    }
+        $verifySms->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-        return '123';
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->back()->with('userVerifyCode', (string) $verifySms->code);
     }
 }
