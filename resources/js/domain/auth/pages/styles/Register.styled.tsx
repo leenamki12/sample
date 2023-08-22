@@ -50,8 +50,15 @@ export const InputAddressBox = styled.div`
     }
 `;
 
-export const RowBox = styled.div`
+type RowBoxProps = {
+    isError?: boolean;
+};
+export const RowBox = styled.div<RowBoxProps>`
     ${tw`space-y-[10px]`}
+
+    input {
+        ${({ isError }) => isError && tw`border-2 border-red-500`};
+    }
 `;
 
 export const Divider = styled.div`
@@ -60,4 +67,40 @@ export const Divider = styled.div`
 
 export const PrivacyList = styled.div`
     ${tw`pt-[10px]`}
+`;
+
+export const SuccessText = styled.div`
+    ${tw`text-sm font-bold text-primary`}
+`;
+
+export const CodeInputBox = styled.div`
+    ${tw`space-y-2`}
+
+    & > .code_time {
+        ${tw`text-sm font-bold text-red-500`}
+    }
+`;
+
+export const Error = styled.div`
+    ${tw`mt-1 text-sm text-red-500`}
+`;
+
+// type ModalProps = {
+//     isShow: boolean;
+// };
+
+export const AddressModal = styled.div`
+    ${tw` fixed left-0 right-0 top-0 z-10 flex h-screen flex-col items-center justify-center`}
+
+    & > .PostModal {
+        ${tw`h-screen`}
+    }
+`;
+
+export const AddressModalHeader = styled.div`
+    ${tw`sticky top-0 z-10 flex h-[70px] w-full items-center justify-center border-b border-gray-500 bg-white px-[100px]`}
+
+    h2 {
+        ${tw`text-xl font-bold`}
+    }
 `;

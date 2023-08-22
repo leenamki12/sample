@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import TextInput, { TextInputProps } from '../text-input/TextInput';
 
 import * as S from './LabelTextInput.styled';
@@ -7,16 +9,14 @@ type Props = {
     isRequired?: boolean;
 } & TextInputProps;
 
-function LabelTextInput({ label, isRequired, id, ...props }: Props) {
+export default forwardRef(function LabelTextInput({ label, isRequired, id, ...props }: Props, ref) {
     return (
         <label htmlFor={id}>
             <S.Label>
                 {label}
                 {isRequired && <span>*</span>}
             </S.Label>
-            <TextInput id={id} {...props} />
+            <TextInput id={id} ref={ref} {...props} />
         </label>
     );
-}
-
-export default LabelTextInput;
+});

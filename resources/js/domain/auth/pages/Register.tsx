@@ -1,4 +1,5 @@
 import { useEffect, FormEventHandler, useRef, useState } from 'react';
+import DaumPostcode, { Address } from 'react-daum-postcode';
 
 import { Head, useForm, router } from '@inertiajs/react';
 
@@ -9,6 +10,7 @@ import {
     SecondaryButton,
     TertiaryButton,
     LabelFileInput,
+    InputRefProps,
 } from '@/components/ui';
 import Header from '@/layouts/Header';
 
@@ -20,11 +22,30 @@ type FormProps = {
     email: string;
     password: string;
     password_confirmation: string;
+    name: string;
     phone: string;
-    phone_auth: string;
+    phoneAuth: string;
+    companiesName: string;
+    employees: number | null;
+    address: string;
+    postalCode: string;
+    addressDetail: string;
+    businessLicense: File | null;
 };
 
-type FormKey = 'email' | 'password' | 'password_confirmation' | 'phone' | 'phone_auth';
+type FormKey =
+    | 'email'
+    | 'password'
+    | 'password_confirmation'
+    | 'name'
+    | 'phone'
+    | 'phoneAuth'
+    | 'companiesName'
+    | 'employees'
+    | 'address'
+    | 'postalCode'
+    | 'addressDetail'
+    | 'businessLicense';
 
 export default function Register() {
     const { data, setData, reset, errors, setError, post, clearErrors, hasErrors } =
@@ -32,26 +53,48 @@ export default function Register() {
             email: '',
             password: '',
             password_confirmation: '',
+            name: '',
             phone: '',
-            phone_auth: '',
+            phoneAuth: '',
+            companiesName: '',
+            employees: null,
+            address: '',
+            postalCode: '',
+            addressDetail: '',
+            businessLicense: null,
         });
 
-    const [verifyCode, setVerifyCode] = useState('');
+    const [verifyCodeNumber, setVerifyCodeNumber] = useState('');
+    const [isVerifySuccess, setIsVerifySuccess] = useState(false);
+    const [verifyCodeTime, setVerifyCodeTime] = useState(0);
+    const [verifyButtonTime, setVerifyButtonTime] = useState(0);
+    const [modalShow, setModalShow] = useState(false);
 
-    const smsInputRef = useRef<HTMLInputElement>(null);
+    const codeInputRef = useRef<InputRefProps>(null);
+    const addressRef = useRef<InputRefProps>(null);
+    const postalCodeRef = useRef<InputRefProps>(null);
 
     const handleChangeInputData = (id: string, value: string) => {
         setData(id as FormKey, value);
+        clearErrors(id as FormKey);
     };
 
     const submit: FormEventHandler = e => {
         e.preventDefault();
 
-        console.log(data);
-        // post(route('register'));
+        if (!isVerifySuccess) {
+            setError('phone', '휴대폰 인증을 진행해주세요.');
+            alert('휴대폰 인증을 진행해주세요.');
+            return;
+        }
+
+        post(route('register'), {
+            preserveState: true,
+            replace: false,
+        });
     };
 
-    const onSendSms = async () => {
+    const onSendSms = () => {
         router.post(
             route('verifySms.store'),
             {
@@ -63,9 +106,12 @@ export default function Register() {
                 preserveScroll: true,
                 onSuccess: e => {
                     const responseData = e.props.userVerifys as UserVerifys;
-                    setVerifyCode(responseData.code);
+                    setVerifyCodeNumber(responseData.code);
+                    setVerifyCodeTime(600);
+                    setVerifyButtonTime(10);
                     if (hasErrors) {
                         clearErrors('phone');
+                        clearErrors('phoneAuth');
                     }
                 },
                 onError: e => {
@@ -73,36 +119,79 @@ export default function Register() {
                 },
             }
         );
-
-        smsInputRef.current?.focus();
     };
 
     const onVerifySms = () => {
-        if (data.phone_auth !== verifyCode) {
-            setError('phone_auth', '인증번호를 다시 입력해주세요.');
+        if (data.phoneAuth !== verifyCodeNumber) {
+            setError('phoneAuth', '인증번호를 다시 입력해주세요.');
         } else {
-            clearErrors('phone_auth');
-
             router.get(
                 route('verifySms.check'),
                 {
-                    code: data.phone_auth,
+                    code: data.phoneAuth,
                     phone: data.phone,
                 },
                 {
                     preserveState: true,
                     replace: false,
                     preserveScroll: true,
-                    onSuccess: () => {
-                        clearErrors('phone');
+                    onSuccess: e => {
+                        const responseData = e.props.userVerifys as UserVerifys;
+                        if (!responseData.status) {
+                            return;
+                        }
+                        if (responseData.status === 'success') {
+                            setIsVerifySuccess(true);
+                        }
+                        if (errors.phone) {
+                            clearErrors('phone');
+                        }
+                        clearErrors('phoneAuth');
                     },
                     onError: e => {
                         if (e.phone) setError('phone', e.phone);
+                        if (e.phone_auth) setError('phoneAuth', e.phone_auth);
                     },
                 }
             );
         }
     };
+
+    const formatSeconds = (timeInSeconds: number) => {
+        const seconds = timeInSeconds % 60;
+        return `${seconds.toString()}초 후 재시도`;
+    };
+
+    const formatMinutes = (timeInSeconds: number) => {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+        return `인증시간 ${minutes.toString().padStart(2, '0')}:${seconds
+            .toString()
+            .padStart(2, '0')}`;
+    };
+
+    const handlePasswordConfirmed = () => {
+        if (data.password_confirmation === '') {
+            return;
+        }
+
+        if (data.password !== data.password_confirmation) {
+            setError('password_confirmation', '패스워드가 틀립니다.');
+        } else {
+            clearErrors('password_confirmation');
+        }
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setVerifyCodeTime(prevTime => Math.max(prevTime - 1, 0));
+            setVerifyButtonTime(prevTime => Math.max(prevTime - 1, 0));
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [verifyCodeTime, verifyButtonTime]);
 
     useEffect(() => {
         return () => {
@@ -110,136 +199,237 @@ export default function Register() {
         };
     }, []);
 
+    useEffect(() => {
+        if (verifyCodeNumber && codeInputRef.current) {
+            codeInputRef.current.reset();
+            codeInputRef.current.focus();
+        }
+    }, [verifyCodeNumber]);
+
+    function handleComplete(responseAddress: Address) {
+        addressRef.current?.setValue(responseAddress.address);
+        postalCodeRef.current?.setValue(responseAddress.zonecode);
+        setData({
+            ...data,
+            ...{ postalCode: responseAddress.zonecode, address: responseAddress.address },
+        });
+        setModalShow(false);
+    }
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
+
     return (
-        <S.Wrapper>
-            <Header label="회원가입" maxWidth="435px" />
-            <Head title="Register" />
-            <S.InnerWrapper>
-                <S.Form onSubmit={submit}>
-                    <div>
-                        <LabelTextInput
-                            type="email"
-                            id="email"
-                            placeholder="이메일 ('@' 이후까지 입력해 주세요.)"
-                            isFocused
-                            label="이메일"
-                            isRequired
-                            onChange={handleChangeInputData}
-                        />
-                    </div>
-                    <div>
-                        <LabelTextInput
-                            type="password"
-                            id="password"
-                            placeholder="비밀번호를 입력해주세요."
-                            label="비밀번호"
-                            isRequired
-                            error={errors.password}
-                            onChange={handleChangeInputData}
-                        />
-                    </div>
-                    <div>
-                        <LabelTextInput
-                            type="password"
-                            id="password_confirmation"
-                            placeholder="비밀번호를 다시 입력해주세요."
-                            label="비밀번호 확인"
-                            isRequired
-                            error={errors.password_confirmation}
-                            onChange={handleChangeInputData}
-                        />
-                    </div>
-                    <S.RowBox>
-                        <S.InputButtonBox isLabel>
+        <>
+            <S.Wrapper>
+                <Header label="회원가입" maxWidth="435px" />
+                <Head title="Register" />
+                <S.InnerWrapper>
+                    <S.Form onSubmit={submit}>
+                        <div>
                             <LabelTextInput
-                                type="tel"
-                                id="phone"
-                                placeholder="(-) 제외한 숫자만 입력해주세요."
-                                label="휴대폰번호"
+                                type="email"
+                                id="email"
+                                placeholder="이메일 ('@' 이후까지 입력해 주세요.)"
+                                isFocused
+                                label="이메일"
                                 isRequired
+                                error={errors.email}
                                 onChange={handleChangeInputData}
-                                error={errors.phone}
                             />
-                            <SecondaryButton
-                                type="button"
-                                label={verifyCode ? '재발송' : '인증번호발송'}
-                                onClick={onSendSms}
-                                disabled={!data.phone}
+                        </div>
+                        <div>
+                            <LabelTextInput
+                                type="password"
+                                id="password"
+                                placeholder="특수문자, 숫자 포함 8자리 이상"
+                                label="비밀번호"
+                                isRequired
+                                error={errors.password}
+                                onChange={handleChangeInputData}
+                                onBlur={handlePasswordConfirmed}
                             />
-                        </S.InputButtonBox>
-                        {verifyCode && (
-                            <S.InputButtonBox>
-                                <TextInput
-                                    ref={smsInputRef}
-                                    type="number"
-                                    id="phone_auth"
-                                    placeholder="인증번호 6자리를 입력해 주세요."
+                        </div>
+                        <div>
+                            <LabelTextInput
+                                type="password"
+                                id="password_confirmation"
+                                placeholder="비밀번호를 다시 입력해주세요."
+                                label="비밀번호 확인"
+                                isRequired
+                                error={errors.password_confirmation}
+                                onChange={handleChangeInputData}
+                                onBlur={handlePasswordConfirmed}
+                            />
+                        </div>
+                        <div>
+                            <LabelTextInput
+                                type="text"
+                                id="name"
+                                placeholder="이름을 입력해주세요."
+                                onChange={handleChangeInputData}
+                                label="이름"
+                                isRequired
+                                error={errors.name}
+                            />
+                        </div>
+                        <S.RowBox>
+                            <S.InputButtonBox isLabel>
+                                <LabelTextInput
+                                    type="tel"
+                                    id="phone"
+                                    placeholder="(-) 제외한 숫자만 입력해주세요."
+                                    label="휴대폰번호"
+                                    isRequired
                                     onChange={handleChangeInputData}
-                                    error={errors.phone_auth}
+                                    error={errors.phone}
+                                    readOnly={isVerifySuccess}
                                 />
-                                <PrimaryButton
-                                    label="인증번호 확인"
-                                    onClick={onVerifySms}
-                                    disabled={!data.phone_auth}
+                                <SecondaryButton
+                                    type="button"
+                                    label={
+                                        isVerifySuccess
+                                            ? '인증완료'
+                                            : verifyCodeNumber
+                                            ? verifyButtonTime !== 0
+                                                ? formatSeconds(verifyButtonTime)
+                                                : '재발송'
+                                            : '인증번호발송'
+                                    }
+                                    onClick={onSendSms}
+                                    disabled={
+                                        !data.phone ||
+                                        isVerifySuccess ||
+                                        (!isVerifySuccess && verifyButtonTime !== 0)
+                                    }
                                 />
                             </S.InputButtonBox>
-                        )}
-                    </S.RowBox>
-                    <div>
-                        <LabelTextInput
-                            type="number"
-                            id="employees"
-                            placeholder="임직원수를 입력해주세요."
-                            label="임직원수"
-                            isRequired
-                        />
-                    </div>
-                    <S.RowBox>
-                        <S.InputButtonBox isLabel>
+                            {verifyCodeNumber && (
+                                <S.CodeInputBox>
+                                    {isVerifySuccess ? (
+                                        <S.SuccessText>인증이 완료되었습니다.</S.SuccessText>
+                                    ) : (
+                                        <>
+                                            <S.InputButtonBox>
+                                                <TextInput
+                                                    ref={codeInputRef}
+                                                    type="number"
+                                                    id="phoneAuth"
+                                                    placeholder="인증번호 6자리를 입력해 주세요."
+                                                    onChange={handleChangeInputData}
+                                                    error={errors.phoneAuth}
+                                                />
+                                                <PrimaryButton
+                                                    label="인증번호 확인"
+                                                    onClick={onVerifySms}
+                                                    disabled={!data.phoneAuth}
+                                                />
+                                            </S.InputButtonBox>
+                                            <div className="code_time">
+                                                {formatMinutes(verifyCodeTime)}
+                                            </div>
+                                        </>
+                                    )}
+                                </S.CodeInputBox>
+                            )}
+                        </S.RowBox>
+                        <div>
                             <LabelTextInput
                                 type="text"
-                                id="address"
-                                placeholder="도로명 주소"
-                                label="주소"
+                                id="companiesName"
+                                placeholder="기업명을 입력해주세요."
+                                label="기업명"
+                                onChange={handleChangeInputData}
                                 isRequired
-                                readOnly
+                                error={errors.companiesName}
                             />
-                            <TertiaryButton label="주소검색" />
-                        </S.InputButtonBox>
-                        <S.InputAddressBox>
-                            <TextInput
-                                type="text"
-                                id="postal_code"
-                                placeholder="우편번호"
-                                readOnly
+                        </div>
+                        <div>
+                            <LabelTextInput
+                                type="number"
+                                id="employees"
+                                placeholder="임직원수를 입력해주세요."
+                                label="임직원수"
+                                onChange={handleChangeInputData}
+                                isRequired
+                                error={errors.employees}
                             />
-                            <TextInput
-                                type="text"
-                                id="address_detail"
-                                placeholder="상세주소를 입력해 주세요."
+                        </div>
+                        <S.RowBox isError={!!errors.address}>
+                            <S.InputButtonBox isLabel>
+                                <LabelTextInput
+                                    ref={addressRef}
+                                    type="text"
+                                    id="address"
+                                    placeholder="도로명 주소"
+                                    label="주소"
+                                    isRequired
+                                    readOnly
+                                />
+                                <TertiaryButton
+                                    label="주소검색"
+                                    onClick={() => setModalShow(true)}
+                                />
+                            </S.InputButtonBox>
+                            <S.InputAddressBox>
+                                <TextInput
+                                    type="text"
+                                    id="postalCode"
+                                    placeholder="우편번호"
+                                    ref={postalCodeRef}
+                                    readOnly
+                                />
+                                <TextInput
+                                    type="text"
+                                    id="addressDetail"
+                                    placeholder="상세주소를 입력해 주세요."
+                                    onChange={handleChangeInputData}
+                                />
+                            </S.InputAddressBox>
+
+                            {errors.address && <S.Error>{errors.address}</S.Error>}
+                        </S.RowBox>
+                        <div>
+                            <LabelFileInput
+                                id="businessLicense"
+                                label="사업자등록증"
+                                placeholder="사업자등록증을 첨부해 주세요."
+                                onChange={file => {
+                                    setData('businessLicense', file);
+                                }}
+                                error={errors.businessLicense}
+                                isRequired
                             />
-                        </S.InputAddressBox>
-                    </S.RowBox>
-                    <div>
-                        <LabelFileInput
-                            label="사업자등록증"
-                            placeholder="사업자등록증을 첨부해 주세요."
-                            isRequired
-                        />
-                    </div>
-                    <S.Divider />
-                    <S.PrivacyList>
-                        <PrivacyCheckItem id="agreement">이용약관 동의(필수)</PrivacyCheckItem>
-                        <PrivacyCheckItem id="privacy">
-                            개인정보 수집 및 이용 동의(필수)
-                        </PrivacyCheckItem>
-                        <PrivacyCheckItem id="marketing">마케팅 활용동의(선택)</PrivacyCheckItem>
-                    </S.PrivacyList>
-                    <div className="pt-[10px]">
-                        <PrimaryButton type="submit" label="가입신청하기" />
-                    </div>
-                </S.Form>
-            </S.InnerWrapper>
-        </S.Wrapper>
+                        </div>
+                        <S.Divider />
+                        <S.PrivacyList>
+                            <PrivacyCheckItem id="agreement">이용약관 동의(필수)</PrivacyCheckItem>
+                            <PrivacyCheckItem id="privacy">
+                                개인정보 수집 및 이용 동의(필수)
+                            </PrivacyCheckItem>
+                            <PrivacyCheckItem id="marketing">
+                                마케팅 활용동의(선택)
+                            </PrivacyCheckItem>
+                        </S.PrivacyList>
+                        <div className="pt-[10px]">
+                            <PrimaryButton type="submit" label="가입신청하기" />
+                        </div>
+                    </S.Form>
+                </S.InnerWrapper>
+            </S.Wrapper>
+            {modalShow && (
+                <S.AddressModal>
+                    <S.AddressModalHeader>
+                        <h2>주소검색</h2>
+                    </S.AddressModalHeader>
+                    <DaumPostcode
+                        className="PostModal"
+                        onComplete={handleComplete}
+                        style={{ height: 'calc(100% - 70px)' }}
+                    />
+                </S.AddressModal>
+            )}
+        </>
     );
 }

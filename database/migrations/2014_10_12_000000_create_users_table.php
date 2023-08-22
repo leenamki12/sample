@@ -10,11 +10,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id()->comment('사용자 ID');
-            $table->string('name')->comment('사용자 이름');
             $table->string('email')->unique()->comment('사용자 이메일');
-            $table->string('phone', 16)->unique()->comment('사용자 이메일');
-            $table->timestamp('email_verified_at')->nullable()->comment('이메일 확인 시간');
+            $table->string('name', 20)->comment('사용자 이름');
+            $table->string('phone', 16)->unique()->comment('사용자 연락처');
             $table->string('password')->comment('사용자 비밀번호');
+            $table->timestamp('email_verified_at')->nullable()->comment('이메일 확인 시간');
             $table->rememberToken()->comment('사용자 저장 토큰');
             $table->timestamps();
         });

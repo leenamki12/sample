@@ -10,11 +10,18 @@ import {
 
 import * as S from './TextInput.styled';
 
+export type InputRefProps = {
+    focus: () => void;
+    reset: () => void;
+    setValue: (value: string) => void;
+};
+
 type Props = {
     isFocused?: boolean;
     isEnterDisabled?: boolean;
     icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     onChange?: (id: string, value: string) => void;
+    onBlur?: () => void;
     error?: string;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & { isFocused?: boolean };
 
@@ -28,6 +35,7 @@ type Props = {
 export default forwardRef(function TextInput(
     {
         onChange,
+        onBlur,
         defaultValue,
         isEnterDisabled = false,
         isFocused = false,
@@ -45,19 +53,39 @@ export default forwardRef(function TextInput(
 
     useImperativeHandle(ref, () => ({
         focus: () => localRef.current?.focus(),
+        reset: () => {
+            if (localRef.current) localRef.current.value = '';
+        },
+        setValue: (value: string) => {
+            if (localRef.current) {
+                localRef.current.value = value;
+                if (id) {
+                    onChange?.(id, value);
+                }
+                setIsEnter(true);
+            }
+        },
     }));
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (id) {
+            onChange?.(id, event.target.value);
+        }
+
+        if (!isEnterDisabled) {
+            setIsEnter(event.target.value !== '');
+        }
+    };
+
+    const handleBlur = () => {
+        onBlur?.();
+        setIsFocus(false);
+    };
 
     useEffect(() => {
         if (isFocused) {
             localRef.current?.focus();
         }
     }, []);
-
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (id) onChange?.(id, event.target.value);
-
-        if (!isEnterDisabled) setIsEnter(event.target.value !== '');
-    };
 
     return (
         <div>
@@ -73,7 +101,7 @@ export default forwardRef(function TextInput(
                     isEnter={isEnter}
                     hasIcon={!!Icon}
                     onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
+                    onBlur={handleBlur}
                     isError={!!error}
                 />
             </S.Wrapper>

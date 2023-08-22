@@ -27,12 +27,18 @@ export const Input = styled.input<Props>`
 
 type ThempProps = {
     isFileSelected: boolean;
+    isEnter: boolean;
+    isError: boolean;
 };
 
 export const Themp = styled.div<ThempProps>`
     ${tw`p-[19px 52px 19px 15px] h-[60px] w-full truncate rounded border border-secondary text-base`}
 
     ${({ isFileSelected }) => !isFileSelected && tw`text-[#ccc]`};
+
+    ${({ isEnter }) => isEnter && tw`border-2 border-primary`};
+
+    ${({ isError }) => isError && tw`border-2 border-red-500`};
 `;
 
 export const Error = styled.div`

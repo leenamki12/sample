@@ -27,19 +27,25 @@ export default function FileInput({
     placeholder,
     ...props
 }: Props) {
+    const [isEnter, setIsEnter] = useState<boolean>(false);
+    const [isFocus, setIsFocus] = useState<boolean>(false);
     const [selectedFile, setSelectedFile] = useState<File>();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) {
             return;
         }
+
+        if (!isEnterDisabled) {
+            setIsEnter(event.target.value !== '');
+        }
         onChange?.(event.target.files[0]);
         setSelectedFile(event.target.files[0]);
     };
 
     return (
-        <label htmlFor={id} className="relative ">
-            <S.Themp isFileSelected={!!selectedFile}>
+        <label htmlFor={id} className="relative">
+            <S.Themp isFileSelected={!!selectedFile} isEnter={isEnter || isFocus} isError={!!error}>
                 {selectedFile?.name || placeholder}
                 <S.Icon>
                     <FileIcon className="h-[22px] w-[22px]" />
@@ -52,6 +58,7 @@ export default function FileInput({
                     id={id}
                     defaultValue={defaultValue}
                     className={className}
+                    onBlur={() => setIsFocus(false)}
                     onChange={handleChange}
                     isError={!!error}
                     type="file"
