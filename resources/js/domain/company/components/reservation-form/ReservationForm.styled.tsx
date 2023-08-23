@@ -5,19 +5,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const ContentsBox = styled.div`
-    ${tw`relative mt-6 flex-1 overflow-y-auto px-[30px]`}
-
-    &::-webkit-scrollbar-thumb {
-        ${tw`rounded-sm bg-gray-400 bg-clip-padding opacity-50`}
-    }
-
-    &::-webkit-scrollbar {
-        ${tw`w-[10px]`}
-    }
-
-    &::-webkit-scrollbar-track-piece {
-        ${tw` bg-gray-200`}
-    }
+    ${tw`scrollbar relative mt-6 max-h-[700px] flex-1 px-[30px]`}
 
     & input,
     & input::placeholder {

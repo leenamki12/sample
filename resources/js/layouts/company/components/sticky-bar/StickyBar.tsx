@@ -12,7 +12,7 @@ function StickyBar() {
         {
             title: '홈',
             icon: IconHome,
-            href: 'company',
+            href: '/',
         },
         {
             title: '서비스소개',

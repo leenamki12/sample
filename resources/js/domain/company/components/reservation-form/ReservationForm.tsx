@@ -3,8 +3,13 @@ import { FormEventHandler, useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 
-import Modal from '@/components/inertia/Modal';
-import { LabelTextInput, PrimaryButton, PrivacyCheckItem, PrivacyModal } from '@/components/ui';
+import {
+    BasicModal,
+    InnerPrivacyModal,
+    LabelTextInput,
+    PrimaryButton,
+    PrivacyCheckItem,
+} from '@/components/ui';
 import BaseButton from '@/components/ui/buttons/BaseButton';
 
 import * as S from './ReservationForm.styled';
@@ -36,6 +41,8 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
         name: '',
         phone: '',
     });
+
+    console.log(data);
 
     const handleSubmit: FormEventHandler = e => {
         e.preventDefault();
@@ -147,12 +154,12 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                         >
                             개인정보수집 및 활용동의 (필수)
                         </PrivacyCheckItem>
-                        <Modal
+                        <BasicModal
                             show={showPrivacyModal}
                             onClose={handleClosePrivacyModal}
                             maxWidth="md"
                         >
-                            <PrivacyModal
+                            <InnerPrivacyModal
                                 title="개인정보수집 및 활용동의 안내"
                                 close={handleClosePrivacyModal}
                             >
@@ -217,8 +224,8 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                                 개인정보수집 및 활용동의 내용내용
                                 <br />
                                 개인정보수집 및 활용동의 내용내용
-                            </PrivacyModal>
-                        </Modal>
+                            </InnerPrivacyModal>
+                        </BasicModal>
                     </div>
                     <div className="flex space-x-[10px]">
                         <BaseButton className="!text-lg" onClick={onClose}>

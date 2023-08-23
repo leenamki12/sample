@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
-import * as S from './PrivacyModal.styled';
+import * as S from './InnerPrivacyModal.styled';
 
 type Props = {
     title: string;
@@ -10,7 +10,7 @@ type Props = {
     close: () => void;
 };
 
-function PrivacyModal({ title, children, close }: Props) {
+export default function InnerPrivacyModal({ title, children, close }: Props) {
     return (
         <>
             <S.TitleBox>
@@ -26,5 +26,3 @@ function PrivacyModal({ title, children, close }: Props) {
         </>
     );
 }
-
-export default PrivacyModal;

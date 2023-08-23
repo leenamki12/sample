@@ -1,5 +1,6 @@
 import forms from '@tailwindcss/forms';
 import defaultTheme from 'tailwindcss/defaultTheme';
+import plugin from 'tailwindcss/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -43,6 +44,26 @@ export default {
             },
         },
     },
-
-    plugins: [forms],
+    plugins: [
+        forms,
+        plugin(({ addBase, theme }) => {
+            addBase({
+                '.scrollbar': {
+                    overflowY: 'auto',
+                },
+                '.scrollbar::-webkit-scrollbar': {
+                    width: '8px',
+                },
+                '.scrollbar::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#aaa',
+                    borderRadius: '5px',
+                    backgroundClip: 'padding-box',
+                },
+                '.scrollbar::-webkit-scrollbar-track-piece': {
+                    backgroundColor: theme('colors.secondary'),
+                    borderRadius: '5px',
+                },
+            });
+        }),
+    ],
 };

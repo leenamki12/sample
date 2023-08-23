@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import SlideOvers from '@/components/inertia/SlideOvers';
-import { BorderButton, PrimaryButton } from '@/components/ui';
+import { BorderButton, PrimaryButton, SlideModal } from '@/components/ui';
 
 import { HospitalItem } from '../../datas';
 import Reservation from '../reservation-form/ReservationForm';
@@ -28,9 +27,9 @@ function DetailSticky({ id }: Pick<HospitalItem, 'id'>) {
                     className="!h-[50px] !w-1/2 !text-lg"
                 ></PrimaryButton>
             </S.Box>
-            <SlideOvers show={open} onClose={setOpen} maxWidth="435px" closeable={false}>
+            <SlideModal show={open} onClose={setOpen} maxWidth="435px" closeable={false}>
                 <Reservation setOpen={setOpen} hospitalId={id} />
-            </SlideOvers>
+            </SlideModal>
         </S.Container>
     );
 }
