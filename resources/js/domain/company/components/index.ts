@@ -8,4 +8,4 @@ export { default as OtherPartnerList } from './other-partner-list/OtherPartnerLi
 export { default as DetailSticky } from './detail-sticky/DetailSticky';
 
 /* reservation */
-export { default as Reservation } from './reservation-form/ReservationForm';
+export { default as ReservationForm } from './reservation-form/ReservationForm';

@@ -49,7 +49,7 @@ Route::middleware(['auth', 'role:company'])
             return Inertia::render('company/pages/hospital-detail/HospitalDetail', compact('id'));
         })->name('company.detail');
 
-        Route::post('/detail/{id}', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
 })->name('company');
 
 Route::middleware(['auth', 'role:hospital'])

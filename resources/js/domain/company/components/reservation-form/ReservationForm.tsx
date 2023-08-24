@@ -2,9 +2,15 @@ import { FormEventHandler, useEffect, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
+import dayjs from 'dayjs';
 
-import Modal from '@/components/inertia/Modal';
-import { LabelTextInput, PrimaryButton, PrivacyCheckItem, PrivacyModal } from '@/components/ui';
+import {
+    BasicModal,
+    InnerPrivacyModal,
+    LabelTextInput,
+    PrimaryButton,
+    PrivacyCheckItem,
+} from '@/components/ui';
 import BaseButton from '@/components/ui/buttons/BaseButton';
 
 import * as S from './ReservationForm.styled';
@@ -12,6 +18,7 @@ import * as S from './ReservationForm.styled';
 type ModalProps = {
     setOpen: (open: boolean) => void;
     hospitalId: number;
+    userName: string;
 };
 
 type Props = {
@@ -24,7 +31,7 @@ type Props = {
 
 type FormKey = 'hospital_id' | 'reservation_date' | 'company_name' | 'name' | 'phone';
 
-function Reservation({ setOpen, hospitalId }: ModalProps) {
+function ReservationForm({ setOpen, hospitalId, userName }: ModalProps) {
     const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
     const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
     const [privacyCheckedError, setPrivacyCheckedError] = useState<string>('');
@@ -32,7 +39,7 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
     const { data, setData, post, errors } = useForm<Props>({
         hospital_id: hospitalId,
         reservation_date: '',
-        company_name: '',
+        company_name: userName,
         name: '',
         phone: '',
     });
@@ -97,6 +104,7 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                             value={data.reservation_date}
                             onChange={handleChangeInputData}
                             error={errors.reservation_date}
+                            min={dayjs().format('YYYY-MM-DD')}
                         />
                     </div>
                     <div>
@@ -108,6 +116,7 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                             value={data.company_name}
                             onChange={handleChangeInputData}
                             error={errors.company_name}
+                            readOnly
                         />
                     </div>
                     <div>
@@ -147,12 +156,12 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                         >
                             개인정보수집 및 활용동의 (필수)
                         </PrivacyCheckItem>
-                        <Modal
+                        <BasicModal
                             show={showPrivacyModal}
                             onClose={handleClosePrivacyModal}
                             maxWidth="md"
                         >
-                            <PrivacyModal
+                            <InnerPrivacyModal
                                 title="개인정보수집 및 활용동의 안내"
                                 close={handleClosePrivacyModal}
                             >
@@ -217,8 +226,8 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                                 개인정보수집 및 활용동의 내용내용
                                 <br />
                                 개인정보수집 및 활용동의 내용내용
-                            </PrivacyModal>
-                        </Modal>
+                            </InnerPrivacyModal>
+                        </BasicModal>
                     </div>
                     <div className="flex space-x-[10px]">
                         <BaseButton className="!text-lg" onClick={onClose}>
@@ -232,4 +241,4 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
     );
 }
 
-export default Reservation;
+export default ReservationForm;

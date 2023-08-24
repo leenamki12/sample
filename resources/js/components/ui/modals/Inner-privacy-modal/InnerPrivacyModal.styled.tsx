@@ -13,5 +13,5 @@ export const Close = styled.div`
 `;
 
 export const TextBox = styled.div`
-    ${tw`max-h-[400px] overflow-y-auto p-[30px] text-base`}
+    ${tw`scrollbar max-h-[400px] overflow-y-auto p-[30px] text-base`}
 `;

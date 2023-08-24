@@ -21,5 +21,8 @@ export { default as Badge } from './badges/Badge';
 //privacy checkbox
 export { default as PrivacyCheckItem } from './privacy-check-item/PrivacyCheckItem';
 
-//privacy modal
-export { default as PrivacyModal } from './modals/PrivacyModal';
+//Modals
+export { default as BasicModal } from './modals/basic-modal/BasicModal';
+export type { BasicModalProps } from './modals/basic-modal/BasicModal';
+export { default as InnerPrivacyModal } from './modals/Inner-privacy-modal/InnerPrivacyModal';
+export { default as SlideModal } from './modals/slide-modal/SlideModal';
