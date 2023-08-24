@@ -32,7 +32,7 @@ type ThempProps = {
 };
 
 export const Themp = styled.div<ThempProps>`
-    ${tw`p-[19px 52px 19px 15px] h-[60px] w-full truncate rounded border border-secondary text-base`}
+    ${tw`p-[19px 52px 19px 15px] relative h-[60px] w-full truncate rounded border border-secondary text-base font-medium leading-[20px]`}
 
     ${({ isFileSelected }) => !isFileSelected && tw`text-[#ccc]`};
 

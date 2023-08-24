@@ -6,14 +6,12 @@ use App\Domains\Company\Company;
 use App\Domains\Company\CompanyDetail;
 use App\Domains\User\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -32,51 +30,37 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)//: RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'email'           => 'required|string|email|max:255|unique:'.User::class,
-            'password'        => ['required', 'confirmed', Password::min(8)->numbers()->symbols()],
-            'name'            => 'required|string|max:20',
-            'phone'           => 'required|string|max:16',
-            'companiesName'   => 'required|string|max:100',
-            'employees'       => 'required|min:1',
-            'address'         => 'required|string|max:100',
-            'postalCode'      => 'string|max:5',
-            'addressDetail'   => 'max:100',
-            'businessLicense' => 'required|image|mimes:jpeg,png|max:2048',
-        ]);
 
         $user = User::create([
-            'email'     => $validatedData['email'],
-            'password'  => Hash::make($validatedData['password']),
-            'name'      => $validatedData['name'],
-            'phone'     => $validatedData['phone'],
+            'email'             => $request->email,
+            'password'          => Hash::make($request->password),
+            'name'              => $request->name,
+            'phone'             => $request->phone,
+            'marketing_consent' => $request->marketingConsent,
         ])->assignRole('company');
 
         $companyDetail = CompanyDetail::create([
-            'name'             => $validatedData['companiesName'],
-            'address'          => $validatedData['address'],
-            'address_detail'   => $validatedData['addressDetail'],
-            'postal_code'      => $validatedData['postalCode'],
-            'employees'        => $validatedData['employees'],
-            'business_license' => $validatedData['businessLicense']->store('images/businessLicense', 'public')
+            'name'             => $request->companiesName,
+            'address'          => $request->address,
+            'address_detail'   => $request->addressDetail,
+            'postal_code'      => $request->postalCode,
+            'employees'        => $request->employees,
+            'business_license' => $request->businessLicense->store('images/businessLicense', 'public')
         ]);
 
-        $company = Company::create([
+        Company::create([
             'user_id'         => $user->id,
             'detail_id'       => $companyDetail->id,
             'approval_status' => 'waiting',
             'auth_code'       => '123456',
         ]);
 
-        log::debug($user);
-        log::debug($company);
+        event(new Registered($user));
 
-        // event(new Registered($user));
+        Auth::login($user);
 
-        // Auth::login($user);
-
-        // return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME);
     }
 }

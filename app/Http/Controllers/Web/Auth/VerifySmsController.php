@@ -4,19 +4,26 @@ namespace App\Http\Controllers\Web\Auth;
 
 use App\Domains\Auth\UserVerifys;
 use App\Domains\Auth\UserVerifysService;
+use App\Domains\User\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\VerifyPhoneRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class VerifySmsController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
+    }
 
     public function check(Request $request)
     {
-        $verifyChecked = UserVerifysService::verifyChecked($request);
+        $isVerifyChecked = UserVerifysService::verifyValid($request);
 
         return redirect()->back()->with([
-            'userVerifyStatus' => !$verifyChecked ? 'success' : 'fail',
+            'userVerifyStatus' => !$isVerifyChecked ? 'success' : 'fail',
             'userVerifyCode' => (string) $request->code
         ]);
 
@@ -25,6 +32,15 @@ class VerifySmsController extends Controller
 
     public function store(VerifyPhoneRequest $request)
     {
+
+        //휴대폰번호 중복체크
+        $isPhoneValid = $this->userService->userPhoneDuplicateValid($request->phone);
+
+        if(!$isPhoneValid){
+            throw ValidationException::withMessages([
+                'phone' => __('해당 휴대폰번호는 이미 사용 중입니다.'),
+            ]);
+        }
 
         $userVerifys = new UserVerifys();
         $randomNumber = random_int(100000, 999999);

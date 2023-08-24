@@ -13,6 +13,7 @@ import {
     InputRefProps,
 } from '@/components/ui';
 import Header from '@/layouts/Header';
+import { ReactComponent as HistoryBack } from '@assets/common/icon_historyback_arrow.svg';
 
 import * as S from './styles/Register.styled';
 import { PrivacyCheckItem } from '../components';
@@ -31,6 +32,7 @@ type FormProps = {
     postalCode: string;
     addressDetail: string;
     businessLicense: File | null;
+    marketingConsent: boolean;
 };
 
 type FormKey =
@@ -45,7 +47,8 @@ type FormKey =
     | 'address'
     | 'postalCode'
     | 'addressDetail'
-    | 'businessLicense';
+    | 'businessLicense'
+    | 'marketingConsent';
 
 export default function Register() {
     const { data, setData, reset, errors, setError, post, clearErrors, hasErrors } =
@@ -62,21 +65,31 @@ export default function Register() {
             postalCode: '',
             addressDetail: '',
             businessLicense: null,
+            marketingConsent: false,
         });
 
-    const [verifyCodeNumber, setVerifyCodeNumber] = useState('');
-    const [isVerifySuccess, setIsVerifySuccess] = useState(false);
-    const [verifyCodeTime, setVerifyCodeTime] = useState(0);
-    const [verifyButtonTime, setVerifyButtonTime] = useState(0);
-    const [modalShow, setModalShow] = useState(false);
+    const [verifyCodeNumber, setVerifyCodeNumber] = useState(''); //인증번호
+    const [isVerifySuccess, setIsVerifySuccess] = useState(false); //인증번호 확인 여부
+    const [verifyCodeTime, setVerifyCodeTime] = useState(0); //인증번호 유효시간
+    const [verifyButtonTime, setVerifyButtonTime] = useState(0); //재발송 쿨타임
+    const [isEmailVaild, setIsEmailVaild] = useState(false);
+
+    const [isAgreementSelected, setIsAgreementSelected] = useState(false);
+    const [isPrivacySelected, setIsPrivacySelected] = useState(false);
+
+    const [addressModalShow, setAddressModalShow] = useState(false);
 
     const codeInputRef = useRef<InputRefProps>(null);
-    const addressRef = useRef<InputRefProps>(null);
-    const postalCodeRef = useRef<InputRefProps>(null);
+    const addressInputRef = useRef<InputRefProps>(null);
+    const postalCodeInputRef = useRef<InputRefProps>(null);
 
     const handleChangeInputData = (id: string, value: string) => {
         setData(id as FormKey, value);
         clearErrors(id as FormKey);
+
+        if (id === 'email') {
+            setIsEmailVaild(false);
+        }
     };
 
     const submit: FormEventHandler = e => {
@@ -85,6 +98,15 @@ export default function Register() {
         if (!isVerifySuccess) {
             setError('phone', '휴대폰 인증을 진행해주세요.');
             alert('휴대폰 인증을 진행해주세요.');
+            return;
+        }
+
+        if (!isAgreementSelected) {
+            alert('이용약관 동의를 체크해주세요.');
+            return;
+        }
+        if (!isPrivacySelected) {
+            alert('개인정보 수집 및 이용 동의를 체크해주세요.');
             return;
         }
 
@@ -135,8 +157,8 @@ export default function Register() {
                     preserveState: true,
                     replace: false,
                     preserveScroll: true,
-                    onSuccess: e => {
-                        const responseData = e.props.userVerifys as UserVerifys;
+                    onSuccess: response => {
+                        const responseData = response.props.userVerifys as UserVerifys;
                         if (!responseData.status) {
                             return;
                         }
@@ -148,13 +170,43 @@ export default function Register() {
                         }
                         clearErrors('phoneAuth');
                     },
-                    onError: e => {
-                        if (e.phone) setError('phone', e.phone);
-                        if (e.phone_auth) setError('phoneAuth', e.phone_auth);
+                    onError: error => {
+                        if (error.phone) setError('phone', error.phone);
+                        if (error.phone_auth) setError('phoneAuth', error.phone_auth);
                     },
                 }
             );
         }
+    };
+
+    const onEmailVaild = () => {
+        if (data.email === '') {
+            return;
+        }
+
+        if (isEmailVaild) {
+            return;
+        }
+
+        router.get(
+            route('email-check'),
+            {
+                email: data.email,
+            },
+            {
+                preserveState: true,
+                replace: false,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setIsEmailVaild(true);
+                    clearErrors('email');
+                },
+                onError: error => {
+                    setIsEmailVaild(false);
+                    if (error.email) setError('email', error.email);
+                },
+            }
+        );
     };
 
     const formatSeconds = (timeInSeconds: number) => {
@@ -182,6 +234,20 @@ export default function Register() {
         }
     };
 
+    function handleAddressComplete(responseAddress: Address) {
+        addressInputRef.current?.setValue(responseAddress.address);
+        postalCodeInputRef.current?.setValue(responseAddress.zonecode);
+        setData({
+            ...data,
+            ...{ postalCode: responseAddress.zonecode, address: responseAddress.address },
+        });
+        setAddressModalShow(false);
+
+        if (errors.address) {
+            clearErrors('address');
+        }
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             setVerifyCodeTime(prevTime => Math.max(prevTime - 1, 0));
@@ -206,20 +272,6 @@ export default function Register() {
         }
     }, [verifyCodeNumber]);
 
-    function handleComplete(responseAddress: Address) {
-        addressRef.current?.setValue(responseAddress.address);
-        postalCodeRef.current?.setValue(responseAddress.zonecode);
-        setData({
-            ...data,
-            ...{ postalCode: responseAddress.zonecode, address: responseAddress.address },
-        });
-        setModalShow(false);
-    }
-
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
     return (
         <>
             <S.Wrapper>
@@ -237,13 +289,14 @@ export default function Register() {
                                 isRequired
                                 error={errors.email}
                                 onChange={handleChangeInputData}
+                                onBlur={onEmailVaild}
                             />
                         </div>
                         <div>
                             <LabelTextInput
                                 type="password"
                                 id="password"
-                                placeholder="특수문자, 숫자 포함 8자리 이상"
+                                placeholder="영문, 숫자, 특수문자 포함 8자리 이상"
                                 label="비밀번호"
                                 isRequired
                                 error={errors.password}
@@ -359,7 +412,7 @@ export default function Register() {
                         <S.RowBox isError={!!errors.address}>
                             <S.InputButtonBox isLabel>
                                 <LabelTextInput
-                                    ref={addressRef}
+                                    ref={addressInputRef}
                                     type="text"
                                     id="address"
                                     placeholder="도로명 주소"
@@ -369,7 +422,7 @@ export default function Register() {
                                 />
                                 <TertiaryButton
                                     label="주소검색"
-                                    onClick={() => setModalShow(true)}
+                                    onClick={() => setAddressModalShow(true)}
                                 />
                             </S.InputButtonBox>
                             <S.InputAddressBox>
@@ -377,7 +430,7 @@ export default function Register() {
                                     type="text"
                                     id="postalCode"
                                     placeholder="우편번호"
-                                    ref={postalCodeRef}
+                                    ref={postalCodeInputRef}
                                     readOnly
                                 />
                                 <TextInput
@@ -396,6 +449,9 @@ export default function Register() {
                                 label="사업자등록증"
                                 placeholder="사업자등록증을 첨부해 주세요."
                                 onChange={file => {
+                                    if (errors.businessLicense) {
+                                        clearErrors('businessLicense');
+                                    }
                                     setData('businessLicense', file);
                                 }}
                                 error={errors.businessLicense}
@@ -404,11 +460,28 @@ export default function Register() {
                         </div>
                         <S.Divider />
                         <S.PrivacyList>
-                            <PrivacyCheckItem id="agreement">이용약관 동의(필수)</PrivacyCheckItem>
-                            <PrivacyCheckItem id="privacy">
+                            <PrivacyCheckItem
+                                id="agreement"
+                                onChangeChecked={event =>
+                                    setIsAgreementSelected(event.target.checked)
+                                }
+                            >
+                                이용약관 동의(필수)
+                            </PrivacyCheckItem>
+                            <PrivacyCheckItem
+                                id="privacy"
+                                onChangeChecked={event =>
+                                    setIsPrivacySelected(event.target.checked)
+                                }
+                            >
                                 개인정보 수집 및 이용 동의(필수)
                             </PrivacyCheckItem>
-                            <PrivacyCheckItem id="marketing">
+                            <PrivacyCheckItem
+                                id="marketingConsent"
+                                onChangeChecked={event =>
+                                    setData('marketingConsent', event.target.checked)
+                                }
+                            >
                                 마케팅 활용동의(선택)
                             </PrivacyCheckItem>
                         </S.PrivacyList>
@@ -418,14 +491,17 @@ export default function Register() {
                     </S.Form>
                 </S.InnerWrapper>
             </S.Wrapper>
-            {modalShow && (
+            {addressModalShow && (
                 <S.AddressModal>
                     <S.AddressModalHeader>
+                        <button type="button" onClick={() => setAddressModalShow(false)}>
+                            <HistoryBack />
+                        </button>
                         <h2>주소검색</h2>
                     </S.AddressModalHeader>
                     <DaumPostcode
                         className="PostModal"
-                        onComplete={handleComplete}
+                        onComplete={handleAddressComplete}
                         style={{ height: 'calc(100% - 70px)' }}
                     />
                 </S.AddressModal>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Web\Auth\RegisteredUserController;
 use App\Http\Controllers\Web\Auth\VerifyEmailController;
 use App\Http\Controllers\Web\Auth\VerifySmsController;
+use App\Http\Controllers\Web\Auth\RegisterEmailCheck;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -41,6 +42,9 @@ Route::middleware('guest')->group(function () {
 
     Route::post('verify-sms-create', [VerifySmsController::class, 'store'])
                 ->name('verifySms.store');
+
+    Route::get('email-check', RegisterEmailCheck::class)
+                ->name('email-check');
 });
 
 Route::middleware('auth')->group(function () {

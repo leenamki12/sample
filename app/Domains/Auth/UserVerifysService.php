@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 class UserVerifysService
 {
 
-    public static function verifyChecked($request)
+    public static function verifyValid($request)
     {
 
         $verify =  UserVerifys::where('phone', $request->phone)->latest()->first(); //Repository 만들기 (마지막 찾기)

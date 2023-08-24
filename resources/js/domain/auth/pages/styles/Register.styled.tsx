@@ -103,4 +103,12 @@ export const AddressModalHeader = styled.div`
     h2 {
         ${tw`text-xl font-bold`}
     }
+
+    button {
+        ${tw`absolute left-0 top-0 flex h-[70px] w-[90px] items-center justify-center`}
+
+        svg {
+            ${tw`w-[30px] text-xl font-bold`}
+        }
+    }
 `;
