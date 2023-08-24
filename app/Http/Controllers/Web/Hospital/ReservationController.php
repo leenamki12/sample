@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Hospital;
 
-use App\Domains\Hospital\Reservation\Reservation;
+use App\Domains\Hospital\Reservation\ReservationService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Hospital\ReservationRequest;
 use Illuminate\Http\Request;
@@ -12,6 +12,14 @@ use Inertia\Inertia;
 
 class ReservationController extends Controller
 {
+    private $reservationService;
+
+    public function __construct(ReservationService $reservationService)
+    {
+        $this->reservationService = $reservationService;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -24,15 +32,14 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        return Inertia::render('company.detail');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ReservationRequest $reservationRequest)
+    public function store(ReservationRequest $request)
     {
-        $reservation = Reservation::create($reservationRequest->validated());
+        $reservation = $this->reservationService->save($request);
 
         return Redirect::route('company.detail', ['id' => $reservation->hospital_id]);
     }

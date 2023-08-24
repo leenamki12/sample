@@ -2,6 +2,7 @@ import { FormEventHandler, useEffect, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
+import dayjs from 'dayjs';
 
 import {
     BasicModal,
@@ -17,6 +18,7 @@ import * as S from './ReservationForm.styled';
 type ModalProps = {
     setOpen: (open: boolean) => void;
     hospitalId: number;
+    userName: string;
 };
 
 type Props = {
@@ -29,7 +31,7 @@ type Props = {
 
 type FormKey = 'hospital_id' | 'reservation_date' | 'company_name' | 'name' | 'phone';
 
-function Reservation({ setOpen, hospitalId }: ModalProps) {
+function ReservationForm({ setOpen, hospitalId, userName }: ModalProps) {
     const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
     const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
     const [privacyCheckedError, setPrivacyCheckedError] = useState<string>('');
@@ -37,12 +39,10 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
     const { data, setData, post, errors } = useForm<Props>({
         hospital_id: hospitalId,
         reservation_date: '',
-        company_name: '',
+        company_name: userName,
         name: '',
         phone: '',
     });
-
-    console.log(data);
 
     const handleSubmit: FormEventHandler = e => {
         e.preventDefault();
@@ -104,6 +104,7 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                             value={data.reservation_date}
                             onChange={handleChangeInputData}
                             error={errors.reservation_date}
+                            min={dayjs().format('YYYY-MM-DD')}
                         />
                     </div>
                     <div>
@@ -115,6 +116,7 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
                             value={data.company_name}
                             onChange={handleChangeInputData}
                             error={errors.company_name}
+                            readOnly
                         />
                     </div>
                     <div>
@@ -239,4 +241,4 @@ function Reservation({ setOpen, hospitalId }: ModalProps) {
     );
 }
 
-export default Reservation;
+export default ReservationForm;
