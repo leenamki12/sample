@@ -1,9 +1,9 @@
 import { Autoplay, Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import ImageBanner01 from '@assets/company/home/main-banner01.png';
-import ImageBanner02 from '@assets/company/home/main-banner02.png';
-import ImageBanner03 from '@assets/company/home/main-banner03.png';
+import ImageBanner01 from '@assets/company/home/main_banner01.png';
+import ImageBanner02 from '@assets/company/home/main_banner02.png';
+import ImageBanner03 from '@assets/company/home/main_banner03.png';
 
 // Import Swiper styles
 import 'swiper/css';

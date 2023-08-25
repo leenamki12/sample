@@ -2,7 +2,7 @@ import { Head, usePage } from '@inertiajs/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import IconPartner from '@assets/company/common/icon-partner.svg';
+import IconPartner from '@assets/company/common/icon_partner.svg';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -90,7 +90,31 @@ function HospitalDetail() {
                 </S.TreatmentList>
             </S.ColBox>
             <S.ColBox>
-                <div className="mb-[40px] h-[500px] bg-slate-300">이미지 영역</div>
+                <div className="mb-[40px] ">
+                    {hospitalData?.detailImages ? (
+                        <>
+                            {hospitalData?.detailImages.basic.map((image, key) => (
+                                <div key={key}>
+                                    <img src={image} alt="" />
+                                </div>
+                            ))}
+                            <div className="relative">
+                                <img src={hospitalData?.detailImages.map} alt="" />
+                                <a
+                                    href="#"
+                                    className={`absolute bottom-[10%] left-[8%] z-[2] h-[10%] w-[85%] text-transparent`}
+                                >
+                                    상세보기
+                                </a>
+                            </div>
+                            <div>
+                                <img src={hospitalData?.detailImages.workHour} alt="" />
+                            </div>
+                        </>
+                    ) : (
+                        <div className="h-[500px] bg-slate-300">이미지 준비중</div>
+                    )}
+                </div>
                 <S.SectionTitle>다른 제휴병원 혜택 확인하기</S.SectionTitle>
                 <OtherPartnerList />
             </S.ColBox>

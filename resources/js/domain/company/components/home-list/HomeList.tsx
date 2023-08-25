@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import IconPartner from '@assets/company/common/icon-partner.svg';
+import IconPartner from '@assets/company/common/icon_partner.svg';
 
 import 'swiper/css/pagination';
 import useHospitalData from '../../datas';

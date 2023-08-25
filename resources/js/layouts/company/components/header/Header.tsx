@@ -2,7 +2,7 @@ import { usePage } from '@inertiajs/react';
 
 import useHospitalData from '@/domain/company/datas';
 import Logo from '@assets/common/logo.svg';
-import IconMypage from '@assets/company/common/icon-mypage.svg';
+import IconMypage from '@assets/company/common/icon_mypage.svg';
 
 import * as S from './Header.styled';
 

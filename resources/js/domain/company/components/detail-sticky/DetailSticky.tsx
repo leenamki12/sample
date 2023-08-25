@@ -24,6 +24,7 @@ function DetailSticky({ userName, id }: { userName: string; id: number }) {
                 <PrimaryButton
                     label="전화상담"
                     className="!h-[50px] !w-1/2 !text-lg"
+                    onClick={() => (window.location.href = 'tel:1866-4575')}
                 ></PrimaryButton>
             </S.Box>
             <SlideModal show={open} onClose={setOpen} maxWidth="435px" closeable={false}>

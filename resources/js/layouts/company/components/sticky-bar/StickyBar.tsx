@@ -1,9 +1,7 @@
-import { Link } from '@inertiajs/react';
-
-import IconBusiness from '@assets/company/common/icon-sticky-business.svg';
-import IconHome from '@assets/company/common/icon-sticky-home.svg';
-import IconService from '@assets/company/common/icon-sticky-service.svg';
-import IconTell from '@assets/company/common/icon-sticky-tell.svg';
+import IconBusiness from '@assets/company/common/icon_sticky_business.svg';
+import IconHome from '@assets/company/common/icon_sticky_home.svg';
+import IconService from '@assets/company/common/icon_sticky_service.svg';
+import IconTell from '@assets/company/common/icon_sticky_tell.svg';
 
 import * as S from './StickyBar.styled';
 
@@ -22,7 +20,7 @@ function StickyBar() {
         {
             title: '전화문의',
             icon: IconTell,
-            href: '#',
+            href: 'tel:1866-4575',
         },
         {
             title: '제휴문의',
@@ -36,7 +34,7 @@ function StickyBar() {
             <S.List>
                 {stikyItems.map(item => (
                     <S.Item key={item.title}>
-                        <Link
+                        <a
                             href={item.href || ''}
                             className={
                                 route().current(item.href)
@@ -46,7 +44,7 @@ function StickyBar() {
                         >
                             <img src={item.icon} alt="" />
                             <span>{item.title}</span>
-                        </Link>
+                        </a>
                     </S.Item>
                 ))}
             </S.List>
