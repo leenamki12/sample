@@ -2,16 +2,28 @@ import { useMemo } from 'react';
 
 import dayjs from 'dayjs';
 
-import Hospital01Image01 from '@assets/company/home/main-hospital01-banner01.png';
-import Hospital02Image01 from '@assets/company/home/main-hospital02-banner01.png';
-import Hospital03Image01 from '@assets/company/home/main-hospital03-banner01.png';
-import Hospital04Image01 from '@assets/company/home/main-hospital04-banner01.png';
-import Hospital05Image01 from '@assets/company/home/main-hospital05-banner01.png';
+import detail01Image01 from '@assets/company/detail/hospital_detail01_image01.png';
+import detail01Image02 from '@assets/company/detail/hospital_detail01_image02.png';
+import detail01Image03 from '@assets/company/detail/hospital_detail01_image03.png';
+import detail01Image04 from '@assets/company/detail/hospital_detail01_image04.png';
+import detail01Image05 from '@assets/company/detail/hospital_detail01_image05.png';
+import detail01Image06 from '@assets/company/detail/hospital_detail01_image06.png';
+import Hospital01Image01 from '@assets/company/home/main_hospital01_banner01.png';
+import Hospital02Image01 from '@assets/company/home/main_hospital02_banner01.png';
+import Hospital03Image01 from '@assets/company/home/main_hospital03_banner01.png';
+import Hospital04Image01 from '@assets/company/home/main_hospital04_banner01.png';
+import Hospital05Image01 from '@assets/company/home/main_hospital05_banner01.png';
 
 type WorkHour = {
     dayOfWeek: number; // 0~6 = 일~토
     startTime: string;
     endTime: string;
+};
+
+type DetailImages = {
+    basic: string[];
+    map: string;
+    workHour: string;
 };
 
 export type HospitalItem = {
@@ -20,6 +32,7 @@ export type HospitalItem = {
     images: string[];
     content: string;
     address: string;
+    detailImages?: DetailImages;
     treatmentItems: string[];
     isWorking?: boolean;
     workingStatus?: string;
@@ -35,6 +48,11 @@ export const hospitals: HospitalItem[] = [
         content:
             '눈, 코, 가슴, 안면윤곽, 리프팅 등 분야별 체계적인 협진과 대학병원급 설비 시스템, 강남역 12번 출구',
         address: '서울 강남구 역삼역',
+        detailImages: {
+            basic: [detail01Image01, detail01Image02, detail01Image03, detail01Image04],
+            map: detail01Image05,
+            workHour: detail01Image06,
+        },
         treatmentItems: [
             '눈성형',
             '코성형',

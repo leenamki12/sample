@@ -4,7 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 import Badge from '@/components/ui/badges/Badge';
-import IconPartner from '@assets/company/common/icon-partner.svg';
+import IconPartner from '@assets/company/common/icon_partner.svg';
 
 import ReservationList from '../components/reservation-list';
 
