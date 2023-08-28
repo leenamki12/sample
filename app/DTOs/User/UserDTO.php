@@ -12,17 +12,21 @@ class UserDTO extends Data
       public int $id,
       public string $name,
       public string $email,
+      public string $phone,
+      public $marketing_consent,
       public ?Collection $roles,
       public ?Collection $permissions,
     ) {
     }
-    
+
     public static function fromUser(User $user): self
     {
         return new self(
           $user->id,
           $user->name,
           $user->email,
+          $user->phone,
+          $user->marketing_consent,
           $user->getRoleNames(),
           $user->getPermissionNames()
       );

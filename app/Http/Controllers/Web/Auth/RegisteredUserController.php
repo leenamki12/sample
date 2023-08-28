@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Web\Auth;
 
 use App\Domains\Company\Company;
 use App\Domains\Company\CompanyDetail;
+use App\Domains\Company\CompanyDetailService;
+use App\Domains\Company\CompanyService;
 use App\Domains\User\User;
+use App\Domains\User\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Providers\RouteServiceProvider;
@@ -12,14 +15,27 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
+
+    protected $user;
+    protected $companyDetail;
+    protected $company;
+
+    public function __construct(
+        UserService $user,
+        CompanyDetailService $detail,
+        CompanyService $company
+    ) {
+        $this->user = $user;
+        $this->companyDetail = $detail;
+        $this->company = $company;
+    }
+
     public function create(): Response
     {
         return Inertia::render('auth/pages/Register');
@@ -33,28 +49,12 @@ class RegisteredUserController extends Controller
     public function store(RegisterRequest $request): RedirectResponse
     {
 
-        $user = User::create([
-            'email'             => $request->email,
-            'password'          => Hash::make($request->password),
-            'name'              => $request->name,
-            'phone'             => $request->phone,
-            'marketing_consent' => $request->marketingConsent,
-        ])->assignRole('company');
+        $user = $this->user->userCreate($request);
+        $companyDetail = $this->companyDetail->detailCreate($request);
 
-        $companyDetail = CompanyDetail::create([
-            'name'             => $request->companiesName,
-            'address'          => $request->address,
-            'address_detail'   => $request->addressDetail,
-            'postal_code'      => $request->postalCode,
-            'employees'        => $request->employees,
-            'business_license' => $request->businessLicense->store('images/businessLicense', 'public')
-        ]);
-
-        Company::create([
-            'user_id'         => $user->id,
-            'detail_id'       => $companyDetail->id,
-            'approval_status' => 'waiting',
-            'auth_code'       => '123456',
+         $this->company->companyCreate([
+            'user_id'   => $user->id,
+            'detail_id' => $companyDetail->id
         ]);
 
         event(new Registered($user));

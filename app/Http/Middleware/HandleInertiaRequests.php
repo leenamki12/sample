@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\DTOs\User\UserDTO;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -35,7 +36,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user()
                 ? UserDTO::from($request->user())
-                : null
+                : null,
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -45,7 +46,7 @@ class HandleInertiaRequests extends Middleware
             'userVerifys' => function () use ($request) { //휴대폰 인증번호 상태
                 return [
                     'code' => $request->session()->get('userVerifyCode'),
-                    'status' =>$request->session()->get('userVerifyStatus')
+                    'status' => $request->session()->get('userVerifyStatus')
                 ];
             }
         ]);

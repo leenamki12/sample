@@ -3,7 +3,6 @@
 namespace App\Domains\User;
 
 use App\DTOs\User\UserDTO;
-use Illuminate\Support\Facades\Log;
 
 
 class UserService
@@ -33,6 +32,13 @@ class UserService
         }
 
         return true;
+    }
+
+    function userCreate($request)
+    {
+        $user = $this->userRepository->store($request);
+
+        return $user;
     }
 
 }
