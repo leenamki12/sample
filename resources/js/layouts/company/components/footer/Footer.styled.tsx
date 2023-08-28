@@ -9,8 +9,6 @@ export const LinkList = styled.ul`
 `;
 
 export const Item = styled.li`
-    ${tw``}
-
     a {
         ${tw`text-sm font-bold text-[#aaa]`}
     }

@@ -1,9 +1,5 @@
 import tw, { styled } from 'twin.macro';
 
-export const Container = styled.div`
-    ${tw``}
-`;
-
 export const SwiperBox = styled.div`
     .swiper-pagination {
         ${tw`p-[3px 5px] absolute bottom-[15px] left-[inherit] right-[15px] w-[inherit] min-w-[45px] rounded-lg bg-[rgba(0,0,0,0.30);] text-[11px] text-white`}

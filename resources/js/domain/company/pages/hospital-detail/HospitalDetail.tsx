@@ -25,7 +25,7 @@ function HospitalDetail() {
     }
 
     return (
-        <S.Container>
+        <div>
             <Head title={hospitalData?.name} />
             <S.ColBox>
                 <S.SwiperBox>
@@ -119,7 +119,7 @@ function HospitalDetail() {
                 <OtherPartnerList />
             </S.ColBox>
             <DetailSticky id={hospitalData.id} userName={userName} />
-        </S.Container>
+        </div>
     );
 }
 
