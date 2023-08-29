@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 
-export const Container = styled.header`
+export const Wrapper = styled.header`
     ${tw`shrink-0 shadow-[0_4px_20px_0_rgba(0,0,0,0.05)]`}
 `;
 

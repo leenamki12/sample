@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 
-export const Container = styled.div`
+export const Wrapper = styled.div`
     ${tw`border-t border-[#dadada] px-[30px] pb-[50px] pt-[40px]`}
 `;
 

@@ -9,7 +9,7 @@ import 'swiper/css';
 
 function OtherPartnerList() {
     return (
-        <S.Container>
+        <S.Wrapper>
             <Swiper
                 slidesPerView={'auto'}
                 centeredSlides={false}
@@ -44,7 +44,7 @@ function OtherPartnerList() {
                     </S.TextBox>
                 </SwiperSlide>
             </Swiper>
-        </S.Container>
+        </S.Wrapper>
     );
 }
 

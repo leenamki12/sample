@@ -1,3 +1,4 @@
+import { Head } from '@inertiajs/react';
 import { Autoplay, Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -9,13 +10,14 @@ import ImageBanner03 from '@assets/company/home/main_banner03.png';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { HomeList } from '../components';
+import { HospitalList } from '../components';
 
 import * as S from './Dashboard.styled';
 
 function Dashboard() {
     return (
-        <S.Container>
+        <S.Wrapper>
+            <Head title="Home" />
             <S.BannerBox>
                 <Swiper
                     modules={[Pagination, Autoplay, A11y]}
@@ -46,8 +48,8 @@ function Dashboard() {
                     </SwiperSlide>
                 </Swiper>
             </S.BannerBox>
-            <HomeList />
-        </S.Container>
+            <HospitalList />
+        </S.Wrapper>
     );
 }
 

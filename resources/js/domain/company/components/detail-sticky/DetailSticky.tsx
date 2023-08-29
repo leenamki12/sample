@@ -14,7 +14,7 @@ function DetailSticky({ userName, id }: { userName: string; id: number }) {
     };
 
     return (
-        <S.Container>
+        <S.Wrapper>
             <S.Box>
                 <BorderButton
                     label="예약문의"
@@ -30,7 +30,7 @@ function DetailSticky({ userName, id }: { userName: string; id: number }) {
             <SlideModal show={open} onClose={setOpen} maxWidth="435px" closeable={false}>
                 <ReservationForm setOpen={setOpen} hospitalId={id} userName={userName} />
             </SlideModal>
-        </S.Container>
+        </S.Wrapper>
     );
 }
 
