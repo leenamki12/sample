@@ -16,7 +16,7 @@ createInertiaApp({
         const pages = import.meta.glob('./domain/**/*.tsx', { eager: true });
         let page: any = pages[`./domain/${name}.tsx`];
 
-        page.default.layout = name.startsWith('Public/')
+        page.default.layout = name.startsWith('public/')
             ? undefined
             : (page: ReactElement) => <ConnectLayout children={page} name={name} />;
         return page;

@@ -30,6 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/service', function () {
+    return Inertia::render('public/pages/service/Service');
+})->name('service');
+
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->group(function(){
