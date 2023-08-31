@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/service', function () {
-    return Inertia::render('public/pages/service/Service');
+    return Inertia::render('public/service/pages/Service');
 })->name('service');
 
 Route::middleware(['auth', 'role:admin'])
