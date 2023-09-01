@@ -1,7 +1,11 @@
 import tw, { css, styled } from 'twin.macro';
 
-export type InnerProps = {
+type InnerProps = {
     wide?: boolean;
+};
+
+type TextProps = {
+    color?: string;
 };
 
 export const Wrapper = styled.div`
@@ -9,17 +13,17 @@ export const Wrapper = styled.div`
 `;
 
 export const InnerBox = styled.div<InnerProps>`
-    ${tw`p-[60px 40px]`}
+    ${tw`p-[120px 80px]`}
 
     ${({ wide }) =>
         wide &&
         css`
-            ${tw`p-[60px 0px]`}
+            ${tw`px-[0px]`}
         `}
 `;
 
 export const TitleBox = styled.div`
-    ${tw``}
+    ${tw`flex flex-col items-center`}
 `;
 
 export const Title = styled.strong`
@@ -28,6 +32,16 @@ export const Title = styled.strong`
     span {
         ${tw`block text-primary`}
     }
+`;
+
+export const SubText = styled.p<TextProps>`
+    ${tw`text-center text-[32px]`}
+
+    ${({ color }) =>
+        color &&
+        css`
+            color: ${color};
+        `}
 `;
 
 export const SwiperBox = styled.div`
