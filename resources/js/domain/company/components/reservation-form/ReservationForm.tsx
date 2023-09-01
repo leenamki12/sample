@@ -87,7 +87,7 @@ function ReservationForm({ setOpen, hospitalId, userName }: ModalProps) {
     }, [isPrivacyChecked]);
 
     return (
-        <S.ModalContainer>
+        <S.ModalWrapper>
             <div className="px-4">
                 <Dialog.Title className="text-center text-[20px] font-bold leading-8 text-[#111]">
                     온라인 예약문의
@@ -237,7 +237,7 @@ function ReservationForm({ setOpen, hospitalId, userName }: ModalProps) {
                     </div>
                 </S.Form>
             </S.ContentsBox>
-        </S.ModalContainer>
+        </S.ModalWrapper>
     );
 }
 

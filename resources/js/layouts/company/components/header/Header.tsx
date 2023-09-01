@@ -16,7 +16,7 @@ function Header() {
     };
 
     return (
-        <S.Container>
+        <S.Wrapper>
             <S.InnerBox>
                 {HospitalName ? (
                     <>
@@ -36,7 +36,7 @@ function Header() {
                     </a>
                 </S.MypageBox>
             </S.InnerBox>
-        </S.Container>
+        </S.Wrapper>
     );
 }
 

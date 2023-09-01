@@ -4,7 +4,7 @@ import * as S from './Footer.styled';
 
 function Footer() {
     return (
-        <S.Container>
+        <S.Wrapper>
             <S.LinkList>
                 <S.Item>
                     <a href="#">회사소개</a>
@@ -37,7 +37,7 @@ function Footer() {
                 </p>
                 <S.Copyright>Copyright © 2023 withbrother. All rights reserved.</S.Copyright>
             </S.TextBox>
-        </S.Container>
+        </S.Wrapper>
     );
 }
 

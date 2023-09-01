@@ -1,11 +1,11 @@
 /* home hospital list */
-export { default as HomeList } from './home-list/HomeList';
+export { default as HospitalList } from './hospital-list/HospitalList';
 
-/* other partner list */
+/* detail other partner list */
 export { default as OtherPartnerList } from './other-partner-list/OtherPartnerList';
 
 /* detail sticky */
 export { default as DetailSticky } from './detail-sticky/DetailSticky';
 
-/* reservation */
+/* detail reservation */
 export { default as ReservationForm } from './reservation-form/ReservationForm';

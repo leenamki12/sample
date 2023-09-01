@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 
-export const ModalContainer = styled.div`
+export const ModalWrapper = styled.div`
     ${tw`p-[50px 0px 40px] flex h-auto flex-col rounded-t-xl bg-white`}
 `;
 

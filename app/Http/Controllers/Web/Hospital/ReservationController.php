@@ -39,7 +39,7 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
-        $reservation = $this->reservationService->save($request);
+        $reservation = $this->reservationService->reservationCreate($request);
 
         return Redirect::route('company.detail', ['id' => $reservation->hospital_id]);
     }

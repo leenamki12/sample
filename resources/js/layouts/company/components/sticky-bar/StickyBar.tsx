@@ -30,7 +30,7 @@ function StickyBar() {
     ];
 
     return (
-        <S.Container>
+        <S.Wrapper>
             <S.List>
                 {stikyItems.map(item => (
                     <S.Item key={item.title}>
@@ -48,7 +48,7 @@ function StickyBar() {
                     </S.Item>
                 ))}
             </S.List>
-        </S.Container>
+        </S.Wrapper>
     );
 }
 

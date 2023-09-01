@@ -25,7 +25,7 @@ function HospitalDetail() {
     }
 
     return (
-        <S.Container>
+        <div>
             <Head title={hospitalData?.name} />
             <S.ColBox>
                 <S.SwiperBox>
@@ -112,14 +112,16 @@ function HospitalDetail() {
                             </div>
                         </>
                     ) : (
-                        <div className="h-[500px] bg-slate-300">이미지 준비중</div>
+                        <div className="flex h-[500px] items-center justify-center bg-gray-100 font-semibold">
+                            이미지 준비중
+                        </div>
                     )}
                 </div>
                 <S.SectionTitle>다른 제휴병원 혜택 확인하기</S.SectionTitle>
                 <OtherPartnerList />
             </S.ColBox>
             <DetailSticky id={hospitalData.id} userName={userName} />
-        </S.Container>
+        </div>
     );
 }
 

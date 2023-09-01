@@ -1,14 +1,23 @@
 <?php
 
 namespace App\Domains\Hospital\Reservation;
+use App\Domains\Company\Company;
+use App\Domains\Company\CompanyDetail;
 
 class ReservationService
 {
-    public function save($request)
-    {
-        $validatedData = $request->validated();
 
-        return Reservation::create($validatedData);
+    protected $reservationRepository;
+
+    public function __construct(ReservationRepository $reservation) {
+        $this->reservationRepository = $reservation;
+    }
+
+    function reservationCreate($request)
+    {
+        $reservation = $this->reservationRepository->store($request);
+
+        return $reservation;
     }
 
 }

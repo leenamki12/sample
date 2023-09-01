@@ -7,9 +7,9 @@ import IconPartner from '@assets/company/common/icon_partner.svg';
 import 'swiper/css/pagination';
 import useHospitalData from '../../datas';
 
-import * as S from './HomeList.styled';
+import * as S from './HospitalList.styled';
 
-function HomeList() {
+function HospitalList() {
     const hospitalData = useHospitalData();
 
     return (
@@ -79,4 +79,4 @@ function HomeList() {
     );
 }
 
-export default HomeList;
+export default HospitalList;
