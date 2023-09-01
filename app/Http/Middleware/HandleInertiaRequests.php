@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\DTOs\User\UserDTO;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 

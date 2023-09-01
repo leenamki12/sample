@@ -2,10 +2,11 @@
 
 namespace App\Domains\User;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Domains\Company\Company;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -48,4 +49,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getAuthCompany()
+    {
+
+        return Auth::guard('company')->check();
+    }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    public function getCompanyDetail()
+    {
+        $company = $this->company;
+
+        return $company->companyDetail;
+    }
 }

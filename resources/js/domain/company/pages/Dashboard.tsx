@@ -1,6 +1,7 @@
 import { Autoplay, Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { PageProps } from '@/types';
 import ImageBanner01 from '@assets/company/home/main_banner01.png';
 import ImageBanner02 from '@assets/company/home/main_banner02.png';
 import ImageBanner03 from '@assets/company/home/main_banner03.png';
@@ -13,7 +14,8 @@ import { HomeList } from '../components';
 
 import * as S from './Dashboard.styled';
 
-function Dashboard() {
+function Dashboard({ auth }: PageProps) {
+    console.log(auth);
     return (
         <S.Container>
             <S.BannerBox>

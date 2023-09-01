@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'company' => [
+            'driver' => 'session',
+            'provider' => 'companies', // 올바른 프로바이더 이름 사용
+        ],
     ],
 
     /*
@@ -63,6 +67,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Domains\User\User::class,
+        ],
+
+        'companies' => [
+            'driver' => 'companies', // CompaniesProvider 드라이버
+            'model' => App\Domains\Company\Company::class, // 회사 모델 클래스
         ],
 
         // 'users' => [

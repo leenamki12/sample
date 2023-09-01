@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Auth\RegisteredUserController;
 use App\Http\Controllers\Web\Auth\VerifyEmailController;
 use App\Http\Controllers\Web\Auth\VerifySmsController;
 use App\Http\Controllers\Web\Auth\RegisterEmailCheck;
+use App\Http\Controllers\Web\Auth\CompanyAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -45,6 +46,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('email-check', RegisterEmailCheck::class)
                 ->name('email-check');
+    Route::post('code-login', [CompanyAuthController::class, 'store'])
+                ->name('code-login');
+;
 });
 
 Route::middleware('auth')->group(function () {

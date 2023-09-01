@@ -16,6 +16,8 @@ class UserDTO extends Data
       public $marketing_consent,
       public ?Collection $roles,
       public ?Collection $permissions,
+      public $auth_company,
+      public $company_detail,
     ) {
     }
 
@@ -28,7 +30,9 @@ class UserDTO extends Data
           $user->phone,
           $user->marketing_consent,
           $user->getRoleNames(),
-          $user->getPermissionNames()
+          $user->getPermissionNames(),
+          $user->getAuthCompany(),
+          $user->getCompanyDetail()
       );
     }
 }

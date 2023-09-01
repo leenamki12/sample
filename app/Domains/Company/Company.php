@@ -2,12 +2,15 @@
 
 namespace App\Domains\Company;
 
+use App\Domains\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Company extends Model
+class Company extends Authenticatable
 {
     use HasFactory;
+
+    protected $guard = 'company';
 
     protected $fillable = [
         'user_id',
@@ -15,4 +18,14 @@ class Company extends Model
         'approval_status',
         'auth_code'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function companyDetail()
+    {
+        return $this->hasOne(CompanyDetail::class, 'id', 'detail_id');
+    }
 }
