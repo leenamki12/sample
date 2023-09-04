@@ -13,6 +13,12 @@ export default {
 
     theme: {
         extend: {
+            screens: {
+                mobile: { max: '640px' },
+                tablet: { max: '768px', min: '641px' },
+                laptop: { max: '1024px', min: '769px' },
+                desktop: { max: '1280px', min: '1025px' },
+            },
             fontFamily: {
                 sans: ['NanumSquareNeo', ...defaultTheme.fontFamily.sans],
             },

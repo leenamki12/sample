@@ -1,63 +1,74 @@
 import tw, { css, styled } from 'twin.macro';
 
-export type InnerProps = {
+type InnerProps = {
     wide?: boolean;
+};
+
+type TextProps = {
+    color?: string;
+};
+
+type SrctionProps = {
+    backgroundColor?: string;
 };
 
 export const Wrapper = styled.div`
     ${tw`m-auto max-w-[1000px]`}
 `;
 
+export const Section = styled.div<SrctionProps>`
+    ${({ backgroundColor }) =>
+        backgroundColor === 'bg-primary'
+            ? css`
+                  ${tw`bg-primary`}
+              `
+            : css`
+                  background-color: ${backgroundColor};
+              `}
+`;
+
 export const InnerBox = styled.div<InnerProps>`
-    ${tw`p-[60px 40px]`}
+    ${tw`p-[120px 80px] tablet:p-[90px 60px] mobile:p-[60px 40px]`}
 
     ${({ wide }) =>
         wide &&
         css`
-            ${tw`p-[60px 0px]`}
+            ${tw`px-[0px] mobile:px-[0px] tablet:px-[0px]`}
         `}
 `;
 
 export const TitleBox = styled.div`
-    ${tw``}
+    ${tw`flex flex-col items-center`}
 `;
 
 export const Title = styled.strong`
-    ${tw`block text-center text-[60px] font-bold`}
+    ${tw`block break-keep text-center text-[60px] font-bold mobile:text-[30px] tablet:text-[45px]`}
 
     span {
         ${tw`block text-primary`}
     }
 `;
 
-export const SwiperBox = styled.div`
-    ${tw`relative mt-[60px]`}
+export const SubTitle = styled.p<TextProps>`
+    ${tw`text-center text-[32px] mobile:text-[16px] tablet:text-[24px]`}
 
-    .swiper-pagination {
-        ${tw`relative bottom-0 top-0 mb-[50px]`}
-
-        .swiper-pagination-bullet {
-            ${tw`p-[15px 30px] relative mx-[35px] h-auto w-auto rounded-[50px] border-[#DFE1E7] bg-[#F9F9F9] text-[28px] text-[#BCC0D4] opacity-100`}
-
-            &.swiper-pagination-bullet-active {
-                ${tw`bg-primary text-white`}
-            }
-
-            &:before {
-                ${tw`absolute left-[-70px] top-1/2 w-[70px] border-t-2 border-dashed content-['']`}
-            }
-
-            &:first-of-type:before {
-                ${tw`content-none`}
-            }
-        }
-    }
+    ${({ color }) =>
+        color &&
+        css`
+            color: ${color};
+        `}
 `;
 
-export const InnerSwiper = styled.div`
-    ${tw`flex flex-col items-center`}
+export const SubText = styled.p<TextProps>`
+    ${tw`text-center text-[28px] leading-[44px] mobile:text-base tablet:text-[21px] tablet:leading-[33px]`}
 
-    strong {
-        ${tw`mb-[30px] block text-center text-[38px] text-primary`}
-    }
+    ${({ color }) =>
+        color &&
+        css`
+            color: ${color};
+        `}
+`;
+
+export const TelButton = styled.button`
+    ${tw`min-w-[530px] rounded border-2 border-white/20 bg-opacity-20 bg-gradient-to-b from-white/20 to-primary/20 p-[20px] text-[32px] text-white mobile:min-w-[inherit] tablet:min-w-[inherit]`}
 `;

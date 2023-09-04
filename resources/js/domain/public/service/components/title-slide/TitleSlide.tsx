@@ -16,9 +16,10 @@ function TitleSlide({ titles }: Props) {
                 speed={500}
                 autoHeight={true}
                 autoplay={{
-                    delay: 1500,
+                    delay: 1000,
                     disableOnInteraction: false,
                 }}
+                allowTouchMove={false}
                 slidesPerView={1}
                 loop={true}
             >
