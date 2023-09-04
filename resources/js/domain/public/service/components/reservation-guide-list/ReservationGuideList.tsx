@@ -1,4 +1,4 @@
-import * as S from './GuideList.styled';
+import * as S from './ReservationGuideList.styled';
 
 type PriceType = {
     icon: string;
@@ -10,7 +10,7 @@ type Props = {
     items: PriceType[];
 };
 
-function GuideList({ items }: Props) {
+function ReservationGuideList({ items }: Props) {
     return (
         <S.Wrapper>
             {items.map((item, index) => (
@@ -29,4 +29,4 @@ function GuideList({ items }: Props) {
     );
 }
 
-export default GuideList;
+export default ReservationGuideList;

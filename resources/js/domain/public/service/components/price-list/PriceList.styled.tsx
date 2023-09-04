@@ -32,6 +32,6 @@ export const Text = styled.p`
     ${tw`text-[28px]`}
 
     strong {
-        ${tw`text-[65px]`}
+        ${tw`text-[65px] font-bold`}
     }
 `;
