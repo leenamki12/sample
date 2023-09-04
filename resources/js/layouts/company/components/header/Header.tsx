@@ -4,6 +4,8 @@ import useHospitalData from '@/domain/company/datas';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon_mypage.svg';
 
+import Profile from '../profile/Profile';
+
 import * as S from './Header.styled';
 
 function Header() {
@@ -31,9 +33,9 @@ function Header() {
                     </S.Logo>
                 )}
                 <S.MypageBox>
-                    <a href="#">
+                    <Profile>
                         <img src={IconMypage} alt="마이페이지" />
-                    </a>
+                    </Profile>
                 </S.MypageBox>
             </S.InnerBox>
         </S.Wrapper>

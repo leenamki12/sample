@@ -30,12 +30,4 @@ export const Logo = styled.a`
 
 export const MypageBox = styled.div`
     ${tw`flex shrink-0 items-center gap-x-8`}
-
-    a {
-        ${tw`-m-1.5 p-1.5`}
-
-        img {
-            ${tw`h-7 w-auto`}
-        }
-    }
 `;

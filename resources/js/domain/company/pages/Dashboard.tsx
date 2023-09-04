@@ -2,7 +2,6 @@ import { Head } from '@inertiajs/react';
 import { Autoplay, Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { PageProps } from '@/types';
 import ImageBanner01 from '@assets/company/home/main_banner01.png';
 import ImageBanner02 from '@assets/company/home/main_banner02.png';
 import ImageBanner03 from '@assets/company/home/main_banner03.png';
@@ -15,8 +14,7 @@ import { HospitalList } from '../components';
 
 import * as S from './Dashboard.styled';
 
-function Dashboard({ auth }: PageProps) {
-    console.log(auth);
+function Dashboard() {
     return (
         <S.Wrapper>
             <Head title="Home" />

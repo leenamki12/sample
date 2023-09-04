@@ -10,7 +10,7 @@ import * as S from './styles/Login.styled';
 type FormProps = 'auth_code';
 
 export default function CodeLogin() {
-    const { setData, data, post, reset, errors, clearErrors } = useForm({
+    const { setData, post, reset, errors, clearErrors } = useForm({
         auth_code: '',
     });
 
@@ -21,8 +21,7 @@ export default function CodeLogin() {
 
     const submit: FormEventHandler = e => {
         e.preventDefault();
-        console.log(data);
-        post(route('code-login'));
+        post(route('code-login'), { replace: true });
     };
 
     useEffect(() => {

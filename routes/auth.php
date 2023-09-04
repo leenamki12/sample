@@ -46,12 +46,12 @@ Route::middleware('guest')->group(function () {
 
     Route::get('email-check', RegisterEmailCheck::class)
                 ->name('email-check');
+
     Route::post('code-login', [CompanyAuthController::class, 'store'])
                 ->name('code-login');
-;
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web,company')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 

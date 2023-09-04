@@ -10,10 +10,11 @@ use Inertia\Inertia;
 //Home 첫번째 화면
 Route::get('/', function () {
     $auth = Auth::getUser();
+
     if(!$auth && Auth::guard('company')->user()){
-        return to_route(Auth::guard('company')->user()->roles->first()->name);
+        return redirect(Auth::guard('company')->user()->roles->first()->name);
     }
-    return $auth ? to_route($auth->roles->first()->name) : Inertia::render('Home', [
+    return $auth ? redirect($auth->roles->first()->name) : Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -25,17 +26,17 @@ Route::get('/dashboard', function () {
     $auth = Auth::getUser();
 
     if(!$auth && Auth::guard('company')->user()){
-        return to_route(Auth::guard('company')->user()->roles->first()->name);
+        return redirect(Auth::guard('company')->user()->roles->first()->name);
     }
 
-    return to_route($auth->roles->first()->name);
+    return redirect($auth->roles->first()->name);
 })->name('dashboard');
 
 Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+})->name('profile');
 
 Route::get('/service', function () {
     return Inertia::render('public/service/pages/Service');
@@ -70,3 +71,5 @@ Route::middleware(['auth:web', 'role:hospital'])
             return Inertia::render('hospital/pages/Dashboard');
         })->name('hospital');
 })->name('hospital');
+
+require __DIR__.'/auth.php';
