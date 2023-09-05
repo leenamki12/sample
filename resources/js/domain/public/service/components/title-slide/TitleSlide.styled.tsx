@@ -4,10 +4,10 @@ export const Wrapper = styled.div`
     ${tw`flex items-center`}
 
     .swiper {
-        ${tw`m-auto inline-block min-w-[320px] overflow-hidden rounded-lg border-2 border-white`}
+        ${tw`m-auto inline-block min-w-[320px] overflow-hidden rounded-lg border-2 border-white mobile:min-w-[160px] mobile:rounded tablet:min-w-[240px]`}
     }
 
     .swiper-slide {
-        ${tw`max-h-[115px] p-[20px]`}
+        ${tw`max-h-[115px] p-[20px] mobile:max-h-[60px] mobile:p-[10px] tablet:max-h-[90px] tablet:p-[15px]`}
     }
 `;

@@ -16,7 +16,7 @@ function TitleSlide({ titles }: Props) {
                 speed={500}
                 autoHeight={true}
                 autoplay={{
-                    delay: 1000,
+                    delay: 1300,
                     disableOnInteraction: false,
                 }}
                 allowTouchMove={false}
@@ -25,7 +25,7 @@ function TitleSlide({ titles }: Props) {
             >
                 {titles.map(title => (
                     <SwiperSlide key={title}>
-                        <strong className="block text-center text-[50px] font-bold text-white">
+                        <strong className="block text-center text-[50px] font-bold text-white mobile:text-[25px] tablet:text-[38px]">
                             {title}
                         </strong>
                     </SwiperSlide>

@@ -16,8 +16,12 @@ function ReservationGuideList({ items }: Props) {
             {items.map((item, index) => (
                 <S.Item key={item.title}>
                     <S.StepText>STEP {index + 1}</S.StepText>
-                    <div className="mr-[60px] min-w-[100px]">
-                        <img src={item.icon} alt="" />
+                    <div className="mr-[60px] min-w-[100px] mobile:mr-[30px] mobile:min-w-[50px] tablet:mr-[45px] tablet:min-w-[75px]">
+                        <img
+                            src={item.icon}
+                            alt=""
+                            className="mobile:max-w-[50px] tablet:max-w-[75px]"
+                        />
                     </div>
                     <div>
                         <S.Title>{item.title}</S.Title>

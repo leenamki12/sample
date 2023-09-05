@@ -41,10 +41,6 @@ function HospitalList() {
                                         <img src={image} alt="" />
                                     </SwiperSlide>
                                 ))}
-                                <SwiperSlide className="w-full bg-red-300 pb-[100%]"></SwiperSlide>
-                                <SwiperSlide className="w-full bg-blue-300 pb-[100%]"></SwiperSlide>
-                                <SwiperSlide className="w-full bg-purple-300 pb-[100%]"></SwiperSlide>
-                                <SwiperSlide className="w-full bg-red-100 pb-[100%]"></SwiperSlide>
                             </Swiper>
                         </div>
                         <div className="px-5 py-6">

@@ -14,9 +14,7 @@ import useHospitalData from '../../datas';
 import * as S from './HospitalDetail.styled';
 
 function HospitalDetail() {
-    const { id, auth } = usePage().props;
-
-    const userName = auth.user.name;
+    const { id } = usePage().props;
 
     const hospitalData = useHospitalData().find(data => data.id === Number(id));
 
@@ -120,7 +118,7 @@ function HospitalDetail() {
                 <S.SectionTitle>다른 제휴병원 혜택 확인하기</S.SectionTitle>
                 <OtherPartnerList />
             </S.ColBox>
-            <DetailSticky id={hospitalData.id} userName={userName} />
+            <DetailSticky id={hospitalData.id} />
         </div>
     );
 }

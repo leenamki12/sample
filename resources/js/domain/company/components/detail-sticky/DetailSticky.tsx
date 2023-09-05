@@ -6,7 +6,7 @@ import ReservationForm from '../reservation-form/ReservationForm';
 
 import * as S from './DetailSticky.styled';
 
-function DetailSticky({ userName, id }: { userName: string; id: number }) {
+function DetailSticky({ id }: { id: number }) {
     const [open, setOpen] = useState<boolean>(false);
 
     const openModal = () => {
@@ -28,7 +28,7 @@ function DetailSticky({ userName, id }: { userName: string; id: number }) {
                 ></PrimaryButton>
             </S.Box>
             <SlideModal show={open} onClose={setOpen} maxWidth="435px" closeable={false}>
-                <ReservationForm setOpen={setOpen} hospitalId={id} userName={userName} />
+                <ReservationForm setOpen={setOpen} hospitalId={id} />
             </SlideModal>
         </S.Wrapper>
     );

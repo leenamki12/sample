@@ -1,7 +1,7 @@
 import { FormEventHandler, useEffect, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 
 import {
@@ -12,13 +12,13 @@ import {
     PrivacyCheckItem,
 } from '@/components/ui';
 import BaseButton from '@/components/ui/buttons/BaseButton';
+import { PageProps } from '@/types';
 
 import * as S from './ReservationForm.styled';
 
 type ModalProps = {
     setOpen: (open: boolean) => void;
     hospitalId: number;
-    userName: string;
 };
 
 type Props = {
@@ -31,15 +31,17 @@ type Props = {
 
 type FormKey = 'hospital_id' | 'reservation_date' | 'company_name' | 'name' | 'phone';
 
-function ReservationForm({ setOpen, hospitalId, userName }: ModalProps) {
+function ReservationForm({ setOpen, hospitalId }: ModalProps) {
     const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
     const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
     const [privacyCheckedError, setPrivacyCheckedError] = useState<string>('');
 
+    const userDetail = usePage<PageProps>().props.auth.user.company_detail;
+
     const { data, setData, post, errors } = useForm<Props>({
         hospital_id: hospitalId,
         reservation_date: '',
-        company_name: userName,
+        company_name: userDetail.name,
         name: '',
         phone: '',
     });

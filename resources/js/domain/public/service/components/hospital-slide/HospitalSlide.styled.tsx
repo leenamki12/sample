@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
     }
 
     .swiper-slide {
-        ${tw`max-w-[255px]`}
+        ${tw`max-w-[255px] mobile:max-w-[160px] tablet:max-w-[210px]`}
 
         img {
             ${tw`opacity-50`}
