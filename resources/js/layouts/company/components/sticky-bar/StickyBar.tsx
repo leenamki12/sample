@@ -5,8 +5,15 @@ import IconTell from '@assets/company/common/icon_sticky_tell.svg';
 
 import * as S from './StickyBar.styled';
 
+type Props = {
+    title: string;
+    icon: string;
+    href: string;
+    target?: '_blank' | '_self';
+};
+
 function StickyBar() {
-    const stikyItems = [
+    const stikyItems: Props[] = [
         {
             title: '홈',
             icon: IconHome,
@@ -15,7 +22,8 @@ function StickyBar() {
         {
             title: '서비스소개',
             icon: IconService,
-            href: '#',
+            href: route('service'),
+            target: '_blank',
         },
         {
             title: '전화문의',
@@ -41,6 +49,7 @@ function StickyBar() {
                                     ? 'font-bold text-primary'
                                     : 'text-[#bbb]'
                             }
+                            target={item.target}
                         >
                             <img src={item.icon} alt="" />
                             <span>{item.title}</span>

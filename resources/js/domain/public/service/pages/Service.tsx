@@ -162,7 +162,7 @@ function Service() {
                 <S.InnerBox>
                     <S.TitleBox className="mb-[80px] mobile:mb-[40px] tablet:mb-[60px]">
                         <S.Title className="mb-[10px] mobile:mb-[5px] tablet:mb-[7px]">
-                            위드닥 예약 콜센터 <span>1866-4575</span>
+                            위드닥 예약 콜센터 <a href="tel:1866-4575">1866-4575</a>
                         </S.Title>
                         <S.SubText>전화 한통으로 편리하게 예약이 가능합니다.</S.SubText>
                     </S.TitleBox>
@@ -193,7 +193,7 @@ function Service() {
                 <S.InnerBox>
                     <S.TitleBox>
                         <div className="mb-[20px] mobile:mb-[10px] tablet:mb-[15px]">
-                            <img src={IconBubble} alt="" />
+                            <img src={IconBubble} alt="" className="m-auto mobile:max-w-[75%]" />
                         </div>
                         <S.Title className="text-white">
                             <p className="font-normal">기업의 의료복지,</p>
@@ -201,7 +201,7 @@ function Service() {
                         </S.Title>
                     </S.TitleBox>
                     <div className="mt-[15px] text-center mobile:mt-[7px] tablet:mt-[12px]">
-                        <S.TelButton>
+                        <S.TelButton onClick={() => (window.location.href = 'tel:1866-4575')}>
                             문의전화 <strong>1866-4575</strong>
                         </S.TelButton>
                     </div>

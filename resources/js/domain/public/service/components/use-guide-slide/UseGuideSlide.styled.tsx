@@ -33,7 +33,7 @@ export const InnerBox = styled.div`
     ${tw`flex flex-col items-center`}
 
     strong {
-        ${tw`mb-[30px] block text-center text-[38px] text-primary mobile:mb-[15px] mobile:text-[16px] tablet:mb-[22px] tablet:text-[24px]`}
+        ${tw`mb-[30px] block text-center text-[38px] font-bold text-primary mobile:mb-[15px] mobile:text-[16px] tablet:mb-[22px] tablet:text-[24px]`}
     }
 
     img {

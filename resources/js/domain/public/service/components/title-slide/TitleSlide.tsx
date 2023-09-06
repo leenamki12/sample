@@ -22,6 +22,15 @@ function TitleSlide({ titles }: Props) {
                 allowTouchMove={false}
                 slidesPerView={1}
                 loop={true}
+                height={60}
+                breakpoints={{
+                    641: {
+                        height: 90,
+                    },
+                    769: {
+                        height: 115,
+                    },
+                }}
             >
                 {titles.map(title => (
                     <SwiperSlide key={title}>

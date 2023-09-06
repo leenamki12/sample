@@ -8,6 +8,6 @@ export const Wrapper = styled.div`
     }
 
     .swiper-slide {
-        ${tw`max-h-[115px] p-[20px] mobile:max-h-[60px] mobile:p-[10px] tablet:max-h-[90px] tablet:p-[15px]`}
+        ${tw`p-[20px] mobile:p-[10px] tablet:p-[15px]`}
     }
 `;
