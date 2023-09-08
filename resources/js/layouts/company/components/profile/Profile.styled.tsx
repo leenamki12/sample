@@ -26,5 +26,13 @@ export const CheckboxWrapper = styled.div`
 `;
 
 export const ButtonBox = styled.div`
-    ${tw`mt-[30px]`}
+    ${tw`mt-[30px] space-y-[10px]`}
+`;
+
+export const ImageBox = styled.div`
+    ${tw`mb-[10px] flex justify-center`}
+`;
+
+export const LogoInfoText = styled.div`
+    ${tw`mb-[30px] text-center text-sm text-[#666]`}
 `;

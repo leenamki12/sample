@@ -14,6 +14,7 @@ export { default as SecondaryButton } from './buttons/SecondaryButton';
 export { default as TertiaryButton } from './buttons/TertiaryButton';
 export { default as TextButton } from './buttons/TextButton';
 export { default as BorderButton } from './buttons/BorderButton';
+export { default as CancelButton } from './buttons/CancelButton';
 
 //badge
 export { default as Badge } from './badges/Badge';

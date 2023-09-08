@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { Head, usePage } from '@inertiajs/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,7 +15,11 @@ import useHospitalData from '../../datas';
 
 import * as S from './HospitalDetail.styled';
 
-function HospitalDetail() {
+type Props = {
+    setIsHitory: (value: boolean) => void;
+};
+
+function HospitalDetail({ setIsHitory }: Props) {
     const { id } = usePage().props;
 
     const hospitalData = useHospitalData().find(data => data.id === Number(id));
@@ -21,6 +27,9 @@ function HospitalDetail() {
     if (!hospitalData) {
         return null;
     }
+    useEffect(() => {
+        setIsHitory(true);
+    }, []);
 
     return (
         <div>

@@ -33,12 +33,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        Auth::guard('company')->logout();
-
         $request->authenticate();
-
         $request->session()->regenerate();
 
+        if(Auth::check('company')){
+            Auth::guard('company')->logout();
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -51,7 +51,6 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('company')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

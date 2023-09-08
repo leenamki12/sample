@@ -8,7 +8,11 @@ import Profile from '../profile/Profile';
 
 import * as S from './Header.styled';
 
-function Header() {
+type Props = {
+    history: boolean;
+};
+
+function Header({ history }: Props) {
     const { id } = usePage().props;
 
     const HospitalName = useHospitalData().find(data => data.id === Number(id))?.name;
@@ -20,7 +24,7 @@ function Header() {
     return (
         <S.Wrapper>
             <S.InnerBox>
-                {HospitalName ? (
+                {history ? (
                     <>
                         <S.BackButton onClick={handleBack}>
                             <span className="sr-only">뒤로가기</span>

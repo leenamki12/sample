@@ -3,7 +3,8 @@ import { Fragment, ReactNode, useState, FormEventHandler } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { router, useForm, usePage } from '@inertiajs/react';
 
-import { Checkbox, TextInput, PrimaryButton } from '@/components/ui';
+import ApplicationLogo from '@/components/inertia/ApplicationLogo';
+import { TextInput, PrimaryButton, CancelButton } from '@/components/ui';
 import { PageProps } from '@/types';
 import { ReactComponent as EmailIcon } from '@assets/common/icon_login_email.svg';
 import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_password.svg';
@@ -33,7 +34,7 @@ function Profile({ children }: Props) {
         }
     };
 
-    const { setData, post, errors, clearErrors } = useForm({
+    const { data, setData, setError, errors, clearErrors } = useForm({
         email: '',
         password: '',
         remember: false,
@@ -46,14 +47,26 @@ function Profile({ children }: Props) {
 
     const submit: FormEventHandler = e => {
         e.preventDefault();
-        setLoginModalShow(false);
         router.post(
-            route('logout'),
-            {},
+            route('login'),
+            {
+                email: data.email,
+                password: data.password,
+                remember: data.remember,
+            },
             {
                 replace: true,
-                onFinish: () => {
-                    post(route('login'), { replace: true });
+                onSuccess: () => {
+                    setLoginModalShow(false);
+                    router.visit('/profile');
+                },
+                onError: error => {
+                    if (error.email) {
+                        setError('email', error.email);
+                    }
+                    if (error.password) {
+                        setError('password', error.password);
+                    }
                 },
             }
         );
@@ -86,8 +99,12 @@ function Profile({ children }: Props) {
                 </Transition>
             </Popover>
             {loginModalShow && (
-                <div className="fixed left-0 top-0 z-50 h-full w-full bg-black/60">
-                    <form onSubmit={submit}>
+                <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black/60">
+                    <form onSubmit={submit} className="w-[435px] rounded bg-white p-[50px]">
+                        <S.ImageBox>
+                            <ApplicationLogo width="w-[104px]" />
+                        </S.ImageBox>
+                        <S.LogoInfoText>회사 관리자 계정으로 로그인 해주세요.</S.LogoInfoText>
                         <S.InputList>
                             <TextInput
                                 type="email"
@@ -107,11 +124,9 @@ function Profile({ children }: Props) {
                                 error={errors.password}
                             />
                         </S.InputList>
-                        <S.CheckboxWrapper>
-                            <Checkbox label="아이디 저장" />
-                        </S.CheckboxWrapper>
                         <S.ButtonBox>
                             <PrimaryButton type="submit" label="로그인" />
+                            <CancelButton label="취소" />
                         </S.ButtonBox>
                     </form>
                 </div>
