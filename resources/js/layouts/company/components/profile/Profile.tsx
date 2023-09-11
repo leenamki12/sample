@@ -102,7 +102,7 @@ function Profile({ children }: Props) {
                 <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black/60">
                     <form onSubmit={submit} className="w-[435px] rounded bg-white p-[50px]">
                         <S.ImageBox>
-                            <ApplicationLogo width="w-[104px]" />
+                            <ApplicationLogo width="w-[94px]" />
                         </S.ImageBox>
                         <S.LogoInfoText>회사 관리자 계정으로 로그인 해주세요.</S.LogoInfoText>
                         <S.InputList>

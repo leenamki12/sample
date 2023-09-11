@@ -1,6 +1,7 @@
 import { usePage } from '@inertiajs/react';
 
 import useHospitalData from '@/domain/company/datas';
+import IconHistoryBack from '@assets/common/icon_historyback_arrow.svg';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon_mypage.svg';
 
@@ -27,7 +28,11 @@ function Header({ history }: Props) {
                 {history ? (
                     <>
                         <S.BackButton onClick={handleBack}>
-                            <span className="sr-only">뒤로가기</span>
+                            <img
+                                src={IconHistoryBack}
+                                alt=""
+                                className="h-[35px] w-[35px] max-w-[35px]"
+                            />
                         </S.BackButton>
                         <S.DetailTitle>{HospitalName}</S.DetailTitle>
                     </>

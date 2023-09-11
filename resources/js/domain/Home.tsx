@@ -23,7 +23,7 @@ export default function Home() {
             <Head title="Welcome" />
             <S.LoginWrapper className="w-[435px]">
                 <S.ImageBox>
-                    <ApplicationLogo width="w-[104px]" />
+                    <ApplicationLogo width="w-[94px]" />
                 </S.ImageBox>
                 <S.LogoInfoText>로그인 후 위드닥이 준비한 의료혜택을 누려보세요</S.LogoInfoText>
                 <S.Tab>

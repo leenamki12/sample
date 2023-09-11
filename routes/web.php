@@ -39,7 +39,12 @@ Route::middleware('auth:web')->group(function () {
 })->name('profile');
 
 Route::get('/service', function () {
-    return Inertia::render('public/service/pages/Service');
+    $auth = Auth::check();
+    $isLoggedIn = $auth || Auth::guard('company')->check();
+
+    return Inertia::render('public/service/pages/Service', [
+        'isLoggedIn' => $isLoggedIn,
+    ]);
 })->name('service');
 
 Route::middleware(['auth', 'role:admin'])
