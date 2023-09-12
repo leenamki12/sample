@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
 
-import useHospitalData from '@/domain/company/datas';
+import { useHospitalData } from '@/domain/company/datas';
 import IconHistoryBack from '@assets/common/icon_historyback_arrow.svg';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon_mypage.svg';
@@ -14,9 +14,10 @@ type Props = {
 };
 
 function Header({ history }: Props) {
+    const { getData } = useHospitalData();
     const { id } = usePage().props;
 
-    const HospitalName = useHospitalData().find(data => data.id === Number(id))?.name;
+    const hospitalName = getData(Number(id))?.name;
 
     const handleBack = () => {
         return window.history.back();
@@ -34,7 +35,7 @@ function Header({ history }: Props) {
                                 className="h-[35px] w-[35px] max-w-[35px]"
                             />
                         </S.BackButton>
-                        <S.DetailTitle>{HospitalName}</S.DetailTitle>
+                        <S.DetailTitle>{hospitalName}</S.DetailTitle>
                     </>
                 ) : (
                     <S.Logo href="/">

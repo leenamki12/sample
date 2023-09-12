@@ -1,2 +1,2 @@
-export { default } from './HospitalDatas';
+export { useHospitalData } from './HospitalDatas';
 export type { HospitalItem } from './HospitalDatas';
