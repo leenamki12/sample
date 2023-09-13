@@ -5,15 +5,19 @@ export const Wrapper = styled.header`
 `;
 
 export const InnerBox = styled.div`
-    ${tw`mx-auto flex h-20 max-w-7xl items-center justify-between`}
+    ${tw`relative mx-auto flex h-20 items-center`}
 `;
 
 export const BackButton = styled.button`
-    ${tw`flex h-full items-center justify-center px-[20px]`}
+    ${tw`absolute left-[20px] top-1/2 -translate-y-1/2 p-[5px]`}
 `;
 
-export const DetailTitle = styled.strong`
-    ${tw`line-clamp-3 px-[20px] text-[17px] font-bold leading-[18px]`}
+export const PageTitle = styled.div`
+    ${tw`flex w-full justify-center px-[80px]`}
+
+    strong {
+        ${tw`line-clamp-3 text-[17px] font-bold leading-[18px]`}
+    }
 `;
 
 export const Logo = styled.a`
@@ -22,8 +26,4 @@ export const Logo = styled.a`
     img {
         ${tw`w-[67px]`}
     }
-`;
-
-export const MypageBox = styled.div`
-    ${tw`flex h-full shrink-0 items-center`}
 `;

@@ -1,20 +1,58 @@
+import { useState } from 'react';
+
+import { BasicModal, InnerPrivacyModal } from '@/components/ui';
 import FooterLogo from '@assets/common/footer-logo.svg';
 
 import * as S from './Footer.styled';
 
+type ModalType = {
+    title: string;
+    content: string | React.ReactNode;
+};
+
 function Footer() {
+    const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
+    const [modalData, setModalData] = useState<ModalType>();
+
+    const modalDatas: ModalType[] = [
+        {
+            title: '이용약관',
+            content: (
+                <>
+                    이용약관
+                    <br />
+                    이용약관
+                </>
+            ),
+        },
+        {
+            title: '개인정보처리방침',
+            content: `개인정보처리방침
+            개인정보처리방침`,
+        },
+    ];
+
+    const handlePrivacyModal = (e: React.MouseEvent, item: ModalType) => {
+        e.preventDefault();
+
+        setModalData(item);
+        setShowPrivacyModal(true);
+    };
+
+    const handleClosePrivacyModal = () => {
+        setShowPrivacyModal(false);
+    };
     return (
         <S.Wrapper>
             <S.LinkList>
                 <S.Item>
                     <a href="#">회사소개</a>
                 </S.Item>
-                <S.Item>
-                    <a href="#">이용약관</a>
-                </S.Item>
-                <S.Item>
-                    <a href="#">개인정보처리방침</a>
-                </S.Item>
+                {modalDatas.map(item => (
+                    <S.Item key={item.title}>
+                        <button onClick={e => handlePrivacyModal(e, item)}>{item.title}</button>
+                    </S.Item>
+                ))}
                 <S.Item>
                     <a href="#">병원입점신청</a>
                 </S.Item>
@@ -37,6 +75,13 @@ function Footer() {
                 </p>
                 <S.Copyright>Copyright © 2023 withbrother. All rights reserved.</S.Copyright>
             </S.TextBox>
+            {modalData && (
+                <BasicModal show={showPrivacyModal} onClose={handleClosePrivacyModal} maxWidth="md">
+                    <InnerPrivacyModal title={modalData.title} close={handleClosePrivacyModal}>
+                        {modalData.content}
+                    </InnerPrivacyModal>
+                </BasicModal>
+            )}
         </S.Wrapper>
     );
 }

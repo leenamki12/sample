@@ -1,7 +1,7 @@
 import { useHeader } from '@/layouts/ConnectLayout';
 import IconHistoryBack from '@assets/common/icon_historyback_arrow.svg';
+import IconMypage from '@assets/common/icon_mypage.svg';
 import Logo from '@assets/common/logo.svg';
-import IconMypage from '@assets/company/common/icon_mypage.svg';
 
 import Profile from '../profile/Profile';
 
@@ -26,18 +26,18 @@ function Header() {
                                 className="h-[35px] w-[35px] max-w-[35px]"
                             />
                         </S.BackButton>
-                        <S.DetailTitle>{pageTitle}</S.DetailTitle>
+                        <S.PageTitle>
+                            <strong>{pageTitle}</strong>
+                        </S.PageTitle>
                     </>
                 ) : (
                     <S.Logo href="/">
                         <img src={Logo} alt="위드닥" />
                     </S.Logo>
                 )}
-                <S.MypageBox>
-                    <Profile>
-                        <img src={IconMypage} alt="마이페이지" />
-                    </Profile>
-                </S.MypageBox>
+                <Profile>
+                    <img src={IconMypage} alt="마이페이지" />
+                </Profile>
             </S.InnerBox>
         </S.Wrapper>
     );

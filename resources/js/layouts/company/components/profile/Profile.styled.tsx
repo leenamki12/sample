@@ -2,10 +2,10 @@ import { Popover } from '@headlessui/react';
 import tw, { styled } from 'twin.macro';
 
 export const Button = styled(Popover.Button)`
-    ${tw`p-[10px 30px] flex items-center justify-center`}
+    ${tw`flex h-[45px] w-[45px] items-center justify-center`}
 
     img {
-        ${tw`h-7 w-auto`}
+        ${tw`m-auto h-[30px]`}
     }
 `;
 
