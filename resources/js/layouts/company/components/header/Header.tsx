@@ -1,5 +1,4 @@
 import { useHeader } from '@/layouts/ConnectLayout';
-
 import IconHistoryBack from '@assets/common/icon_historyback_arrow.svg';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon_mypage.svg';
@@ -10,9 +9,6 @@ import * as S from './Header.styled';
 
 function Header() {
     const { pageTitle } = useHeader();
-
-function Header() {
-
 
     const handleBack = () => {
         return window.history.back();
