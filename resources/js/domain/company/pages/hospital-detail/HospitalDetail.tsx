@@ -1,25 +1,20 @@
-import { useEffect } from 'react';
-
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { PageHeader } from '@/components/ui';
 import IconPartner from '@assets/company/common/icon_partner.svg';
+
+import { DetailSticky, OtherPartnerList } from '../../components';
+import useHospitalData from '../../datas';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { DetailSticky, OtherPartnerList } from '../../components';
-import useHospitalData from '../../datas';
-
 import * as S from './HospitalDetail.styled';
 
-type Props = {
-    setIsHitory: (value: boolean) => void;
-};
-
-function HospitalDetail({ setIsHitory }: Props) {
+function HospitalDetail() {
     const { id } = usePage().props;
 
     const hospitalData = useHospitalData().find(data => data.id === Number(id));
@@ -27,13 +22,10 @@ function HospitalDetail({ setIsHitory }: Props) {
     if (!hospitalData) {
         return null;
     }
-    useEffect(() => {
-        setIsHitory(true);
-    }, []);
 
     return (
         <div>
-            <Head title={hospitalData?.name} />
+            <PageHeader title={hospitalData?.name} />
             <S.ColBox>
                 <S.SwiperBox>
                     <Swiper

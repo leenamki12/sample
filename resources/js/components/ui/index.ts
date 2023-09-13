@@ -1,3 +1,6 @@
+//page-header
+export { default as PageHeader } from './page-header/PageHeader';
+
 //inputs
 export { default as TextInput } from './inputs/text-input/TextInput';
 export type { InputRefProps } from './inputs/text-input/TextInput';

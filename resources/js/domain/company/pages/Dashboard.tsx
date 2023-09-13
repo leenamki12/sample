@@ -1,7 +1,7 @@
-import { Head } from '@inertiajs/react';
 import { Autoplay, Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { PageHeader } from '@/components/ui';
 import ImageBanner01 from '@assets/company/home/main_banner01.png';
 import ImageBanner02 from '@assets/company/home/main_banner02.png';
 import ImageBanner03 from '@assets/company/home/main_banner03.png';
@@ -17,7 +17,7 @@ import * as S from './Dashboard.styled';
 function Dashboard() {
     return (
         <S.Wrapper>
-            <Head title="Home" />
+            <PageHeader title="" head="홈" />
             <S.BannerBox>
                 <Swiper
                     modules={[Pagination, Autoplay, A11y]}

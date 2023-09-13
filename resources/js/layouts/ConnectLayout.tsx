@@ -1,4 +1,11 @@
-import React, { PropsWithChildren, ReactElement, useMemo } from 'react';
+import React, {
+    PropsWithChildren,
+    ReactElement,
+    createContext,
+    useContext,
+    useMemo,
+    useState,
+} from 'react';
 
 import { usePage } from '@inertiajs/react';
 
@@ -11,7 +18,11 @@ import HospitalLayout from './hospital/HospitalLayout';
 
 type Props = {
     children: ReactElement;
-    name: string;
+};
+
+type ContextProps = {
+    header: string;
+    setHeader: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Layouts: StrKeyArray<React.ComponentType<PropsWithChildren<{ user: User }>>> = {
@@ -20,17 +31,37 @@ const Layouts: StrKeyArray<React.ComponentType<PropsWithChildren<{ user: User }>
     company: CompanyLayout,
 };
 
-function ConnectLayout({ children, name }: Props) {
+const HeaderStateContext = createContext<ContextProps | undefined>(undefined);
+
+function ConnectLayout({ children }: Props) {
     const { props } = usePage<PageProps>();
     const user = props.auth.user;
+    const [header, setHeader] = useState<string>('');
+
     const Layout = useMemo(() => {
         if (user) {
             return Layouts[user.roles[0]];
         }
         return 'div';
-    }, [name, user]);
+    }, [user]);
 
-    return React.createElement(Layout, { user: user }, children);
+    return (
+        <HeaderStateContext.Provider value={{ header, setHeader }}>
+            {React.createElement(Layout, { user: user }, children)}
+        </HeaderStateContext.Provider>
+    );
 }
+
+export const useHeader = () => {
+    const context = useContext<ContextProps | undefined>(HeaderStateContext);
+
+    function setPageHeader(title: string) {
+        if (context) {
+            context.setHeader(title);
+        }
+    }
+
+    return { pageTitle: context?.header, setPageHeader };
+};
 
 export default ConnectLayout;

@@ -1,6 +1,4 @@
-import { usePage } from '@inertiajs/react';
-
-import useHospitalData from '@/domain/company/datas';
+import { useHeader } from '@/layouts/ConnectLayout';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon_mypage.svg';
 
@@ -8,14 +6,8 @@ import Profile from '../profile/Profile';
 
 import * as S from './Header.styled';
 
-type Props = {
-    history: boolean;
-};
-
-function Header({ history }: Props) {
-    const { id } = usePage().props;
-
-    const HospitalName = useHospitalData().find(data => data.id === Number(id))?.name;
+function Header() {
+    const { pageTitle } = useHeader();
 
     const handleBack = () => {
         return window.history.back();
@@ -24,12 +16,12 @@ function Header({ history }: Props) {
     return (
         <S.Wrapper>
             <S.InnerBox>
-                {history ? (
+                {pageTitle ? (
                     <>
                         <S.BackButton onClick={handleBack}>
                             <span className="sr-only">뒤로가기</span>
                         </S.BackButton>
-                        <S.DetailTitle>{HospitalName}</S.DetailTitle>
+                        <S.DetailTitle>{pageTitle}</S.DetailTitle>
                     </>
                 ) : (
                     <S.Logo href="/">

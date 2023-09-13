@@ -1,7 +1,7 @@
 import { Fragment, ReactNode, useState, FormEventHandler } from 'react';
 
 import { Popover, Transition } from '@headlessui/react';
-import { router, useForm, usePage } from '@inertiajs/react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
 
 import ApplicationLogo from '@/components/inertia/ApplicationLogo';
 import { TextInput, PrimaryButton, CancelButton } from '@/components/ui';
@@ -76,6 +76,7 @@ function Profile({ children }: Props) {
         <>
             <Popover className="relative">
                 <S.Button>{children}</S.Button>
+                <Head title="회원정보수정" />
 
                 <Transition
                     as={Fragment}
