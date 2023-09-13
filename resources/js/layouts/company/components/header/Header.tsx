@@ -1,4 +1,6 @@
 import { useHeader } from '@/layouts/ConnectLayout';
+
+import IconHistoryBack from '@assets/common/icon_historyback_arrow.svg';
 import Logo from '@assets/common/logo.svg';
 import IconMypage from '@assets/company/common/icon_mypage.svg';
 
@@ -8,6 +10,9 @@ import * as S from './Header.styled';
 
 function Header() {
     const { pageTitle } = useHeader();
+
+function Header() {
+
 
     const handleBack = () => {
         return window.history.back();
@@ -19,7 +24,11 @@ function Header() {
                 {pageTitle ? (
                     <>
                         <S.BackButton onClick={handleBack}>
-                            <span className="sr-only">뒤로가기</span>
+                            <img
+                                src={IconHistoryBack}
+                                alt=""
+                                className="h-[35px] w-[35px] max-w-[35px]"
+                            />
                         </S.BackButton>
                         <S.DetailTitle>{pageTitle}</S.DetailTitle>
                     </>

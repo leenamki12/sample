@@ -2,19 +2,19 @@ import { Link } from '@inertiajs/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { useHospitalData } from '@/domain/company/datas';
 import IconPartner from '@assets/company/common/icon_partner.svg';
 
 import 'swiper/css/pagination';
-import useHospitalData from '../../datas';
 
 import * as S from './HospitalList.styled';
 
 function HospitalList() {
-    const hospitalData = useHospitalData();
+    const { datas } = useHospitalData();
 
     return (
         <>
-            {hospitalData.map(hospital => (
+            {datas.map(hospital => (
                 <S.Item key={hospital.id}>
                     <Link href={`company/detail/${hospital.id}`}>
                         <div>

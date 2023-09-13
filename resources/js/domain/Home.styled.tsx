@@ -9,7 +9,7 @@ export const LoginWrapper = styled.div`
 `;
 
 export const ImageBox = styled.div`
-    ${tw`mb-[10px] flex justify-center`}
+    ${tw`mb-[20px] flex justify-center`}
 `;
 
 export const LogoInfoText = styled.div`

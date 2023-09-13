@@ -2,7 +2,7 @@ import { Popover } from '@headlessui/react';
 import tw, { styled } from 'twin.macro';
 
 export const Button = styled(Popover.Button)`
-    ${tw`flex items-center`}
+    ${tw`p-[10px 30px] flex items-center justify-center`}
 
     img {
         ${tw`h-7 w-auto`}
@@ -30,7 +30,7 @@ export const ButtonBox = styled.div`
 `;
 
 export const ImageBox = styled.div`
-    ${tw`mb-[10px] flex justify-center`}
+    ${tw`mb-[20px] flex justify-center`}
 `;
 
 export const LogoInfoText = styled.div`

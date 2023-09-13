@@ -3,21 +3,22 @@ import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { PageHeader } from '@/components/ui';
+import { useHospitalData } from '@/domain/company/datas';
 import IconPartner from '@assets/company/common/icon_partner.svg';
 
 import { DetailSticky, OtherPartnerList } from '../../components';
-import useHospitalData from '../../datas';
+
+import * as S from './HospitalDetail.styled';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import * as S from './HospitalDetail.styled';
-
 function HospitalDetail() {
+    const { getData } = useHospitalData();
     const { id } = usePage().props;
 
-    const hospitalData = useHospitalData().find(data => data.id === Number(id));
+    const hospitalData = getData(Number(id));
 
     if (!hospitalData) {
         return null;

@@ -72,6 +72,11 @@ export const hospitals: HospitalItem[] = [
                 endTime: '19:00',
             },
             {
+                dayOfWeek: 2,
+                startTime: '18:00',
+                endTime: '19:00',
+            },
+            {
                 dayOfWeek: 4,
                 startTime: '10:00',
                 endTime: '19:00',
@@ -235,11 +240,6 @@ export const hospitals: HospitalItem[] = [
                 endTime: '19:00',
             },
             {
-                dayOfWeek: 2,
-                startTime: '09:00',
-                endTime: '19:00',
-            },
-            {
                 dayOfWeek: 3,
                 startTime: '09:00',
                 endTime: '19:00',
@@ -263,47 +263,43 @@ export const hospitals: HospitalItem[] = [
     },
 ];
 
-const useHospitalData = (): HospitalItem[] => {
-    return useMemo(() => {
-        const newItem: HospitalItem[] = [];
+function useHospitalData() {
+    const datas = useMemo(() => {
+        const currentDayOfWeek = dayjs().day();
+        const now = dayjs().format('HH:mm');
 
-        hospitals.forEach(hospital => {
-            const currentDayOfWeek = dayjs().day();
+        return hospitals.map(hospital => {
             const currentDayHours = hospital.hours.find(
                 date => currentDayOfWeek === date.dayOfWeek
             );
 
-            const now = dayjs().format('HH:mm');
-
-            let isWorking = false;
-            let workingStatus = '';
-            let workingHours = '';
-
-            if (currentDayHours) {
-                const beforeStart = currentDayHours.startTime < now;
-                const afterEnd = now < currentDayHours.endTime;
-                isWorking = beforeStart && afterEnd;
-                workingHours = `${currentDayHours.startTime} - ${currentDayHours.endTime}`;
-
-                if (isWorking) {
-                    workingStatus = '진료중';
-                } else {
-                    !beforeStart ? (workingStatus = '진료예정') : (workingStatus = '진료종료');
-                }
-            } else {
-                workingStatus = '진료없음';
+            if (!currentDayHours) {
+                return {
+                    ...hospital,
+                    workingStatus: '진료없음',
+                };
             }
 
-            newItem.push({
+            const beforeStart = currentDayHours.startTime < now;
+            const afterEnd = now < currentDayHours.endTime;
+            const isWorking = beforeStart && afterEnd;
+            const workingHours = `${currentDayHours.startTime} - ${currentDayHours.endTime}`;
+            const workingStatus = isWorking ? '진료중' : !beforeStart ? '진료예정' : '진료종료';
+
+            return {
                 ...hospital,
                 isWorking,
                 workingStatus,
                 workingHours,
-            });
+            };
         });
-
-        return newItem;
     }, [hospitals]);
-};
 
-export default useHospitalData;
+    const getData = (id: number) => {
+        return datas.find(data => data.id === id);
+    };
+
+    return { datas, getData };
+}
+
+export { useHospitalData };

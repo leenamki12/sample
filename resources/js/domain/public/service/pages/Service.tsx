@@ -31,7 +31,11 @@ import {
 
 import * as S from './Service.styled';
 
-function Service() {
+type Props = {
+    isLoggedIn: boolean;
+};
+
+function Service({ isLoggedIn }: Props) {
     return (
         <S.Wrapper>
             <Head title="서비스 소개" />
@@ -41,7 +45,7 @@ function Service() {
                     <S.TitleBox>
                         <div className="mb-[60px] flex items-center justify-center mobile:mb-[30px] tablet:mb-[45px]">
                             <p className="max-w-[115px]">
-                                <img src={Logo} alt="" />
+                                <img src={Logo} alt="" className="mobile:w-[70px]" />
                             </p>
                         </div>
                         <S.Title>
@@ -214,7 +218,7 @@ function Service() {
                 </S.InnerBox>
             </S.Section>
             {/* //section-07 */}
-            <StickyBar />
+            {!isLoggedIn && <StickyBar />}
         </S.Wrapper>
     );
 }

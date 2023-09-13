@@ -5,15 +5,11 @@ export const Wrapper = styled.header`
 `;
 
 export const InnerBox = styled.div`
-    ${tw`mx-auto flex h-20 max-w-7xl items-center justify-between px-8`}
+    ${tw`mx-auto flex h-20 max-w-7xl items-center justify-between`}
 `;
 
 export const BackButton = styled.button`
-    ${tw`relative flex h-[30px] w-[30px] items-center justify-center`}
-
-    &:before {
-        ${tw`absolute h-[15px] w-[15px] -rotate-45 border-l-[3px] border-t-[3px] border-[#333] content-['']`}
-    }
+    ${tw`flex h-full items-center justify-center px-[20px]`}
 `;
 
 export const DetailTitle = styled.strong`
@@ -21,13 +17,13 @@ export const DetailTitle = styled.strong`
 `;
 
 export const Logo = styled.a`
-    ${tw`-m-1.5 p-1.5`}
+    ${tw`flex h-full justify-center px-[30px]`}
 
     img {
-        ${tw`h-8 w-auto`}
+        ${tw`w-[67px]`}
     }
 `;
 
 export const MypageBox = styled.div`
-    ${tw`flex shrink-0 items-center gap-x-8`}
+    ${tw`flex h-full shrink-0 items-center`}
 `;
