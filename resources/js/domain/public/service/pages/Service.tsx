@@ -1,5 +1,4 @@
-import { Head } from '@inertiajs/react';
-
+import { PageHeader } from '@/components/ui';
 import Logo from '@assets/common/logo.svg';
 import HospitalRolling01 from '@assets/public/service/hospital_rolling01.png';
 import HospitalRolling02 from '@assets/public/service/hospital_rolling02.png';
@@ -38,7 +37,7 @@ type Props = {
 function Service({ isLoggedIn }: Props) {
     return (
         <S.Wrapper>
-            <Head title="서비스 소개" />
+            <PageHeader title="" head="서비스 소개" />
             {/* section-01 */}
             <S.Section backgroundColor="#E8F2FC">
                 <S.InnerBox className="!pb-0">

@@ -9,7 +9,8 @@ export const LinkList = styled.ul`
 `;
 
 export const Item = styled.li`
-    a {
+    a,
+    button {
         ${tw`text-sm font-bold text-[#aaa]`}
     }
 `;

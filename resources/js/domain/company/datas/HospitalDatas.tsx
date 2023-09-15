@@ -32,6 +32,7 @@ export type HospitalItem = {
     images: string[];
     content: string;
     address: string;
+    addressLink?: string;
     detailImages?: DetailImages;
     treatmentItems: string[];
     isWorking?: boolean;
@@ -48,6 +49,8 @@ export const hospitals: HospitalItem[] = [
         content:
             '눈, 코, 가슴, 안면윤곽, 리프팅 등 분야별 체계적인 협진과 대학병원급 설비 시스템, 강남역 12번 출구',
         address: '서울 강남구 역삼역',
+        addressLink:
+            'https://map.naver.com/p/search/%EB%94%94%EC%97%90%EC%9D%B4%EC%84%B1%ED%98%95%EC%99%B8%EA%B3%BC/place/33084820?c=14.70,0,0,0,dh&isCorrectAnswer=true',
         detailImages: {
             basic: [detail01Image01, detail01Image02, detail01Image03, detail01Image04],
             map: detail01Image05,

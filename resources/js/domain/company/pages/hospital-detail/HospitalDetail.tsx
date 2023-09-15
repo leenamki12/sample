@@ -101,7 +101,8 @@ function HospitalDetail() {
                             <div className="relative">
                                 <img src={hospitalData?.detailImages.map} alt="" />
                                 <a
-                                    href="#"
+                                    href={hospitalData.addressLink}
+                                    target="_blank"
                                     className={`absolute bottom-[10%] left-[8%] z-[2] h-[10%] w-[85%] text-transparent`}
                                 >
                                     상세보기

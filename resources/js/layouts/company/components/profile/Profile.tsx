@@ -75,7 +75,7 @@ function Profile({ children }: Props) {
 
     return (
         <>
-            <Popover className="relative">
+            <Popover className="absolute right-[20px] top-1/2 z-10 -translate-y-1/2">
                 <S.Button>{children}</S.Button>
 
                 <Transition
