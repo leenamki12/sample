@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Wrapper = styled.header`
-    ${tw`shrink-0 shadow-[0_4px_20px_0_rgba(0,0,0,0.05)]`}
+    ${tw`relative shrink-0 shadow-[0_4px_20px_0_rgba(0,0,0,0.05)]`}
 `;
 
 export const InnerBox = styled.div`

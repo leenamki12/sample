@@ -3,15 +3,7 @@ import DaumPostcode, { Address } from 'react-daum-postcode';
 
 import { Head, useForm, router } from '@inertiajs/react';
 
-import {
-    LabelTextInput,
-    TextInput,
-    PrimaryButton,
-    SecondaryButton,
-    TertiaryButton,
-    LabelFileInput,
-    InputRefProps,
-} from '@/components/ui';
+import { LabelTextInput, TextInput, LabelFileInput, InputRefProps, Button } from '@/components/ui';
 import Header from '@/layouts/Header';
 import { ReactComponent as HistoryBack } from '@assets/common/icon_historyback_arrow.svg';
 
@@ -92,7 +84,7 @@ export default function Register() {
         }
     };
 
-    const submit: FormEventHandler = e => {
+    const onSubmit: FormEventHandler = e => {
         e.preventDefault();
 
         if (!isVerifySuccess) {
@@ -276,9 +268,9 @@ export default function Register() {
         <>
             <S.Wrapper>
                 <Header label="회원가입" maxWidth="435px" />
-                <Head title="Register" />
+                <Head title="회원가입" />
                 <S.InnerWrapper>
-                    <S.Form onSubmit={submit}>
+                    <S.Form onSubmit={onSubmit}>
                         <div>
                             <LabelTextInput
                                 type="email"
@@ -339,8 +331,7 @@ export default function Register() {
                                     error={errors.phone}
                                     readOnly={isVerifySuccess}
                                 />
-                                <SecondaryButton
-                                    type="button"
+                                <Button
                                     label={
                                         isVerifySuccess
                                             ? '인증완료'
@@ -356,6 +347,7 @@ export default function Register() {
                                         isVerifySuccess ||
                                         (!isVerifySuccess && verifyButtonTime !== 0)
                                     }
+                                    buttonElement="secondary"
                                 />
                             </S.InputButtonBox>
                             {verifyCodeNumber && (
@@ -373,7 +365,8 @@ export default function Register() {
                                                     onChange={handleChangeInputData}
                                                     error={errors.phoneAuth}
                                                 />
-                                                <PrimaryButton
+                                                <Button
+                                                    buttonElement="primary"
                                                     label="인증번호 확인"
                                                     onClick={onVerifySms}
                                                     disabled={!data.phoneAuth}
@@ -420,7 +413,8 @@ export default function Register() {
                                     isRequired
                                     readOnly
                                 />
-                                <TertiaryButton
+                                <Button
+                                    buttonElement="teriary"
                                     label="주소검색"
                                     onClick={() => setAddressModalShow(true)}
                                 />
@@ -486,7 +480,7 @@ export default function Register() {
                             </PrivacyCheckItem>
                         </S.PrivacyList>
                         <div className="pt-[10px]">
-                            <PrimaryButton type="submit" label="가입신청하기" />
+                            <Button type="submit" label="가입신청하기" buttonElement="primary" />
                         </div>
                     </S.Form>
                 </S.InnerWrapper>

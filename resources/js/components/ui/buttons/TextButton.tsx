@@ -1,11 +1,7 @@
-import BaseButton from './BaseButton';
+import { ButtonProps } from './BaseButton';
 import * as S from './styles/TextButton.styled';
 
-type Props = React.ComponentPropsWithoutRef<typeof BaseButton> & {
-    label: string;
-} & S.Props;
-
-export default function TextButton({ type = 'button', label, color, ...props }: Props) {
+export default function TextButton({ type = 'button', label, color, ...props }: ButtonProps) {
     return (
         <S.TextButton {...props} type={type} color={color}>
             {label}

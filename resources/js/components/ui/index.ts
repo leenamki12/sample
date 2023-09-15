@@ -18,6 +18,9 @@ export { default as TertiaryButton } from './buttons/TertiaryButton';
 export { default as TextButton } from './buttons/TextButton';
 export { default as BorderButton } from './buttons/BorderButton';
 export { default as CancelButton } from './buttons/CancelButton';
+export { default as Button } from './buttons/Button';
+export type { ButtonProps } from './buttons/BaseButton';
+export type { ButtonStyleProps } from './buttons/styles/BaseButton.styled';
 
 //badge
 export { default as Badge } from './badges/Badge';

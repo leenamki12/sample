@@ -1,11 +1,7 @@
-import BaseButton from './BaseButton';
+import { ButtonProps } from './BaseButton';
 import * as S from './styles/CancelButton.styled';
 
-type Props = React.ComponentPropsWithoutRef<typeof BaseButton> & {
-    label: string;
-};
-
-export default function CancelButton({ type = 'button', label, ...props }: Props) {
+export default function CancelButton({ type = 'button', label, ...props }: ButtonProps) {
     return (
         <S.CancelButton {...props} type={type}>
             {label}

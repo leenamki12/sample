@@ -2,7 +2,7 @@ import { useEffect, FormEventHandler } from 'react';
 
 import { useForm } from '@inertiajs/react';
 
-import { Checkbox, PrimaryButton, TextInput } from '@/components/ui';
+import { Button, Checkbox, TextInput } from '@/components/ui';
 import { ReactComponent as EmailIcon } from '@assets/common/icon_login_email.svg';
 import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_password.svg';
 
@@ -59,7 +59,7 @@ export default function Login() {
                 <Checkbox label="아이디 저장" />
             </S.CheckboxWrapper>
             <S.ButtonBox>
-                <PrimaryButton type="submit" label="로그인" />
+                <Button element="primary" type="submit" label="로그인" />
             </S.ButtonBox>
         </form>
     );

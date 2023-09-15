@@ -1,11 +1,7 @@
-import BaseButton from './BaseButton';
+import { ButtonProps } from './BaseButton';
 import * as S from './styles/BorderButton.styled';
 
-type Props = React.ComponentPropsWithoutRef<typeof BaseButton> & {
-    label: string;
-} & S.Props;
-
-export default function BorderButton({ type = 'button', label, color, ...props }: Props) {
+export default function BorderButton({ type = 'button', label, color, ...props }: ButtonProps) {
     return (
         <S.BorderButton {...props} type={type} color={color}>
             {label}

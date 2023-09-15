@@ -1,7 +1,7 @@
 import { Fragment, ReactNode, useState, FormEventHandler } from 'react';
 
 import { Popover, Transition } from '@headlessui/react';
-import { Head, router, useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 
 import ApplicationLogo from '@/components/inertia/ApplicationLogo';
 import { TextInput, PrimaryButton, CancelButton } from '@/components/ui';
@@ -20,6 +20,7 @@ type Props = {
 function Profile({ children }: Props) {
     const { props } = usePage<PageProps>();
     const user = props.auth.user;
+
     const handleLogout = () => {
         router.post(route('logout'), {}, { replace: true });
     };
@@ -76,7 +77,6 @@ function Profile({ children }: Props) {
         <>
             <Popover className="relative">
                 <S.Button>{children}</S.Button>
-                <Head title="회원정보수정" />
 
                 <Transition
                     as={Fragment}
@@ -87,21 +87,21 @@ function Profile({ children }: Props) {
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 translate-y-1"
                 >
-                    <Popover.Panel className="absolute left-1/2 z-10 mt-[10px] flex w-screen max-w-min -translate-x-1/2 px-4">
-                        <div className="w-32 shrink rounded bg-white p-2 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5">
+                    <S.Panel>
+                        <S.PanelInner>
                             <S.LinkButton type="button" onClick={handleProfile}>
                                 프로필
                             </S.LinkButton>
                             <S.LinkButton type="button" onClick={handleLogout}>
                                 로그아웃
                             </S.LinkButton>
-                        </div>
-                    </Popover.Panel>
+                        </S.PanelInner>
+                    </S.Panel>
                 </Transition>
             </Popover>
             {loginModalShow && (
-                <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black/60">
-                    <form onSubmit={submit} className="w-[435px] rounded bg-white p-[50px]">
+                <S.ModalWrap>
+                    <S.ModalForm onSubmit={submit}>
                         <S.ImageBox>
                             <ApplicationLogo width="w-[94px]" />
                         </S.ImageBox>
@@ -127,10 +127,10 @@ function Profile({ children }: Props) {
                         </S.InputList>
                         <S.ButtonBox>
                             <PrimaryButton type="submit" label="로그인" />
-                            <CancelButton label="취소" />
+                            <CancelButton label="취소" onClick={() => setLoginModalShow(false)} />
                         </S.ButtonBox>
-                    </form>
-                </div>
+                    </S.ModalForm>
+                </S.ModalWrap>
             )}
         </>
     );

@@ -1,11 +1,7 @@
-import BaseButton from './BaseButton';
+import { ButtonProps } from './BaseButton';
 import * as S from './styles/SecondaryButton.styled';
 
-type Props = React.ComponentPropsWithoutRef<typeof BaseButton> & {
-    label: string;
-};
-
-export default function SecondaryButton({ type = 'button', label, ...props }: Props) {
+export default function SecondaryButton({ type = 'button', label, ...props }: ButtonProps) {
     return (
         <S.SecondaryButton {...props} type={type}>
             {label}

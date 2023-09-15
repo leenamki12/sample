@@ -31,6 +31,12 @@ export const Input = styled.input<Props>`
     ${({ isError }) => isError && tw`border-2 border-red-500`};
 
     ${({ hasIcon }) => hasIcon && tw`pl-[47px]`}
+
+    ${tw`
+        read-only:border-[#dadada]
+        read-only:bg-[#f8f8f8]
+        read-only:ring-0
+    `}
 `;
 
 export const Error = styled.div`
