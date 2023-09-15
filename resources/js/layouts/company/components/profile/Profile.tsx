@@ -1,10 +1,10 @@
 import { Fragment, ReactNode, useState, FormEventHandler } from 'react';
 
-import { Popover, Transition } from '@headlessui/react';
+import { Transition } from '@headlessui/react';
 import { router, useForm, usePage } from '@inertiajs/react';
 
 import ApplicationLogo from '@/components/inertia/ApplicationLogo';
-import { TextInput, PrimaryButton, CancelButton } from '@/components/ui';
+import { TextInput, Button } from '@/components/ui';
 import { PageProps } from '@/types';
 import { ReactComponent as EmailIcon } from '@assets/common/icon_login_email.svg';
 import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_password.svg';
@@ -75,7 +75,7 @@ function Profile({ children }: Props) {
 
     return (
         <>
-            <Popover className="absolute right-[20px] top-1/2 z-10 -translate-y-1/2">
+            <S.PopoverWrap>
                 <S.Button>{children}</S.Button>
 
                 <Transition
@@ -98,7 +98,7 @@ function Profile({ children }: Props) {
                         </S.PanelInner>
                     </S.Panel>
                 </Transition>
-            </Popover>
+            </S.PopoverWrap>
             {loginModalShow && (
                 <S.ModalWrap>
                     <S.ModalForm onSubmit={submit}>
@@ -126,8 +126,12 @@ function Profile({ children }: Props) {
                             />
                         </S.InputList>
                         <S.ButtonBox>
-                            <PrimaryButton type="submit" label="로그인" />
-                            <CancelButton label="취소" onClick={() => setLoginModalShow(false)} />
+                            <Button type="submit" label="로그인" element="primary" />
+                            <Button
+                                label="취소"
+                                element="cancel"
+                                onClick={() => setLoginModalShow(false)}
+                            />
                         </S.ButtonBox>
                     </S.ModalForm>
                 </S.ModalWrap>

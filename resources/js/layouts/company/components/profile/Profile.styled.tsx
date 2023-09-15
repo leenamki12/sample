@@ -1,16 +1,20 @@
 import { Popover } from '@headlessui/react';
 import tw, { styled } from 'twin.macro';
 
+export const PopoverWrap = styled(Popover)`
+    ${tw`absolute right-[20px] top-1/2 z-10 -translate-y-1/2`}
+`;
+
+export const Panel = styled(Popover.Panel)`
+    ${tw`absolute left-1/2 z-10 mt-[10px] flex w-screen max-w-min -translate-x-1/2 px-4`}
+`;
+
 export const Button = styled(Popover.Button)`
     ${tw`flex h-[45px] w-[45px] items-center justify-center`}
 
     img {
         ${tw`m-auto h-[30px]`}
     }
-`;
-
-export const Panel = styled(Popover.Panel)`
-    ${tw`absolute left-1/2 z-10 mt-[10px] flex w-screen max-w-min -translate-x-1/2 px-4`}
 `;
 
 export const PanelInner = styled.div`

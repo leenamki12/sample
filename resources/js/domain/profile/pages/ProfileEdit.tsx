@@ -23,8 +23,8 @@ export default function ProfileEdit() {
         name: '이남기',
         phone: '01050206570',
         phoneAuth: '',
-        companiesName: '',
-        employees: null,
+        companiesName: '가치브라더',
+        employees: 50,
         address: '',
         postalCode: '',
         addressDetail: '',
@@ -95,6 +95,7 @@ export default function ProfileEdit() {
                                 onChange={handleChangeInputData}
                                 isRequired
                                 error={errors.companiesName}
+                                defaultValue={data.companiesName}
                             />
                         </div>
                         <div>
@@ -106,6 +107,7 @@ export default function ProfileEdit() {
                                 onChange={handleChangeInputData}
                                 isRequired
                                 error={errors.employees}
+                                defaultValue={data.employees || 0}
                             />
                         </div>
                         <S.RowBox isError={!!errors.address}>

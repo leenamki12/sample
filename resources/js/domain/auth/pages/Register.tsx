@@ -347,7 +347,7 @@ export default function Register() {
                                         isVerifySuccess ||
                                         (!isVerifySuccess && verifyButtonTime !== 0)
                                     }
-                                    buttonElement="secondary"
+                                    element="secondary"
                                 />
                             </S.InputButtonBox>
                             {verifyCodeNumber && (
@@ -366,7 +366,7 @@ export default function Register() {
                                                     error={errors.phoneAuth}
                                                 />
                                                 <Button
-                                                    buttonElement="primary"
+                                                    element="primary"
                                                     label="인증번호 확인"
                                                     onClick={onVerifySms}
                                                     disabled={!data.phoneAuth}
@@ -414,7 +414,7 @@ export default function Register() {
                                     readOnly
                                 />
                                 <Button
-                                    buttonElement="teriary"
+                                    element="teriary"
                                     label="주소검색"
                                     onClick={() => setAddressModalShow(true)}
                                 />
@@ -480,7 +480,7 @@ export default function Register() {
                             </PrivacyCheckItem>
                         </S.PrivacyList>
                         <div className="pt-[10px]">
-                            <Button type="submit" label="가입신청하기" buttonElement="primary" />
+                            <Button type="submit" label="가입신청하기" element="primary" />
                         </div>
                     </S.Form>
                 </S.InnerWrapper>
