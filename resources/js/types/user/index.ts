@@ -7,6 +7,7 @@ export type User = {
     email_verified_at: string;
     auth_company: boolean;
     company_detail: Companies & Company;
+    marketing_consent: boolean;
 };
 
 type Companies = {

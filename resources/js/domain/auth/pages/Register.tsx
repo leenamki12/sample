@@ -1,11 +1,17 @@
 import { useEffect, FormEventHandler, useRef, useState } from 'react';
-import DaumPostcode, { Address } from 'react-daum-postcode';
+import { Address } from 'react-daum-postcode';
 
 import { Head, useForm, router } from '@inertiajs/react';
 
-import { LabelTextInput, TextInput, LabelFileInput, InputRefProps, Button } from '@/components/ui';
+import {
+    LabelTextInput,
+    TextInput,
+    LabelFileInput,
+    InputRefProps,
+    Button,
+    AddressModal,
+} from '@/components/ui';
 import Header from '@/layouts/Header';
-import { ReactComponent as HistoryBack } from '@assets/common/icon_historyback_arrow.svg';
 
 import * as S from './styles/Register.styled';
 import { PrivacyCheckItem } from '../components';
@@ -486,19 +492,10 @@ export default function Register() {
                 </S.InnerWrapper>
             </S.Wrapper>
             {addressModalShow && (
-                <S.AddressModal>
-                    <S.AddressModalHeader>
-                        <button type="button" onClick={() => setAddressModalShow(false)}>
-                            <HistoryBack />
-                        </button>
-                        <h2>주소검색</h2>
-                    </S.AddressModalHeader>
-                    <DaumPostcode
-                        className="PostModal"
-                        onComplete={handleAddressComplete}
-                        style={{ height: 'calc(100% - 70px)' }}
-                    />
-                </S.AddressModal>
+                <AddressModal
+                    onClickHistoryBack={() => setAddressModalShow(false)}
+                    onComplete={handleAddressComplete}
+                />
             )}
         </>
     );

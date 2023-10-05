@@ -24,7 +24,7 @@ class Company extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
-    public function companyDetail()
+    public function detail()
     {
         return $this->hasOne(CompanyDetail::class, 'id', 'detail_id');
     }

@@ -46,7 +46,7 @@ function Profile({ children }: Props) {
         clearErrors(id as FormProps);
     };
 
-    const submit: FormEventHandler = e => {
+    const onSubmit: FormEventHandler = e => {
         e.preventDefault();
         router.post(
             route('login'),
@@ -101,7 +101,7 @@ function Profile({ children }: Props) {
             </S.PopoverWrap>
             {loginModalShow && (
                 <S.ModalWrap>
-                    <S.ModalForm onSubmit={submit}>
+                    <S.ModalForm onSubmit={onSubmit}>
                         <S.ImageBox>
                             <ApplicationLogo width="w-[94px]" />
                         </S.ImageBox>

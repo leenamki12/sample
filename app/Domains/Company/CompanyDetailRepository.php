@@ -25,4 +25,17 @@ class CompanyDetailRepository
         return $detail;
     }
 
+    public function update($request)
+    {
+        $detail = $this->detail->update([
+            'name'             => $request->companiesName,
+            'address'          => $request->address,
+            'address_detail'   => $request->addressDetail,
+            'postal_code'      => $request->postalCode,
+            'employees'        => $request->employees,
+        ]);
+
+        return $detail;
+    }
+
 }

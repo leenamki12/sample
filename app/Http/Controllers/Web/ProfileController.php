@@ -2,48 +2,64 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Domains\Company\CompanyService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Requests\Profile\ProfilePhotoUpdateRequest;
+use App\Http\Requests\Profile\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): Response
+    protected $companyService;
+
+    public function __construct(
+        CompanyService $companyService,
+    ) {
+        $this->companyService = $companyService;
+    }
+
+    public function edit(Request $request)
     {
+
         return Inertia::render('profile/pages/ProfileEdit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
+            'profile' => $request->user()->getCompany()
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
+
         $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
         $request->user()->save();
+
+        $request->user()->company->detail->update([
+            'name'             => $request->companiesName,
+            'address'          => $request->address,
+            'address_detail'   => $request->addressDetail,
+            'postal_code'      => $request->postalCode,
+            'employees'        => $request->employees,
+        ]);
 
         return Redirect::route('profile.edit');
     }
 
-    /**
-     * Delete the user's account.
-     */
+
+    public function photoUpdate(ProfilePhotoUpdateRequest $request)
+    {
+        if ($request->hasFile('businessLicense')) {
+
+            $businessLicensePath = $request->file('businessLicense')
+                ->store('images/businessLicense', 'public');
+
+            $request->user()->company->detail->update([
+                'business_license' => $businessLicensePath,
+            ]);
+        }
+    }
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([

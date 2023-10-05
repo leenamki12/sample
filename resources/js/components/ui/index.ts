@@ -33,3 +33,6 @@ export { default as BasicModal } from './modals/basic-modal/BasicModal';
 export type { BasicModalProps } from './modals/basic-modal/BasicModal';
 export { default as InnerPrivacyModal } from './modals/Inner-privacy-modal/InnerPrivacyModal';
 export { default as SlideModal } from './modals/slide-modal/SlideModal';
+export { default as AddressModal } from './modals/address-modal/AddressModal';
+export { default as PasswordChangeModal } from './modals/password-change-modal/PasswordModal';
+export { default as PhotoModal } from './modals/photo-modal/PhotoModal';

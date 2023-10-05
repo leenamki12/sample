@@ -18,4 +18,9 @@ class CompanyRepository
         return $company;
     }
 
+
+    public function getByCode($code)
+    {
+        return $this->company->where('auth_code', $code)->first();
+    }
 }

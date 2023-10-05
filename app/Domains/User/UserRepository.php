@@ -23,6 +23,7 @@ class UserRepository
 
     public function store($request)
     {
+
         $user = $this->user->create([
             'email'             => $request->email,
             'password'          => Hash::make($request->password),

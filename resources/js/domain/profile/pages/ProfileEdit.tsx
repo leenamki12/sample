@@ -1,36 +1,41 @@
-import { FormEventHandler, useRef } from 'react';
+import { FormEventHandler, useRef, useState } from 'react';
+import { Address } from 'react-daum-postcode';
 
-import { useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 
 import {
+    AddressModal,
     Button,
     InputRefProps,
-    LabelFileInput,
     LabelTextInput,
     PageHeader,
+    PasswordChangeModal,
+    PhotoModal,
     TextInput,
 } from '@/components/ui';
+import { PageProps } from '@/types';
 
 import LabelButton from './components/label-button/LabelButton';
 import * as S from './styles/ProfileEdit.styled';
-import { ProfileEditFormKey, ProfileEditFormProps } from './types/ProfieEdit';
+import { ProfileEditFormKey, ProfileEditFormProps } from './types/Profie';
 
 export default function ProfileEdit() {
-    const { data, setData, errors, clearErrors } = useForm<ProfileEditFormProps>({
-        email: 'leenamki12@naver.com',
-        password: '',
-        password_confirmation: '',
-        name: '이남기',
-        phone: '01050206570',
-        phoneAuth: '',
-        companiesName: '가치브라더',
-        employees: 50,
-        address: '',
-        postalCode: '',
-        addressDetail: '',
-        businessLicense: null,
-        marketingConsent: false,
+    const { auth, profile } = usePage<PageProps>().props;
+    const { data, patch, setData, errors, clearErrors } = useForm<ProfileEditFormProps>({
+        name: auth.user.name,
+        companiesName: profile.detail.name,
+        employees: profile.detail.employees,
+        address: profile.detail.address,
+        postalCode: profile.detail.postal_code,
+        addressDetail: profile.detail.address_detail,
+        marketingConsent: auth.user.marketing_consent,
     });
+
+    const isApprovalStatus = profile.approval_status === 'completed';
+
+    const [addressModalShow, setAddressModalShow] = useState(false);
+    const [passwordChangeModalShow, setPasswordChangeModalShow] = useState(false);
+    const [photoModalShow, setPhotoModalShow] = useState(false);
 
     const addressInputRef = useRef<InputRefProps>(null);
     const postalCodeInputRef = useRef<InputRefProps>(null);
@@ -42,8 +47,43 @@ export default function ProfileEdit() {
 
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
-        console.log('submit');
+        patch(route('profile.update'), {
+            replace: false,
+            onSuccess: () => {
+                alert('회원정보 수정이 완료되었습니다.');
+            },
+        });
     };
+
+    const onSubmitCodeChange: FormEventHandler = e => {
+        e.preventDefault();
+        router.patch(
+            route('companyCode.update'),
+            {},
+            {
+                preserveState: true,
+                replace: false,
+                preserveScroll: true,
+                onSuccess: () => {
+                    alert('기업코드가 변경 되었습니다. 서비스 소개서 전송 버튼을 눌러주세요.');
+                },
+            }
+        );
+    };
+
+    function handleAddressComplete(responseAddress: Address) {
+        addressInputRef.current?.setValue(responseAddress.address);
+        postalCodeInputRef.current?.setValue(responseAddress.zonecode);
+        setData({
+            ...data,
+            ...{ postalCode: responseAddress.zonecode, address: responseAddress.address },
+        });
+        setAddressModalShow(false);
+
+        if (errors.address) {
+            clearErrors('address');
+        }
+    }
 
     return (
         <>
@@ -58,11 +98,9 @@ export default function ProfileEdit() {
                                 placeholder="이메일 ('@' 이후까지 입력해 주세요.)"
                                 isFocused
                                 label="이메일"
-                                error={errors.email}
                                 onChange={handleChangeInputData}
                                 readOnly
-                                defaultValue={data.email}
-                                // onBlur={onEmailVaild}
+                                defaultValue={auth.user.email}
                             />
                         </div>
                         <div>
@@ -71,7 +109,7 @@ export default function ProfileEdit() {
                                 buttonType="teriary"
                                 buttonLabel="비밀번호 변경"
                                 fontSize="14px"
-                                onClick={() => console.log('a')}
+                                onClick={() => setPasswordChangeModalShow(true)}
                             />
                         </div>
                         <div>
@@ -120,11 +158,12 @@ export default function ProfileEdit() {
                                     label="주소"
                                     isRequired
                                     readOnly
+                                    defaultValue={data.address}
                                 />
                                 <Button
                                     element="teriary"
                                     label="주소검색"
-                                    //onClick={() => setAddressModalShow(true)}
+                                    onClick={() => setAddressModalShow(true)}
                                 />
                             </S.InputButtonBox>
                             <S.InputAddressBox>
@@ -134,35 +173,92 @@ export default function ProfileEdit() {
                                     placeholder="우편번호"
                                     ref={postalCodeInputRef}
                                     readOnly
+                                    defaultValue={data.postalCode}
                                 />
                                 <TextInput
                                     type="text"
                                     id="addressDetail"
                                     placeholder="상세주소를 입력해 주세요."
                                     onChange={handleChangeInputData}
+                                    defaultValue={data.addressDetail}
                                 />
                             </S.InputAddressBox>
 
                             {errors.address && <S.Error>{errors.address}</S.Error>}
                         </S.RowBox>
                         <div>
-                            <LabelFileInput
-                                id="businessLicense"
+                            <LabelButton
                                 label="사업자등록증"
-                                placeholder="사업자등록증을 첨부해 주세요."
-                                onChange={file => {
-                                    if (errors.businessLicense) {
-                                        clearErrors('businessLicense');
-                                    }
-                                    setData('businessLicense', file);
-                                }}
-                                error={errors.businessLicense}
-                                isRequired
+                                buttonType="teriary"
+                                buttonLabel="확인하기"
+                                fontSize="14px"
+                                onClick={() => setPhotoModalShow(true)}
                             />
+                        </div>
+
+                        {isApprovalStatus ? (
+                            <S.RowBox isError={!!errors.address}>
+                                <S.InputButtonBox isLabel>
+                                    <LabelTextInput
+                                        type="number"
+                                        id="authCode"
+                                        label="기업코드"
+                                        readOnly
+                                        value={profile.auth_code}
+                                    />
+                                    <Button
+                                        element="teriary"
+                                        label="재발행"
+                                        onClick={onSubmitCodeChange}
+                                    />
+                                </S.InputButtonBox>
+
+                                <Button
+                                    element="border"
+                                    fontSize="14px"
+                                    label="서비스 소개서 및 기업코드 전송"
+                                    onClick={() => console.log('서비스 소개서 재발행')}
+                                />
+                            </S.RowBox>
+                        ) : (
+                            <>
+                                <div>
+                                    <LabelTextInput
+                                        type="text"
+                                        id="authCode"
+                                        label="기업코드"
+                                        readOnly
+                                        defaultValue={
+                                            profile.approval_status === 'stopped'
+                                                ? '기업코드가 정지 상태입니다. 전화문의 바랍니다.'
+                                                : '기업코드 심사 대기중입니다.'
+                                        }
+                                    />
+                                </div>
+                            </>
+                        )}
+
+                        <div className="pt-[10px]">
+                            <Button type="submit" label="회원정보 수정" element="primary" />
                         </div>
                     </S.Form>
                 </S.InnerWrapper>
             </S.Wrapper>
+            {addressModalShow && (
+                <AddressModal
+                    onClickHistoryBack={() => setAddressModalShow(false)}
+                    onComplete={handleAddressComplete}
+                />
+            )}
+            {passwordChangeModalShow && (
+                <PasswordChangeModal onClose={() => setPasswordChangeModalShow(false)} />
+            )}
+            {photoModalShow && (
+                <PhotoModal
+                    imageItem={profile.detail.business_license}
+                    onClickHistoryBack={() => setPhotoModalShow(false)}
+                />
+            )}
         </>
     );
 }

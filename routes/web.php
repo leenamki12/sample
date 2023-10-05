@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Profile\CompanyCodeController;
 use App\Http\Controllers\Web\Hospital\ReservationController;
 use App\Http\Controllers\Web\ProfileController;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,7 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+//대시보드
 Route::get('/dashboard', function () {
     $auth = Auth::getUser();
 
@@ -32,12 +34,20 @@ Route::get('/dashboard', function () {
     return redirect($auth->roles->first()->name);
 })->name('dashboard');
 
+//회원정보
 Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile', [ProfileController::class, 'photoUpdate'])->name('profile.photoUpdate');
 })->name('profile');
 
+//기업코드 변경
+Route::middleware('auth:web')->group(function () {
+    Route::patch('/codeUpdate', [CompanyCodeController::class, 'update'])->name('companyCode.update');
+})->name('companyCode');
+
+//서비스 소개 페이지
 Route::get('/service', function () {
     $auth = Auth::check();
     $isLoggedIn = $auth || Auth::guard('company')->check();
@@ -47,6 +57,7 @@ Route::get('/service', function () {
     ]);
 })->name('service');
 
+//관리자
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->group(function(){
@@ -55,6 +66,7 @@ Route::middleware(['auth', 'role:admin'])
         })->name('admin');
 })->name('admin');
 
+//기업
 Route::middleware(['auth:web,company', 'role:company'])
     ->prefix('company')
     ->group(function(){
@@ -69,6 +81,7 @@ Route::middleware(['auth:web,company', 'role:company'])
         Route::post('/reservations/store', [ReservationController::class, 'store'])->name('reservations.store');
 })->name('company');
 
+//병원
 Route::middleware(['auth:web', 'role:hospital'])
     ->prefix('hospital')
     ->group(function(){

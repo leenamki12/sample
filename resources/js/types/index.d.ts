@@ -1,3 +1,5 @@
+import { Profile } from '@/domain/profile/pages/types/Profie';
+
 import { User } from './user';
 
 export type StrKeyArray<T> = {
@@ -8,4 +10,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
+    profile: Profile;
 };
