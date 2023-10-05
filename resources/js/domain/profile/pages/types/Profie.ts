@@ -1,8 +1,8 @@
 import { Company } from '@/domain/company/types/company';
 
 export type Profile = {
-    approval_status: 'waiting' | 'stopped' | 'completed';
-    auth_code: string;
+    approvalStatus: 'waiting' | 'stopped' | 'completed';
+    authCode: string;
     detail: Company;
     id: number;
 };

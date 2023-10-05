@@ -298,8 +298,8 @@ function useHospitalData() {
         });
     }, [hospitals]);
 
-    const getData = (id: number) => {
-        return datas.find(data => data.id === id);
+    const getData = (id: number | string) => {
+        return datas.find(data => data.id === Number(id));
     };
 
     return { datas, getData };

@@ -2,12 +2,9 @@
 
 namespace App\DTOs\User;
 
-use App\Domains\Company\Company;
 use App\Domains\User\User;
-use App\DTOs\Company\CompanyDTO;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Collection;
-use Mockery\Undefined;
 
 class UserDTO extends Data
 {
@@ -15,10 +12,11 @@ class UserDTO extends Data
       public int $id,
       public string $name,
       public string $email,
-      public $marketing_consent,
+      public $marketingConsent,
       public ?Collection $roles,
       public ?Collection $permissions,
-      public $auth_company,
+      public $authCompany,
+      public $companyName,
     ) {
     }
 
@@ -32,6 +30,7 @@ class UserDTO extends Data
           $user->getRoleNames(),
           $user->getPermissionNames(),
           $user->getAuthCompany(),
+          $user->getCompany()->detail->name
       );
     }
 }

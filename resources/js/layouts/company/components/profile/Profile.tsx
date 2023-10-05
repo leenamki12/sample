@@ -28,7 +28,7 @@ function Profile({ children }: Props) {
     const [loginModalShow, setLoginModalShow] = useState(false);
 
     const handleProfile = () => {
-        if (user.auth_company) {
+        if (user.authCompany) {
             setLoginModalShow(true);
         } else {
             router.visit('/profile');

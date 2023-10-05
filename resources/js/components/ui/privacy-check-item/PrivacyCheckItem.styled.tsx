@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
-export const Item = styled.li`
-    ${tw`mt-[15px] flex h-[20px] items-center justify-between`}
+export const Wrapper = styled.div`
+    ${tw`flex h-[20px] items-center justify-between`}
 
     &:first-of-type {
         ${tw`mt-0`}

@@ -26,12 +26,12 @@ export default function ProfileEdit() {
         companiesName: profile.detail.name,
         employees: profile.detail.employees,
         address: profile.detail.address,
-        postalCode: profile.detail.postal_code,
-        addressDetail: profile.detail.address_detail,
-        marketingConsent: auth.user.marketing_consent,
+        postalCode: profile.detail.postalCode,
+        addressDetail: profile.detail.addressDetail,
+        marketingConsent: auth.user.marketingConsent,
     });
 
-    const isApprovalStatus = profile.approval_status === 'completed';
+    const isApprovalStatus = profile.approvalStatus === 'completed';
 
     const [addressModalShow, setAddressModalShow] = useState(false);
     const [passwordChangeModalShow, setPasswordChangeModalShow] = useState(false);
@@ -204,7 +204,7 @@ export default function ProfileEdit() {
                                         id="authCode"
                                         label="기업코드"
                                         readOnly
-                                        value={profile.auth_code}
+                                        value={profile.authCode}
                                     />
                                     <Button
                                         element="teriary"
@@ -229,7 +229,7 @@ export default function ProfileEdit() {
                                         label="기업코드"
                                         readOnly
                                         defaultValue={
-                                            profile.approval_status === 'stopped'
+                                            profile.approvalStatus === 'stopped'
                                                 ? '기업코드가 정지 상태입니다. 전화문의 바랍니다.'
                                                 : '기업코드 심사 대기중입니다.'
                                         }
@@ -255,7 +255,7 @@ export default function ProfileEdit() {
             )}
             {photoModalShow && (
                 <PhotoModal
-                    imageItem={profile.detail.business_license}
+                    imageItem={profile.detail.businessLicense}
                     onClickHistoryBack={() => setPhotoModalShow(false)}
                 />
             )}

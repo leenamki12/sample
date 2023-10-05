@@ -11,11 +11,11 @@ class CompanyDetailDTO extends Data
     public function __construct(
       public int $id,
       public string $address,
-      public string $address_detail,
+      public string $addressDetail,
       public int $employees,
       public string $name,
-      public string $postal_code,
-      public string $business_license
+      public string $postalCode,
+      public string $businessLicense
     ) {
     }
 

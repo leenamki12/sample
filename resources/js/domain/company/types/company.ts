@@ -1,9 +1,9 @@
 export type Company = {
     address: string;
-    address_detail: string;
-    business_license: string;
+    addressDetail: string;
+    businessLicense: string;
     employees: number;
     id: number;
     name: string;
-    postal_code: string;
+    postalCode: string;
 };

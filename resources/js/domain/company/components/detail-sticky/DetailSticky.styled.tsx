@@ -6,4 +6,12 @@ export const Wrapper = styled.div`
 
 export const Box = styled.div`
     ${tw`flex gap-[15px]`}
+
+    button {
+        ${tw`h-[50px] text-lg`}
+    }
+
+    button:last-of-type {
+        ${tw`!w-1/2`}
+    }
 `;

@@ -66,7 +66,7 @@ export const Divider = styled.div`
 `;
 
 export const PrivacyList = styled.div`
-    ${tw`pt-[10px]`}
+    ${tw`space-y-[15px] pt-[10px]`}
 `;
 
 export const SuccessText = styled.div`

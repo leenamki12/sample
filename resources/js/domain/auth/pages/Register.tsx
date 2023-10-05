@@ -10,11 +10,11 @@ import {
     InputRefProps,
     Button,
     AddressModal,
+    PrivacyCheckItem,
 } from '@/components/ui';
 import Header from '@/layouts/Header';
 
 import * as S from './styles/Register.styled';
-import { PrivacyCheckItem } from '../components';
 import { UserVerifys } from '../types/register';
 
 type FormProps = {
@@ -462,28 +462,21 @@ export default function Register() {
                         <S.PrivacyList>
                             <PrivacyCheckItem
                                 id="agreement"
-                                onChangeChecked={event =>
-                                    setIsAgreementSelected(event.target.checked)
-                                }
-                            >
-                                이용약관 동의(필수)
-                            </PrivacyCheckItem>
+                                onChange={event => setIsAgreementSelected(event.target.checked)}
+                                label="이용약관 동의(필수)"
+                            />
                             <PrivacyCheckItem
                                 id="privacy"
-                                onChangeChecked={event =>
-                                    setIsPrivacySelected(event.target.checked)
-                                }
-                            >
-                                개인정보 수집 및 이용 동의(필수)
-                            </PrivacyCheckItem>
+                                onChange={event => setIsPrivacySelected(event.target.checked)}
+                                label="개인정보 수집 및 이용 동의(필수)"
+                            />
                             <PrivacyCheckItem
                                 id="marketingConsent"
-                                onChangeChecked={event =>
+                                onChange={event =>
                                     setData('marketingConsent', event.target.checked)
                                 }
-                            >
-                                마케팅 활용동의(선택)
-                            </PrivacyCheckItem>
+                                label="마케팅 활용동의(선택)"
+                            />
                         </S.PrivacyList>
                         <div className="pt-[10px]">
                             <Button type="submit" label="가입신청하기" element="primary" />

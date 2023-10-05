@@ -6,22 +6,20 @@ import dayjs from 'dayjs';
 
 import {
     BasicModal,
+    Button,
     InnerPrivacyModal,
     LabelTextInput,
-    PrimaryButton,
     PrivacyCheckItem,
 } from '@/components/ui';
-import BaseButton from '@/components/ui/buttons/BaseButton';
 import { PageProps } from '@/types';
 
 import * as S from './ReservationForm.styled';
 
-type ModalProps = {
-    setOpen: (open: boolean) => void;
-    hospitalId: number;
+type Props = {
+    onCloseModal: (open: boolean) => void;
 };
 
-type Props = {
+type FormProps = {
     hospital_id: number;
     reservation_date: string;
     company_name: string;
@@ -31,34 +29,34 @@ type Props = {
 
 type FormKey = 'hospital_id' | 'reservation_date' | 'company_name' | 'name' | 'phone';
 
-function ReservationForm({ setOpen, hospitalId }: ModalProps) {
+function ReservationForm({ onCloseModal }: Props) {
     const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
     const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
     const [privacyCheckedError, setPrivacyCheckedError] = useState<string>('');
 
-    const userDetail = usePage<PageProps>().props.auth.user.company_detail;
+    const { id, auth } = usePage<PageProps>().props;
+    const hospitalId = Number(id);
 
-    const { data, setData, post, errors } = useForm<Props>({
+    const { data, setData, post, errors } = useForm<FormProps>({
         hospital_id: hospitalId,
         reservation_date: '',
-        company_name: userDetail.name,
+        company_name: '',
         name: '',
         phone: '',
     });
 
-    const handleSubmit: FormEventHandler = e => {
+    const onSubmit: FormEventHandler = e => {
         e.preventDefault();
 
         if (!isPrivacyChecked) {
             setPrivacyCheckedError('개인정보수집 및 활용동의는 필수입니다.');
-
             return;
         }
 
         post(route('reservations.store', { id: hospitalId }), {
             onSuccess: () => {
                 alert('예약문의가 접수되었습니다.');
-                setOpen(false);
+                onCloseModal(false);
             },
             onError: error => console.log(error),
         });
@@ -68,18 +66,12 @@ function ReservationForm({ setOpen, hospitalId }: ModalProps) {
         setData(id as FormKey, value);
     };
 
-    const handlePrivacyModal = (e: React.MouseEvent) => {
-        e.preventDefault();
-
-        setShowPrivacyModal(true);
+    const handleClickCloseModal = () => {
+        onCloseModal(false);
     };
 
-    const handleClosePrivacyModal = () => {
+    const onClosePrivacyModal = () => {
         setShowPrivacyModal(false);
-    };
-
-    const onClose = () => {
-        setOpen(false);
     };
 
     useEffect(() => {
@@ -96,7 +88,7 @@ function ReservationForm({ setOpen, hospitalId }: ModalProps) {
                 </Dialog.Title>
             </div>
             <S.ContentsBox>
-                <S.Form onSubmit={handleSubmit}>
+                <S.Form onSubmit={onSubmit}>
                     <div>
                         <LabelTextInput
                             label="예약 희망 일자"
@@ -106,7 +98,7 @@ function ReservationForm({ setOpen, hospitalId }: ModalProps) {
                             value={data.reservation_date}
                             onChange={handleChangeInputData}
                             error={errors.reservation_date}
-                            min={dayjs().format('YYYY-MM-DD')}
+                            min={dayjs().add(5, 'day').format('YYYY-MM-DD')}
                         />
                     </div>
                     <div>
@@ -115,7 +107,7 @@ function ReservationForm({ setOpen, hospitalId }: ModalProps) {
                             type="text"
                             id="company_name"
                             isRequired
-                            value={data.company_name}
+                            value={auth.user.companyName}
                             onChange={handleChangeInputData}
                             error={errors.company_name}
                             readOnly
@@ -151,21 +143,20 @@ function ReservationForm({ setOpen, hospitalId }: ModalProps) {
                     <div>
                         <PrivacyCheckItem
                             id="privacy"
-                            onClick={handlePrivacyModal}
-                            checked={isPrivacyChecked}
+                            onClick={() => setShowPrivacyModal(true)}
                             onChange={() => setIsPrivacyChecked(!isPrivacyChecked)}
+                            checked={isPrivacyChecked}
                             error={privacyCheckedError}
-                        >
-                            개인정보수집 및 활용동의 (필수)
-                        </PrivacyCheckItem>
+                            label="개인정보수집 및 활용동의 (필수)"
+                        />
                         <BasicModal
                             show={showPrivacyModal}
-                            onClose={handleClosePrivacyModal}
+                            onClose={onClosePrivacyModal}
                             maxWidth="md"
                         >
                             <InnerPrivacyModal
                                 title="개인정보수집 및 활용동의 안내"
-                                close={handleClosePrivacyModal}
+                                onClose={onClosePrivacyModal}
                             >
                                 개인정보수집 및 활용동의 내용내용
                                 <br />
@@ -232,10 +223,18 @@ function ReservationForm({ setOpen, hospitalId }: ModalProps) {
                         </BasicModal>
                     </div>
                     <div className="flex space-x-[10px]">
-                        <BaseButton className="!text-lg" onClick={onClose}>
-                            취소
-                        </BaseButton>
-                        <PrimaryButton label="문의하기" className="!text-lg" type="submit" />
+                        <Button
+                            className="!text-lg"
+                            onClick={handleClickCloseModal}
+                            label="취소"
+                            element="cancel"
+                        ></Button>
+                        <Button
+                            element="primary"
+                            label="문의하기"
+                            className="!text-lg"
+                            type="submit"
+                        />
                     </div>
                 </S.Form>
             </S.ContentsBox>

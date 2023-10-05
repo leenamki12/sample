@@ -10,12 +10,7 @@ import 'swiper/css';
 function OtherPartnerList() {
     return (
         <S.Wrapper>
-            <Swiper
-                slidesPerView={'auto'}
-                centeredSlides={false}
-                spaceBetween={30}
-                grabCursor={true}
-            >
+            <Swiper slidesPerView="auto" centeredSlides={false} spaceBetween={30} grabCursor={true}>
                 <SwiperSlide>
                     <S.ImageBox>
                         <img src={ImageHospital01} alt="" />

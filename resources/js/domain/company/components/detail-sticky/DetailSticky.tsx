@@ -1,34 +1,30 @@
 import { useState } from 'react';
 
-import { BorderButton, PrimaryButton, SlideModal } from '@/components/ui';
+import { Button, SlideModal } from '@/components/ui';
 
 import ReservationForm from '../reservation-form/ReservationForm';
 
 import * as S from './DetailSticky.styled';
 
-function DetailSticky({ id }: { id: number }) {
-    const [open, setOpen] = useState<boolean>(false);
+function DetailSticky() {
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-    const openModal = () => {
-        setOpen(true);
+    const handleClickModalOpen = () => {
+        setModalOpen(true);
+    };
+
+    const handleClickTel = () => {
+        window.location.href = 'tel:1866-4575';
     };
 
     return (
         <S.Wrapper>
             <S.Box>
-                <BorderButton
-                    label="예약문의"
-                    onClick={openModal}
-                    className="!h-[50px] !text-lg"
-                ></BorderButton>
-                <PrimaryButton
-                    label="전화상담"
-                    className="!h-[50px] !w-1/2 !text-lg"
-                    onClick={() => (window.location.href = 'tel:1866-4575')}
-                ></PrimaryButton>
+                <Button label="예약문의" onClick={handleClickModalOpen} element="border" />
+                <Button element="primary" label="전화상담" onClick={handleClickTel} />
             </S.Box>
-            <SlideModal show={open} onClose={setOpen} maxWidth="435px" closeable={false}>
-                <ReservationForm setOpen={setOpen} hospitalId={id} />
+            <SlideModal show={modalOpen} onClose={setModalOpen} maxWidth="435px" closeable={false}>
+                <ReservationForm onCloseModal={setModalOpen} />
             </SlideModal>
         </S.Wrapper>
     );

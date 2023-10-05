@@ -1,26 +1,30 @@
+import { ChangeEvent } from 'react';
+
 import { Checkbox } from '@/components/ui';
 
 import * as S from './PrivacyCheckItem.styled';
 
 type Props = {
     id: string;
-    children: string;
+    label: string;
     checked?: boolean;
     error?: string;
     onClick?: (e: React.MouseEvent) => void;
-    onChange?: () => void;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function PrivacyCheckItem({ id, children, checked, error, onClick, onChange }: Props) {
+function PrivacyCheckItem({ id, label, checked, error, onClick, onChange }: Props) {
     return (
         <div>
-            <S.Item>
+            <S.Wrapper>
                 <label htmlFor={id}>
                     <Checkbox id={id} checked={checked} onChange={onChange} />
-                    <span>{children}</span>
+                    <span>{label}</span>
                 </label>
-                <button onClick={onClick}>내용보기</button>
-            </S.Item>
+                <button onClick={onClick} type="button">
+                    내용보기
+                </button>
+            </S.Wrapper>
             {error && <S.Error>{error}</S.Error>}
         </div>
     );

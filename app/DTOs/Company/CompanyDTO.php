@@ -9,8 +9,8 @@ class CompanyDTO extends Data
 {
     public function __construct(
       public int $id,
-      public $approval_status,
-      public $auth_code,
+      public $approvalStatus,
+      public $authCode,
       public $detail,
     ) {
     }
