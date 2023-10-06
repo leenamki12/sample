@@ -5,7 +5,6 @@ import ImageHospital02 from '@assets/company/detail/detail_other_hospital02.png'
 import ImageHospital03 from '@assets/company/detail/detail_other_hospital03.png';
 
 import * as S from './OtherPartnerList.styled';
-import 'swiper/css';
 
 function OtherPartnerList() {
     return (

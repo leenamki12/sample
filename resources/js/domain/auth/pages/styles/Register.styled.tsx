@@ -1,7 +1,7 @@
 import tw, { css, styled } from 'twin.macro';
 
 export const Wrapper = styled.div`
-    ${tw`flex min-h-screen flex-col items-center bg-gray-100 sm:justify-start`}
+    ${tw`flex min-h-screen w-full max-w-[435px] flex-col items-center bg-gray-100 sm:justify-start`}
 `;
 
 export const InnerWrapper = styled.div`

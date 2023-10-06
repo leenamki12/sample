@@ -14,7 +14,14 @@ class ReservationRepository
     public function store($request)
     {
         $validatedData = $request->validated();
-        $reservation = $this->reservation->create($validatedData);
+
+        $reservation = $this->reservation->create([
+            'hospital_id'        => $validatedData['hospitalId'],
+            'company_name'       => $validatedData['companyName'],
+            'reservation_date'   => $validatedData['reservationDate'],
+            'name'              => $validatedData['name'],
+            'phone'             => $validatedData['phone'],
+        ]);
 
         return $reservation;
     }

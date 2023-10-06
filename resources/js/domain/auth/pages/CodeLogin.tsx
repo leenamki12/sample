@@ -2,16 +2,16 @@ import { useEffect, FormEventHandler } from 'react';
 
 import { useForm } from '@inertiajs/react';
 
-import { PrimaryButton, TextInput } from '@/components/ui';
+import { Button, TextInput } from '@/components/ui';
 import { ReactComponent as CodeIcon } from '@assets/common/icon_login_code.svg';
 
 import * as S from './styles/Login.styled';
 
-type FormProps = 'auth_code';
+type FormProps = 'authCode';
 
 export default function CodeLogin() {
     const { setData, post, reset, errors, clearErrors } = useForm({
-        auth_code: '',
+        authCode: '',
     });
 
     const handleChangeInputData = (id: string, value: string) => {
@@ -26,7 +26,7 @@ export default function CodeLogin() {
 
     useEffect(() => {
         return () => {
-            reset('auth_code');
+            reset('authCode');
         };
     }, []);
 
@@ -35,16 +35,16 @@ export default function CodeLogin() {
             <S.InputList>
                 <TextInput
                     type="number"
-                    id="auth_code"
+                    id="authCode"
                     placeholder="기업코드를 입력해주세요."
                     isFocused
                     onChange={handleChangeInputData}
                     icon={CodeIcon}
-                    error={errors.auth_code}
+                    error={errors.authCode}
                 />
             </S.InputList>
             <S.ButtonBox>
-                <PrimaryButton type="submit" label="로그인" />
+                <Button element="primary" type="submit" label="로그인" />
             </S.ButtonBox>
         </form>
     );

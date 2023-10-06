@@ -20,14 +20,14 @@ type Props = {
 };
 
 type FormProps = {
-    hospital_id: number;
-    reservation_date: string;
-    company_name: string;
+    hospitalId: number;
+    reservationDate: string;
+    companyName: string;
     name: string;
     phone: string;
 };
 
-type FormKey = 'hospital_id' | 'reservation_date' | 'company_name' | 'name' | 'phone';
+type FormKey = 'hospitalId' | 'reservationDate' | 'companyName' | 'name' | 'phone';
 
 function ReservationForm({ onCloseModal }: Props) {
     const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
@@ -38,9 +38,9 @@ function ReservationForm({ onCloseModal }: Props) {
     const hospitalId = Number(id);
 
     const { data, setData, post, errors } = useForm<FormProps>({
-        hospital_id: hospitalId,
-        reservation_date: '',
-        company_name: '',
+        hospitalId,
+        reservationDate: '',
+        companyName: auth.user.companyName,
         name: '',
         phone: '',
     });
@@ -58,7 +58,6 @@ function ReservationForm({ onCloseModal }: Props) {
                 alert('예약문의가 접수되었습니다.');
                 onCloseModal(false);
             },
-            onError: error => console.log(error),
         });
     };
 
@@ -93,11 +92,11 @@ function ReservationForm({ onCloseModal }: Props) {
                         <LabelTextInput
                             label="예약 희망 일자"
                             type="date"
-                            id="reservation_date"
+                            id="reservationDate"
                             isRequired
-                            value={data.reservation_date}
+                            value={data.reservationDate}
                             onChange={handleChangeInputData}
-                            error={errors.reservation_date}
+                            error={errors.reservationDate}
                             min={dayjs().add(5, 'day').format('YYYY-MM-DD')}
                         />
                     </div>
@@ -105,11 +104,11 @@ function ReservationForm({ onCloseModal }: Props) {
                         <LabelTextInput
                             label="기업명"
                             type="text"
-                            id="company_name"
+                            id="companyName"
                             isRequired
                             value={auth.user.companyName}
                             onChange={handleChangeInputData}
-                            error={errors.company_name}
+                            error={errors.companyName}
                             readOnly
                         />
                     </div>

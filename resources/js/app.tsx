@@ -8,6 +8,11 @@ import { createRoot } from 'react-dom/client';
 
 import ConnectLayout from './layouts/ConnectLayout';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({

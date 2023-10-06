@@ -1,14 +1,7 @@
-import { HTMLAttributes, PropsWithChildren, useMemo } from 'react';
+import { HTMLAttributes } from 'react';
 import React from 'react';
 
-import {
-    ButtonProps,
-    ButtonStyleProps,
-    PrimaryButton,
-    SecondaryButton,
-    TertiaryButton,
-} from '@/components/ui';
-import { StrKeyArray } from '@/types';
+import { Button, ButtonStyleProps } from '@/components/ui';
 
 import * as S from './LabelButton.styled';
 
@@ -19,21 +12,11 @@ type Props = {
 } & ButtonStyleProps &
     HTMLAttributes<HTMLButtonElement>;
 
-const buttons: StrKeyArray<React.ComponentType<PropsWithChildren<ButtonProps>>> = {
-    primary: PrimaryButton,
-    secondary: SecondaryButton,
-    teriary: TertiaryButton,
-};
-
 function LabelButton({ label, buttonType, buttonLabel, ...props }: Props) {
-    const ButtonElement = useMemo(() => {
-        return buttons[buttonType];
-    }, []);
-
     return (
         <S.Wrapper>
             <span>{label}</span>
-            {React.createElement(ButtonElement, { label: buttonLabel, ...props })}
+            {React.createElement(Button, { label: buttonLabel, element: buttonType, ...props })}
         </S.Wrapper>
     );
 }

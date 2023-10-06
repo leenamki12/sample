@@ -19,9 +19,9 @@ class ReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'hospital_id' => 'required',
-            'company_name' => 'required',
-            'reservation_date' => 'required',
+            'hospitalId' => 'required',
+            'companyName' => 'required',
+            'reservationDate' => 'required',
             'name' => 'required',
             'phone' => ['required', 'string', 'regex:/^(?!-)[0-9-]+$/', 'max:11', 'min:11'],
         ];
@@ -31,7 +31,7 @@ class ReservationRequest extends FormRequest
     {
         return[
             'name' => __('messages.required.name'),
-            'reservation_date' => __('messages.required.reservation_date'),
+            'reservationDate' => __('messages.required.reservation_date'),
             'phone' => __('messages.required.phone'),
             'phone.min' => __('messages.verify.min'),
             'phone.max' => __('messages.verify.max')

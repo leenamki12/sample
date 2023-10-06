@@ -1,7 +1,7 @@
 import { useEffect, FormEventHandler, useRef, useState } from 'react';
 import { Address } from 'react-daum-postcode';
 
-import { Head, useForm, router } from '@inertiajs/react';
+import { useForm, router } from '@inertiajs/react';
 
 import {
     LabelTextInput,
@@ -11,8 +11,8 @@ import {
     Button,
     AddressModal,
     PrivacyCheckItem,
+    PageHeader,
 } from '@/components/ui';
-import Header from '@/layouts/Header';
 
 import * as S from './styles/Register.styled';
 import { UserVerifys } from '../types/register';
@@ -273,8 +273,7 @@ export default function Register() {
     return (
         <>
             <S.Wrapper>
-                <Header label="회원가입" maxWidth="435px" />
-                <Head title="회원가입" />
+                <PageHeader title="회원가입" />
                 <S.InnerWrapper>
                     <S.Form onSubmit={onSubmit}>
                         <div>

@@ -7,10 +7,6 @@ import { HospitalItem } from '../../datas';
 
 import * as S from './HospitalTopInfo.styled';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-
 type Props = {
     data: HospitalItem;
     type?: 'list' | 'detail';

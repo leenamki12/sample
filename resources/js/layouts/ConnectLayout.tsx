@@ -14,6 +14,7 @@ import { User } from '@/types/user';
 
 import AdminLayout from './admin/AdminLayout';
 import CompanyLayout from './company/CompanyLayout';
+import GuestLayout from './guest/GuestLayout';
 import HospitalLayout from './hospital/HospitalLayout';
 
 type Props = {
@@ -42,7 +43,7 @@ function ConnectLayout({ children }: Props) {
         if (user) {
             return Layouts[user.roles[0]];
         }
-        return 'div';
+        return GuestLayout;
     }, [user]);
 
     return (

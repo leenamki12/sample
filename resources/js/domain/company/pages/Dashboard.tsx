@@ -6,10 +6,6 @@ import ImageBanner01 from '@assets/company/home/main_banner01.png';
 import ImageBanner02 from '@assets/company/home/main_banner02.png';
 import ImageBanner03 from '@assets/company/home/main_banner03.png';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-
 import { HospitalList } from '../components';
 
 import * as S from './Dashboard.styled';

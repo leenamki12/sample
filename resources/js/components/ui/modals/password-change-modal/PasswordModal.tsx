@@ -14,7 +14,7 @@ type Props = {
 type FormKey = 'current_password' | 'password' | 'password_confirmation';
 
 function PasswordModal({ onClose }: Props) {
-    const { setData, errors, clearErrors, put } = useForm({
+    const { setData, errors, reset, clearErrors, put } = useForm({
         current_password: '',
         password: '',
         password_confirmation: '',
@@ -30,14 +30,13 @@ function PasswordModal({ onClose }: Props) {
                 router.post(route('logout'), {}, { replace: true });
             },
             onError: errors => {
-                console.log(errors);
-                // if (errors.password) {
-                //     reset('password', 'password_confirmation');
-                // }
+                if (errors.password) {
+                    reset('password', 'password_confirmation');
+                }
 
-                // if (errors.current_password) {
-                //     reset('current_password');
-                // }
+                if (errors.current_password) {
+                    reset('current_password');
+                }
             },
         });
     };

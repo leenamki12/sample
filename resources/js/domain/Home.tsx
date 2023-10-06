@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 
 import ApplicationLogo from '@/components/inertia/ApplicationLogo';
-import { TextButton } from '@/components/ui';
+import { Button } from '@/components/ui';
 
 import CodeLogin from './auth/pages/CodeLogin';
 import Login from './auth/pages/Login';
@@ -46,15 +46,17 @@ export default function Home() {
                 {loginFormType === 'code' ? <CodeLogin /> : <Login />}
 
                 <S.ButtonGroup>
-                    <TextButton
+                    <Button
+                        element="text"
                         label="아이디 찾기"
                         color="#888"
                         onClick={() => handleClickRouteLink('password.request')}
                     />
                     <S.VeticalDivider />
-                    <TextButton label="비밀번호 찾기" color="#888" />
+                    <Button element="text" label="비밀번호 찾기" color="#888" />
                     <S.VeticalDivider />
-                    <TextButton
+                    <Button
+                        element="text"
                         label="회원가입"
                         color="#888"
                         onClick={() => handleClickRouteLink('register')}

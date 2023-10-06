@@ -14,11 +14,7 @@ import UseStep02 from '@assets/public/service/service_use_step02.png';
 import UseStep03 from '@assets/public/service/service_use_step03.png';
 import MainVisual from '@assets/public/service/service_visual.png';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-fade';
-import 'swiper/css/pagination';
-
+import * as S from './styles/Service.styled';
 import {
     HospitalSlide,
     PriceList,
@@ -27,8 +23,6 @@ import {
     TitleSlide,
     UseGuideSlide,
 } from '../components';
-
-import * as S from './Service.styled';
 
 type Props = {
     isLoggedIn: boolean;

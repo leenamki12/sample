@@ -1,6 +1,6 @@
 import { router } from '@inertiajs/react';
 
-import { BorderButton, PrimaryButton } from '@/components/ui';
+import { Button } from '@/components/ui';
 
 import * as S from './StickyBar.styled';
 
@@ -8,11 +8,12 @@ function StickyBar() {
     return (
         <S.Wrapper>
             <S.Box>
-                <BorderButton
+                <Button
                     onClick={() => router.visit(route('register'))}
                     label="기업회원가입"
-                ></BorderButton>
-                <PrimaryButton label="제휴문의"></PrimaryButton>
+                    element="border"
+                ></Button>
+                <Button label="제휴문의" element="primary"></Button>
             </S.Box>
         </S.Wrapper>
     );

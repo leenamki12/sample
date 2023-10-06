@@ -12,7 +12,7 @@ class CompanyAuthController extends Controller
 {
     public function store(Request $request)
     {
-        $authCode = $request->input('auth_code');
+        $authCode = $request->input('authCode');
 
         if (Auth::guard('company')->attempt(['auth_code' => $authCode])) {
 

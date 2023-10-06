@@ -4,12 +4,11 @@ import { Head, useForm } from '@inertiajs/react';
 
 import InputError from '@/components/inertia/InputError';
 import InputLabel from '@/components/inertia/InputLabel';
-import PrimaryButton from '@/components/inertia/PrimaryButton';
 import TextInput from '@/components/inertia/TextInput';
-import GuestLayout from '@/layouts/GuestLayout';
+import GuestLayout from '@/layouts/guest/GuestLayout';
 
 export default function ResetPassword({ token, email }: { token: string; email: string }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, errors, reset } = useForm({
         token: token,
         email: email,
         password: '',
@@ -81,11 +80,7 @@ export default function ResetPassword({ token, email }: { token: string; email: 
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Reset Password
-                    </PrimaryButton>
-                </div>
+                <div className="mt-4 flex items-center justify-end"></div>
             </form>
         </GuestLayout>
     );

@@ -4,9 +4,9 @@ import { Head, useForm } from '@inertiajs/react';
 
 import InputError from '@/components/inertia/InputError';
 import InputLabel from '@/components/inertia/InputLabel';
-import PrimaryButton from '@/components/inertia/PrimaryButton';
 import TextInput from '@/components/inertia/TextInput';
-import GuestLayout from '@/layouts/GuestLayout';
+import { Button } from '@/components/ui';
+import GuestLayout from '@/layouts/guest/GuestLayout';
 
 export default function ConfirmPassword() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -51,10 +51,13 @@ export default function ConfirmPassword() {
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Confirm
-                    </PrimaryButton>
+                <div className="mt-4 flex items-center justify-end">
+                    <Button
+                        element="primary"
+                        className="ml-4"
+                        disabled={processing}
+                        label="Confirm"
+                    />
                 </div>
             </form>
         </GuestLayout>
