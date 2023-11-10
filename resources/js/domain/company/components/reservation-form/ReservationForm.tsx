@@ -1,16 +1,19 @@
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 
 import {
     BasicModal,
     Button,
     InnerPrivacyModal,
+    InputRefProps,
     LabelTextInput,
     PrivacyCheckItem,
+    TextInput,
 } from '@/components/ui';
+import { UserVerifys } from '@/domain/auth/types/register';
 import { PageProps } from '@/types';
 
 import * as S from './ReservationForm.styled';
@@ -25,9 +28,10 @@ type FormProps = {
     companyName: string;
     name: string;
     phone: string;
+    phoneAuth: string;
 };
 
-type FormKey = 'hospitalId' | 'reservationDate' | 'companyName' | 'name' | 'phone';
+type FormKey = 'hospitalId' | 'reservationDate' | 'companyName' | 'name' | 'phone' | 'phoneAuth';
 
 function ReservationForm({ onCloseModal }: Props) {
     const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
@@ -37,12 +41,20 @@ function ReservationForm({ onCloseModal }: Props) {
     const { id, auth } = usePage<PageProps>().props;
     const hospitalId = Number(id);
 
-    const { data, setData, post, errors } = useForm<FormProps>({
+    const [verifyCodeNumber, setVerifyCodeNumber] = useState(''); //인증번호
+    const [isVerifySuccess, setIsVerifySuccess] = useState(false); //인증번호 확인 여부
+    const [verifyCodeTime, setVerifyCodeTime] = useState(0); //인증번호 유효시간
+    const [verifyButtonTime, setVerifyButtonTime] = useState(0); //재발송 쿨타임
+
+    const codeInputRef = useRef<InputRefProps>(null);
+
+    const { data, setData, post, setError, errors, clearErrors, hasErrors } = useForm<FormProps>({
         hospitalId,
         reservationDate: '',
         companyName: auth.user.companyName,
         name: '',
         phone: '',
+        phoneAuth: '',
     });
 
     const onSubmit: FormEventHandler = e => {
@@ -61,6 +73,69 @@ function ReservationForm({ onCloseModal }: Props) {
         });
     };
 
+    const onVerifySms = () => {
+        if (data.phoneAuth !== verifyCodeNumber) {
+            setError('phoneAuth', '인증번호를 다시 입력해주세요.');
+        } else {
+            router.get(
+                route('verifySms.check'),
+                {
+                    code: data.phoneAuth,
+                    phone: data.phone,
+                },
+                {
+                    preserveState: true,
+                    replace: false,
+                    preserveScroll: true,
+                    onSuccess: response => {
+                        const responseData = response.props.userVerifys as UserVerifys;
+                        if (!responseData.status) {
+                            return;
+                        }
+                        if (responseData.status === 'success') {
+                            setIsVerifySuccess(true);
+                        }
+                        if (errors.phone) {
+                            clearErrors('phone');
+                        }
+                        clearErrors('phoneAuth');
+                    },
+                    onError: error => {
+                        if (error.phone) setError('phone', error.phone);
+                        if (error.phone_auth) setError('phoneAuth', error.phone_auth);
+                    },
+                }
+            );
+        }
+    };
+
+    const onSendSms = () => {
+        router.post(
+            route('verifySms.store'),
+            {
+                phone: data.phone,
+            },
+            {
+                preserveState: true,
+                replace: false,
+                preserveScroll: true,
+                onSuccess: e => {
+                    const responseData = e.props.userVerifys as UserVerifys;
+                    setVerifyCodeNumber(responseData.code);
+                    setVerifyCodeTime(600);
+                    setVerifyButtonTime(10);
+                    if (hasErrors) {
+                        clearErrors('phone');
+                        clearErrors('phoneAuth');
+                    }
+                },
+                onError: e => {
+                    setError('phone', e.phone);
+                },
+            }
+        );
+    };
+
     const handleChangeInputData = (id: string, value: string) => {
         setData(id as FormKey, value);
     };
@@ -73,11 +148,31 @@ function ReservationForm({ onCloseModal }: Props) {
         setShowPrivacyModal(false);
     };
 
+    const handleFormatSeconds = (timeInSeconds: number) => {
+        const seconds = timeInSeconds % 60;
+        return `${seconds.toString()}초 후 재시도`;
+    };
+
+    const handleFormatMinutes = (timeInSeconds: number) => {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+        return `인증시간 ${minutes.toString().padStart(2, '0')}:${seconds
+            .toString()
+            .padStart(2, '0')}`;
+    };
+
     useEffect(() => {
         if (isPrivacyChecked) {
             setPrivacyCheckedError('');
         }
     }, [isPrivacyChecked]);
+
+    useEffect(() => {
+        if (verifyCodeNumber && codeInputRef.current) {
+            codeInputRef.current.reset();
+            codeInputRef.current.focus();
+        }
+    }, [verifyCodeNumber]);
 
     return (
         <S.ModalWrapper>
@@ -124,18 +219,68 @@ function ReservationForm({ onCloseModal }: Props) {
                             error={errors.name}
                         />
                     </div>
-                    <div>
-                        <LabelTextInput
-                            label="연락처"
-                            type="tel"
-                            id="phone"
-                            placeholder="(-) 제외한 숫자만 입력해주세요."
-                            isRequired
-                            value={data.phone}
-                            onChange={handleChangeInputData}
-                            error={errors.phone}
-                        />
-                    </div>
+
+                    <S.RowBox>
+                        <S.InputButtonBox isLabel>
+                            <LabelTextInput
+                                type="tel"
+                                id="phone"
+                                placeholder="(-) 제외한 숫자만 입력해주세요."
+                                label="휴대폰번호"
+                                isRequired
+                                onChange={handleChangeInputData}
+                                error={errors.phone}
+                                readOnly={isVerifySuccess}
+                            />
+                            <Button
+                                label={
+                                    isVerifySuccess
+                                        ? '인증완료'
+                                        : verifyCodeNumber
+                                        ? verifyButtonTime !== 0
+                                            ? handleFormatSeconds(verifyButtonTime)
+                                            : '재발송'
+                                        : '인증번호발송'
+                                }
+                                onClick={onSendSms}
+                                disabled={
+                                    !data.phone ||
+                                    isVerifySuccess ||
+                                    (!isVerifySuccess && verifyButtonTime !== 0)
+                                }
+                                element="secondary"
+                            />
+                        </S.InputButtonBox>
+                        {verifyCodeNumber && (
+                            <S.CodeInputBox>
+                                {isVerifySuccess ? (
+                                    <S.SuccessText>인증이 완료되었습니다.</S.SuccessText>
+                                ) : (
+                                    <>
+                                        <S.InputButtonBox>
+                                            <TextInput
+                                                ref={codeInputRef}
+                                                type="number"
+                                                id="phoneAuth"
+                                                placeholder="인증번호 6자리를 입력해 주세요."
+                                                onChange={handleChangeInputData}
+                                                error={errors.phoneAuth}
+                                            />
+                                            <Button
+                                                element="primary"
+                                                label="인증번호 확인"
+                                                onClick={onVerifySms}
+                                                disabled={!data.phoneAuth}
+                                            />
+                                        </S.InputButtonBox>
+                                        <div className="code_time">
+                                            {handleFormatMinutes(verifyCodeTime)}
+                                        </div>
+                                    </>
+                                )}
+                            </S.CodeInputBox>
+                        )}
+                    </S.RowBox>
                     <S.Warning>
                         ※ 예약 신청 후, 병원 및 예약센터에서 확인 후 순차적으로 연락을 드립니다.
                     </S.Warning>

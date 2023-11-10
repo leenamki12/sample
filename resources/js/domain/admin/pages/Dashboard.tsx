@@ -1,7 +1,13 @@
+import { PageHeader } from '@/components/ui';
+
 import * as S from './Dashboard.styled';
 
 function Dashboard() {
-    return <S.Div>관리자 페이지</S.Div>;
+    return (
+        <S.Wrapper>
+            <PageHeader title="홈"></PageHeader>
+        </S.Wrapper>
+    );
 }
 
 export default Dashboard;

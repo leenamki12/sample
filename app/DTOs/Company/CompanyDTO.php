@@ -3,6 +3,7 @@
 namespace App\DTOs\Company;
 
 use App\Domains\Company\Company;
+use App\DTOs\User\UserDTO;
 use Spatie\LaravelData\Data;
 
 class CompanyDTO extends Data
@@ -12,6 +13,7 @@ class CompanyDTO extends Data
       public $approvalStatus,
       public $authCode,
       public $detail,
+      public $user,
     ) {
     }
 
@@ -21,7 +23,8 @@ class CompanyDTO extends Data
           $company->id,
           $company->approval_status,
           $company->auth_code,
-          CompanyDetailDTO::fromCompanyDetail($company->detail)
+          CompanyDetailDTO::fromCompanyDetail($company->detail),
+          UserDTO::adminfromUser($company->user),
         );
     }
 }

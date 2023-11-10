@@ -119,6 +119,7 @@ export default function Register() {
             route('verifySms.store'),
             {
                 phone: data.phone,
+                duplicate: true,
             },
             {
                 preserveState: true,
@@ -207,12 +208,12 @@ export default function Register() {
         );
     };
 
-    const formatSeconds = (timeInSeconds: number) => {
+    const handleFormatSeconds = (timeInSeconds: number) => {
         const seconds = timeInSeconds % 60;
         return `${seconds.toString()}초 후 재시도`;
     };
 
-    const formatMinutes = (timeInSeconds: number) => {
+    const handleFormatMinutes = (timeInSeconds: number) => {
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = timeInSeconds % 60;
         return `인증시간 ${minutes.toString().padStart(2, '0')}:${seconds
@@ -342,7 +343,7 @@ export default function Register() {
                                             ? '인증완료'
                                             : verifyCodeNumber
                                             ? verifyButtonTime !== 0
-                                                ? formatSeconds(verifyButtonTime)
+                                                ? handleFormatSeconds(verifyButtonTime)
                                                 : '재발송'
                                             : '인증번호발송'
                                     }
@@ -378,7 +379,7 @@ export default function Register() {
                                                 />
                                             </S.InputButtonBox>
                                             <div className="code_time">
-                                                {formatMinutes(verifyCodeTime)}
+                                                {handleFormatMinutes(verifyCodeTime)}
                                             </div>
                                         </>
                                     )}

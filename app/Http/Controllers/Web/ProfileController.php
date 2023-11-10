@@ -6,7 +6,6 @@ use App\Domains\Company\CompanyService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\ProfilePhotoUpdateRequest;
 use App\Http\Requests\Profile\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -60,17 +59,17 @@ class ProfileController extends Controller
             ]);
         }
     }
-    public function destroy(Request $request): RedirectResponse
+    public function delete(Request $request)
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
+        $company = $request->user()->company;
         $user = $request->user();
+        $companyDetail = $request->user()->company->detail;
+
+        $company->delete();
+        $user->delete();
+        $companyDetail->delete();
 
         Auth::logout();
-
-        $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

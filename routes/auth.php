@@ -38,17 +38,20 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
 
-    Route::get('verify-sms', [VerifySmsController::class, 'check'])
-                ->name('verifySms.check');
-
-    Route::post('verify-sms-create', [VerifySmsController::class, 'store'])
-                ->name('verifySms.store');
-
     Route::get('email-check', RegisterEmailCheck::class)
                 ->name('email-check');
 
     Route::post('code-login', [CompanyAuthController::class, 'store'])
                 ->name('code-login');
+
+});
+
+Route::prefix('verifySms')->group(function () {
+    Route::get('verify-sms', [VerifySmsController::class, 'check'])
+                ->name('verifySms.check');
+
+    Route::post('verify-sms-create', [VerifySmsController::class, 'store'])
+                ->name('verifySms.store');
 });
 
 Route::middleware('auth:web,company')->group(function () {

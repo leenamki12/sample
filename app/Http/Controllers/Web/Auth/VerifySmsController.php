@@ -32,24 +32,21 @@ class VerifySmsController extends Controller
 
     public function store(VerifyPhoneRequest $request)
     {
+        if($request->duplicate){
+            //휴대폰번호 중복체크
+            $duplicateCheck = $this->userService->userPhoneDuplicateValid($request->phone);
 
-        //휴대폰번호 중복체크
-        $isPhoneValid = $this->userService->userPhoneDuplicateValid($request->phone);
-
-        if(!$isPhoneValid){
-            throw ValidationException::withMessages([
-                'phone' => __('해당 휴대폰번호는 이미 사용 중입니다.'),
-            ]);
+            if(!$duplicateCheck){
+                throw ValidationException::withMessages([
+                    'phone' => __('해당 휴대폰번호는 이미 사용 중입니다.'),
+                ]);
+            }
         }
 
         $userVerifys = new UserVerifys();
         $randomNumber = random_int(100000, 999999);
 
-        $validatedData = $request->validate([
-            'phone' => 'required|string|min:11|max:11',
-        ]);
-
-        $userVerifys->phone = $validatedData['phone'];
+        $userVerifys->phone = $request->phone;
         $userVerifys->code =  $randomNumber;
         $userVerifys->status = true;
         $userVerifys->expiration_at  = now()->addMinutes(10);
@@ -64,4 +61,5 @@ class VerifySmsController extends Controller
 
         return redirect()->back()->with('userVerifyCode', (string) $userVerifys->code);
     }
+
 }

@@ -1,6 +1,6 @@
 import { Profile } from '@/domain/profile/pages/types/Profie';
 
-import { User } from './user';
+import { Companies, Paginate, User } from './user';
 
 export type StrKeyArray<T> = {
     [key: string]: T;
@@ -11,4 +11,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
     };
     profile: Profile;
+    companies: Paginate<Companies>;
 };

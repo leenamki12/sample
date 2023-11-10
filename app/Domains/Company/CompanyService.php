@@ -22,8 +22,8 @@ class CompanyService
         }
 
         $company = $this->company->store([
-            'user_id'   => $request['user_id'],
-            'detail_id' => $request['detail_id'],
+            'user_id'         => $request['user_id'],
+            'detail_id'       => $request['detail_id'],
             'approval_status' => 'waiting',
             'auth_code'       => $randomNumber,
         ]);

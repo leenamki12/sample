@@ -112,3 +112,7 @@ export const AddressModalHeader = styled.div`
         }
     }
 `;
+
+export const BottomButtonBox = styled.div`
+    ${tw`flex flex-col items-center space-y-[20px]`}
+`;

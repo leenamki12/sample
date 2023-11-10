@@ -16,6 +16,7 @@ class VerifyPhoneRequest extends FormRequest
     {
         return [
             'phone' => ['required', 'string', 'min:11', 'max:11'],
+            'duplicate' => ['boolean']
         ];
     }
 

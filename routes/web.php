@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\CompanyListController;
 use App\Http\Controllers\Web\Profile\CompanyCodeController;
 use App\Http\Controllers\Web\Hospital\ReservationController;
 use App\Http\Controllers\Web\ProfileController;
@@ -38,7 +39,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'delete'])->name('profile.delete');
     Route::post('/profile', [ProfileController::class, 'photoUpdate'])->name('profile.photoUpdate');
 })->name('profile');
 
@@ -58,12 +59,23 @@ Route::get('/service', function () {
 })->name('service');
 
 //관리자
-Route::middleware(['auth', 'role:admin'])
+Route::middleware(['role:admin'])
     ->prefix('admin')
     ->group(function(){
         Route::get('/', function () {
             return Inertia::render('admin/pages/Dashboard');
         })->name('admin');
+
+        Route::get('/hospital', function () {
+            return Inertia::render('admin/pages/Dashboard');
+        })->name('admin.hospital');
+
+        Route::get('/company', function () {
+            return Inertia::render('admin/pages/company/Dashboard');
+        })->name('admin.company');
+
+        Route::get('/company/list', [CompanyListController::class, 'index'])->name('admin.company.list');
+
 })->name('admin');
 
 //기업

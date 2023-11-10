@@ -71,6 +71,18 @@ export default function ProfileEdit() {
         );
     };
 
+    const onClickDeleteUser = () => {
+        const result = confirm(
+            `회원탈퇴시 고객님의 정보는 모두 삭제되어\n위드닥에 모든 서비스를 이용하실수 없습니다.\n삭제된 정보는 복구가 불가능합니다. 회원탈퇴를 진행하시겠습니까?`
+        );
+
+        if (result) {
+            router.delete(route('profile.delete'), {
+                replace: true,
+            });
+        }
+    };
+
     function handleAddressComplete(responseAddress: Address) {
         addressInputRef.current?.setValue(responseAddress.address);
         postalCodeInputRef.current?.setValue(responseAddress.zonecode);
@@ -237,10 +249,15 @@ export default function ProfileEdit() {
                                 </div>
                             </>
                         )}
-
-                        <div className="pt-[10px]">
+                        <S.BottomButtonBox>
                             <Button type="submit" label="회원정보 수정" element="primary" />
-                        </div>
+                            <Button
+                                label="회원탈퇴"
+                                element="text"
+                                color="#888"
+                                onClick={onClickDeleteUser}
+                            />
+                        </S.BottomButtonBox>
                     </S.Form>
                 </S.InnerWrapper>
             </S.Wrapper>
