@@ -25,6 +25,7 @@ export default {
             colors: {
                 primary: '#1743B1',
                 secondary: '#dadada',
+                blackPrimary: '#181717',
             },
             borderRadius: {
                 none: '0',

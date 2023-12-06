@@ -13,9 +13,7 @@ import { PageProps, StrKeyArray } from '@/types';
 import { User } from '@/types/user';
 
 import AdminLayout from './admin/AdminLayout';
-import CompanyLayout from './company/CompanyLayout';
 import GuestLayout from './guest/GuestLayout';
-import HospitalLayout from './hospital/HospitalLayout';
 
 type Props = {
     children: ReactElement;
@@ -28,8 +26,6 @@ type ContextProps = {
 
 const Layouts: StrKeyArray<React.ComponentType<PropsWithChildren<{ user: User }>>> = {
     admin: AdminLayout,
-    hospital: HospitalLayout,
-    company: CompanyLayout,
 };
 
 const HeaderStateContext = createContext<ContextProps | undefined>(undefined);

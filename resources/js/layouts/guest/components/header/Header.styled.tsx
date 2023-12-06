@@ -1,11 +1,11 @@
 import tw, { styled } from 'twin.macro';
 
 export const Wrapper = styled.header`
-    ${tw`relative w-full max-w-[435px] shrink-0 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.05)]`}
+    ${tw`relative h-[100px] w-full shrink-0 bg-blackPrimary`}
 `;
 
 export const InnerBox = styled.div`
-    ${tw`relative mx-auto flex h-20 items-center`}
+    ${tw`relative mx-auto flex items-center`}
 `;
 
 export const BackButton = styled.button`

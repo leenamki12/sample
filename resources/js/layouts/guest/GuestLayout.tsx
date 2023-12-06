@@ -16,7 +16,7 @@ export default function GuestLayout({ children }: PropsWithChildren) {
 
     return (
         <S.Wrapper>
-            {pageTitle && <Header title={pageTitle} />}
+            <Header />
             {children}
         </S.Wrapper>
     );

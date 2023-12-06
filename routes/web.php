@@ -11,12 +11,7 @@ use Inertia\Inertia;
 
 //Home 첫번째 화면
 Route::get('/', function () {
-    $auth = Auth::getUser();
-
-    if(!$auth && Auth::guard('company')->user()){
-        return redirect(Auth::guard('company')->user()->roles->first()->name);
-    }
-    return $auth ? redirect($auth->roles->first()->name) : Inertia::render('Home', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
