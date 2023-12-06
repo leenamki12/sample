@@ -1,6 +1,6 @@
 import { useState, PropsWithChildren, ReactNode, Fragment } from 'react';
 
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { Link } from '@inertiajs/react';
