@@ -20,7 +20,8 @@ export default {
                 desktop: { max: '1280px', min: '1025px' },
             },
             fontFamily: {
-                sans: ['NanumSquareNeo', ...defaultTheme.fontFamily.sans],
+                sans: ['WanderLoch', 'Pretendard', ...defaultTheme.fontFamily.sans],
+                pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: '#1743B1',

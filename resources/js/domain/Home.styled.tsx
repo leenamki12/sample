@@ -1,7 +1,7 @@
 import tw, { styled } from 'twin.macro';
 
 export const Wrapper = styled.div`
-    ${tw`flex h-screen w-full flex-col items-center space-y-5`}
+    ${tw`flex w-full flex-col items-center space-y-5`}
 `;
 
 export const LoginWrapper = styled.div`

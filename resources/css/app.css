@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-weight: 300;
+import body {
+    font-weight: 400;
 }
 
 [type='text']:focus,
@@ -30,7 +30,7 @@ select:focus {
 textarea::placeholder,
 input::placeholder {
     color: #ccc;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 textarea,
