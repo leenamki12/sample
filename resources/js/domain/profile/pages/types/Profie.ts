@@ -1,9 +1,6 @@
-import { Company } from '@/domain/company/types/company';
-
 export type Profile = {
     approvalStatus: 'waiting' | 'stopped' | 'completed';
     authCode: string;
-    detail: Company;
     id: number;
 };
 

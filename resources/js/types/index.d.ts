@@ -11,5 +11,4 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
     };
     profile: Profile;
-    companies: Paginate<Companies>;
 };

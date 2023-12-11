@@ -24,13 +24,13 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
         },
         {
             name: '병원관리',
-            children: [{ name: '대시보드', href: 'admin.hospital' }],
+            children: [{ name: '대시보드', href: '' }],
         },
         {
             name: '기업관리',
             children: [
-                { name: '대시보드', href: 'admin.company' },
-                { name: '목록', href: 'admin.company.list' },
+                { name: '대시보드', href: '' },
+                { name: '목록', href: '' },
             ],
         },
     ];

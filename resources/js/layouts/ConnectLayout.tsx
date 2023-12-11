@@ -12,11 +12,13 @@ import { usePage } from '@inertiajs/react';
 import { PageProps, StrKeyArray } from '@/types';
 import { User } from '@/types/user';
 
+import AdminGuestLayout from './admin/AdminGuestLayout';
 import AdminLayout from './admin/AdminLayout';
 import GuestLayout from './guest/GuestLayout';
 
 type Props = {
     children: ReactElement;
+    name: string;
 };
 
 type ContextProps = {
@@ -30,14 +32,17 @@ const Layouts: StrKeyArray<React.ComponentType<PropsWithChildren<{ user: User }>
 
 const HeaderStateContext = createContext<ContextProps | undefined>(undefined);
 
-function ConnectLayout({ children }: Props) {
+function ConnectLayout({ children, name }: Props) {
     const { props } = usePage<PageProps>();
     const user = props.auth.user;
     const [header, setHeader] = useState<string>('');
 
     const Layout = useMemo(() => {
-        if (user) {
+        if (user && name.startsWith('admin/')) {
             return Layouts[user.roles[0]];
+        }
+        if (props.layout === 'admin') {
+            return AdminGuestLayout;
         }
         return GuestLayout;
     }, [user]);

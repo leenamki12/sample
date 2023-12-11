@@ -8,5 +8,5 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-    ${tw`h-[20px] w-[20px] rounded-sm border-gray-300 text-primary focus:ring-primary`}
+    ${tw`h-[20px] w-[20px] rounded-sm border-gray-300 text-[#181717] focus:ring-[#181717]`}
 `;

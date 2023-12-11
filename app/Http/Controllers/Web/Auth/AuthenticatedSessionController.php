@@ -36,10 +36,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        if(Auth::check('company')){
-            Auth::guard('company')->logout();
-        }
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended('admin/dashboard');
     }
 
     /**
@@ -47,10 +44,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-
-        Auth::guard('web')->logout();
-        Auth::guard('company')->logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

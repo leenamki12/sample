@@ -1,18 +1,20 @@
 <?php
 
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Web\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Web\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Web\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Web\Auth\NewPasswordController;
-use App\Http\Controllers\Web\Auth\PasswordController;
-use App\Http\Controllers\Web\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Web\Auth\RegisteredUserController;
-use App\Http\Controllers\Web\Auth\VerifyEmailController;
-use App\Http\Controllers\Web\Auth\VerifySmsController;
-use App\Http\Controllers\Web\Auth\RegisterEmailCheck;
-use App\Http\Controllers\Web\Auth\CompanyAuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+//관리자
+Route::middleware('guest')
+    ->prefix('admin')
+    ->group(function(){
+        Route::get('/', function () {
+            return Inertia::render('admin/Home', [
+            'layout' => 'admin',
+        ]);
+    })->name('admin');
+})->name('admin');
 
 Route::middleware('guest')->group(function () {
 
@@ -25,54 +27,12 @@ Route::middleware('guest')->group(function () {
                 ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
-
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-                ->name('password.request');
-
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-                ->name('password.email');
-
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-                ->name('password.reset');
-
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-                ->name('password.store');
-
-    Route::get('email-check', RegisterEmailCheck::class)
-                ->name('email-check');
-
-    Route::post('code-login', [CompanyAuthController::class, 'store'])
-                ->name('code-login');
-
 });
 
-Route::prefix('verifySms')->group(function () {
-    Route::get('verify-sms', [VerifySmsController::class, 'check'])
-                ->name('verifySms.check');
-
-    Route::post('verify-sms-create', [VerifySmsController::class, 'store'])
-                ->name('verifySms.store');
-});
-
-Route::middleware('auth:web,company')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-                ->name('verification.notice');
-
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-                ->middleware(['signed', 'throttle:6,1'])
-                ->name('verification.verify');
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                ->middleware('throttle:6,1')
-                ->name('verification.send');
-
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->name('password.confirm');
-
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
-});
+Route::middleware('role:admin')
+    ->prefix('admin')
+    ->group(function(){
+        Route::get('/dashboard', function () {
+            return Inertia::render('admin/pages/Dashboard');
+    })->name('admin');
+})->name('admin');

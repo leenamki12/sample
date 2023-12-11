@@ -16,7 +16,7 @@ export const Wrapper = styled.div<Props>`
     svg {
         ${tw`absolute left-[15px] top-1/2 mt-[-11px] h-[22px]`}
         path {
-            ${({ isEnter }) => isEnter && tw`fill-primary`};
+            ${({ isEnter }) => isEnter && tw`fill-[#181717]`};
 
             ${({ isError }) => isError && tw`fill-red-500`};
         }
@@ -26,7 +26,7 @@ export const Wrapper = styled.div<Props>`
 export const Input = styled.input<Props>`
     ${tw`p-[19px 15px] h-[60px] w-full rounded border border-secondary`}
 
-    ${({ isEnter }) => isEnter && tw`border-2 border-primary`};
+    ${({ isEnter }) => isEnter && tw`border-2 border-[#181717]`};
 
     ${({ isError }) => isError && tw`border-2 border-red-500`};
 

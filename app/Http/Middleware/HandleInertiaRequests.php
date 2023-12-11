@@ -41,12 +41,6 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
-            },
-            'userVerifys' => function () use ($request) { //휴대폰 인증번호 상태
-                return [
-                    'code' => $request->session()->get('userVerifyCode'),
-                    'status' => $request->session()->get('userVerifyStatus')
-                ];
             }
         ]);
     }

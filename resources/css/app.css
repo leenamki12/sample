@@ -23,8 +23,8 @@ input:where(:not([type])):focus,
 [multiple]:focus,
 textarea:focus,
 select:focus {
-    border-color: #1743b1;
-    --tw-ring-color: #1743b1;
+    border-color: #181717;
+    --tw-ring-color: #181717;
 }
 
 textarea::placeholder,

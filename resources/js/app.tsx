@@ -24,7 +24,8 @@ createInertiaApp({
 
         page.default.layout = name.startsWith('public/')
             ? undefined
-            : (page: ReactElement) => <ConnectLayout children={page} />;
+            : (page: ReactElement) => <ConnectLayout children={page} name={name} />;
+
         return page;
     },
     setup({ el, App, props }) {

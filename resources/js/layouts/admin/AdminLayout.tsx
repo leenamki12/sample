@@ -45,7 +45,7 @@ export default function AdminLayout({
 
                     <div className="flex items-center gap-x-4 text-white">위드닥 관리자</div>
                 </S.Header>
-                <S.HeaderInfo active={scrollDelta}>{user.email}</S.HeaderInfo>
+                <S.HeaderInfo active={scrollDelta}>{user.identification}</S.HeaderInfo>
                 <main className="max-w-[1200px] px-0 sm:px-4">{children}</main>
             </S.ContentWrapper>
         </S.Wrapper>

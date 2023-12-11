@@ -6,6 +6,7 @@ function Dashboard() {
     return (
         <S.Wrapper>
             <PageHeader title="홈"></PageHeader>
+            asd
         </S.Wrapper>
     );
 }
