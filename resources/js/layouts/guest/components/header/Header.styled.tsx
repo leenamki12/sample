@@ -9,7 +9,7 @@ export const InnerBox = styled.div`
 `;
 
 export const LogoButton = styled.a`
-    ${tw`cursor-pointer p-2`}
+    ${tw`min-w-[152px] cursor-pointer p-2`}
 `;
 
 export const Nav = styled.ul`

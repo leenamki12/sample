@@ -57,6 +57,7 @@
         "@heroicons/react": "^2.0.18",
         "dayjs": "^1.11.9",
         "eslint-plugin-prettier": "^5.0.0",
+        "gsap": "^3.12.3",
         "heroicons": "^2.0.18",
         "prettier": "^3.0.0",
         "prettier-plugin-tailwindcss": "^0.4.1",

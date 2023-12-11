@@ -1,55 +1,44 @@
-import tw, { styled } from 'twin.macro';
+import tw, { css, styled } from 'twin.macro';
 
 export const Wrapper = styled.div`
     ${tw`flex w-full flex-col items-center space-y-5`}
 `;
 
-export const LoginWrapper = styled.div`
-    ${tw`p-[60px 30px 80px] h-full bg-white`}
-`;
+export const LogoWrap = styled.div`
+    ${tw`flex h-[500px] items-center justify-center`}
 
-export const ImageBox = styled.div`
-    ${tw`mb-[20px] flex justify-center`}
-`;
-
-export const LogoInfoText = styled.div`
-    ${tw`mb-[30px] text-center text-sm text-[#666]`}
-`;
-
-export const Tab = styled.div`
-    ${tw`mb-[30px] flex`}
-`;
-
-type TabButtonProps = {
-    isActive: boolean;
-};
-
-export const TabButton = styled.button<TabButtonProps>`
-    ${tw`h-[50px] flex-1 border-b border-[#dadada] duration-100`}
-
-    ${({ isActive }) => isActive && tw`border-b-[2px] border-[#111] font-bold`};
-
-    &:hover {
-        ${tw`opacity-80`}
+    img {
+        ${tw`w-[490px]`}
     }
 `;
 
-export const Divider = styled.div`
-    ${tw`ml-[-30px] mr-[-30px] mt-[30px] h-[10px] bg-[#f8f8f8]`}
+export const AlbumWrap = styled.div`
+    ${tw`w-full space-y-[20px] overflow-hidden`}
 `;
 
-export const FooterInfo = styled.div`
-    ${tw`pt-[30px] text-center text-sm leading-[24px] text-[#666]`}
+export const AlbumContent = styled.div`
+    ${tw`w-full`}
+`;
 
-    a {
-        ${tw`font-bold`}
+export const AlbumList = styled.ul`
+    ${tw`flex items-center justify-center`}
+`;
+
+export const AlbumItem = styled.li`
+    ${tw`mr-[20px] h-[450px] min-w-[390px] bg-gray-100`}
+`;
+
+export const More = styled.div`
+    ${css`
+        margin-top: 120px !important;
+    `};
+    ${tw`flex justify-center`}
+`;
+
+export const MoreButton = styled.button`
+    ${tw`flex h-[44px] items-center gap-[10px] rounded-full border-[1px] border-white px-[20px] text-white`}
+
+    img {
+        ${tw`w-[21px]`}
     }
-`;
-
-export const ButtonGroup = styled.div`
-    ${tw`mt-[25px] flex items-center justify-center gap-[15px]`}
-`;
-
-export const VeticalDivider = styled.span`
-    ${tw`block h-[10px] w-[1px] bg-[#1743B1] opacity-50`}
 `;
