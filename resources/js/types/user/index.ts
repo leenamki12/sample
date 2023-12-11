@@ -43,11 +43,6 @@ export type Companies = {
     user: User;
 };
 
-// type Companies = {
-//     approval_status: 'waiting' | 'stopped' | 'completed';
-//     auth_code: string;
-// };
-
 type Company = {
     name: string;
     address: string;
