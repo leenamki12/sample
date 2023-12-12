@@ -1,21 +1,10 @@
-import { useState } from 'react';
-
+import DropDown, { LinkProps } from '@/components/ui/drop-down/DropDown';
 import Logo from '@assets/common/footer_logo.svg';
 import TopArrow from '@assets/common/icon_footer_top_arrow.svg';
 
 import * as S from './Footer.styled';
 
-type TargetType = '_blank' | '_self';
-
-interface LinkProps {
-    label: string;
-    path: string;
-    target?: TargetType;
-}
-
 function Footer() {
-    const [isToggle, setIsToggle] = useState<boolean>(false);
-
     const familySiteLinks: LinkProps[] = [
         {
             label: 'The Glow',
@@ -36,24 +25,11 @@ function Footer() {
         }
     };
 
-    const handleToggleMenu = () => {
-        setIsToggle(prev => !prev);
-    };
-
     return (
         <S.Wrapper>
             <S.InnerBox>
                 <S.FamilyBox>
-                    <button onClick={handleToggleMenu}>Family Site</button>
-                    <S.SiteList className={isToggle ? 'block' : 'hidden'}>
-                        {familySiteLinks.map(site => (
-                            <li key={site.label}>
-                                <a href={site.path} target={site.target}>
-                                    {site.label}
-                                </a>
-                            </li>
-                        ))}
-                    </S.SiteList>
+                    <DropDown label="Family Site" items={familySiteLinks} />
                 </S.FamilyBox>
                 <div className="relative text-center">
                     <S.LogoButton>
