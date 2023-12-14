@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\PartController;
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Web\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,10 +30,17 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
-Route::middleware('role:admin')
-    ->prefix('admin')
-    ->group(function(){
-        Route::get('/dashboard', function () {
-            return Inertia::render('admin/pages/Dashboard');
-    })->name('admin');
-})->name('admin');
+Route::middleware('auth','role:admin')->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('admin/pages/album/AlbumList');
+    })->name('admin.album');
+
+
+    Route::get('/part', [PartController::class, 'index'])->name('admin.part');
+    Route::post('/part', [PartController::class, 'store'])->name('admin.part.create');
+    Route::delete('/part', [PartController::class, 'destroy'])->name('admin.part.delete');
+
+    Route::get('/work', function () {
+        return Inertia::render('admin/pages/work/WorkList');
+    })->name('admin.work');
+});

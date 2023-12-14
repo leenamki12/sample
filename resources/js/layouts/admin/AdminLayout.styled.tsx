@@ -31,3 +31,7 @@ export const HeaderInfo = styled.div<LinkProps>`
 
     ${({ active }) => (active ? tw`translate-y-0` : tw`translate-y-[-100%]`)}
 `;
+
+export const Main = styled.main`
+    ${tw`max-w-[1200px] px-2 py-2 sm:px-4 sm:py-10`}
+`;

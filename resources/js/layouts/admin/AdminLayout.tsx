@@ -42,11 +42,9 @@ export default function AdminLayout({
                         <span className="sr-only">Open sidebar</span>
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                     </S.MobileButton>
-
-                    <div className="flex items-center gap-x-4 text-white">위드닥 관리자</div>
                 </S.Header>
                 <S.HeaderInfo active={scrollDelta}>{user.identification}</S.HeaderInfo>
-                <main className="max-w-[1200px] px-0 sm:px-4">{children}</main>
+                <S.Main>{children}</S.Main>
             </S.ContentWrapper>
         </S.Wrapper>
     );

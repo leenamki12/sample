@@ -8,6 +8,17 @@ import { transitionOpacity, transitionTranslateateX } from '@/consts';
 
 import * as S from './SideBar.styled';
 
+type NaviProps = {
+    name: string;
+    href?: string;
+    children?: SubNaviProps[];
+};
+
+type SubNaviProps = {
+    name: string;
+    href: string;
+};
+
 type Props = {
     sidebarOpen: boolean;
     setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,21 +28,18 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
 }
 function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
-    const navigation = [
+    const navigation: NaviProps[] = [
         {
             name: 'Home',
-            href: 'admin',
+            href: 'admin.album',
         },
         {
-            name: '병원관리',
-            children: [{ name: '대시보드', href: '' }],
+            name: 'Part 관리',
+            href: 'admin.part',
         },
         {
-            name: '기업관리',
-            children: [
-                { name: '대시보드', href: '' },
-                { name: '목록', href: '' },
-            ],
+            name: 'Work 관리',
+            href: 'admin.work',
         },
     ];
 
@@ -73,7 +81,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                         <S.NavList role="list">
                                             {navigation.map(item => (
                                                 <li key={item.name}>
-                                                    {!item.children ? (
+                                                    {!item.children && item.href ? (
                                                         <S.NavLink
                                                             href={route(item.href)}
                                                             active={route()
@@ -103,7 +111,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                                         as="ul"
                                                                         className="mt-1 px-2"
                                                                     >
-                                                                        {item.children.map(
+                                                                        {item.children?.map(
                                                                             subItem => (
                                                                                 <li
                                                                                     key={
@@ -163,7 +171,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                         <S.NavList role="list">
                             {navigation.map(item => (
                                 <li key={item.name}>
-                                    {!item.children ? (
+                                    {!item.children && item.href ? (
                                         <S.NavLink
                                             href={route(item.href)}
                                             active={route().current(item.href).toString()}
@@ -188,7 +196,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                         {item.name}
                                                     </S.NavButton>
                                                     <Disclosure.Panel as="ul" className="mt-1 px-2">
-                                                        {item.children.map(subItem => (
+                                                        {item.children?.map(subItem => (
                                                             <li key={subItem.name}>
                                                                 <S.SubNavLink
                                                                     href={route(subItem.href)}

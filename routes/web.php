@@ -1,13 +1,10 @@
 <?php
-
-use App\Http\Controllers\Web\Admin\CompanyListController;
-use App\Http\Controllers\Web\Profile\CompanyCodeController;
-use App\Http\Controllers\Web\Hospital\ReservationController;
 use App\Http\Controllers\Web\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 //Home 첫번째 화면
 Route::get('/', function () {
