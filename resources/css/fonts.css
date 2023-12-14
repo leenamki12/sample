@@ -4,14 +4,30 @@
     font-family: 'WanderLoch';
     font-style: normal;
     font-weight: 400;
-    src: url(../fonts/WanderLoch-1.ttf);
-    src: url(../fonts/WanderLoch-1.woff) format('woff');
+    src: url(../fonts/WanderLoch-primary-normal.ttf);
+    src: url(../fonts/WanderLoch-primary-normal.woff) format('woff');
 }
 
 @font-face {
     font-family: 'WanderLoch';
     font-style: normal;
     font-weight: bold;
-    src: url(../fonts/WanderLoch-4.ttf);
-    src: url(../fonts/WanderLoch-4.woff) format('woff');
+    src: url(../fonts/WanderLoch-primary-bold.ttf);
+    src: url(../fonts/WanderLoch-primary-bold.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'WanderLoch-secondary';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/WanderLoch-secondary-normal.ttf);
+    src: url(../fonts/WanderLoch-secondary-normal.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'WanderLoch-secondary';
+    font-style: normal;
+    font-weight: bold;
+    src: url(../fonts/WanderLoch-secondary-bold.ttf);
+    src: url(../fonts/WanderLoch-secondary-bold.woff) format('woff');
 }

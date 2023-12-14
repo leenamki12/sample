@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 //Home 첫번째 화면
 Route::get('/', function () {
-    return Inertia::render('Home', [
+    return Inertia::render('home/Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -18,13 +18,7 @@ Route::get('/', function () {
 
 //대시보드
 Route::get('/dashboard', function () {
-    $auth = Auth::getUser();
-
-    if(!$auth && Auth::guard('company')->user()){
-        return redirect(Auth::guard('company')->user()->roles->first()->name);
-    }
-
-    return redirect($auth->roles->first()->name);
+    return Inertia::render('Dashboard');
 })->name('dashboard');
 
 //회원정보
