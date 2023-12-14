@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 //Home 첫번째 화면
 Route::get('/', function () {
-    return Inertia::render('Home', [
+    return Inertia::render('home/Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
