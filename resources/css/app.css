@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-import body {
+body {
     font-weight: 400;
+    min-width: 360px;
 }
 
 [type='text']:focus,

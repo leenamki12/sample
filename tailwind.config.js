@@ -15,9 +15,9 @@ export default {
         extend: {
             screens: {
                 mobile: { max: '640px' },
-                tablet: { max: '768px', min: '641px' },
-                laptop: { max: '1024px', min: '769px' },
-                desktop: { max: '1280px', min: '1025px' },
+                tablet: { max: '768px' },
+                laptop: { max: '1024px' },
+                desktop: { max: '1280px' },
             },
             fontFamily: {
                 sans: ['WanderLoch', 'Pretendard', ...defaultTheme.fontFamily.sans],
