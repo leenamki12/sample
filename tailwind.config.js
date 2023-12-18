@@ -28,6 +28,7 @@ export default {
                 primary: '#1743B1',
                 secondary: '#dadada',
                 blackPrimary: '#181717',
+                green: '#00BE52',
             },
             borderRadius: {
                 none: '0',
