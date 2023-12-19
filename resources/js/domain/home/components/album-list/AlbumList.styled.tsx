@@ -1,13 +1,13 @@
-import tw, { styled } from 'twin.macro';
+import tw, { styled, screen } from 'twin.macro';
 
 export type AlbumProps = {
     image: string;
 };
 
 export const AlbumItem = styled.li`
-    ${tw`relative mr-[20px] h-[450px] w-[390px] overflow-hidden text-black tablet:h-[230px] tablet:min-w-[200px]`}
-    img {
-    }
+    ${tw`relative mr-[20px] h-[450px] w-[390px] overflow-hidden text-black`}
+
+    ${screen('tablet')({ ...tw`h-[230px] w-[200px]` })}
 `;
 
 export const ContentsBox = styled.div<AlbumProps>`
@@ -47,5 +47,7 @@ export const ContentsBox = styled.div<AlbumProps>`
                 ${tw`bottom-0`}
             }
         }
+
+        ${screen('tablet')({ ...tw`hidden` })}
     }
 `;

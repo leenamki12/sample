@@ -6,6 +6,7 @@ import { StrKeyArray } from '@/types';
 
 import BorderButton from './BorderButton';
 import CancelButton from './CancelButton';
+import MoreButton from './MoreButton';
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
 import TertiaryButton from './TertiaryButton';
@@ -13,7 +14,7 @@ import TextButton from './TextButton';
 
 type Props = {
     label: string;
-    element: 'primary' | 'secondary' | 'teriary' | 'border' | 'cancel' | 'text';
+    element: 'primary' | 'secondary' | 'teriary' | 'border' | 'cancel' | 'text' | 'more';
     type?: 'button' | 'submit';
 } & ButtonStyleProps &
     HTMLAttributes<HTMLButtonElement>;
@@ -25,6 +26,7 @@ const buttons: StrKeyArray<React.ComponentType<PropsWithChildren<ButtonProps>>> 
     border: BorderButton,
     cancel: CancelButton,
     text: TextButton,
+    more: MoreButton,
 };
 
 /**

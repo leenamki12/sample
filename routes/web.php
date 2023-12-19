@@ -21,6 +21,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
+//about
+Route::get('/about', function () {
+    return Inertia::render('about/About');
+})->name('about');
+
 //회원정보
 Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

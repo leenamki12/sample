@@ -1,7 +1,7 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
+import { Button } from '@/components/ui';
 import Logo from '@assets/common/header_logo.svg';
-import MoreIcon from '@assets/common/icon_more.svg';
 import AlbumTest from '@assets/home/test_album01.jpg';
 
 import { AlbumList, BusinessContent, ContactContent } from './components';
@@ -53,10 +53,7 @@ export default function Home() {
                     </S.AlbumContent>
                 </div>
                 <S.More>
-                    <S.MoreButton>
-                        more info
-                        <img src={MoreIcon} alt="" />
-                    </S.MoreButton>
+                    <Button label="more info" element="more" />
                 </S.More>
             </S.AlbumWrap>
             <S.BusinessWrap>
@@ -69,10 +66,11 @@ export default function Home() {
                         지속가능한 음악 콘텐츠를 구현합니다.`}
                     />
                     <S.More>
-                        <S.MoreButton>
-                            more info
-                            <img src={MoreIcon} alt="" />
-                        </S.MoreButton>
+                        <Button
+                            label="more info"
+                            element="more"
+                            onClick={() => router.visit(route('about'))}
+                        />
                     </S.More>
                 </S.InnerWrap>
             </S.BusinessWrap>

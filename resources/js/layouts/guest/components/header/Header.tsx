@@ -6,12 +6,12 @@ function Header() {
     return (
         <S.Wrapper>
             <S.InnerBox>
-                <S.LogoButton>
+                <S.LogoButton href={route('home')}>
                     <img src={Logo} alt="" />
                 </S.LogoButton>
                 <S.Nav>
                     <li>
-                        <a href="">About</a>
+                        <a href={route('about')}>About</a>
                     </li>
                     <li>
                         <a href="">Present</a>
