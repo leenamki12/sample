@@ -4,8 +4,18 @@ export type AlbumProps = {
     image: string;
 };
 
+export const Wrapper = styled.div`
+    &:last-of-type {
+        ${tw`mt-[20px]`}
+    }
+
+    .rfm-marquee-container {
+        ${tw`overflow-visible`}
+    }
+`;
+
 export const AlbumItem = styled.li`
-    ${tw`relative mr-[20px] h-[450px] w-[390px] overflow-hidden text-black`}
+    ${tw`relative mr-[20px] h-[450px] w-[390px] text-black shadow-[0_40px_50px_0px_rgba(0,0,0,0.8)]`}
 
     ${screen('tablet')({ ...tw`h-[230px] w-[200px]` })}
 `;

@@ -1,3 +1,4 @@
+import { InnerContainer, SubTitle } from '@/components/layouts';
 import BrandStoryBanner from '@assets/about/bg_brand_story.jpg';
 import BusinessBanner01 from '@assets/about/bg_business01.jpg';
 import BusinessBanner02 from '@assets/about/bg_business02.jpg';
@@ -9,16 +10,17 @@ import BrandStoryLogo from '@assets/about/image_brand_story_logo.png';
 import BrandStory from './components/brand-story/BrandStory';
 import BusinessList from './components/business-list/BusinessList';
 import GoalList from './components/goal-list/GoalList';
+import { ContactContent } from '../contact/components';
 
 import * as S from './About.styled';
 
 function About() {
     return (
         <S.Wrapper>
-            <h2 className="mb-[100px] text-center text-[45px] font-bold text-green">ABOUT</h2>
-            <S.InnerWrap>
-                {/* Brand Story start */}
-                <S.Section>
+            <SubTitle title="ABOUT" />
+            {/* Brand Story start */}
+            <S.Section>
+                <InnerContainer isMobileFull>
                     <S.Title>Brand Story</S.Title>
                     <BrandStory logoImage={BrandStoryLogo} backgroundImage={BrandStoryBanner}>
                         페스티벌·공연기획사 원더로크는 데이터 기반의 기획을 통해 단순 소비재를 넘어
@@ -31,10 +33,12 @@ function About() {
                             *WanderLoch(원더로크)는 Wanderer(방랑자)와 Loch(호수)의 합성어입니다.
                         </span>
                     </BrandStory>
-                </S.Section>
-                {/* Brand Story end */}
-                {/* Goal start */}
-                <S.Section>
+                </InnerContainer>
+            </S.Section>
+            {/* Brand Story end */}
+            {/* Goal start */}
+            <S.Section>
+                <InnerContainer>
                     <S.Title>Goal</S.Title>
                     <div>
                         <GoalList
@@ -50,17 +54,19 @@ function About() {
                             text="단순한 소비재를 넘어 자기 표현의 수단이 되고자 합니다."
                         />
                     </div>
-                </S.Section>
-                {/* Goal end */}
-                {/* Business start */}
-                <S.Section>
+                </InnerContainer>
+            </S.Section>
+            {/* Goal end */}
+            {/* Business start */}
+            <S.Section>
+                <InnerContainer>
                     <S.Title>Business</S.Title>
-                    <p className="mx-auto mb-[80px] max-w-[1000px] text-center text-[25px] leading-loose">
+                    <S.BusinessText>
                         WanderLoch(원더로크)는 문화사업 전반의 비지니스를 다루는 14개의 자체
                         브랜드를 기반으로
                         <br />
                         최고의 음악 창작 콘텐츠를 만드는 마운드미디어의 산하 브랜드입니다.
-                    </p>
+                    </S.BusinessText>
                     <div>
                         <BusinessList
                             title="Festival"
@@ -93,9 +99,12 @@ function About() {
                             backgroundImage={BusinessBanner05}
                         />
                     </div>
-                </S.Section>
-                {/* Business end */}
-            </S.InnerWrap>
+                </InnerContainer>
+            </S.Section>
+            {/* Business end */}
+            <div>
+                <ContactContent title="Contact" />
+            </div>
         </S.Wrapper>
     );
 }

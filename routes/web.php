@@ -26,6 +26,16 @@ Route::get('/about', function () {
     return Inertia::render('about/About');
 })->name('about');
 
+//present
+Route::get('/present', function () {
+    return Inertia::render('present/Present');
+})->name('present');
+
+//contact
+Route::get('/contact', function () {
+    return Inertia::render('contact/Contact');
+})->name('contact');
+
 //회원정보
 Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

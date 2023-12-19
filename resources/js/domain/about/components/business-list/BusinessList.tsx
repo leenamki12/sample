@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui';
+
 import * as S from './BusinessList.styled';
 
 type Props = {
@@ -15,7 +17,9 @@ function BusinessList({ title, text, subTitle, backgroundImage }: Props) {
                 </S.Title>
                 <S.Text>{text}</S.Text>
             </div>
-            <div>버튼</div>
+            <S.ButtonBox>
+                <Button label="more info" element="more" />
+            </S.ButtonBox>
         </S.Wrapper>
     );
 }

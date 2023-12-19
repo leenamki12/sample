@@ -31,7 +31,7 @@ function AlbumList({ albums, direction, ...props }: Props) {
     };
 
     return (
-        <>
+        <S.Wrapper>
             <Marquee
                 loop={0}
                 pauseOnHover
@@ -55,7 +55,7 @@ function AlbumList({ albums, direction, ...props }: Props) {
             <Modal show={isModalOpen} onClose={handleCloseModal}>
                 <SwiperModal />
             </Modal>
-        </>
+        </S.Wrapper>
     );
 }
 
