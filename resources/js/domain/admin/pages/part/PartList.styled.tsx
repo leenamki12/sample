@@ -1,3 +1,4 @@
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import tw, { styled } from 'twin.macro';
 
 export const AddSectionWrap = styled.div`
@@ -5,7 +6,7 @@ export const AddSectionWrap = styled.div`
 `;
 
 export const GridWrap = styled.div`
-    ${tw`mt-3 grid min-h-[auto] grid-cols-1 gap-5 sm:min-h-[528px] sm:grid-cols-2 sm:gap-6 lg:grid-cols-4`}
+    ${tw`mt-3 grid min-h-[auto] auto-rows-min grid-cols-1 gap-5 sm:min-h-[528px] sm:grid-cols-2 sm:gap-6 lg:grid-cols-4`}
 `;
 
 export const GridItem = styled.div`
@@ -28,4 +29,18 @@ export const DeleteButton = styled.button`
             ${tw`stroke-gray-500 delay-100`}
         }
     }
+`;
+
+export const GridText = styled.div`
+    ${tw`flex-1 truncate px-4 py-2 text-sm`}
+`;
+export const GridTextName = styled.strong`
+    ${tw`flex items-center text-xl font-bold text-gray-900`}
+`;
+export const GridTextCount = styled.span`
+    ${tw`text-gray-500`}
+`;
+
+export const XmarkIcon = styled(XMarkIcon)`
+    ${tw`h-5 w-5`}
 `;
