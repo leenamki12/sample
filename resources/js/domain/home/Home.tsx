@@ -1,11 +1,13 @@
 import { Head, router } from '@inertiajs/react';
 
+import { InnerContainer } from '@/components/layouts';
 import { Button } from '@/components/ui';
 import Logo from '@assets/common/header_logo.svg';
 import AlbumTest from '@assets/home/test_album01.jpg';
 
-import { AlbumList, BusinessContent, ContactContent } from './components';
+import { AlbumList, BusinessContent } from './components';
 import { AlbumProps } from './components/album-list/AlbumList';
+import { ContactContent } from '../contact/components';
 
 import * as S from './Home.styled';
 
@@ -45,19 +47,15 @@ export default function Home() {
             </S.LogoWrap>
             <S.AlbumWrap>
                 <div>
-                    <S.AlbumContent>
-                        <AlbumList albums={AlbumItems} />
-                    </S.AlbumContent>
-                    <S.AlbumContent>
-                        <AlbumList albums={AlbumItems} direction="right" />
-                    </S.AlbumContent>
+                    <AlbumList albums={AlbumItems} />
+                    <AlbumList albums={AlbumItems} direction="right" />
                 </div>
                 <S.More>
                     <Button label="more info" element="more" />
                 </S.More>
             </S.AlbumWrap>
             <S.BusinessWrap>
-                <S.InnerWrap>
+                <InnerContainer>
                     <BusinessContent
                         title="Business"
                         content={`페스티벌 · 공연 기획사 원더로크는 단순 소비재를 넘어
@@ -72,13 +70,11 @@ export default function Home() {
                             onClick={() => router.visit(route('about'))}
                         />
                     </S.More>
-                </S.InnerWrap>
+                </InnerContainer>
             </S.BusinessWrap>
-            <S.ContactWrap>
-                <S.InnerWrap>
-                    <ContactContent title="Contact" />
-                </S.InnerWrap>
-            </S.ContactWrap>
+            <div>
+                <ContactContent title="Contact" />
+            </div>
         </S.Wrapper>
     );
 }

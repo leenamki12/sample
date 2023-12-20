@@ -14,13 +14,13 @@ function Header() {
                         <a href={route('about')}>About</a>
                     </li>
                     <li>
-                        <a href="">Present</a>
+                        <a href={route('presents')}>Presents</a>
                     </li>
                     <li>
                         <a href="">Works</a>
                     </li>
                     <li>
-                        <a href="">Contact</a>
+                        <a href={route('contact')}>Contact</a>
                     </li>
                 </S.Nav>
             </S.InnerBox>

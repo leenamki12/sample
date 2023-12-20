@@ -1,9 +1,21 @@
-import tw, { styled, screen } from 'twin.macro';
+import tw, { styled, screen, css } from 'twin.macro';
 
-export const Wrapper = styled.div`
-    ${tw`font-pretendard text-lg leading-loose`}
+export type StyleProps = {
+    titleBlock?: boolean;
+};
 
-    ${screen('tablet')({ ...tw`text-base` })}
+export const Wrapper = styled.div<StyleProps>`
+    ${tw`mb-[20px] font-pretendard text-lg leading-loose`}
+
+    ${StyleProps =>
+        StyleProps.titleBlock &&
+        css`
+            ${tw`pt-[100px]`}
+
+            ${screen('tablet')({ ...tw`pt-[80px]` })}
+        `}
+
+    ${screen('tablet')({ ...tw`mb-[10px] text-base` })}
 `;
 
 export const Title = styled.strong`

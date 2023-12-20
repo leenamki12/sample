@@ -1,11 +1,7 @@
 import tw, { styled, screen } from 'twin.macro';
 
 export const Wrapper = styled.div`
-    ${tw`mb-[20px] flex w-full flex-col space-y-5 text-white`}
-`;
-
-export const InnerWrap = styled.div`
-    ${tw`mx-auto max-w-[1240px] px-[20px]`}
+    ${tw`flex w-full flex-col space-y-5 text-white`}
 `;
 
 export const LogoWrap = styled.div`
@@ -22,12 +18,6 @@ export const LogoWrap = styled.div`
 
 export const AlbumWrap = styled.div`
     ${tw`w-full overflow-hidden pb-[100px]`}
-`;
-
-export const AlbumContent = styled.div`
-    &:last-of-type {
-        ${tw`mt-[20px]`}
-    }
 `;
 
 export const More = styled.div`
@@ -48,10 +38,4 @@ export const BusinessWrap = styled.div`
     ${tw`p-[100px 0 80px 0]`}
 
     ${screen('tablet')({ ...tw`py-[50px]` })}
-`;
-
-export const ContactWrap = styled.div`
-    ${tw`pt-[100px]`}
-
-    ${screen('tablet')({ ...tw`pt-[80px]` })}
 `;

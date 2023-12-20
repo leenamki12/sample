@@ -7,7 +7,7 @@ export type Props = {
 };
 
 export const BorderButton = styled(Button)`
-    ${tw`border border-primary bg-white text-lg text-primary`}
+    ${tw`rounded-none border border-white bg-transparent text-lg text-white`}
 
     ${({ color }) =>
         color &&
