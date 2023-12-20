@@ -1,11 +1,11 @@
 import { InnerContainer, SubTitle } from '@/components/layouts';
-import BrandStoryBanner from '@assets/about/bg_brand_story.jpg';
-import BusinessBanner01 from '@assets/about/bg_business01.jpg';
-import BusinessBanner02 from '@assets/about/bg_business02.jpg';
-import BusinessBanner03 from '@assets/about/bg_business03.jpg';
-import BusinessBanner04 from '@assets/about/bg_business04.jpg';
-import BusinessBanner05 from '@assets/about/bg_business05.jpg';
-import BrandStoryLogo from '@assets/about/image_brand_story_logo.png';
+import BrandStoryBanner from '@assets/pages/bg_brand_story.jpg';
+import BusinessBanner01 from '@assets/pages/bg_business01.jpg';
+import BusinessBanner02 from '@assets/pages/bg_business02.jpg';
+import BusinessBanner03 from '@assets/pages/bg_business03.jpg';
+import BusinessBanner04 from '@assets/pages/bg_business04.jpg';
+import BusinessBanner05 from '@assets/pages/bg_business05.jpg';
+import BrandStoryLogo from '@assets/pages/image_brand_story_logo.png';
 
 import BrandStory from './components/brand-story/BrandStory';
 import BusinessList from './components/business-list/BusinessList';

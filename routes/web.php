@@ -26,10 +26,10 @@ Route::get('/about', function () {
     return Inertia::render('about/About');
 })->name('about');
 
-//present
-Route::get('/present', function () {
-    return Inertia::render('present/Present');
-})->name('present');
+//presents
+Route::get('/presents', function () {
+    return Inertia::render('presents/Presents');
+})->name('presents');
 
 //contact
 Route::get('/contact', function () {

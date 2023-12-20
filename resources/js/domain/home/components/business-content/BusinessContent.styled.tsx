@@ -13,21 +13,21 @@ export const BusinessContent = styled.div`
 
     ${screen('tablet')({ ...tw`p-[50px 25px] break-keep text-lg` })}
 
-    &:before {
-        ${tw`absolute -left-[2px] -top-[2px] block bg-blackPrimary bg-no-repeat content-['']`}
+    &:before, &:after {
+        ${tw`absolute block bg-blackPrimary bg-no-repeat content-['']`}
         background-image: url(${BusinessBox});
-        background-position: 0 0;
         background-size: auto;
         width: 80px;
         height: 45px;
     }
 
+    &:before {
+        ${tw`-left-[2px] -top-[2px]`}
+        background-position: 0 0;
+    }
+
     &:after {
-        ${tw`absolute -bottom-[2px] -right-[2px] block bg-blackPrimary bg-no-repeat content-['']`}
-        background-image: url(${BusinessBox});
+        ${tw`-bottom-[2px] -right-[2px]`}
         background-position: 100% 100%;
-        background-size: auto;
-        width: 80px;
-        height: 45px;
     }
 `;
