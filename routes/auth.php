@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Admin\PartController;
+use App\Http\Controllers\Web\Admin\PerformanceController;
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Web\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
@@ -31,13 +32,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth','role:admin')->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('admin/pages/album/AlbumList');
-    })->name('admin.album');
-
+    Route::get('/dashboard', [PerformanceController::class, 'index'])->name('admin.performance');
 
     Route::get('/part', [PartController::class, 'index'])->name('admin.part');
     Route::post('/part', [PartController::class, 'store'])->name('admin.part.create');
+    Route::patch('/part', [PartController::class, 'update'])->name('admin.part.update');
     Route::delete('/part', [PartController::class, 'destroy'])->name('admin.part.delete');
 
     Route::get('/work', function () {

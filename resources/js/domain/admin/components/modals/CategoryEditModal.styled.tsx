@@ -31,3 +31,11 @@ export const InputList = styled.div`
 export const Divider = styled.div`
     ${tw`my-[20px] h-[1px] w-full bg-[#f5f5f5]`}
 `;
+
+export const DateList = styled.ul`
+    ${tw`space-y-1`}
+`;
+
+export const DateItem = styled.li`
+    ${tw`text-right text-[14px] text-gray-500`}
+`;

@@ -1,39 +1,64 @@
-import { FormEventHandler, useState } from 'react';
+import { FormEvent, FormEventHandler, useState } from 'react';
 
 import { router, useForm, usePage } from '@inertiajs/react';
 
-import { Button, PageHeader } from '@/components/ui';
+import { PageHeader } from '@/components/ui';
 import { PageProps } from '@/types';
+import { Part, PartFromkey } from '@/types/admin/part';
 
-import CategoryEditModal from '../../components/modals/CategoryEditModal';
-import Pagination from '../../components/pagination/Pagination';
+import { TopSection, AddButton, CategoryEditModal, Pagination, Empty } from '../../components';
 
 import * as S from './PartList.styled';
 
 function PartList() {
     const { parts } = usePage<PageProps>().props;
-    const [isModalShow, setIsModalshow] = useState(false);
+    const [isCreateModalShow, setIsCreateModalshow] = useState(false);
+    const [isUpdateModalShow, setIsUpdateModalshow] = useState(false);
+    const [partUpdateData, setPartUpdateData] = useState<Part>();
 
-    const { post, setData, clearErrors, errors } = useForm();
+    const { post, patch, setData, clearErrors, errors } = useForm({
+        id: '',
+        name: '',
+    });
 
     const handleChangeInputData = (id: string, value: string) => {
-        setData(id, value);
-        clearErrors(id);
+        setData(id as PartFromkey, value);
+        clearErrors(id as PartFromkey);
     };
 
-    const onSubmit: FormEventHandler = e => {
+    const handleClickUpdateModalShow = (item: Part) => {
+        setIsUpdateModalshow(true);
+        setPartUpdateData(item);
+        setData('id', `${item.id}`);
+    };
+
+    const onCreateSubmit: FormEventHandler = e => {
         e.preventDefault();
 
         post(route('admin.part.create'), {
             replace: false,
             onSuccess: () => {
                 alert('추가 되었습니다.');
-                setIsModalshow(false);
+                setIsCreateModalshow(false);
             },
         });
     };
 
-    const onDelete = (id: string | number) => {
+    const onUpdateSubmit: FormEventHandler = e => {
+        e.preventDefault();
+
+        patch(route('admin.part.update'), {
+            replace: false,
+            onSuccess: () => {
+                alert('수정 되었습니다.');
+                setIsUpdateModalshow(false);
+                setData('id', '');
+            },
+        });
+    };
+
+    const onDelete = (e: FormEvent<Element>, id: string | number) => {
+        e.stopPropagation();
         const result = confirm(`삭제시 복구가 불가능합니다.\n삭제 하시겠습니까?`);
 
         if (result) {
@@ -48,43 +73,63 @@ function PartList() {
             });
         }
     };
+
     return (
         <>
             <PageHeader title="Part 관리" />
-            <div className="flex">
-                <Button
-                    label="Part 추가"
-                    element="primary"
-                    type="submit"
-                    className="max-w-[100px]"
-                    onClick={() => setIsModalshow(true)}
-                />
-            </div>
-            <S.GridWrap>
-                {parts.data.map(item => (
-                    <S.GridItem key={item.name}>
-                        <S.GridItemRowNum>{item.row_number}</S.GridItemRowNum>
-                        <S.GridContent>
-                            <S.GridText>
-                                <S.GridTextName>{item.name}</S.GridTextName>
-                                <S.GridTextCount>{item.use_count}개 등록</S.GridTextCount>
-                            </S.GridText>
-                            <S.DeleteButton type="button" onClick={() => onDelete(item.id)}>
-                                <S.XmarkIcon />
-                            </S.DeleteButton>
-                        </S.GridContent>
-                    </S.GridItem>
-                ))}
-            </S.GridWrap>
+            <TopSection>
+                <AddButton onClick={() => setIsCreateModalshow(true)} />
+            </TopSection>
 
-            <Pagination datas={parts} />
+            {parts.data.length > 0 ? (
+                <>
+                    <S.GridWrap>
+                        {parts.data.map(item => (
+                            <S.GridItem
+                                key={item.name}
+                                onClick={() => handleClickUpdateModalShow(item)}
+                            >
+                                <S.GridItemRowNum>{item.row_number}</S.GridItemRowNum>
+                                <S.GridContent>
+                                    <S.GridText>
+                                        <S.GridTextName>{item.name}</S.GridTextName>
+                                        <S.GridTextCount>{item.use_count}개 등록</S.GridTextCount>
+                                    </S.GridText>
+                                    <S.DeleteButton
+                                        type="button"
+                                        onClick={e => onDelete(e, item.id)}
+                                    >
+                                        <S.XmarkIcon />
+                                    </S.DeleteButton>
+                                </S.GridContent>
+                            </S.GridItem>
+                        ))}
+                    </S.GridWrap>
 
-            {isModalShow && (
+                    <Pagination datas={parts} />
+                </>
+            ) : (
+                <Empty text="목록이 없습니다." />
+            )}
+
+            {isCreateModalShow && (
                 <CategoryEditModal
-                    modalTitle={'Part 추가'}
-                    onSubmit={onSubmit}
+                    modalTitle="Part 추가"
+                    onSubmit={onCreateSubmit}
                     onChange={handleChangeInputData}
+                    onClose={() => setIsCreateModalshow(false)}
                     errors={errors}
+                />
+            )}
+
+            {isUpdateModalShow && (
+                <CategoryEditModal<Part>
+                    modalTitle="Part 수정"
+                    onSubmit={onUpdateSubmit}
+                    onChange={handleChangeInputData}
+                    onClose={() => setIsUpdateModalshow(false)}
+                    errors={errors}
+                    data={partUpdateData}
                 />
             )}
         </>

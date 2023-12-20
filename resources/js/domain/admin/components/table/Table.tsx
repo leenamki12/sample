@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import React, { ChangeEvent, ReactElement, ReactNode, useRef } from 'react';
+
+import { Checkbox } from '@/components/ui';
 
 import * as S from './Table.styled';
 
@@ -7,48 +9,87 @@ type HeaderItems = {
     width: number | string;
 };
 
-type BodyItems = {
-    [T in string]: any;
-};
-
 type Props = {
+    isChecked?: boolean;
     headerItems: HeaderItems[];
-    bodyItems: BodyItems[];
+    children: ReactNode;
 };
 
-function Table({ headerItems, bodyItems }: Props) {
-    console.log(bodyItems);
-    const body = useMemo(() => {
-        return bodyItems.length !== 0 ? bodyItems.map(item => Object.values(item)) : [];
-    }, [bodyItems]);
+function Table({ isChecked, headerItems, children }: Props) {
+    const headerLength = headerItems.length;
+    const allCheckboxRef = useRef<HTMLInputElement>(null);
+    const listCheckboxRefs = React.Children.map(children, () => useRef<HTMLInputElement>(null));
+
+    const handleRowCheckboxChange = () => {
+        if (listCheckboxRefs) {
+            const checkboxStatusArray = listCheckboxRefs.map(
+                item => item.current?.checked || false
+            );
+
+            if (allCheckboxRef && allCheckboxRef.current) {
+                if (checkboxStatusArray.includes(false)) {
+                    allCheckboxRef.current.checked = false;
+                } else {
+                    allCheckboxRef.current.checked = true;
+                }
+            }
+        }
+    };
+
+    const handleAllCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (listCheckboxRefs) {
+            listCheckboxRefs.forEach(item => {
+                if (item.current) {
+                    item.current.checked = e.target.checked;
+                }
+            });
+        }
+    };
+
+    const modifiedChildren = React.Children.map(children, (child, index) => {
+        return React.cloneElement(
+            child as ReactElement,
+            { isChecked: listCheckboxRefs?.[index].current?.checked },
+            <tr>
+                {isChecked && (
+                    <S.Td>
+                        <Checkbox
+                            ref={listCheckboxRefs?.[index]}
+                            onChange={handleRowCheckboxChange}
+                        />
+                    </S.Td>
+                )}
+                {child}
+            </tr>
+        );
+    });
 
     return (
         <S.Wrapper>
             <colgroup>
+                {isChecked && <col width="50px" />}
                 {headerItems.map((item, idx) => (
                     <col key={`${item.name}-${idx}`} width={item.width} />
                 ))}
             </colgroup>
             <S.Thead>
                 <tr>
+                    {isChecked && (
+                        <S.Th>
+                            <Checkbox ref={allCheckboxRef} onChange={handleAllCheckboxChange} />
+                        </S.Th>
+                    )}
                     {headerItems.map((item, idx) => (
                         <S.Th key={`${item.name}-${idx}`}>{item.name}</S.Th>
                     ))}
                 </tr>
             </S.Thead>
             <S.Tbody>
-                {body.map((values, idx) => (
-                    <tr key={`${values[0]}-${idx}`}>
-                        {values.map((value, idx) => (
-                            <S.Td key={`${values[0]}-${idx}`}>
-                                <div>{value}</div>
-                            </S.Td>
-                        ))}
-                    </tr>
-                ))}
-                {body.length === 0 && (
+                {children ? (
+                    <>{modifiedChildren}</>
+                ) : (
                     <tr>
-                        <td colSpan={headerItems.length}>
+                        <td colSpan={isChecked ? headerLength + 1 : headerLength}>
                             <S.Empty>목록이 없습니다.</S.Empty>
                         </td>
                     </tr>

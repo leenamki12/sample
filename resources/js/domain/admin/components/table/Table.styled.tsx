@@ -6,6 +6,10 @@ export const Wrapper = styled.table`
 
 export const Th = styled.th`
     ${tw`py-3.5 pl-2 pr-2 text-left text-sm font-semibold text-gray-900`}
+
+    label {
+        ${tw`flex h-full items-center`}
+    }
 `;
 
 export const Thead = styled.thead`
@@ -25,5 +29,5 @@ export const Td = styled.td`
 `;
 
 export const Empty = styled.div`
-    ${tw`h-[200px] text-center leading-[200px] sm:h-[500px] sm:leading-[500px]`}
+    ${tw`h-[200px] bg-gray-50 text-center leading-[200px] sm:h-[500px] sm:leading-[500px]`}
 `;

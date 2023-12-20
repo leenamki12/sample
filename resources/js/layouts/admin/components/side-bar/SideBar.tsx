@@ -30,8 +30,8 @@ function classNames(...classes: string[]) {
 function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
     const navigation: NaviProps[] = [
         {
-            name: 'Home',
-            href: 'admin.album',
+            name: '공연 관리',
+            href: 'admin.performance',
         },
         {
             name: 'Part 관리',

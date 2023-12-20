@@ -1,6 +1,7 @@
 import { Profile } from '@/domain/profile/pages/types/Profie';
 
-import { Parts } from './admin/part';
+import { Part } from './admin/part';
+import { Performance } from './admin/performance';
 import { Paginate } from './common';
 import { User } from './user';
 
@@ -16,5 +17,6 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     profile: Profile;
 
     /** admin */
-    parts: Paginate<Parts>;
+    parts: Paginate<Part>;
+    performances: Paginate<Performance>;
 };

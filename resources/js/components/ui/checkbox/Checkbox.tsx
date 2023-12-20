@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, LegacyRef, forwardRef } from 'react';
 
 import * as S from './Checkbox.styled';
 
@@ -6,11 +6,13 @@ type Props = {
     label?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export default function Checkbox({ className = '', label, ...props }: Props) {
+function Checkbox({ className = '', label, ...props }: Props, ref: LegacyRef<HTMLInputElement>) {
     return (
         <S.Label>
-            <S.Input {...props} type="checkbox" />
+            <S.Input {...props} type="checkbox" ref={ref} />
             <span>{label && label}</span>
         </S.Label>
     );
 }
+
+export default forwardRef(Checkbox);
