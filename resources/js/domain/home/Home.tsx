@@ -4,6 +4,7 @@ import { InnerContainer } from '@/components/layouts';
 import { Button } from '@/components/ui';
 import Logo from '@assets/common/header_logo.svg';
 import AlbumTest from '@assets/home/test_album01.jpg';
+import AlbumTest2 from '@assets/pages/bg_brand_story.jpg';
 
 import { AlbumList, BusinessContent } from './components';
 import { AlbumProps } from './components/album-list/AlbumList';
@@ -37,6 +38,105 @@ export default function Home() {
             location: 'at YES24 LIVE  HALL',
             info: '연출・운영ㅣWanderLoch.Inc',
         },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스22',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스333',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스22',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스333',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스333',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+    ];
+
+    const AlbumItemsBottom: AlbumProps[] = [
+        {
+            title: '조유리 미니 2집\nLOVE  ALL\n미디어 쇼케이스',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스22',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스333',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스22',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스333',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스22',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
+        {
+            title: '조유리 미니 2집\n‘Love All’\n미디어 쇼케이스333',
+            year: '2023',
+            month: '08월',
+            image: AlbumTest2,
+            location: 'at YES24 LIVE  HALL',
+            info: '연출・운영ㅣWanderLoch.Inc',
+        },
     ];
 
     return (
@@ -48,7 +148,7 @@ export default function Home() {
             <S.AlbumWrap>
                 <div>
                     <AlbumList albums={AlbumItems} />
-                    <AlbumList albums={AlbumItems} direction="right" />
+                    <AlbumList albums={AlbumItemsBottom} isRtl />
                 </div>
                 <S.More>
                     <Button label="more info" element="more" />
