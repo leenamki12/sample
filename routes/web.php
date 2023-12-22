@@ -31,6 +31,11 @@ Route::get('/presents', function () {
     return Inertia::render('presents/Presents');
 })->name('presents');
 
+//works
+Route::get('/works', function () {
+    return Inertia::render('works/Works');
+})->name('works');
+
 //contact
 Route::get('/contact', function () {
     return Inertia::render('contact/Contact');

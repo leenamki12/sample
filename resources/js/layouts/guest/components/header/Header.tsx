@@ -17,7 +17,7 @@ function Header() {
                         <a href={route('presents')}>Presents</a>
                     </li>
                     <li>
-                        <a href="">Works</a>
+                        <a href={route('works')}>Works</a>
                     </li>
                     <li>
                         <a href={route('contact')}>Contact</a>

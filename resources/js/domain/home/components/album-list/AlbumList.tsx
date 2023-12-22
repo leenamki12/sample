@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useKeenSlider } from 'keen-slider/react';
 
@@ -11,10 +11,10 @@ import * as S from './AlbumList.styled';
 
 export type AlbumProps = {
     title: string;
-    year: string;
-    month: string;
+    date: string;
     location: string;
     info?: string;
+    detailImages?: string[];
 } & S.AlbumProps;
 
 type Props = {
@@ -25,7 +25,9 @@ type Props = {
 function AlbumList({ albums, isRtl = false, ...props }: Props) {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    const animation = { duration: 10000, easing: (t: number) => t };
+    const [modalData, setModalData] = useState<AlbumProps>();
+
+    const animation = { duration: 20000, easing: (t: number) => t };
     const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
         loop: true,
         renderMode: 'performance',
@@ -84,15 +86,19 @@ function AlbumList({ albums, isRtl = false, ...props }: Props) {
         }
     };
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (data: AlbumProps) => {
         setIsModalOpen(true);
         handleAnimation(true);
+        setModalData(data);
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        handleAnimation(false);
     };
+
+    useEffect(() => {
+        if (!isModalOpen) handleAnimation(false);
+    }, [isModalOpen]);
 
     return (
         <S.Wrapper>
@@ -111,7 +117,7 @@ function AlbumList({ albums, isRtl = false, ...props }: Props) {
             >
                 {albums.map((album, index) => (
                     <S.AlbumItem key={index} className={`keen-slider__slide number-slide${index}`}>
-                        <S.ContentsBox image={album.image} onClick={handleOpenModal}>
+                        <S.ContentsBox image={album.image} onClick={() => handleOpenModal(album)}>
                             <div>
                                 <strong>{album.title}</strong>
                             </div>
@@ -119,8 +125,14 @@ function AlbumList({ albums, isRtl = false, ...props }: Props) {
                     </S.AlbumItem>
                 ))}
             </div>
-            <Modal show={isModalOpen} onClose={handleCloseModal}>
-                <SwiperModal />
+            <Modal
+                show={isModalOpen}
+                onClose={handleCloseModal}
+                backgroundColor="transparent"
+                maxWidth="full"
+                className="overflow-visible"
+            >
+                {modalData && <SwiperModal data={modalData} setIsModalOpen={setIsModalOpen} />}
             </Modal>
         </S.Wrapper>
     );
