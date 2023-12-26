@@ -13,6 +13,10 @@ class PerformanceController extends Controller
         $Performances = Performance::orderBy('id', 'desc')->paginate(24);
 
         $Performances->each(function ($Performance, $key) use ($Performances) {
+            $parts = $Performance->parts;
+
+            $Performance->parts = $parts;
+
             $Performance->row_number = ($Performances->total() + 1) - ($key + 1) - (($Performances->currentPage() - 1) * $Performances->perPage());
         });
 

@@ -5,7 +5,7 @@ export const Wrapper = styled.table`
 `;
 
 export const Th = styled.th`
-    ${tw`py-3.5 pl-2 pr-2 text-left text-sm font-semibold text-gray-900`}
+    ${tw`p-2 py-3 pl-3 text-left text-sm font-semibold text-gray-900`}
 
     label {
         ${tw`flex h-full items-center`}
@@ -21,10 +21,14 @@ export const Tbody = styled.thead`
 `;
 
 export const Td = styled.td`
-    ${tw`whitespace-nowrap py-[10px] pl-3 pr-2 text-sm font-medium text-gray-900`}
+    ${tw`whitespace-nowrap p-2 pl-3 text-sm font-medium text-gray-900`}
 
     div {
         ${tw`min-w-[80px] whitespace-nowrap sm:whitespace-normal`}
+    }
+
+    label {
+        ${tw`flex h-full items-center`}
     }
 `;
 

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Admin\Performance;
 
+use App\Domains\Admin\Part\Part;
 use Illuminate\Database\Eloquent\Model;
 
 class Performance extends Model
@@ -12,6 +13,12 @@ class Performance extends Model
         'date_and_time',
         'address',
         'image_id',
-        'hidden'
+        'hidden',
+        'parts'
     ];
+
+    public function parts()
+    {
+        return $this->belongsToMany(Part::class, 'part_performance');
+    }
 }
