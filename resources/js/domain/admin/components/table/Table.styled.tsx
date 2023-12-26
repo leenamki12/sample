@@ -35,3 +35,11 @@ export const Td = styled.td`
 export const Empty = styled.div`
     ${tw`h-[200px] bg-gray-50 text-center leading-[200px] sm:h-[500px] sm:leading-[500px]`}
 `;
+
+export const ButtonWrap = styled.div`
+    ${tw`mt-[20px] flex justify-between`}
+
+    button {
+        ${tw`h-[36px] w-auto max-w-[100px] px-[20px] text-sm`}
+    }
+`;

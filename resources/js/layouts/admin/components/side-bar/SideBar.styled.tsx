@@ -7,7 +7,7 @@ export const Dim = styled.div`
 `;
 
 export const DesktopWapper = styled.div`
-    ${tw`hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col`}
+    ${tw`hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col`}
 `;
 
 export const SideWrapper = styled.div`
@@ -40,7 +40,7 @@ export const NavLink = styled(Link)<LinkProps>`
             ? tw`bg-[#555] text-white`
             : tw`text-gray-400 hover:bg-[#555] hover:text-white`}
 
-    ${tw`flex gap-x-3 rounded-md p-2 pl-[48px] text-sm font-semibold leading-6`}
+    ${tw`flex gap-x-3 rounded-md p-2  pl-4 text-sm font-semibold leading-6`}
 `;
 
 export const NavButton = styled(Disclosure.Button)<LinkProps>`
@@ -49,13 +49,13 @@ export const NavButton = styled(Disclosure.Button)<LinkProps>`
             ? tw`bg-[#555] text-white`
             : tw`text-gray-400 hover:bg-[#555] hover:text-white`}
 
-    ${tw`flex w-full items-center gap-x-3 rounded-md p-2 pl-4 text-sm font-semibold leading-6`}
+    ${tw`flex w-full items-center justify-between gap-x-3 rounded-md p-2 pl-4 text-sm font-semibold leading-6`}
 `;
 
 export const SubNavLink = styled(Link)<LinkProps>`
-    ${({ active }) => (active === 'true' ? tw` text-white` : tw`text-gray-400  hover:text-white`)}
+    ${({ active }) => (active === 'true' ? tw` text-white` : tw`text-gray-400 hover:opacity-50`)}
 
-    ${tw`flex gap-x-3 rounded-md p-2 pl-[42px] text-sm font-semibold leading-6`}
+    ${tw`flex gap-x-3 rounded-md p-2 pl-4 text-sm font-semibold leading-6`}
 `;
 
 export const MobileWrapper = styled.div`

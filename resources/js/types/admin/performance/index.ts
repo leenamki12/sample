@@ -13,4 +13,14 @@ export type Performance = {
     updated_at: Date;
 };
 
-export type PerformanceFromkey = 'id' | 'name';
+export type PerformanceFromkey =
+    | 'id'
+    | 'title'
+    | 'date_and_time'
+    | 'address'
+    | 'image_id'
+    | 'hidden';
+
+export type Categories = {
+    parts: Part[];
+};

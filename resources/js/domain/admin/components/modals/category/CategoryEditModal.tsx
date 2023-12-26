@@ -24,7 +24,6 @@ function CategoryEditModal<T extends Part>({
     onClose,
     errors,
 }: Props<T>) {
-    console.log(errors);
     return (
         <S.Wrapper>
             <S.Form onSubmit={onSubmit}>

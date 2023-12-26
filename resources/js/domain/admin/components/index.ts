@@ -1,6 +1,7 @@
 export { default as AddButton } from './buttons/AddButton';
 
-export { default as CategoryEditModal } from './modals/CategoryEditModal';
+export { default as CategoryEditModal } from './modals/category/CategoryEditModal';
+export { default as PerformanceEditModal } from './modals/performance/PerformanceEditModal';
 
 export { default as Pagination } from './pagination/Pagination';
 

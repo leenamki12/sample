@@ -10,7 +10,7 @@ import * as S from './SideBar.styled';
 
 type NaviProps = {
     name: string;
-    href?: string;
+    href?: string | string[];
     children?: SubNaviProps[];
 };
 
@@ -27,11 +27,22 @@ type Props = {
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
 }
+
 function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
     const navigation: NaviProps[] = [
         {
             name: '공연 관리',
-            href: 'admin.performance',
+            href: ['admin.performance', 'admin.performance.create'],
+            children: [
+                {
+                    name: '공연 목록',
+                    href: 'admin.performance',
+                },
+                {
+                    name: '공연 등록',
+                    href: 'admin.performance.create',
+                },
+            ],
         },
         {
             name: 'Part 관리',
@@ -42,6 +53,8 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
             href: 'admin.work',
         },
     ];
+
+    console.log();
 
     return (
         <>
@@ -68,7 +81,6 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                         </button>
                                     </S.CloseBox>
                                 </Transition.Child>
-                                {/* Sidebar component, swap this element with another sidebar if you like */}
                                 <S.SideWrapper>
                                     <S.SideLogo>
                                         <img
@@ -81,7 +93,9 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                         <S.NavList role="list">
                                             {navigation.map(item => (
                                                 <li key={item.name}>
-                                                    {!item.children && item.href ? (
+                                                    {!item.children &&
+                                                    item.href &&
+                                                    typeof item.href === 'string' ? (
                                                         <S.NavLink
                                                             href={route(item.href)}
                                                             active={route()
@@ -171,7 +185,9 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                         <S.NavList role="list">
                             {navigation.map(item => (
                                 <li key={item.name}>
-                                    {!item.children && item.href ? (
+                                    {!item.children &&
+                                    item.href &&
+                                    typeof item.href === 'string' ? (
                                         <S.NavLink
                                             href={route(item.href)}
                                             active={route().current(item.href).toString()}
@@ -183,7 +199,22 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                         <Disclosure as="div">
                                             {({ open }) => (
                                                 <>
-                                                    <S.NavButton>
+                                                    <S.NavButton
+                                                        active={
+                                                            item.href && Array.isArray(item.href)
+                                                                ? item.href
+                                                                      .map(string => {
+                                                                          return (
+                                                                              route().current() ===
+                                                                              string
+                                                                          );
+                                                                      })
+                                                                      .includes(true)
+                                                                      .toString()
+                                                                : 'false'
+                                                        }
+                                                    >
+                                                        {item.name}
                                                         <ChevronRightIcon
                                                             className={classNames(
                                                                 open
@@ -193,9 +224,23 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                             )}
                                                             aria-hidden="true"
                                                         />
-                                                        {item.name}
                                                     </S.NavButton>
-                                                    <Disclosure.Panel as="ul" className="mt-1 px-2">
+                                                    <Disclosure.Panel
+                                                        as="ul"
+                                                        className="mt-1 px-2"
+                                                        static={
+                                                            item.href && Array.isArray(item.href)
+                                                                ? item.href
+                                                                      .map(string => {
+                                                                          return (
+                                                                              route().current() ===
+                                                                              string
+                                                                          );
+                                                                      })
+                                                                      .includes(true)
+                                                                : false
+                                                        }
+                                                    >
                                                         {item.children?.map(subItem => (
                                                             <li key={subItem.name}>
                                                                 <S.SubNavLink

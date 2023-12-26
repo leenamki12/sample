@@ -9,7 +9,7 @@ export const SideWrapper = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-    ${tw`lg:pl-72`}
+    ${tw`lg:pl-64`}
 `;
 
 export const Header = styled.div`

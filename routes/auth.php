@@ -32,7 +32,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth','role:admin')->prefix('admin')->group(function () {
-    Route::get('/dashboard', [PerformanceController::class, 'index'])->name('admin.performance');
+    Route::get('/performance', [PerformanceController::class, 'index'])->name('admin.performance');
+    Route::get('/performance/create', [PerformanceController::class, 'create'])->name('admin.performance.create');
 
     Route::get('/part', [PartController::class, 'index'])->name('admin.part');
     Route::post('/part', [PartController::class, 'store'])->name('admin.part.create');

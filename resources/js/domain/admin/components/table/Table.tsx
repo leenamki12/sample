@@ -1,6 +1,8 @@
 import React, { ChangeEvent, ReactElement, ReactNode, useRef, useState } from 'react';
 
-import { Checkbox } from '@/components/ui';
+import { router } from '@inertiajs/react';
+
+import { Button, Checkbox } from '@/components/ui';
 
 import * as S from './Table.styled';
 
@@ -14,9 +16,10 @@ type Props = {
     headerItems: HeaderItems[];
     children: ReactNode;
     onDelete?: (items: number[]) => void;
+    createHref?: string;
 };
 
-function Table({ isChecked, headerItems, children, onDelete }: Props) {
+function Table({ isChecked, headerItems, children, onDelete, createHref }: Props) {
     const headerLength = headerItems.length;
     const allCheckboxRef = useRef<HTMLInputElement>(null);
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
@@ -72,6 +75,10 @@ function Table({ isChecked, headerItems, children, onDelete }: Props) {
         onDelete?.(checkedItems);
     };
 
+    const handleClickCreate = () => {
+        if (createHref) router.visit(route(createHref));
+    };
+
     return (
         <>
             <S.Wrapper>
@@ -123,9 +130,22 @@ function Table({ isChecked, headerItems, children, onDelete }: Props) {
                     )}
                 </S.Tbody>
             </S.Wrapper>
-            <button type="button" onClick={handleClickDelete}>
-                선택 삭제
-            </button>
+            <S.ButtonWrap>
+                <Button
+                    element="teriary"
+                    label="선택 삭제"
+                    type="button"
+                    onClick={handleClickDelete}
+                />
+                {createHref && (
+                    <Button
+                        element="primary"
+                        label="등록"
+                        type="button"
+                        onClick={handleClickCreate}
+                    />
+                )}
+            </S.ButtonWrap>
         </>
     );
 }
