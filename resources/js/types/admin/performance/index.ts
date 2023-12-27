@@ -19,7 +19,8 @@ export type PerformanceFromkey =
     | 'date_and_time'
     | 'address'
     | 'image_id'
-    | 'hidden';
+    | 'hidden'
+    | 'parts';
 
 export type Categories = {
     parts: Part[];

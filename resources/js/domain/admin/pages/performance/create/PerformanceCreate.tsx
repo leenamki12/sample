@@ -1,28 +1,46 @@
-import { FormEventHandler, useMemo } from 'react';
+import { FormEventHandler, useMemo, useState } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
 
-import { Button, Checkbox, LabelTextArea, LabelTextInput } from '@/components/ui';
+import { Button, LabelTextArea, LabelTextInput } from '@/components/ui';
 import { TopSection } from '@/domain/admin/components';
 import Badges, { badge } from '@/domain/admin/components/badges/Badges';
+import FileUploader, { uploadImage } from '@/domain/admin/components/file-uploader/FileUploader';
 import { PageProps } from '@/types';
 import { PerformanceFromkey } from '@/types/admin/performance';
 
 import * as S from './PerformanceCreate.styled';
 
+type FormProps = {
+    id: string;
+    title: string;
+    date_and_time: string;
+    address: string;
+    image_id: string;
+    hidden: boolean;
+    parts: number[];
+};
+
 function PerformanceCreate() {
+    const [imageItems, setImageItems] = useState<uploadImage[]>();
     const { categories } = usePage<PageProps>().props;
-    const { post, setData, clearErrors, errors } = useForm({
+    const { post, setData, clearErrors, errors } = useForm<FormProps>({
         id: '',
         title: '',
         date_and_time: '',
         address: '',
         image_id: '',
         hidden: false,
+        parts: [],
     });
 
     const handleChangeInputData = (id: string, value: string) => {
         setData(id as PerformanceFromkey, value);
+        clearErrors(id as PerformanceFromkey);
+    };
+
+    const handleChangeCategoryData = (id: string, values: number[]) => {
+        setData(id as PerformanceFromkey, values);
         clearErrors(id as PerformanceFromkey);
     };
 
@@ -53,9 +71,14 @@ function PerformanceCreate() {
             <S.Wrapper>
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
-                        <Badges label="공연 Part" items={parts} isRequired />
+                        <Badges
+                            onChange={values => handleChangeCategoryData('parts', values)}
+                            label="Part"
+                            items={parts}
+                            isRequired
+                        />
                         <LabelTextArea
-                            label="공연 제목"
+                            label="제목"
                             type="datetime-local"
                             id="title"
                             onChange={handleChangeInputData}
@@ -65,7 +88,7 @@ function PerformanceCreate() {
                             isRequired
                         />
                         <LabelTextInput
-                            label="공연 시간"
+                            label="날짜 및 시간"
                             type="datetime-local"
                             id="date_and_time"
                             onChange={handleChangeInputData}
@@ -74,7 +97,7 @@ function PerformanceCreate() {
                             isRequired
                         />
                         <LabelTextInput
-                            label="공연 장소"
+                            label="장소"
                             type="text"
                             id="address"
                             onChange={handleChangeInputData}
@@ -82,6 +105,7 @@ function PerformanceCreate() {
                             error={errors?.['address']}
                             isRequired
                         />
+                        <FileUploader label="사진 업로드" isRequired onChange={setImageItems} />
                     </S.InputList>
                     <S.ButtonBox>
                         <Button type="submit" label="저장" element="primary" />

@@ -26,7 +26,7 @@ export const DeleteButton = styled.button`
 
     &:hover {
         svg {
-            ${tw`stroke-gray-500 delay-100`}
+            ${tw`stroke-gray-500 duration-75`}
         }
     }
 `;

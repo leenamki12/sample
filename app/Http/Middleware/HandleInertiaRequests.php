@@ -41,6 +41,9 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
+            },
+            'uploadImages' => function () use ($request) { //image update
+                return $request->session()->get('images');
             }
         ]);
     }

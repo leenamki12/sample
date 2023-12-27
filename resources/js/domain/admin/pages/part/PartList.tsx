@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/ui';
 import { PageProps } from '@/types';
 import { Part, PartFromkey } from '@/types/admin/part';
 
-import { TopSection, AddButton, CategoryEditModal, Pagination, Empty } from '../../components';
+import { TopSection, CategoryEditModal, Pagination, Empty } from '../../components';
 
 import * as S from './PartList.styled';
 
@@ -77,9 +77,8 @@ function PartList() {
     return (
         <>
             <PageHeader title="Part 관리" />
-            <TopSection>
-                <AddButton onClick={() => setIsCreateModalshow(true)} />
-            </TopSection>
+
+            <TopSection title="Part 관리" />
 
             {parts.data.length > 0 ? (
                 <>

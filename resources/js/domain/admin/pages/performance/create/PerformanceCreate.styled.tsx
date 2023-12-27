@@ -6,6 +6,13 @@ export const Wrapper = styled.div`
 
 export const Form = styled.form`
     ${tw`p-[0px 10px 120px] relative overflow-hidden`}
+
+    input {
+        ${tw`p-[10px 15px] h-[45px]`}
+    }
+    textarea {
+        ${tw`p-[10px 15px]`}
+    }
 `;
 
 export const ButtonBox = styled.div`
@@ -21,7 +28,7 @@ export const ImageBox = styled.div`
 `;
 
 export const InputList = styled.div`
-    ${tw`w-full space-y-[15px]`}
+    ${tw`w-full space-y-[25px]`}
 
     label {
         ${tw`block`}

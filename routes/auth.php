@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Admin\PartController;
 use App\Http\Controllers\Web\Admin\PerformanceController;
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Web\Auth\RegisteredUserController;
+use App\Http\Controllers\Web\Image\ImageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -32,6 +33,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth','role:admin')->prefix('admin')->group(function () {
+    Route::post('/image', [ImageController::class, 'store'])->name('admin.image.store');
+
     Route::get('/performance', [PerformanceController::class, 'index'])->name('admin.performance');
     Route::get('/performance/create', [PerformanceController::class, 'create'])->name('admin.performance.create');
 
