@@ -84,3 +84,7 @@ export const ImageCount = styled.div<CountProps>`
 
     ${({ active }) => (!active ? tw`text-blue-400` : tw`text-red-400`)}
 `;
+
+export const Empty = styled.div`
+    ${tw`flex h-[150px] w-full items-center justify-center rounded bg-gray-100 text-gray-600`}
+`;

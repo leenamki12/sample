@@ -1,11 +1,12 @@
-import { FormEventHandler, useMemo, useState } from 'react';
+import { FormEventHandler, useMemo } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
 
 import { Button, LabelTextArea, LabelTextInput } from '@/components/ui';
+import SwitchButton from '@/components/ui/switch/SwitchButton';
 import { TopSection } from '@/domain/admin/components';
 import Badges, { badge } from '@/domain/admin/components/badges/Badges';
-import FileUploader, { uploadImage } from '@/domain/admin/components/file-uploader/FileUploader';
+import FileUploader from '@/domain/admin/components/file-uploader/FileUploader';
 import { PageProps } from '@/types';
 import { PerformanceFromkey } from '@/types/admin/performance';
 
@@ -16,43 +17,31 @@ type FormProps = {
     title: string;
     date_and_time: string;
     address: string;
-    image_id: string;
     hidden: boolean;
     parts: number[];
+    files: File[];
 };
 
 function PerformanceCreate() {
-    const [imageItems, setImageItems] = useState<uploadImage[]>();
     const { categories } = usePage<PageProps>().props;
-    const { post, setData, clearErrors, errors } = useForm<FormProps>({
+    const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
         id: '',
         title: '',
         date_and_time: '',
         address: '',
-        image_id: '',
         hidden: false,
         parts: [],
+        files: [],
     });
 
-    const handleChangeInputData = (id: string, value: string) => {
+    const handleChangeInputData = (id: string, value: any) => {
         setData(id as PerformanceFromkey, value);
-        clearErrors(id as PerformanceFromkey);
-    };
-
-    const handleChangeCategoryData = (id: string, values: number[]) => {
-        setData(id as PerformanceFromkey, values);
         clearErrors(id as PerformanceFromkey);
     };
 
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
-
-        post(route('admin.part.create'), {
-            replace: false,
-            onSuccess: () => {
-                alert('추가 되었습니다.');
-            },
-        });
+        post(route('admin.performance.store'));
     };
 
     const parts: badge[] = useMemo(() => {
@@ -72,10 +61,11 @@ function PerformanceCreate() {
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
                         <Badges
-                            onChange={values => handleChangeCategoryData('parts', values)}
+                            onChange={values => handleChangeInputData('parts', values)}
                             label="Part"
                             items={parts}
                             isRequired
+                            emptyLink="admin.part"
                         />
                         <LabelTextArea
                             label="제목"
@@ -105,7 +95,16 @@ function PerformanceCreate() {
                             error={errors?.['address']}
                             isRequired
                         />
-                        <FileUploader label="사진 업로드" isRequired onChange={setImageItems} />
+                        <FileUploader
+                            label="사진 업로드"
+                            isRequired
+                            onChange={images => handleChangeInputData('files', images)}
+                        />
+
+                        <SwitchButton
+                            defaultValue={data.hidden}
+                            onChange={value => handleChangeInputData('hidden', value)}
+                        />
                     </S.InputList>
                     <S.ButtonBox>
                         <Button type="submit" label="저장" element="primary" />

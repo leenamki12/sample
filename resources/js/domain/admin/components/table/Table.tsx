@@ -101,7 +101,7 @@ function Table({ isChecked, headerItems, children, onDelete, createHref }: Props
                     </tr>
                 </S.Thead>
                 <S.Tbody>
-                    {children ? (
+                    {listCheckboxRefs && listCheckboxRefs?.length > 0 ? (
                         <>
                             {React.Children.map(children, (child, index) => {
                                 return React.cloneElement(

@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { router } from '@inertiajs/react';
+
+import { Button } from '@/components/ui';
+
 import * as S from './Badges.styled';
 
 export type badge = {
@@ -12,9 +16,10 @@ type Props = {
     items: badge[];
     isRequired?: boolean;
     onChange: (selectedItem: number[]) => void;
+    emptyLink?: string;
 };
 
-function Badges({ items, label, isRequired, onChange }: Props) {
+function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
     const [selectdItems, setSelectedItems] = useState<number[]>([]);
 
     const handleClickBadge = (id: number | string) => {
@@ -28,6 +33,10 @@ function Badges({ items, label, isRequired, onChange }: Props) {
         }
     };
 
+    const handleClickLink = () => {
+        if (emptyLink) router.visit(route(emptyLink));
+    };
+
     useEffect(() => {
         onChange(selectdItems);
     }, [selectdItems]);
@@ -39,19 +48,32 @@ function Badges({ items, label, isRequired, onChange }: Props) {
                 {isRequired && <span>*</span>}
             </S.Label>
             <S.Badges>
-                {items.map(item => {
-                    const isChecked = selectdItems.includes(item.id as number);
-                    return (
-                        <S.Badge
-                            active={isChecked}
-                            key={item.name}
-                            onClick={() => handleClickBadge(item.id)}
-                        >
-                            <input type="checkbox" checked={isChecked} />
-                            {item.name}
-                        </S.Badge>
-                    );
-                })}
+                {items.length > 0 ? (
+                    items.map(item => {
+                        const isChecked = selectdItems.includes(item.id as number);
+                        return (
+                            <S.Badge
+                                active={isChecked}
+                                key={item.name}
+                                onClick={() => handleClickBadge(item.id)}
+                            >
+                                <input type="checkbox" defaultChecked={isChecked} />
+                                {item.name}
+                            </S.Badge>
+                        );
+                    })
+                ) : (
+                    <S.Empty>
+                        먼저 {label}를 등록해주세요.
+                        {emptyLink && (
+                            <Button
+                                label={`${label} 등록하러가기`}
+                                element="teriary"
+                                onClick={handleClickLink}
+                            />
+                        )}
+                    </S.Empty>
+                )}
             </S.Badges>
         </S.Wrapper>
     );

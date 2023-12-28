@@ -53,10 +53,10 @@ function PerformanceList() {
 
     const handleFormatText = (text: string) => {
         return text.split('\n').map((line, index) => (
-            <>
+            <React.Fragment key={`${line}_${index}`}>
                 {line}
                 {index !== text.split('\n').length - 1 && <br />}
-            </>
+            </React.Fragment>
         ));
     };
 
@@ -78,7 +78,9 @@ function PerformanceList() {
                         return (
                             <React.Fragment key={item.id}>
                                 <Td>
-                                    <S.ImageBox />
+                                    <S.ImageBox>
+                                        <img src={`/storage/${item.image_url}`} alt="" />
+                                    </S.ImageBox>
                                 </Td>
                                 <Td>{handleFilterCategories(partItems)}</Td>
                                 <Td>

@@ -10,6 +10,9 @@ export type StrKeyArray<T> = {
 };
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+    /**common */
+    urlPrev: string;
+
     /** user */
     auth: {
         user: User;

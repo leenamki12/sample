@@ -29,3 +29,11 @@ export const Badge = styled.div<BadgeProps>`
 
     ${({ active }) => active && tw`bg-blue-50 text-blue-700 ring-blue-700/10`}
 `;
+
+export const Empty = styled.div`
+    ${tw`flex w-full flex-col items-center justify-center gap-[10px] rounded bg-gray-100 py-[20px] text-gray-600`}
+
+    button {
+        ${tw`h-[36px] w-auto px-[20px] text-sm`}
+    }
+`;

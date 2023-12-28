@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import * as S from './SwitchButton.styled';
 
@@ -10,12 +10,14 @@ type Props = {
 export default function SwitchButton({ defaultValue = false, onChange }: Props) {
     const [enabled, setEnabled] = useState(defaultValue);
 
-    useEffect(() => {
-        onChange(enabled);
-    }, [enabled]);
+    const handleChangeSwitch = (checked: boolean) => {
+        onChange(checked);
+        setEnabled(checked);
+    };
+
     return (
         <S.Wrapper active={enabled}>
-            <S.SwitchWrap checked={enabled} onChange={setEnabled}>
+            <S.SwitchWrap checked={enabled} onChange={handleChangeSwitch}>
                 <span className="sr-only">해당 공연 노출 여부</span>
                 <S.SwichRounded active={enabled}>
                     <S.SwichInnerActive active={enabled} aria-hidden="true">

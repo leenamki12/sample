@@ -1,25 +1,18 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
-import { router } from '@inertiajs/react';
-
-import { Empty } from '..';
 
 import * as S from './FileUploader.styled';
-
-export type uploadImage = {
-    id: number;
-    file_path: string;
-};
 
 type Props = {
     label: string;
     isRequired?: boolean;
-    onChange: (images: uploadImage[]) => void;
+    onChange: (images: File[]) => void;
 };
 
 function FileUploader({ label, isRequired, onChange }: Props) {
-    const [uploadImages, setUploadImages] = useState<uploadImage[]>([]);
+    const [uploadFiles, setUploadFiles] = useState<File[]>([]);
+    const [uploadImages, setUploadImages] = useState<(string | ArrayBuffer | null)[]>([]);
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -43,29 +36,23 @@ function FileUploader({ label, isRequired, onChange }: Props) {
             return;
         }
 
-        router.visit(route('admin.image.store'), {
-            method: 'post',
-            data: {
-                image: file,
-            },
-            preserveState: true,
-            replace: false,
-            preserveScroll: true,
-            onSuccess: e => {
-                setUploadImages([
-                    ...uploadImages,
-                    {
-                        id: (e.props.uploadImages as uploadImage).id,
-                        file_path: (e.props.uploadImages as uploadImage).file_path,
-                    },
-                ]);
-            },
-        });
+        setUploadFiles([...uploadFiles, file]);
+
+        let reader = new FileReader();
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+
+        reader.onloadend = () => {
+            const previewImgUrl = reader.result;
+            setUploadImages([...uploadImages, previewImgUrl]);
+        };
     };
 
     useEffect(() => {
-        onChange(uploadImages);
-    }, [uploadImages]);
+        onChange(uploadFiles);
+    }, [uploadFiles]);
 
     return (
         <S.Wrapper>
@@ -74,7 +61,7 @@ function FileUploader({ label, isRequired, onChange }: Props) {
                     {label}
                     {isRequired && <span>*</span>}
 
-                    <S.ImageCount active={uploadImages.length > 5}>
+                    <S.ImageCount active={uploadImages.length === 5}>
                         ({uploadImages.length} / 5)
                     </S.ImageCount>
                 </div>
@@ -90,15 +77,19 @@ function FileUploader({ label, isRequired, onChange }: Props) {
             </S.Title>
             <S.Files>
                 {uploadImages.length > 0 ? (
-                    uploadImages.map(image => (
-                        <S.FileItem>
-                            <S.Preview>
-                                <img src={`/storage/${image.file_path}`} />
-                            </S.Preview>
-                        </S.FileItem>
-                    ))
+                    uploadImages.map(image => {
+                        return (
+                            image && (
+                                <S.FileItem key={image as string}>
+                                    <S.Preview>
+                                        <img src={image as string} />
+                                    </S.Preview>
+                                </S.FileItem>
+                            )
+                        );
+                    })
                 ) : (
-                    <Empty text="이미지를 업로드해주세요." />
+                    <S.Empty>이미지를 등록해주세요.</S.Empty>
                 )}
             </S.Files>
             <S.Info>

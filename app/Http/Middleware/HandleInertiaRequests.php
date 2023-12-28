@@ -44,7 +44,14 @@ class HandleInertiaRequests extends Middleware
             },
             'uploadImages' => function () use ($request) { //image update
                 return $request->session()->get('images');
-            }
+            },
+            'urlPrev'	=> function() {
+                if (url()->previous() !== route('login') && url()->previous() !== '' && url()->previous() !== url()->current()) {
+		    		return url()->previous();
+		    	}else {
+		    		return 'empty'; // used in javascript to disable back button behavior
+		    	}
+		    },
         ]);
     }
 }

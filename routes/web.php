@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\Web\Admin\PartController;
+use App\Http\Controllers\Web\Admin\PerformanceController;
 use App\Http\Controllers\Web\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -41,12 +44,21 @@ Route::get('/contact', function () {
     return Inertia::render('contact/Contact');
 })->name('contact');
 
-//회원정보
-Route::middleware('auth:web')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'delete'])->name('profile.delete');
-    Route::post('/profile', [ProfileController::class, 'photoUpdate'])->name('profile.photoUpdate');
-})->name('profile');
+
+Route::middleware('auth','role:admin')->prefix('admin')->group(function () {
+
+    Route::get('/performance', [PerformanceController::class, 'index'])->name('admin.performance');
+    Route::get('/performance/create', [PerformanceController::class, 'create'])->name('admin.performance.create');
+    Route::post('/performance/create', [PerformanceController::class, 'store'])->name('admin.performance.store');
+
+    Route::get('/part', [PartController::class, 'index'])->name('admin.part');
+    Route::post('/part', [PartController::class, 'store'])->name('admin.part.create');
+    Route::patch('/part', [PartController::class, 'update'])->name('admin.part.update');
+    Route::delete('/part', [PartController::class, 'destroy'])->name('admin.part.delete');
+
+    Route::get('/work', function () {
+        return Inertia::render('admin/pages/work/WorkList');
+    })->name('admin.work');
+});
 
 require __DIR__.'/auth.php';

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Domains\Admin\Part\Part;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Validation\ValidationException;
 
