@@ -15,11 +15,12 @@ type Props = {
     label: string;
     items: badge[];
     isRequired?: boolean;
+    defaultItems?: badge[];
     onChange: (selectedItem: number[]) => void;
     emptyLink?: string;
 };
 
-function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
+function Badges({ items, label, isRequired, onChange, emptyLink, defaultItems }: Props) {
     const [selectdItems, setSelectedItems] = useState<number[]>([]);
 
     const handleClickBadge = (id: number | string) => {
@@ -36,6 +37,13 @@ function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
     const handleClickLink = () => {
         if (emptyLink) router.visit(route(emptyLink));
     };
+
+    useEffect(() => {
+        if (defaultItems) {
+            const newItems = defaultItems.map(item => item.id as number);
+            setSelectedItems(newItems);
+        }
+    }, [defaultItems]);
 
     useEffect(() => {
         onChange(selectdItems);

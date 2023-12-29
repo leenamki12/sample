@@ -23,5 +23,6 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     parts: Paginate<Part>;
     performances: Paginate<Performance>;
     performance: Performance;
+    performanceEditParts: Part[];
     categories: Categories;
 };

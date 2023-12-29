@@ -23,7 +23,7 @@ type FormProps = {
 };
 
 function PerformanceEdit() {
-    const { performance } = usePage<PageProps>().props;
+    const { performance, performanceEditParts } = usePage<PageProps>().props;
 
     const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
         id: `${performance.id}`,
@@ -45,6 +45,29 @@ function PerformanceEdit() {
         post(route('admin.performance.store'));
     };
 
+    const defaultParts: badge[] = useMemo(() => {
+        const newItems = performance.parts.map(part => {
+            return {
+                id: part.id,
+                name: part.name,
+            };
+        });
+        return newItems;
+    }, [performance]);
+
+    const allParts: badge[] = useMemo(() => {
+        if (!performanceEditParts) {
+            return [];
+        }
+        const newItems = performanceEditParts.map(part => {
+            return {
+                id: part.id,
+                name: part.name,
+            };
+        });
+        return newItems;
+    }, [performanceEditParts]);
+
     return (
         <>
             <TopSection title="공연 등록" />
@@ -54,7 +77,8 @@ function PerformanceEdit() {
                         <Badges
                             onChange={values => handleChangeInputData('parts', values)}
                             label="Part"
-                            items={performance.parts}
+                            items={allParts}
+                            defaultItems={defaultParts}
                             isRequired
                             emptyLink="admin.part"
                         />

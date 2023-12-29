@@ -81,9 +81,11 @@ class PerformanceController extends Controller
     public function edit(int $id)
     {
         $performance = Performance::with(['parts', 'images'])->findOrFail($id);
+        $parts = Part::orderBy('id', 'asc')->get();
 
         return Inertia::render('admin/pages/performance/edit/PerformanceEdit', [
             'performance' => $performance,
+            'performanceEditParts' => $parts
         ]);
     }
 }
