@@ -1,11 +1,10 @@
 import tw, { styled } from 'twin.macro';
 
 export const ImageBox = styled.div`
-    ${tw`h-[100px] w-[100px]`}
+    ${tw`h-[100px] w-[100px] overflow-hidden`}
 
     img {
-        width: 100%;
-        height: 100%;
+        ${tw`min-h-[100px] w-full`}
     }
 `;
 

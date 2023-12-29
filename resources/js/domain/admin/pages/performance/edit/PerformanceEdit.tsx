@@ -10,7 +10,7 @@ import FileUploader from '@/domain/admin/components/file-uploader/FileUploader';
 import { PageProps } from '@/types';
 import { PerformanceFromkey } from '@/types/admin/performance';
 
-import * as S from './PerformanceCreate.styled';
+import * as S from './PerformanceEdit.styled';
 
 type FormProps = {
     id: string;
@@ -22,14 +22,15 @@ type FormProps = {
     files: File[];
 };
 
-function PerformanceCreate() {
-    const { categories } = usePage<PageProps>().props;
+function PerformanceEdit() {
+    const { performance } = usePage<PageProps>().props;
+
     const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
-        id: '',
-        title: '',
-        date_and_time: '',
-        address: '',
-        hidden: true,
+        id: `${performance.id}`,
+        title: performance.title,
+        date_and_time: `${performance.date_and_time}`,
+        address: performance.address,
+        hidden: performance.hidden,
         parts: [],
         files: [],
     });
@@ -44,16 +45,6 @@ function PerformanceCreate() {
         post(route('admin.performance.store'));
     };
 
-    const parts: badge[] = useMemo(() => {
-        const newItems = categories.parts.map(part => {
-            return {
-                id: part.id,
-                name: part.name,
-            };
-        });
-        return newItems;
-    }, [categories]);
-
     return (
         <>
             <TopSection title="공연 등록" />
@@ -63,7 +54,7 @@ function PerformanceCreate() {
                         <Badges
                             onChange={values => handleChangeInputData('parts', values)}
                             label="Part"
-                            items={parts}
+                            items={performance.parts}
                             isRequired
                             emptyLink="admin.part"
                         />
@@ -74,6 +65,7 @@ function PerformanceCreate() {
                             onChange={handleChangeInputData}
                             placeholder="공연 제목을 입력해주세요."
                             error={errors?.['title']}
+                            defaultValue={data.title}
                             className="h-[120px]"
                             isRequired
                         />
@@ -84,6 +76,7 @@ function PerformanceCreate() {
                             onChange={handleChangeInputData}
                             placeholder="공연 장소를 입력해주세요."
                             error={errors?.['date_and_time']}
+                            defaultValue={data.date_and_time}
                             isRequired
                         />
                         <LabelTextInput
@@ -93,6 +86,7 @@ function PerformanceCreate() {
                             onChange={handleChangeInputData}
                             placeholder="공연 장소를 입력해주세요."
                             error={errors?.['address']}
+                            defaultValue={data.address}
                             isRequired
                         />
 
@@ -121,4 +115,4 @@ function PerformanceCreate() {
     );
 }
 
-export default PerformanceCreate;
+export default PerformanceEdit;

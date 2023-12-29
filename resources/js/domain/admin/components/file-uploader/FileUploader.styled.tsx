@@ -12,8 +12,17 @@ export const Title = styled.div`
     }
 `;
 
-export const Files = styled.div`
-    ${tw`flex gap-[10px]`}
+type FilesProps = {
+    isEmpty?: boolean;
+};
+export const Files = styled.div<FilesProps>`
+    ${tw`grid grid-cols-3 gap-[10px] sm:grid-cols-5`}
+
+    ${({ isEmpty }) =>
+        isEmpty &&
+        tw`
+        grid-cols-1!
+    `}
 `;
 
 type FileItemProps = {
@@ -87,4 +96,24 @@ export const ImageCount = styled.div<CountProps>`
 
 export const Empty = styled.div`
     ${tw`flex h-[150px] w-full items-center justify-center rounded bg-gray-100 text-gray-600`}
+`;
+
+export const FileButtonBox = styled.div`
+    ${tw`mt-[10px] flex justify-center gap-[10px]`}
+
+    input {
+        ${tw`absolute left-[-1000%]`}
+    }
+
+    button {
+        ${tw`h-[32px] w-auto max-w-[100px] px-[10px] text-sm`}
+    }
+`;
+
+export const LabelButton = styled.label`
+    ${tw`flex! max-w-[100px] cursor-pointer items-center rounded border-[1px] border-[#333] bg-white px-[10px] text-sm font-bold text-[#111] duration-200`}
+
+    &:hover {
+        ${tw`border-[1px] border-[#666] bg-white text-[#666]`}
+    }
 `;

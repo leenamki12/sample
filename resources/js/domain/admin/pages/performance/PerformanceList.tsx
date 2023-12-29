@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 
 import { PageHeader } from '@/components/ui';
@@ -60,6 +60,14 @@ function PerformanceList() {
         ));
     };
 
+    const handleClickEditLink = (id: number) => {
+        const selectedItem = performances.data.find((_filterItem, index) => index === id);
+
+        if (selectedItem) {
+            router.visit(route('admin.performance.edit', { id: selectedItem.id }));
+        }
+    };
+
     return (
         <>
             <PageHeader title="공연 관리" />
@@ -71,6 +79,7 @@ function PerformanceList() {
                     headerItems={tableHeaderItems}
                     isChecked
                     onDelete={onDelete}
+                    onClick={handleClickEditLink}
                     createHref="admin.performance.create"
                 >
                     {performances.data.map(item => {

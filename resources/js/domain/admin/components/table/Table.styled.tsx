@@ -19,6 +19,13 @@ export const Thead = styled.thead`
 export const Tbody = styled.thead`
     ${tw`divide-y divide-gray-200 bg-white`}
 `;
+export const Tr = styled.tr`
+    ${tw`duration-200`}
+
+    &:hover {
+        ${tw`cursor-pointer bg-gray-100 duration-200`}
+    }
+`;
 
 export const Td = styled.td`
     ${tw`whitespace-nowrap p-2 pl-3 text-sm font-medium text-gray-900`}

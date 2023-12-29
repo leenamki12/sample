@@ -15,17 +15,20 @@ type Props = {
     isChecked?: boolean;
     headerItems: HeaderItems[];
     children: ReactNode;
+    onClick?: (id: number) => void;
     onDelete?: (items: number[]) => void;
     createHref?: string;
 };
 
-function Table({ isChecked, headerItems, children, onDelete, createHref }: Props) {
+function Table({ isChecked, headerItems, children, onDelete, onClick, createHref }: Props) {
     const headerLength = headerItems.length;
     const allCheckboxRef = useRef<HTMLInputElement>(null);
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
     const listCheckboxRefs = React.Children.map(children, () => useRef<HTMLInputElement>(null));
 
-    const handleRowCheckboxChange = () => {
+    const handleRowCheckboxChange = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+        event.stopPropagation(); // 이벤트 전파 막기
+
         if (listCheckboxRefs) {
             const checkboxStatusArray = listCheckboxRefs.map(
                 item => item.current?.checked || false
@@ -52,15 +55,17 @@ function Table({ isChecked, headerItems, children, onDelete, createHref }: Props
         }
     };
 
-    const handleAllCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleAllCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+        event.stopPropagation(); // 이벤트 전파 막기
+
         if (listCheckboxRefs) {
             listCheckboxRefs.forEach(item => {
                 if (item.current) {
-                    item.current.checked = e.target.checked;
+                    item.current.checked = event.target.checked;
                 }
             });
 
-            if (e.target.checked) {
+            if (event.target.checked) {
                 const items: number[] = [];
                 React.Children.map(children, (_child, index) => items.push(index));
 
@@ -107,17 +112,17 @@ function Table({ isChecked, headerItems, children, onDelete, createHref }: Props
                                 return React.cloneElement(
                                     child as ReactElement,
                                     { isChecked: listCheckboxRefs?.[index].current?.checked },
-                                    <tr>
+                                    <S.Tr onClick={() => onClick?.(index)}>
                                         {isChecked && (
                                             <S.Td>
                                                 <Checkbox
                                                     ref={listCheckboxRefs?.[index]}
-                                                    onChange={handleRowCheckboxChange}
+                                                    onClick={handleRowCheckboxChange}
                                                 />
                                             </S.Td>
                                         )}
                                         {child}
-                                    </tr>
+                                    </S.Tr>
                                 );
                             })}
                         </>

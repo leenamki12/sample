@@ -2,6 +2,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 
+import { Button } from '@/components/ui';
+
 import * as S from './FileUploader.styled';
 
 type Props = {
@@ -16,39 +18,76 @@ function FileUploader({ label, isRequired, onChange }: Props) {
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        const maxSizeInBytes = 2 * 1024 * 1024;
-        const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
         if (!file) {
             return;
         }
 
-        //용량체크
-        if (file.size > maxSizeInBytes) {
-            alert('파일 크기가 너무 큽니다. 2MB 이하의 파일을 선택하세요.');
-            return;
-        }
+        const validationCheck = handleValidateFile(file);
 
-        //확장자체크
-        const extension = file.name.split('.').pop()?.toLowerCase();
-        if (extension && !allowedExtensions.includes(extension)) {
-            alert('올바른 이미지 파일을 선택하세요. (jpg, jpeg, png 확장자만 허용됩니다.)');
+        if (validationCheck) {
+            alert(validationCheck);
             return;
         }
 
         setUploadFiles([...uploadFiles, file]);
 
         let reader = new FileReader();
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-
+        reader.readAsDataURL(file);
         reader.onloadend = () => {
             const previewImgUrl = reader.result;
             setUploadImages([...uploadImages, previewImgUrl]);
         };
     };
+
+    const handleFileEdit = (event: ChangeEvent<HTMLInputElement>, index: number) => {
+        const file = event.target.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        const validationCheck = handleValidateFile(file);
+
+        if (validationCheck) {
+            alert(validationCheck);
+            return;
+        }
+
+        const newFiles = [...uploadFiles];
+        newFiles[index] = file;
+
+        setUploadFiles(newFiles);
+
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            const previewImgUrl = reader.result;
+
+            const newImages = [...uploadImages];
+            newImages[index] = previewImgUrl;
+
+            setUploadImages(newImages);
+        };
+    };
+
+    function handleValidateFile(file: File) {
+        const maxSizeInBytes = 2 * 1024 * 1024;
+        const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+        // 용량 체크
+        if (file.size > maxSizeInBytes) {
+            return '파일 크기가 너무 큽니다. 2MB 이하의 파일을 선택하세요.';
+        }
+
+        // 확장자 체크
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        if (extension && !allowedExtensions.includes(extension)) {
+            return '올바른 이미지 파일을 선택하세요. (jpg, jpeg, png, gif 확장자만 허용됩니다.)';
+        }
+
+        return false;
+    }
 
     useEffect(() => {
         onChange(uploadFiles);
@@ -69,21 +108,36 @@ function FileUploader({ label, isRequired, onChange }: Props) {
                     <S.UploadButton>
                         <ArrowUpTrayIcon />
                         이미지 업로드
-                        <input type="file" onChange={handleFileChange} />
+                        <input
+                            type="file"
+                            accept=".jpg, .jpeg, .png, .gif"
+                            onChange={handleFileChange}
+                        />
                     </S.UploadButton>
                 ) : (
                     <S.UploadDisabledButton>최대 수량 등록 완료</S.UploadDisabledButton>
                 )}
             </S.Title>
-            <S.Files>
+            <S.Files isEmpty={uploadImages.length === 0}>
                 {uploadImages.length > 0 ? (
-                    uploadImages.map(image => {
+                    uploadImages.map((image, index) => {
                         return (
                             image && (
                                 <S.FileItem key={image as string}>
                                     <S.Preview>
                                         <img src={image as string} />
                                     </S.Preview>
+                                    <S.FileButtonBox>
+                                        <S.LabelButton>
+                                            <input
+                                                type="file"
+                                                accept=".jpg, .jpeg, .png, .gif"
+                                                onChange={evevt => handleFileEdit(evevt, index)}
+                                            />
+                                            수정
+                                        </S.LabelButton>
+                                        <Button element="teriary" label="삭제" />
+                                    </S.FileButtonBox>
                                 </S.FileItem>
                             )
                         );

@@ -14,7 +14,7 @@ class PerformanceController extends Controller
 {
     public function index()
     {
-        $performances = Performance::orderBy('id', 'desc')->paginate(24);
+        $performances = Performance::orderBy('id', 'desc')->paginate(10);
 
         $performances->each(function ($performance, $key) use ($performances) {
             $performance->image_url = Image::find($performance->image_id)->file_path;
@@ -76,5 +76,14 @@ class PerformanceController extends Controller
 
 
         return redirect()->route('admin.performance');
+    }
+
+    public function edit(int $id)
+    {
+        $performance = Performance::with(['parts', 'images'])->findOrFail($id);
+
+        return Inertia::render('admin/pages/performance/edit/PerformanceEdit', [
+            'performance' => $performance,
+        ]);
     }
 }
