@@ -1,3 +1,5 @@
+import { Image } from '@/types/common';
+
 import { Part } from '../part';
 
 export type Performance = {
@@ -9,6 +11,7 @@ export type Performance = {
     image_url: string; //대표이미지 url
     hidden: boolean;
     parts: Part[];
+    images: Image[];
     created_at: Date;
     updated_at: Date;
 };

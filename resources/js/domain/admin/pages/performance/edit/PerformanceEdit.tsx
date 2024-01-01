@@ -1,4 +1,4 @@
-import { FormEventHandler, useMemo } from 'react';
+import { FormEventHandler, useEffect, useMemo } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
 
@@ -25,52 +25,48 @@ type FormProps = {
 function PerformanceEdit() {
     const { performance, performanceEditParts } = usePage<PageProps>().props;
 
-    const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
+    const { data, patch, setData, clearErrors, errors } = useForm<FormProps>({
         id: `${performance.id}`,
-        title: performance.title,
+        title: `${performance.title}`,
         date_and_time: `${performance.date_and_time}`,
         address: performance.address,
         hidden: performance.hidden,
-        parts: [],
         files: [],
+        parts: performance.parts.map(item => item.id as number),
     });
 
     const handleChangeInputData = (id: string, value: any) => {
-        setData(id as PerformanceFromkey, value);
-        clearErrors(id as PerformanceFromkey);
+        setData(id as any, value);
+        clearErrors(id as any);
     };
 
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
-        post(route('admin.performance.store'));
+        patch(route('admin.performance.update', { id: performance.id }));
     };
-
-    const defaultParts: badge[] = useMemo(() => {
-        const newItems = performance.parts.map(part => {
-            return {
-                id: part.id,
-                name: part.name,
-            };
-        });
-        return newItems;
-    }, [performance]);
 
     const allParts: badge[] = useMemo(() => {
         if (!performanceEditParts) {
             return [];
         }
         const newItems = performanceEditParts.map(part => {
+            const findItme = performance.parts.find(find => find.id === part.id);
             return {
                 id: part.id,
                 name: part.name,
+                active: !!findItme,
             };
         });
         return newItems;
     }, [performanceEditParts]);
 
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
+
     return (
         <>
-            <TopSection title="공연 등록" />
+            <TopSection title="공연 수정" />
             <S.Wrapper>
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
@@ -78,13 +74,11 @@ function PerformanceEdit() {
                             onChange={values => handleChangeInputData('parts', values)}
                             label="Part"
                             items={allParts}
-                            defaultItems={defaultParts}
                             isRequired
                             emptyLink="admin.part"
                         />
                         <LabelTextArea
                             label="제목"
-                            type="datetime-local"
                             id="title"
                             onChange={handleChangeInputData}
                             placeholder="공연 제목을 입력해주세요."
@@ -98,7 +92,7 @@ function PerformanceEdit() {
                             type="datetime-local"
                             id="date_and_time"
                             onChange={handleChangeInputData}
-                            placeholder="공연 장소를 입력해주세요."
+                            placeholder="공연 날짜 및 시간을 입력해주세요."
                             error={errors?.['date_and_time']}
                             defaultValue={data.date_and_time}
                             isRequired
@@ -126,8 +120,11 @@ function PerformanceEdit() {
 
                         <FileUploader
                             label="사진 업로드"
+                            items={performance.images}
                             isRequired
-                            onChange={images => handleChangeInputData('files', images)}
+                            onChange={images => {
+                                handleChangeInputData('files', images);
+                            }}
                         />
                     </S.InputList>
                     <S.ButtonBox>

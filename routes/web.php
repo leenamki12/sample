@@ -45,12 +45,13 @@ Route::get('/contact', function () {
 })->name('contact');
 
 
-Route::middleware('auth','role:admin')->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     Route::get('/performance', [PerformanceController::class, 'index'])->name('admin.performance');
     Route::get('/performance/create', [PerformanceController::class, 'create'])->name('admin.performance.create');
     Route::post('/performance/create', [PerformanceController::class, 'store'])->name('admin.performance.store');
     Route::get('/performance/edit/{id}', [PerformanceController::class, 'edit'])->name('admin.performance.edit');
+    Route::patch('/performance/update/{id}', [PerformanceController::class, 'update'])->name('admin.performance.update');
 
     Route::get('/part', [PartController::class, 'index'])->name('admin.part');
     Route::post('/part', [PartController::class, 'store'])->name('admin.part.create');

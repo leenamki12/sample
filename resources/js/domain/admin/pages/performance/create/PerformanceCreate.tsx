@@ -49,6 +49,7 @@ function PerformanceCreate() {
             return {
                 id: part.id,
                 name: part.name,
+                active: false,
             };
         });
         return newItems;

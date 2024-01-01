@@ -19,3 +19,8 @@ type Link = {
     label: string;
     url: string | null;
 };
+
+export type Image = {
+    id: number;
+    file_path: string;
+};

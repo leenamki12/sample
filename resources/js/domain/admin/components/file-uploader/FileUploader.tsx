@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 
 import { Button } from '@/components/ui';
+import { Image } from '@/types/common';
 
 import * as S from './FileUploader.styled';
 
@@ -10,9 +11,10 @@ type Props = {
     label: string;
     isRequired?: boolean;
     onChange: (images: File[]) => void;
+    items?: Image[];
 };
 
-function FileUploader({ label, isRequired, onChange }: Props) {
+function FileUploader({ label, isRequired, onChange, items }: Props) {
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const [uploadImages, setUploadImages] = useState<(string | ArrayBuffer | null)[]>([]);
 
@@ -119,6 +121,10 @@ function FileUploader({ label, isRequired, onChange }: Props) {
                 )}
             </S.Title>
             <S.Files isEmpty={uploadImages.length === 0}>
+                {items &&
+                    items.map(item => {
+                        return <img src={`/storage/${item.file_path}`}></img>;
+                    })}
                 {uploadImages.length > 0 ? (
                     uploadImages.map((image, index) => {
                         return (

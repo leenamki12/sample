@@ -32,7 +32,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
     const navigation: NaviProps[] = [
         {
             name: '공연 관리',
-            href: ['admin.performance', 'admin.performance.create'],
+            href: ['admin.performance', 'admin.performance.create', 'admin.performance.edit'],
             children: [
                 {
                     name: '공연 목록',

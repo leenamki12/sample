@@ -80,6 +80,8 @@ function PartList() {
 
             <TopSection title="Part 관리" />
 
+            <button onClick={() => setIsCreateModalshow(true)}>등록</button>
+
             {parts.data.length > 0 ? (
                 <>
                     <S.GridWrap>

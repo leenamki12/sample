@@ -9,18 +9,18 @@ import * as S from './Badges.styled';
 export type badge = {
     id: string | number;
     name: string;
+    active: boolean;
 };
 
 type Props = {
     label: string;
     items: badge[];
     isRequired?: boolean;
-    defaultItems?: badge[];
     onChange: (selectedItem: number[]) => void;
     emptyLink?: string;
 };
 
-function Badges({ items, label, isRequired, onChange, emptyLink, defaultItems }: Props) {
+function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
     const [selectdItems, setSelectedItems] = useState<number[]>([]);
 
     const handleClickBadge = (id: number | string) => {
@@ -39,11 +39,15 @@ function Badges({ items, label, isRequired, onChange, emptyLink, defaultItems }:
     };
 
     useEffect(() => {
-        if (defaultItems) {
-            const newItems = defaultItems.map(item => item.id as number);
+        if (items) {
+            const newItems = items
+                .filter(f => {
+                    return f.active;
+                })
+                .map(m => m.id as number);
             setSelectedItems(newItems);
         }
-    }, [defaultItems]);
+    }, [items]);
 
     useEffect(() => {
         onChange(selectdItems);
