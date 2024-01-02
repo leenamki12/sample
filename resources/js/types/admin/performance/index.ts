@@ -23,7 +23,7 @@ export type PerformanceFromkey =
     | 'address'
     | 'hidden'
     | 'parts'
-    | 'files';
+    | 'fileItems';
 
 export type Categories = {
     parts: Part[];

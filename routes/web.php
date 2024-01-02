@@ -51,7 +51,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/performance/create', [PerformanceController::class, 'create'])->name('admin.performance.create');
     Route::post('/performance/create', [PerformanceController::class, 'store'])->name('admin.performance.store');
     Route::get('/performance/edit/{id}', [PerformanceController::class, 'edit'])->name('admin.performance.edit');
-    Route::patch('/performance/update/{id}', [PerformanceController::class, 'update'])->name('admin.performance.update');
+    Route::post('/performance/update/{id}', [PerformanceController::class, 'update'])->name('admin.performance.update');
+    Route::delete('/performance/delete/{id}', [PerformanceController::class, 'destroy'])->name('admin.performance.image.delete');
 
     Route::get('/part', [PartController::class, 'index'])->name('admin.part');
     Route::post('/part', [PartController::class, 'store'])->name('admin.part.create');

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('file_path');
+            $table->string('file_path', 255)->comment('파일 경로');
+            $table->unsignedInteger('row_number')->comment('파일 순서');
             $table->timestamps();
         });
     }

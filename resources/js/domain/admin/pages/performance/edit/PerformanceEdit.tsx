@@ -12,6 +12,12 @@ import { PerformanceFromkey } from '@/types/admin/performance';
 
 import * as S from './PerformanceEdit.styled';
 
+export type FileItem = {
+    file: File;
+    oldId?: number;
+    oldPath?: string;
+};
+
 type FormProps = {
     id: string;
     title: string;
@@ -19,30 +25,32 @@ type FormProps = {
     address: string;
     hidden: boolean;
     parts: number[];
-    files: File[];
+    fileItems: FileItem[];
+    deleteImages: number[];
 };
 
 function PerformanceEdit() {
     const { performance, performanceEditParts } = usePage<PageProps>().props;
 
-    const { data, patch, setData, clearErrors, errors } = useForm<FormProps>({
+    const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
         id: `${performance.id}`,
         title: `${performance.title}`,
         date_and_time: `${performance.date_and_time}`,
         address: performance.address,
         hidden: performance.hidden,
-        files: [],
+        fileItems: [],
+        deleteImages: [],
         parts: performance.parts.map(item => item.id as number),
     });
 
     const handleChangeInputData = (id: string, value: any) => {
-        setData(id as any, value);
-        clearErrors(id as any);
+        setData(id as PerformanceFromkey, value);
+        clearErrors(id as PerformanceFromkey);
     };
 
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
-        patch(route('admin.performance.update', { id: performance.id }));
+        post(route('admin.performance.update', { id: performance.id }));
     };
 
     const allParts: badge[] = useMemo(() => {
@@ -61,7 +69,7 @@ function PerformanceEdit() {
     }, [performanceEditParts]);
 
     useEffect(() => {
-        console.log(data);
+        console.log(performance);
     }, [data]);
 
     return (
@@ -122,8 +130,9 @@ function PerformanceEdit() {
                             label="사진 업로드"
                             items={performance.images}
                             isRequired
-                            onChange={images => {
-                                handleChangeInputData('files', images);
+                            onDelete={images => handleChangeInputData('deleteImages', images)}
+                            onChange={files => {
+                                handleChangeInputData('files', files);
                             }}
                         />
                     </S.InputList>

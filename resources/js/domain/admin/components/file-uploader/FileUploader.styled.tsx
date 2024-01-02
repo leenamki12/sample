@@ -111,7 +111,7 @@ export const FileButtonBox = styled.div`
 `;
 
 export const LabelButton = styled.label`
-    ${tw`flex! max-w-[100px] cursor-pointer items-center rounded border-[1px] border-[#333] bg-white px-[10px] text-sm font-bold text-[#111] duration-200`}
+    ${tw`flex! h-[32px] max-w-[100px] cursor-pointer items-center rounded border-[1px] border-[#333] bg-white px-[10px] text-sm font-bold text-[#111] duration-200`}
 
     &:hover {
         ${tw`border-[1px] border-[#666] bg-white text-[#666]`}

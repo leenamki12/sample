@@ -21,6 +21,7 @@ type Link = {
 };
 
 export type Image = {
-    id: number;
+    id: number | undefined;
     file_path: string;
+    file_name?: string;
 };

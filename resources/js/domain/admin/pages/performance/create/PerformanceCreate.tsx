@@ -10,6 +10,8 @@ import FileUploader from '@/domain/admin/components/file-uploader/FileUploader';
 import { PageProps } from '@/types';
 import { PerformanceFromkey } from '@/types/admin/performance';
 
+import { FileItem } from '../edit/PerformanceEdit';
+
 import * as S from './PerformanceCreate.styled';
 
 type FormProps = {
@@ -19,7 +21,7 @@ type FormProps = {
     address: string;
     hidden: boolean;
     parts: number[];
-    files: File[];
+    fileItems: FileItem[];
 };
 
 function PerformanceCreate() {
@@ -31,7 +33,7 @@ function PerformanceCreate() {
         address: '',
         hidden: true,
         parts: [],
-        files: [],
+        fileItems: [],
     });
 
     const handleChangeInputData = (id: string, value: any) => {

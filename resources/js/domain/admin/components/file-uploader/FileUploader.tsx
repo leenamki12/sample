@@ -5,18 +5,26 @@ import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui';
 import { Image } from '@/types/common';
 
+import { FileItem } from '../../pages/performance/edit/PerformanceEdit';
+
 import * as S from './FileUploader.styled';
 
 type Props = {
     label: string;
     isRequired?: boolean;
-    onChange: (images: File[]) => void;
+    onChange: (files: FileItem[]) => void;
+    onDelete?: (ids: number[]) => void;
     items?: Image[];
 };
 
-function FileUploader({ label, isRequired, onChange, items }: Props) {
-    const [uploadFiles, setUploadFiles] = useState<File[]>([]);
-    const [uploadImages, setUploadImages] = useState<(string | ArrayBuffer | null)[]>([]);
+function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
+    const [deleteItems, setDeleteItems] = useState<Image[]>([]);
+    const [uploadFiles, setUploadFiles] = useState<FileItem[]>([]);
+    const [uploadImages, setUploadImages] = useState<Image[]>(
+        items?.map(item => {
+            return { id: item.id, file_path: `/storage/${item.file_path}` };
+        }) || []
+    );
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -32,17 +40,35 @@ function FileUploader({ label, isRequired, onChange, items }: Props) {
             return;
         }
 
-        setUploadFiles([...uploadFiles, file]);
+        setUploadFiles([
+            ...uploadFiles,
+            {
+                file: file,
+                oldId: undefined,
+                oldPath: undefined,
+            },
+        ]);
 
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             const previewImgUrl = reader.result;
-            setUploadImages([...uploadImages, previewImgUrl]);
+            setUploadImages([
+                ...uploadImages,
+                { id: undefined, file_path: previewImgUrl as string, file_name: file.name },
+            ]);
         };
     };
 
-    const handleFileEdit = (event: ChangeEvent<HTMLInputElement>, index: number) => {
+    const handleFileEdit = (
+        event: ChangeEvent<HTMLInputElement>,
+        index: number,
+        oldPath: string
+    ) => {
+        const oldItem: Image | undefined = items?.find(
+            item => `/storage/${item.file_path}` === oldPath
+        );
+
         const file = event.target.files?.[0];
 
         if (!file) {
@@ -57,7 +83,11 @@ function FileUploader({ label, isRequired, onChange, items }: Props) {
         }
 
         const newFiles = [...uploadFiles];
-        newFiles[index] = file;
+        newFiles[index] = {
+            file: file,
+            oldId: oldItem?.id || undefined,
+            oldPath: oldItem?.file_path || undefined,
+        };
 
         setUploadFiles(newFiles);
 
@@ -67,7 +97,11 @@ function FileUploader({ label, isRequired, onChange, items }: Props) {
             const previewImgUrl = reader.result;
 
             const newImages = [...uploadImages];
-            newImages[index] = previewImgUrl;
+            newImages[index] = {
+                id: undefined,
+                file_name: file.name,
+                file_path: previewImgUrl as string,
+            };
 
             setUploadImages(newImages);
         };
@@ -91,10 +125,24 @@ function FileUploader({ label, isRequired, onChange, items }: Props) {
         return false;
     }
 
+    const handleClickImageDelete = (image: Image) => {
+        const updatedImages = uploadImages.filter(item => item.file_path !== image.file_path);
+        setUploadImages(updatedImages);
+
+        const updatedFiles = uploadFiles.filter(item => item.file.name !== image.file_name);
+        setUploadFiles(updatedFiles);
+        if (image.id) {
+            setDeleteItems([...deleteItems, image]);
+        }
+    };
+
     useEffect(() => {
         onChange(uploadFiles);
     }, [uploadFiles]);
 
+    useEffect(() => {
+        onDelete?.(deleteItems.map(item => item.id) as number[]);
+    }, [deleteItems]);
     return (
         <S.Wrapper>
             <S.Title>
@@ -121,28 +169,41 @@ function FileUploader({ label, isRequired, onChange, items }: Props) {
                 )}
             </S.Title>
             <S.Files isEmpty={uploadImages.length === 0}>
-                {items &&
-                    items.map(item => {
-                        return <img src={`/storage/${item.file_path}`}></img>;
-                    })}
                 {uploadImages.length > 0 ? (
                     uploadImages.map((image, index) => {
                         return (
                             image && (
-                                <S.FileItem key={image as string}>
+                                <S.FileItem key={image.file_path}>
+                                    {index === 0 ? (
+                                        <div className="mb-2 text-sm text-emerald-500">
+                                            대표이미지
+                                        </div>
+                                    ) : (
+                                        <div className="mb-2 text-sm">&nbsp;</div>
+                                    )}
                                     <S.Preview>
-                                        <img src={image as string} />
+                                        <img src={image.file_path} />
                                     </S.Preview>
                                     <S.FileButtonBox>
                                         <S.LabelButton>
                                             <input
                                                 type="file"
                                                 accept=".jpg, .jpeg, .png, .gif"
-                                                onChange={evevt => handleFileEdit(evevt, index)}
+                                                onChange={evevt => {
+                                                    handleFileEdit(evevt, index, image.file_path);
+                                                }}
                                             />
                                             수정
                                         </S.LabelButton>
-                                        <Button element="teriary" label="삭제" />
+                                        {uploadImages.length === 1 ? (
+                                            ''
+                                        ) : (
+                                            <Button
+                                                element="teriary"
+                                                label="삭제"
+                                                onClick={() => handleClickImageDelete(image)}
+                                            />
+                                        )}
                                     </S.FileButtonBox>
                                 </S.FileItem>
                             )

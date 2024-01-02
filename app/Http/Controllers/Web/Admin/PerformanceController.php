@@ -8,7 +8,6 @@ use App\Domains\Image\Image;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PerformanceRequest;
 use App\Http\Requests\Admin\PerformanceUpdateRequest;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -48,17 +47,18 @@ class PerformanceController extends Controller
         $fileBag = $request->files->get('files', []);
         $parts = Part::findMany($validatedData['parts']);
 
-        foreach ($fileBag as $fileInfo) {
+        foreach ($fileBag as $index => $fileInfo) {
             $laravelFile = new \Illuminate\Http\UploadedFile(
-                $fileInfo->getPathname(),
-                $fileInfo->getClientOriginalName(),
-                $fileInfo->getClientMimeType(),
-                $fileInfo->getError(),
+                $fileInfo['file']->getPathname(),
+                $fileInfo['file']->getClientOriginalName(),
+                $fileInfo['file']->getClientMimeType(),
+                $fileInfo['file']->getError(),
                 true
             );
 
             $image = Image::create([
                 'file_path' => $laravelFile->store('images/performance', 'public'),
+                'row_number' => $index
             ]);
 
             $images[] = $image;
@@ -82,7 +82,10 @@ class PerformanceController extends Controller
 
     public function edit(int $id)
     {
-        $performance = Performance::with(['parts', 'images'])->findOrFail($id);
+        $performance = Performance::with(['parts', 'images' => function ($query) {
+            $query->orderBy('row_number', 'asc');
+        }])->findOrFail($id);
+
         $parts = Part::orderBy('id', 'asc')->get();
 
         return Inertia::render('admin/pages/performance/edit/PerformanceEdit', [
@@ -93,37 +96,76 @@ class PerformanceController extends Controller
 
     public function update(PerformanceUpdateRequest $request, int $id)
     {
-        //$validatedData = $request->validated();
+        $validatedData = $request->validated();
 
         // 이미지 업데이트 로직
         $images = [];
         $fileBag = $request->files->get('files', []);
+        $fileInput = $request->input('files');
+        $fileDelete = $request->input('deleteImages');
+        $performance = Performance::findOrFail($id);
 
-        dd($request);
+        foreach ($fileBag as $index => $fileInfo) {
+            $laravelFile = new \Illuminate\Http\UploadedFile(
+                $fileInfo['file']->getPathname(),
+                $fileInfo['file']->getClientOriginalName(),
+                $fileInfo['file']->getClientMimeType(),
+                $fileInfo['file']->getError(),
+                true
+            );
 
-        foreach ($fileBag as $fileInfo) {
+            $oldId = $fileInput[$index]['oldId'];
+            $imageCount = $performance->images->count();
 
-            $image = Image::create([
-                'file_path' => $fileInfo->store('images/performance', 'public'),
-            ]);
+             // 파일의 oldId가 존재하면 해당 이미지 삭제
+            if ($oldId) {
+                $existingImage = $performance->images()->where('images.id', $oldId)->first();
 
-            $images[] = $image;
+                $existingImage->update([
+                    'file_path' => $laravelFile->store('images/performance', 'public'),
+                    'row_number' => $existingImage->row_number
+                ]);
+
+                $images[] = $existingImage;
+
+                $existingImage->delete();
+            } else {
+
+                $image = Image::create([
+                    'file_path' => $laravelFile->store('images/performance', 'public'),
+                    'row_number' => $index + $imageCount
+                ]);
+
+                $images[] = $image;
+
+            }
         }
 
-        dd($images);
+        if($fileDelete){
+            Image::destroy($fileDelete);
+
+            foreach ($fileDelete as $fileDeleteInfo) {
+                if($performance->image_id == $fileDeleteInfo){
+                    $first = $performance->images->first();
+                    $performance->update([
+                        'image_id' => $first->id
+                    ]);
+                }
+
+            }
+        }
 
         // 공연 정보 업데이트
-        $performance = Performance::findOrFail($id);
         $performance->update([
-            'title' => $request->title,
-            'date_and_time' => $request->date_and_time,
-            'address' => $request->address,
-            'hidden' => $request->hidden,
+            'title' => $validatedData['title'],
+            'date_and_time' => $validatedData['date_and_time'],
+            'address' => $validatedData['address'],
+            'hidden' => $validatedData['hidden'],
         ]);
 
-        // 새로운 이미지 저장
-        $performance->images()->saveMany($images);
         // 부품 업데이트
+        $performance->images()->saveMany($images);
+
         $parts = Part::findMany($request->parts);
         $performance->parts()->sync($parts->pluck('id'));
 
