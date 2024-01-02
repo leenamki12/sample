@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Part extends Model
 {
-    protected $table = 'parts';
+    protected $table = 'part_types';
     protected $fillable = [
         'name',
         'now_num',
@@ -16,6 +16,6 @@ class Part extends Model
 
     public function performances()
     {
-        return $this->belongsToMany(Performance::class, 'part_performance');
+        return $this->belongsToMany(Performance::class, 'performance_part');
     }
 }

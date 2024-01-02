@@ -19,7 +19,7 @@ class PerformanceRequest extends FormRequest
             'address' => 'required|string',
             'hidden' => 'boolean',
             'parts' => 'array',
-            'parts.*' => 'exists:parts,id', // 예: parts 테이블의 id와 연결된지 확인
+            'parts.*' => 'exists:part_types,id', // 예: parts 테이블의 id와 연결된지 확인
             'fileItems' => 'array',
             'fileItems.file' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // 예: 이미지 파일만 허용
             'parts_required' => 'required_without_all:parts',

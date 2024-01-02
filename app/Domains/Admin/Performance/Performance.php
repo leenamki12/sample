@@ -21,7 +21,7 @@ class Performance extends Model
 
     public function parts()
     {
-        return $this->belongsToMany(Part::class, 'part_performance');
+        return $this->belongsToMany(Part::class, 'performance_part');
     }
 
     public function images()

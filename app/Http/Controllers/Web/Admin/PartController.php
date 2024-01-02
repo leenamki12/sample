@@ -29,7 +29,7 @@ class PartController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name' => 'required|string|unique:parts|max:50',
+                'name' => 'required|string|unique:part_types|max:50',
             ]);
 
             Part::create($validatedData);

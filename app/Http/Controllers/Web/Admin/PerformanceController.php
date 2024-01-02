@@ -44,20 +44,12 @@ class PerformanceController extends Controller
         $validatedData = $request->validated();
 
         $images = [];
-        $fileBag = $request->files->get('files', []);
+        $fileBag = $request->file('files');
         $parts = Part::findMany($validatedData['parts']);
 
         foreach ($fileBag as $index => $fileInfo) {
-            $laravelFile = new \Illuminate\Http\UploadedFile(
-                $fileInfo['file']->getPathname(),
-                $fileInfo['file']->getClientOriginalName(),
-                $fileInfo['file']->getClientMimeType(),
-                $fileInfo['file']->getError(),
-                true
-            );
-
             $image = Image::create([
-                'file_path' => $laravelFile->store('images/performance', 'public'),
+                'file_path' => $fileInfo['file']->store('images/performance', 'public'),
                 'row_number' => $index
             ]);
 
@@ -100,44 +92,39 @@ class PerformanceController extends Controller
 
         // 이미지 업데이트 로직
         $images = [];
-        $fileBag = $request->files->get('files', []);
+        $fileBag = $request->file('files');
         $fileInput = $request->input('files');
         $fileDelete = $request->input('deleteImages');
         $performance = Performance::findOrFail($id);
 
-        foreach ($fileBag as $index => $fileInfo) {
-            $laravelFile = new \Illuminate\Http\UploadedFile(
-                $fileInfo['file']->getPathname(),
-                $fileInfo['file']->getClientOriginalName(),
-                $fileInfo['file']->getClientMimeType(),
-                $fileInfo['file']->getError(),
-                true
-            );
+        if($fileBag){
+            foreach ($fileBag as $index => $fileInfo) {
 
-            $oldId = $fileInput[$index]['oldId'];
-            $imageCount = $performance->images->count();
+                $oldId = $fileInput[$index]['oldId'];
+                $imageCount = $performance->images->count();
 
-             // 파일의 oldId가 존재하면 해당 이미지 삭제
-            if ($oldId) {
-                $existingImage = $performance->images()->where('images.id', $oldId)->first();
+                // 파일의 oldId가 존재하면 해당 이미지 삭제
+                if ($oldId) {
+                    $existingImage = $performance->images()->where('images.id', $oldId)->first();
 
-                $existingImage->update([
-                    'file_path' => $laravelFile->store('images/performance', 'public'),
-                    'row_number' => $existingImage->row_number
-                ]);
+                    $existingImage->update([
+                        'file_path' => $fileInfo['file']->store('images/performance', 'public'),
+                        'row_number' => $existingImage->row_number
+                    ]);
 
-                $images[] = $existingImage;
+                    $images[] = $existingImage;
 
-                $existingImage->delete();
-            } else {
+                    $existingImage->delete();
+                } else {
 
-                $image = Image::create([
-                    'file_path' => $laravelFile->store('images/performance', 'public'),
-                    'row_number' => $index + $imageCount
-                ]);
+                    $image = Image::create([
+                        'file_path' => $fileInfo['file']->store('images/performance', 'public'),
+                        'row_number' => $index + $imageCount
+                    ]);
 
-                $images[] = $image;
+                    $images[] = $image;
 
+                }
             }
         }
 

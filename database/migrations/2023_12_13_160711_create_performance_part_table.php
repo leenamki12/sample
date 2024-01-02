@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('part_performance', function (Blueprint $table) {
+        Schema::create('performance_part', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('part_id')->comment('파트 ID');
             $table->unsignedBigInteger('performance_id')->comment('공연 ID');
             $table->timestamps();
 
-            $table->foreign('part_id')->references('id')->on('parts')->onDelete('cascade');
+            $table->foreign('part_id')->references('id')->on('part_types')->onDelete('cascade');
             $table->foreign('performance_id')->references('id')->on('performances')->onDelete('cascade');
         });
     }

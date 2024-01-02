@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parts', function (Blueprint $table) {
+        Schema::create('part_types', function (Blueprint $table) {
             $table->id()->comment('파트 PK');
             $table->string('name', 50)->unique()->commen('파트 이름');
             $table->timestamps();
