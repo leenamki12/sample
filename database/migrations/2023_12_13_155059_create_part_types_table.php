@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('part_types', function (Blueprint $table) {
             $table->id()->comment('파트 PK');
-            $table->string('name', 50)->unique()->commen('파트 이름');
+            $table->string('name', 50)->unique()->comment('파트 이름');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parts');
+        Schema::dropIfExists('part_types');
     }
 };

@@ -2,8 +2,7 @@
 
 namespace App\Domains\Admin\Performance;
 
-use App\Domains\Admin\Part\Part;
-use App\Domains\Image\Image;
+use App\Domains\Admin\PartType\PartType;
 use Illuminate\Database\Eloquent\Model;
 
 class Performance extends Model
@@ -11,21 +10,19 @@ class Performance extends Model
     protected $table = 'performances';
     protected $fillable = [
         'title',
-        'date_and_time',
-        'address',
-        'image_id',
-        'image_url',
-        'hidden',
+        'date_time',
+        'location',
+        'visible',
         'parts'
     ];
 
     public function parts()
     {
-        return $this->belongsToMany(Part::class, 'performance_part');
+        return $this->belongsToMany(PartType::class, 'performance_part_type');
     }
 
     public function images()
     {
-        return $this->belongsToMany(Image::class, 'performance_image');
+        return $this->hasMany(PerformanceImage::class, 'performance_id');
     }
 }

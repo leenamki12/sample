@@ -6,10 +6,10 @@ export type Performance = {
     id: number | string;
     row_number: number;
     title: string; // 공연 제목
-    date_and_time: number; //공연시간
-    address: string; // 주소
-    image_url: string; //대표이미지 url
-    hidden: boolean;
+    date_time: number; //공연시간
+    location: string; // 주소
+    visible: boolean;
+    main_image_url: string;
     parts: Part[];
     images: Image[];
     created_at: Date;
@@ -19,9 +19,9 @@ export type Performance = {
 export type PerformanceFromkey =
     | 'id'
     | 'title'
-    | 'date_and_time'
-    | 'address'
-    | 'hidden'
+    | 'date_time'
+    | 'location'
+    | 'visible'
     | 'parts'
     | 'fileItems';
 

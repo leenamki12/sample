@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('performances', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255)->comment('공연 제목');
-            $table->datetime('date_and_time')->comment('공연 시간');
-            $table->string('address', 255)->comment('공연 장소');
-            $table->unsignedBigInteger('image_id')->nullable()->comment('대표이미지');
-            $table->boolean('hidden')->default(false)->comment('숨김 처리');
+            $table->datetime('date_time')->comment('공연 시간');
+            $table->string('location', 255)->comment('공연 장소');
+            $table->boolean('visible')->default(false)->comment('숨김 처리');
             $table->timestamps();
         });
     }

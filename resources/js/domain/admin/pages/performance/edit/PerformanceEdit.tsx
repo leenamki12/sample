@@ -1,4 +1,4 @@
-import { FormEventHandler, useEffect, useMemo } from 'react';
+import { FormEventHandler, useMemo } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
 
@@ -21,9 +21,9 @@ export type FileItem = {
 type FormProps = {
     id: string;
     title: string;
-    date_and_time: string;
-    address: string;
-    hidden: boolean;
+    date_time: string;
+    location: string;
+    visible: boolean;
     parts: number[];
     fileItems: FileItem[];
     deleteImages: number[];
@@ -32,15 +32,15 @@ type FormProps = {
 function PerformanceEdit() {
     const { performance, performanceEditParts } = usePage<PageProps>().props;
 
-    const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
+    const { data, post, setData, clearErrors, errors, processing } = useForm<FormProps>({
         id: `${performance.id}`,
         title: `${performance.title}`,
-        date_and_time: `${performance.date_and_time}`,
-        address: performance.address,
-        hidden: performance.hidden,
+        date_time: `${performance.date_time}`,
+        location: performance.location,
+        visible: performance.visible,
+        parts: performance.parts.map(item => item.id as number),
         fileItems: [],
         deleteImages: [],
-        parts: performance.parts.map(item => item.id as number),
     });
 
     const handleChangeInputData = (id: string, value: any) => {
@@ -68,10 +68,6 @@ function PerformanceEdit() {
         return newItems;
     }, [performanceEditParts]);
 
-    useEffect(() => {
-        console.log(performance);
-    }, [data]);
-
     return (
         <>
             <TopSection title="공연 수정" />
@@ -98,21 +94,21 @@ function PerformanceEdit() {
                         <LabelTextInput
                             label="날짜 및 시간"
                             type="datetime-local"
-                            id="date_and_time"
+                            id="date_time"
                             onChange={handleChangeInputData}
                             placeholder="공연 날짜 및 시간을 입력해주세요."
-                            error={errors?.['date_and_time']}
-                            defaultValue={data.date_and_time}
+                            error={errors?.['date_time']}
+                            defaultValue={data.date_time}
                             isRequired
                         />
                         <LabelTextInput
                             label="장소"
                             type="text"
-                            id="address"
+                            id="location"
                             onChange={handleChangeInputData}
                             placeholder="공연 장소를 입력해주세요."
-                            error={errors?.['address']}
-                            defaultValue={data.address}
+                            error={errors?.['location']}
+                            defaultValue={data.location}
                             isRequired
                         />
 
@@ -122,8 +118,8 @@ function PerformanceEdit() {
                             </div>
                         </S.Label>
                         <SwitchButton
-                            defaultValue={data.hidden}
-                            onChange={value => handleChangeInputData('hidden', value)}
+                            defaultValue={data.visible}
+                            onChange={value => handleChangeInputData('visible', value)}
                         />
 
                         <FileUploader
@@ -137,7 +133,12 @@ function PerformanceEdit() {
                         />
                     </S.InputList>
                     <S.ButtonBox>
-                        <Button type="submit" label="저장" element="primary" />
+                        <Button
+                            type="submit"
+                            label="저장"
+                            element="primary"
+                            disabled={processing}
+                        />
                     </S.ButtonBox>
                 </S.Form>
             </S.Wrapper>

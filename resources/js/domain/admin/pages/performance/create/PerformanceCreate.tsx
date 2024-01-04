@@ -17,21 +17,21 @@ import * as S from './PerformanceCreate.styled';
 type FormProps = {
     id: string;
     title: string;
-    date_and_time: string;
-    address: string;
-    hidden: boolean;
+    date_time: string;
+    location: string;
+    visible: boolean;
     parts: number[];
     fileItems: FileItem[];
 };
 
 function PerformanceCreate() {
     const { categories } = usePage<PageProps>().props;
-    const { data, post, setData, clearErrors, errors } = useForm<FormProps>({
+    const { data, post, setData, clearErrors, errors, processing } = useForm<FormProps>({
         id: '',
         title: '',
-        date_and_time: '',
-        address: '',
-        hidden: true,
+        date_time: '',
+        location: '',
+        visible: true,
         parts: [],
         fileItems: [],
     });
@@ -83,19 +83,19 @@ function PerformanceCreate() {
                         <LabelTextInput
                             label="날짜 및 시간"
                             type="datetime-local"
-                            id="date_and_time"
+                            id="date_time"
                             onChange={handleChangeInputData}
                             placeholder="공연 장소를 입력해주세요."
-                            error={errors?.['date_and_time']}
+                            error={errors?.['date_time']}
                             isRequired
                         />
                         <LabelTextInput
                             label="장소"
                             type="text"
-                            id="address"
+                            id="location"
                             onChange={handleChangeInputData}
                             placeholder="공연 장소를 입력해주세요."
-                            error={errors?.['address']}
+                            error={errors?.['location']}
                             isRequired
                         />
 
@@ -105,8 +105,8 @@ function PerformanceCreate() {
                             </div>
                         </S.Label>
                         <SwitchButton
-                            defaultValue={data.hidden}
-                            onChange={value => handleChangeInputData('hidden', value)}
+                            defaultValue={data.visible}
+                            onChange={value => handleChangeInputData('visible', value)}
                         />
 
                         <FileUploader
@@ -116,7 +116,12 @@ function PerformanceCreate() {
                         />
                     </S.InputList>
                     <S.ButtonBox>
-                        <Button type="submit" label="저장" element="primary" />
+                        <Button
+                            type="submit"
+                            label="저장"
+                            element="primary"
+                            disabled={processing}
+                        />
                     </S.ButtonBox>
                 </S.Form>
             </S.Wrapper>

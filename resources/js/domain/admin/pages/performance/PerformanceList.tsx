@@ -34,7 +34,15 @@ function PerformanceList() {
             .filter((_filterItem, index) => ids.includes(index))
             .map(item => item.id);
 
-        console.log(selectedItems);
+        router.delete(route('admin.performance.delete'), {
+            data: {
+                ids: selectedItems,
+            },
+            onSuccess: () => {
+                alert('삭제되었습니다.');
+                location.reload();
+            },
+        });
     };
 
     const onUpdateEnabled = (value: boolean) => {
@@ -75,39 +83,41 @@ function PerformanceList() {
             <TopSection title="공연 목록" />
 
             <TableWrapper>
-                <Table
-                    headerItems={tableHeaderItems}
-                    isChecked
-                    onDelete={onDelete}
-                    onClick={handleClickEditLink}
-                    createHref="admin.performance.create"
-                >
-                    {performances.data.map(item => {
-                        const partItems = item.parts.map(i => i.name);
-                        return (
-                            <React.Fragment key={item.id}>
-                                <Td>
-                                    <S.ImageBox>
-                                        <img src={`/storage/${item.image_url}`} alt="" />
-                                    </S.ImageBox>
-                                </Td>
-                                <Td>{handleFilterCategories(partItems)}</Td>
-                                <Td>
-                                    <S.TitleBox>{handleFormatText(item.title)}</S.TitleBox>
-                                </Td>
-                                <Td>{dayjs(item.date_and_time).format('YYYY-MM-DD')}</Td>
-                                <Td>{item.address}</Td>
-                                <Td>
-                                    <SwitchButton
-                                        defaultValue={!!item.hidden}
-                                        onChange={onUpdateEnabled}
-                                    />
-                                </Td>
-                                <Td>{dayjs(item.created_at).format('YYYY-MM-DD')}</Td>
-                            </React.Fragment>
-                        );
-                    })}
-                </Table>
+                {performances.data && (
+                    <Table
+                        headerItems={tableHeaderItems}
+                        isChecked
+                        onDelete={onDelete}
+                        onClick={handleClickEditLink}
+                        createHref="admin.performance.create"
+                    >
+                        {performances.data.map(item => {
+                            const partItems = item.parts.map(i => i.name);
+                            return (
+                                <React.Fragment key={item.id}>
+                                    <Td>
+                                        <S.ImageBox>
+                                            <img src={`/storage/${item.main_image_url}`} alt="" />
+                                        </S.ImageBox>
+                                    </Td>
+                                    <Td>{handleFilterCategories(partItems)}</Td>
+                                    <Td>
+                                        <S.TitleBox>{handleFormatText(item.title)}</S.TitleBox>
+                                    </Td>
+                                    <Td>{dayjs(item.date_time).format('YYYY-MM-DD')}</Td>
+                                    <Td>{item.location}</Td>
+                                    <Td>
+                                        <SwitchButton
+                                            defaultValue={!!item.visible}
+                                            onChange={onUpdateEnabled}
+                                        />
+                                    </Td>
+                                    <Td>{dayjs(item.created_at).format('YYYY-MM-DD')}</Td>
+                                </React.Fragment>
+                            );
+                        })}
+                    </Table>
+                )}
             </TableWrapper>
 
             <Pagination datas={performances} />

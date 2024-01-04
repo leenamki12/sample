@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Domains\Admin\Part\Part;
+use App\Domains\Admin\PartType\PartType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Validation\ValidationException;
 
-class PartController extends Controller
+class PartTypeController extends Controller
 {
     public function index()
     {
 
-        $parts = Part::orderBy('id', 'desc')->paginate(24);
+        $parts = PartType::orderBy('id', 'desc')->paginate(24);
         $parts->each(function ($part, $key) use ($parts) {
             $newPart = $part::withCount('performances')->find($part->id);
             $part->use_count = $newPart->performances_count;
@@ -32,7 +32,7 @@ class PartController extends Controller
                 'name' => 'required|string|unique:part_types|max:50',
             ]);
 
-            Part::create($validatedData);
+            PartType::create($validatedData);
         } catch (ValidationException $e) {
 
             throw $e::withMessages([
@@ -51,7 +51,7 @@ class PartController extends Controller
                 'name' => 'required|string|unique:parts|max:50',
             ]);
 
-            $part = Part::find($request->id);
+            $part = PartType::find($request->id);
 
             $part->update([
                 'name' => $validatedData['name']
@@ -70,12 +70,13 @@ class PartController extends Controller
 
     public function destroy(Request $request)
     {
-        $part = Part::find($request->id);
+        $part = PartType::find($request->id);
 
         if ($part) {
             $part->delete();
 
             return redirect()->route('admin.part');
+
         }
     }
 }

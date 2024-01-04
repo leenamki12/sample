@@ -16,9 +16,9 @@ class PerformanceUpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'date_and_time' => 'required|date',
-            'address' => 'required|string',
-            'hidden' => 'boolean',
+            'date_time' => 'required|date',
+            'location' => 'required|string',
+            'visible' => 'boolean',
             'parts' => 'array',
             'parts.*' => 'exists:part_types,id', // 예: parts 테이블의 id와 연결된지 확인
             'files' => 'array',

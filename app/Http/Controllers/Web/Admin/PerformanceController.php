@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Domains\Admin\Part\Part;
+use App\Domains\Admin\PartType\PartType;
 use App\Domains\Admin\Performance\Performance;
-use App\Domains\Image\Image;
+use App\Domains\Admin\Performance\PerformanceImage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PerformanceRequest;
 use App\Http\Requests\Admin\PerformanceUpdateRequest;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -18,7 +19,10 @@ class PerformanceController extends Controller
         $performances = Performance::orderBy('id', 'desc')->paginate(10);
 
         $performances->each(function ($performance, $key) use ($performances) {
-            $performance->image_url = Image::find($performance->image_id)->file_path;
+            $mainImage = $performance->images()->where('main_image', true)->first();
+            if ($mainImage) {
+                $performance->main_image_url = $mainImage->file_path;
+            }
             $performance->parts = $performance['parts'];
             $performance->row_number = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
         });
@@ -31,7 +35,7 @@ class PerformanceController extends Controller
     public function create(): Response
     {
 
-        $parts = Part::orderBy('id', 'asc')->get();
+        $parts = PartType::orderBy('id', 'asc')->get();
 
         return Inertia::render('admin/pages/performance/create/PerformanceCreate', [
             'categories' => ['parts' => $parts]
@@ -45,29 +49,30 @@ class PerformanceController extends Controller
 
         $images = [];
         $fileBag = $request->file('files');
-        $parts = Part::findMany($validatedData['parts']);
+        $parts = PartType::findMany($validatedData['parts']);
 
+        // 공연 정보 저장
+        $performance = Performance::create([
+            'title' => $validatedData['title'],
+            'date_time'=> $validatedData['date_time'],
+            'location'=> $validatedData['location'],
+            'visible'=> $validatedData['visible'],
+        ]);
+
+        // 이미지 파일 저장
         foreach ($fileBag as $index => $fileInfo) {
-            $image = Image::create([
+            $image = PerformanceImage::create([
+                'performance_id' => $performance->id,
                 'file_path' => $fileInfo['file']->store('images/performance', 'public'),
-                'row_number' => $index
+                'order_sequence' => $index,
+                'main_image' => $index === 0
             ]);
 
             $images[] = $image;
         }
 
-        // 공연 정보 저장
-        $performance = Performance::create([
-            'title' => $validatedData['title'],
-            'date_and_time'=> $validatedData['date_and_time'],
-            'address'=> $validatedData['address'],
-            'image_id'=> $images[0]->id,
-            'hidden'=> $validatedData['hidden'],
-        ]);
-
-        $performance->images()->saveMany($images);
+        // partType 연결 저장
         $performance->parts()->saveMany($parts);
-
 
         return redirect()->route('admin.performance');
     }
@@ -75,10 +80,10 @@ class PerformanceController extends Controller
     public function edit(int $id)
     {
         $performance = Performance::with(['parts', 'images' => function ($query) {
-            $query->orderBy('row_number', 'asc');
+            $query->orderBy('order_sequence', 'asc');
         }])->findOrFail($id);
 
-        $parts = Part::orderBy('id', 'asc')->get();
+        $parts = PartType::orderBy('id', 'asc')->get();
 
         return Inertia::render('admin/pages/performance/edit/PerformanceEdit', [
             'performance' => $performance,
@@ -90,26 +95,27 @@ class PerformanceController extends Controller
     {
         $validatedData = $request->validated();
 
-        // 이미지 업데이트 로직
         $images = [];
         $fileBag = $request->file('files');
         $fileInput = $request->input('files');
         $fileDelete = $request->input('deleteImages');
-        $performance = Performance::findOrFail($id);
+        $performance = Performance::find($id);
 
+
+        // 이미지 업데이트
         if($fileBag){
             foreach ($fileBag as $index => $fileInfo) {
-
                 $oldId = $fileInput[$index]['oldId'];
                 $imageCount = $performance->images->count();
 
                 // 파일의 oldId가 존재하면 해당 이미지 삭제
                 if ($oldId) {
-                    $existingImage = $performance->images()->where('images.id', $oldId)->first();
+                    $existingImage = $performance->images()->where('id', $oldId)->first();
 
                     $existingImage->update([
                         'file_path' => $fileInfo['file']->store('images/performance', 'public'),
-                        'row_number' => $existingImage->row_number
+                        'order_sequence' => $existingImage->order_sequence,
+                        'main_image' => $existingImage->main_image
                     ]);
 
                     $images[] = $existingImage;
@@ -117,11 +123,12 @@ class PerformanceController extends Controller
                     $existingImage->delete();
                 } else {
 
-                    $image = Image::create([
+                    $image = PerformanceImage::create([
+                        'performance_id' => $performance->id,
                         'file_path' => $fileInfo['file']->store('images/performance', 'public'),
-                        'row_number' => $index + $imageCount
+                        'order_sequence' => $index + $imageCount,
+                        'main_image' => false
                     ]);
-
                     $images[] = $image;
 
                 }
@@ -129,32 +136,33 @@ class PerformanceController extends Controller
         }
 
         if($fileDelete){
-            Image::destroy($fileDelete);
+            PerformanceImage::destroy($fileDelete);
 
-            foreach ($fileDelete as $fileDeleteInfo) {
-                if($performance->image_id == $fileDeleteInfo){
-                    $first = $performance->images->first();
-                    $performance->update([
-                        'image_id' => $first->id
-                    ]);
-                }
-
-            }
+            $nextImage = $performance->images->first();
+            $nextImage->update([
+                'main_image' => true
+            ]);
         }
 
         // 공연 정보 업데이트
         $performance->update([
             'title' => $validatedData['title'],
-            'date_and_time' => $validatedData['date_and_time'],
-            'address' => $validatedData['address'],
-            'hidden' => $validatedData['hidden'],
+            'date_time' => $validatedData['date_time'],
+            'location' => $validatedData['location'],
+            'visible' => $validatedData['visible'],
         ]);
 
-        // 부품 업데이트
-        $performance->images()->saveMany($images);
-
-        $parts = Part::findMany($request->parts);
+        $parts = PartType::findMany($request->parts);
         $performance->parts()->sync($parts->pluck('id'));
+
+        return redirect()->route('admin.performance');
+    }
+
+    public function destroy(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        Performance::destroy($ids);
 
         return redirect()->route('admin.performance');
     }

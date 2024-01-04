@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('performance_part', function (Blueprint $table) {
+        Schema::create('performance_part_type', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('part_id')->comment('파트 ID');
+            $table->unsignedBigInteger('part_type_id')->comment('파트 ID');
             $table->unsignedBigInteger('performance_id')->comment('공연 ID');
             $table->timestamps();
 
-            $table->foreign('part_id')->references('id')->on('part_types')->onDelete('cascade');
+            $table->foreign('part_type_id')->references('id')->on('part_types')->onDelete('cascade');
             $table->foreign('performance_id')->references('id')->on('performances')->onDelete('cascade');
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('part_performance');
+        Schema::dropIfExists('performance_part_type');
     }
 };

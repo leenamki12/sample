@@ -143,6 +143,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
     useEffect(() => {
         onDelete?.(deleteItems.map(item => item.id) as number[]);
     }, [deleteItems]);
+
     return (
         <S.Wrapper>
             <S.Title>
