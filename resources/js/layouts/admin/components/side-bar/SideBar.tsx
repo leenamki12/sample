@@ -53,9 +53,6 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
             href: 'admin.work',
         },
     ];
-
-    console.log();
-
     return (
         <>
             <Transition.Root show={sidebarOpen} as={Fragment}>

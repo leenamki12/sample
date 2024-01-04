@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import tw, { styled, screen } from 'twin.macro';
 
 export const Wrapper = styled.header`
@@ -12,7 +13,7 @@ export const InnerBox = styled.div`
     ${screen('tablet')({ ...tw`flex-col items-center px-0` })}
 `;
 
-export const LogoButton = styled.a`
+export const LogoButton = styled(Link)`
     ${tw`min-w-[152px] cursor-pointer p-2`}
 
     ${screen('tablet')({ ...tw`block min-w-[116px] py-[15px]` })}
@@ -24,10 +25,24 @@ export const Nav = styled.ul`
     ${screen('tablet')({ ...tw`w-full justify-center gap-[10px] border-t border-[#333] pr-0` })}
 
     li > a {
-        ${tw`font-pretendard text-[20px] text-white`}
+        ${tw`font-pretendard text-[20px]`}
 
         ${screen('desktop')({ ...tw`text-lg` })}
 
         ${screen('tablet')({ ...tw`block p-[15px] text-base` })}
+    }
+
+    li > a:hover {
+        ${tw`opacity-80`}
+    }
+`;
+
+type NavItemProps = {
+    active: boolean;
+};
+
+export const NavItem = styled.li<NavItemProps>`
+    a {
+        ${({ active }) => (active ? tw`text-green` : tw`text-white`)}
     }
 `;

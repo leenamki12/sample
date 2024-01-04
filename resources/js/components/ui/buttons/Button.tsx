@@ -1,4 +1,4 @@
-import { HTMLAttributes, PropsWithChildren, useMemo } from 'react';
+import { HTMLAttributes, PropsWithChildren, ReactNode, useMemo } from 'react';
 import React from 'react';
 
 import { ButtonProps, ButtonStyleProps } from '@/components/ui';
@@ -13,7 +13,7 @@ import TertiaryButton from './TertiaryButton';
 import TextButton from './TextButton';
 
 type Props = {
-    label: string;
+    label: string | ReactNode;
     element: 'primary' | 'secondary' | 'teriary' | 'border' | 'cancel' | 'text' | 'more';
     type?: 'button' | 'submit';
 } & ButtonStyleProps &

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import * as S from './styles/BaseButton.styled';
 
 type Props = React.HTMLAttributes<HTMLButtonElement> &
@@ -6,7 +8,7 @@ type Props = React.HTMLAttributes<HTMLButtonElement> &
     };
 
 export type ButtonProps = React.ComponentPropsWithoutRef<typeof BaseButton> & {
-    label: string;
+    label: string | ReactNode;
 } & Props;
 
 export default function BaseButton({ type = 'button', ...props }: Props) {

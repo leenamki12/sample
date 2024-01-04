@@ -1,8 +1,20 @@
+import { Link, usePage } from '@inertiajs/react';
+
 import Logo from '@assets/common/header_logo.svg';
 
 import * as S from './Header.styled';
 
 function Header() {
+    const page = usePage();
+    const pageUrl = page.url.replace('/', '');
+
+    const headerItems = [
+        { key: 'about', value: 'About' },
+        { key: 'presents', value: 'Presents' },
+        { key: 'works', value: 'Works' },
+        { key: 'contact', value: 'Contact' },
+    ];
+
     return (
         <S.Wrapper>
             <S.InnerBox>
@@ -10,18 +22,11 @@ function Header() {
                     <img src={Logo} alt="" />
                 </S.LogoButton>
                 <S.Nav>
-                    <li>
-                        <a href={route('about')}>About</a>
-                    </li>
-                    <li>
-                        <a href={route('presents')}>Presents</a>
-                    </li>
-                    <li>
-                        <a href={route('works')}>Works</a>
-                    </li>
-                    <li>
-                        <a href={route('contact')}>Contact</a>
-                    </li>
+                    {headerItems.map(item => (
+                        <S.NavItem active={pageUrl === item.key}>
+                            <Link href={route(item.key)}>{item.value}</Link>
+                        </S.NavItem>
+                    ))}
                 </S.Nav>
             </S.InnerBox>
         </S.Wrapper>
