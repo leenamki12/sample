@@ -20,12 +20,5 @@
         "noFallthroughCasesInSwitch": true //switch문 이상하면 에러내기
     },
     "singleQuote": true,
-    "include": [
-        "resources/js/**/*.ts",
-        "resources/js/**/*.tsx",
-        "resources/js/**/*.d.ts",
-        "**/*.js",
-        "**/*.ts",
-        "**/*.tsx"
-    ]
+    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
 }

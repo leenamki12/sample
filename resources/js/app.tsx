@@ -18,9 +18,11 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: title => `${title} - ${appName}`,
-    resolve: name => {
-        const pages = import.meta.glob('./domain/**/*.tsx', { eager: true });
-        let page: any = pages[`./domain/${name}.tsx`];
+    resolve: async name => {
+        const pages = import.meta.glob('./domain/**/*.tsx');
+        const pageModule = pages[`./domain/${name}.tsx`];
+
+        const page: any = await pageModule();
 
         page.default.layout = name.startsWith('public/')
             ? undefined
