@@ -8,11 +8,11 @@ import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_passwo
 
 import * as S from './styles/Login.styled';
 
-type FormProps = 'email' | 'password' | 'remember';
+type FormProps = 'identification' | 'password' | 'remember';
 
 export default function Login() {
     const { setData, post, reset, errors, clearErrors } = useForm({
-        email: '',
+        identification: '',
         password: '',
         remember: false,
     });
@@ -39,12 +39,12 @@ export default function Login() {
             <S.InputList>
                 <TextInput
                     type="email"
-                    id="email"
+                    id="identification"
                     placeholder="이메일"
                     isFocused
                     onChange={handleChangeInputData}
                     icon={EmailIcon}
-                    error={errors.email}
+                    error={errors.identification}
                 />
                 <TextInput
                     type="password"

@@ -16,6 +16,9 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
     };
 
+    /** Work  */
+    partTypes: Part[];
+
     /** admin */
     parts: Paginate<Part>;
     performances: Paginate<Performance>;

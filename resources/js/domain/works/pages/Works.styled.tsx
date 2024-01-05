@@ -46,13 +46,20 @@ export const FilterContentWrapper = styled.div`
     }
 `;
 
-export const FilterSelectButton = styled(Button)`
+type FilterSelectButtonProps = {
+    active: boolean;
+};
+
+export const FilterSelectButton = styled(Button)<FilterSelectButtonProps>`
     ${tw`h-[44px]  rounded-full border-white bg-transparent px-[20px] font-normal text-white`}
 
     &:hover {
         ${tw`text-[#181717]`}
+
         svg {
             ${tw` stroke-[#181717]`}
         }
     }
+
+    ${({ active }) => active && tw`bg-green`}
 `;

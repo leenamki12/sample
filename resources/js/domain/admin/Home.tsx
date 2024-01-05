@@ -8,11 +8,11 @@ import { ReactComponent as PasswordIcon } from '@assets/common/icon_login_passwo
 
 import * as S from './Home.styled';
 
-type FormProps = 'email' | 'password' | 'remember';
+type FormProps = 'identification' | 'password' | 'remember';
 
 function Home() {
     const { setData, post, reset, errors, clearErrors } = useForm({
-        email: '',
+        identification: '',
         password: '',
         remember: false,
     });
@@ -37,13 +37,13 @@ function Home() {
         <S.Form onSubmit={submit}>
             <S.InputList>
                 <TextInput
-                    type="identification"
+                    type="text"
                     id="identification"
                     placeholder="아이디"
                     isFocused
                     onChange={handleChangeInputData}
                     icon={EmailIcon}
-                    error={errors.email}
+                    error={errors.identification}
                 />
                 <TextInput
                     type="password"

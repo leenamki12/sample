@@ -1,5 +1,7 @@
 <?php
 
+use App\Domains\Admin\PartType\PartType;
+use App\Domains\Admin\Performance\Performance;
 use App\Http\Controllers\Web\Admin\PartTypeController;
 use App\Http\Controllers\Web\Admin\PerformanceController;
 use Illuminate\Foundation\Application;
@@ -35,7 +37,54 @@ Route::get('/presents', function () {
 
 //works
 Route::get('/works', function () {
-    return Inertia::render('works/Works');
+
+    // 퍼포먼스에서 노출이 활성화 된것들만 노출
+    $performances = Performance::where('visible', true);
+
+    // parts 파라미터가 전달되면 해당하는 조건을 추가
+    if ($partsFilter = request('parts')) {
+        $parts = array_unique(explode(',', $partsFilter));
+        $performances->whereHas('parts', fn($query) => $query->whereIn('name', $parts));
+    }
+
+    // years 파라미터가 전달되면 해당하는 조건을 추가
+    if ($yearsFilter = request('years')) {
+        $years = array_unique(explode(',', $yearsFilter));
+        $performances->where(function ($query) use ($years) {
+            foreach ($years as $year) {
+                $query->orWhereYear('date_time', $year);
+            }
+        });
+    }
+
+    // 월별 파라미터가 전달되면 해당하는 조건을 추가
+    if ($monthlyFilter = request('monthly')) {
+        $months = array_unique(explode(',', $monthlyFilter));
+        $performances->where(function ($query) use ($months) {
+            foreach ($months as $month) {
+                $query->orWhereMonth('date_time', $month);
+            }
+        });
+    }
+
+    $performances = $performances->orderBy('id', 'desc')->paginate(10);
+
+    $performances->each(function ($performance, $key) use ($performances) {
+        $mainImage = $performance->images()->where('main_image', true)->first();
+        if ($mainImage) {
+            $performance->main_image_url = $mainImage->file_path;
+        }
+        $performance->parts = $performance['parts'];
+        $performance->row_number = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
+    });
+
+    $partTypes = PartType::orderBy('id', 'asc')->get();
+
+    return Inertia::render('works/pages/Works', [
+        'performances' => $performances,
+        'partTypes' => $partTypes
+    ]);
+
 })->name('works');
 
 //contact
