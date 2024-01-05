@@ -2,7 +2,7 @@
 
 namespace App\Domains\Admin\Performance;
 
-use App\Domains\Admin\PartType\PartType;
+use App\Domains\Admin\PartType\Models\PartType;
 use Illuminate\Database\Eloquent\Model;
 
 class Performance extends Model

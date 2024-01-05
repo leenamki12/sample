@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Admin\PartType;
+namespace App\Domains\Admin\PartType\Models;
 
 use App\Domains\Admin\Performance\Performance;
 use Illuminate\Database\Eloquent\Model;

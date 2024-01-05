@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Domains\Admin\PartType\PartType;
+use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\Performance;
 use App\Domains\Admin\Performance\PerformanceImage;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\PerformanceRequest;
-use App\Http\Requests\Admin\PerformanceUpdateRequest;
+use App\Http\Controllers\Web\Admin\Requests\PerformanceRequest;
+use App\Http\Controllers\Web\Admin\Requests\PerformanceUpdateRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
