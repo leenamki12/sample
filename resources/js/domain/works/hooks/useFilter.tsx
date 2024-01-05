@@ -42,7 +42,7 @@ const useFilter = <T extends string>(queryName: string) => {
             : [...existingValues, value];
     };
 
-    const onFetchPerformances = (filters: FilterProps<T>) => {
+    const onFetched = (filters: FilterProps<T>) => {
         const queryString = Object.entries(filters)
             .map(([key, values]) =>
                 (values as string[]).length
@@ -67,7 +67,7 @@ const useFilter = <T extends string>(queryName: string) => {
 
         setDisplayFilters(displayFilters);
         setSelectedFilters(updatedFilters);
-        onFetchPerformances(updatedFilters);
+        onFetched(updatedFilters);
     };
 
     useEffect(() => {

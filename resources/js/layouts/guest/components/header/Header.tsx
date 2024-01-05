@@ -23,7 +23,7 @@ function Header() {
                 </S.LogoButton>
                 <S.Nav>
                     {headerItems.map(item => (
-                        <S.NavItem active={pageUrl === item.key}>
+                        <S.NavItem active={pageUrl === item.key} key={item.key}>
                             <Link href={route(item.key)}>{item.value}</Link>
                         </S.NavItem>
                     ))}

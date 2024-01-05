@@ -1,11 +1,10 @@
 <?php
 
-use App\Domains\Admin\PartType\PartType;
+use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\Performance;
 use App\Http\Controllers\Web\Admin\PartTypeController;
 use App\Http\Controllers\Web\Admin\PerformanceController;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -74,6 +73,7 @@ Route::get('/works', function () {
         if ($mainImage) {
             $performance->main_image_url = $mainImage->file_path;
         }
+        $performance->images = $performance->images()->get();
         $performance->parts = $performance['parts'];
         $performance->row_number = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
     });
