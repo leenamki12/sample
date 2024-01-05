@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Domains\Admin\PartType\Actions\PartTypeCreateAction;
 use App\Domains\Admin\PartType\Actions\PartTypeDeleteAction;
 use App\Domains\Admin\PartType\Actions\PartTypeQueryAction;
+use App\Domains\Admin\PartType\Actions\PartTypeStoreAction;
 use App\Domains\Admin\PartType\Actions\PartTypeUpdateAction;
 use App\Domains\Admin\PartType\DTOs\PartTypeDTO;
 use App\Domains\Admin\PartType\DTOs\PartTypeUpdateDTO;
@@ -17,15 +17,16 @@ class PartTypeController extends Controller
 {
     public function index(PartTypeQueryAction $action)
     {
-        $parts = $action->handle();
+        $partTypes = $action->handle();
 
         return Inertia::render('admin/pages/part/PartList', [
-            'parts' => $parts
+            'adminPartTypes' => $partTypes
         ]);
     }
 
-    public function store(PartTypeRequest $request, PartTypeCreateAction $action)
+    public function store(PartTypeRequest $request, PartTypeStoreAction $action)
     {
+
         $partDto = PartTypeDTO::from($request);
 
         $action->handle($partDto);
@@ -33,11 +34,11 @@ class PartTypeController extends Controller
         return back();
     }
 
-    public function update(PartTypeRequest $request, PartTypeUpdateAction $action)
+    public function update(PartTypeRequest $request, PartTypeUpdateAction $action, int $id)
     {
         $partDto = PartTypeUpdateDTO::from($request);
 
-        $action->handle($partDto);
+        $action->handle($partDto, $id);
 
         return back();
     }

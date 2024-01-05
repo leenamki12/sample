@@ -10,8 +10,6 @@ class PartType extends Model
     protected $table = 'part_types';
     protected $fillable = [
         'name',
-        'now_num',
-        'item_count'
     ];
 
     public function performances()

@@ -104,7 +104,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     Route::get('/part', [PartTypeController::class, 'index'])->name('admin.part');
     Route::post('/part', [PartTypeController::class, 'store'])->name('admin.part.create');
-    Route::patch('/part', [PartTypeController::class, 'update'])->name('admin.part.update');
+    Route::patch('/part/{id}', [PartTypeController::class, 'update'])->name('admin.part.update');
     Route::delete('/part', [PartTypeController::class, 'destroy'])->name('admin.part.delete');
 
     Route::get('/work', function () {

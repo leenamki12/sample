@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Domains\Admin\PartType\Models\PartType;
+use App\Domains\Admin\Performance\Actions\PerformanceCreateAction;
+use App\Domains\Admin\Performance\Actions\PerformanceQueryAction;
 use App\Domains\Admin\Performance\Performance;
 use App\Domains\Admin\Performance\PerformanceImage;
 use App\Http\Controllers\Controller;
@@ -14,31 +16,22 @@ use Inertia\Response;
 
 class PerformanceController extends Controller
 {
-    public function index()
+    public function index(PerformanceQueryAction $action)
     {
-        $performances = Performance::orderBy('id', 'desc')->paginate(10);
-
-        $performances->each(function ($performance, $key) use ($performances) {
-            $mainImage = $performance->images()->where('main_image', true)->first();
-            if ($mainImage) {
-                $performance->main_image_url = $mainImage->file_path;
-            }
-            $performance->parts = $performance['parts'];
-            $performance->row_number = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
-        });
+         $performances = $action->handle();
 
         return Inertia::render('admin/pages/performance/PerformanceList', [
             'performances' => $performances
         ]);
     }
 
-    public function create(): Response
+    public function create(PerformanceCreateAction $action): Response
     {
 
-        $parts = PartType::orderBy('id', 'asc')->get();
+        $categories = $action->handle();
 
         return Inertia::render('admin/pages/performance/create/PerformanceCreate', [
-            'categories' => ['parts' => $parts]
+            'categories' => $categories
         ]);
     }
 

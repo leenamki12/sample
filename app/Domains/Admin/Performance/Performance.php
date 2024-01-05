@@ -13,10 +13,9 @@ class Performance extends Model
         'date_time',
         'location',
         'visible',
-        'parts'
     ];
 
-    public function parts()
+    public function partTypes()
     {
         return $this->belongsToMany(PartType::class, 'performance_part_type');
     }

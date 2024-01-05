@@ -1,10 +1,10 @@
-export type Part = {
+export type PartType = {
     id: number | string;
-    row_number: number;
-    use_count: number;
+    orderSequence: number;
+    performanceCount: number;
     name: string;
-    created_at: Date;
-    updated_at: Date;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
-export type PartFromkey = 'id' | 'name';
+export type PartTypeFormKey = 'name';

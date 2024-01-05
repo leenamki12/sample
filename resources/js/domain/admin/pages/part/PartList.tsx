@@ -4,32 +4,30 @@ import { router, useForm, usePage } from '@inertiajs/react';
 
 import { PageHeader } from '@/components/ui';
 import { PageProps } from '@/types';
-import { Part, PartFromkey } from '@/types/admin/part';
+import { PartType, PartTypeFormKey } from '@/types/admin/part';
 
 import { TopSection, CategoryEditModal, Pagination, Empty } from '../../components';
 
 import * as S from './PartList.styled';
 
 function PartList() {
-    const { parts } = usePage<PageProps>().props;
+    const { adminPartTypes: parts } = usePage<PageProps>().props;
     const [isCreateModalShow, setIsCreateModalshow] = useState(false);
     const [isUpdateModalShow, setIsUpdateModalshow] = useState(false);
-    const [partUpdateData, setPartUpdateData] = useState<Part>();
+    const [partUpdateData, setPartUpdateData] = useState<PartType>();
 
     const { post, patch, setData, clearErrors, errors } = useForm({
-        id: '',
         name: '',
     });
 
     const handleChangeInputData = (id: string, value: string) => {
-        setData(id as PartFromkey, value);
-        clearErrors(id as PartFromkey);
+        setData(id as PartTypeFormKey, value);
+        clearErrors(id as PartTypeFormKey);
     };
 
-    const handleClickUpdateModalShow = (item: Part) => {
+    const handleClickUpdateModalShow = (item: PartType) => {
         setIsUpdateModalshow(true);
         setPartUpdateData(item);
-        setData('id', `${item.id}`);
     };
 
     const onCreateSubmit: FormEventHandler = e => {
@@ -47,12 +45,11 @@ function PartList() {
     const onUpdateSubmit: FormEventHandler = e => {
         e.preventDefault();
 
-        patch(route('admin.part.update'), {
+        patch(route('admin.part.update', { id: partUpdateData?.id }), {
             replace: false,
             onSuccess: () => {
                 alert('수정 되었습니다.');
                 setIsUpdateModalshow(false);
-                setData('id', '');
             },
         });
     };
@@ -90,11 +87,13 @@ function PartList() {
                                 key={item.name}
                                 onClick={() => handleClickUpdateModalShow(item)}
                             >
-                                <S.GridItemRowNum>{item.row_number}</S.GridItemRowNum>
+                                <S.GridItemRowNum>{item.orderSequence}</S.GridItemRowNum>
                                 <S.GridContent>
                                     <S.GridText>
                                         <S.GridTextName>{item.name}</S.GridTextName>
-                                        <S.GridTextCount>{item.use_count}개 등록</S.GridTextCount>
+                                        <S.GridTextCount>
+                                            {item.performanceCount}개 등록
+                                        </S.GridTextCount>
                                     </S.GridText>
                                     <S.DeleteButton
                                         type="button"
@@ -124,7 +123,7 @@ function PartList() {
             )}
 
             {isUpdateModalShow && (
-                <CategoryEditModal<Part>
+                <CategoryEditModal<PartType>
                     modalTitle="Part 수정"
                     onSubmit={onUpdateSubmit}
                     onChange={handleChangeInputData}

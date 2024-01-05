@@ -3,7 +3,7 @@ import { FormEvent } from 'react';
 import dayjs from 'dayjs';
 
 import { Button, TextInput } from '@/components/ui';
-import { Part } from '@/types/admin/part';
+import { PartType } from '@/types/admin/part';
 
 import * as S from './CategoryEditModal.styled';
 
@@ -16,7 +16,7 @@ type Props<T> = {
     data?: T;
 };
 
-function CategoryEditModal<T extends Part>({
+function CategoryEditModal<T extends PartType>({
     modalTitle,
     data,
     onSubmit,
@@ -41,12 +41,12 @@ function CategoryEditModal<T extends Part>({
                     {data && (
                         <S.DateList>
                             <S.DateItem>
-                                생성일 : {dayjs(data.created_at).format('YYYY-MM-DD HH:mm')}
+                                생성일 : {dayjs(data.createdAt).format('YYYY-MM-DD HH:mm')}
                             </S.DateItem>
-                            {data.created_at != data.updated_at && (
+                            {data.createdAt != data.updatedAt && (
                                 <S.DateItem>
                                     마지막 업데이트 :{' '}
-                                    {dayjs(data.updated_at).format('YYYY-MM-DD HH:mm')}
+                                    {dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm')}
                                 </S.DateItem>
                             )}
                         </S.DateList>

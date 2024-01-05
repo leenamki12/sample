@@ -17,10 +17,10 @@ import * as S from './PerformanceCreate.styled';
 type FormProps = {
     id: string;
     title: string;
-    date_time: string;
+    dateTime: string;
     location: string;
     visible: boolean;
-    parts: number[];
+    partTypeIds: number[];
     fileItems: FileItem[];
 };
 
@@ -29,16 +29,18 @@ function PerformanceCreate() {
     const { data, post, setData, clearErrors, errors, processing } = useForm<FormProps>({
         id: '',
         title: '',
-        date_time: '',
+        dateTime: '',
         location: '',
         visible: true,
-        parts: [],
+        partTypeIds: [],
         fileItems: [],
     });
 
-    const handleChangeInputData = (id: string, value: any) => {
-        setData(id as PerformanceFromkey, value);
-        clearErrors(id as PerformanceFromkey);
+    const handleChangeInputData = <K extends keyof FormProps>(id: K, value: FormProps[K]) => {
+        const dataKey = id as PerformanceFromkey;
+
+        setData(dataKey, value);
+        clearErrors(dataKey);
     };
 
     const onSubmit: FormEventHandler = e => {
@@ -47,7 +49,7 @@ function PerformanceCreate() {
     };
 
     const parts: badge[] = useMemo(() => {
-        const newItems = categories.parts.map(part => {
+        const newItems = categories.partTypes.map(part => {
             return {
                 id: part.id,
                 name: part.name,
@@ -64,7 +66,7 @@ function PerformanceCreate() {
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
                         <Badges
-                            onChange={values => handleChangeInputData('parts', values)}
+                            onChange={values => handleChangeInputData('partTypeIds', values)}
                             label="Part"
                             items={parts}
                             isRequired
@@ -74,7 +76,7 @@ function PerformanceCreate() {
                             label="제목"
                             type="datetime-local"
                             id="title"
-                            onChange={handleChangeInputData}
+                            onChange={(_id, value) => handleChangeInputData('title', value)}
                             placeholder="공연 제목을 입력해주세요."
                             error={errors?.['title']}
                             className="h-[120px]"
@@ -83,17 +85,17 @@ function PerformanceCreate() {
                         <LabelTextInput
                             label="날짜 및 시간"
                             type="datetime-local"
-                            id="date_time"
-                            onChange={handleChangeInputData}
+                            id="dateTime"
+                            onChange={(_id, value) => handleChangeInputData('dateTime', value)}
                             placeholder="공연 장소를 입력해주세요."
-                            error={errors?.['date_time']}
+                            error={errors?.['dateTime']}
                             isRequired
                         />
                         <LabelTextInput
                             label="장소"
                             type="text"
                             id="location"
-                            onChange={handleChangeInputData}
+                            onChange={(_id, value) => handleChangeInputData('location', value)}
                             placeholder="공연 장소를 입력해주세요."
                             error={errors?.['location']}
                             isRequired
@@ -112,7 +114,7 @@ function PerformanceCreate() {
                         <FileUploader
                             label="사진 업로드"
                             isRequired
-                            onChange={images => handleChangeInputData('files', images)}
+                            onChange={images => handleChangeInputData('fileItems', images)}
                         />
                     </S.InputList>
                     <S.ButtonBox>
