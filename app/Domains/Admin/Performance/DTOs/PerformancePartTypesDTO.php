@@ -2,7 +2,6 @@
 
 namespace App\Domains\Admin\Performance\DTOs;
 
-use App\Domains\Admin\PartType\Models\PartType;
 use Spatie\LaravelData\Data;
 
 

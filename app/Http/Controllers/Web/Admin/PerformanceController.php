@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\Actions\PerformanceCreateAction;
 use App\Domains\Admin\Performance\Actions\PerformanceQueryAction;
+use App\Domains\Admin\Performance\Actions\PerformanceStoreAction;
+use App\Domains\Admin\Performance\DTOs\PerformanceStoreDTO;
 use App\Domains\Admin\Performance\Performance;
 use App\Domains\Admin\Performance\PerformanceImage;
 use App\Http\Controllers\Controller;
@@ -35,37 +37,31 @@ class PerformanceController extends Controller
         ]);
     }
 
-    public function store(PerformanceRequest $request)
+    public function store(PerformanceRequest $request, PerformanceStoreAction $action)
     {
 
         $validatedData = $request->validated();
 
-        $images = [];
-        $fileBag = $request->file('files');
-        $parts = PartType::findMany($validatedData['parts']);
+        $fileBag = $request->file('fileItems');
+        $parts = PartType::findMany($validatedData['partTypeIds']);
 
-        // 공연 정보 저장
-        $performance = Performance::create([
-            'title' => $validatedData['title'],
-            'date_time'=> $validatedData['date_time'],
-            'location'=> $validatedData['location'],
-            'visible'=> $validatedData['visible'],
-        ]);
+        $dto = PerformanceStoreDTO::fromPerformance($validatedData);
+
+        $performance = $action->handle($dto);
+
 
         // 이미지 파일 저장
         foreach ($fileBag as $index => $fileInfo) {
-            $image = PerformanceImage::create([
+            PerformanceImage::create([
                 'performance_id' => $performance->id,
                 'file_path' => $fileInfo['file']->store('images/performance', 'public'),
                 'order_sequence' => $index,
                 'main_image' => $index === 0
             ]);
-
-            $images[] = $image;
         }
 
         // partType 연결 저장
-        $performance->parts()->saveMany($parts);
+        $performance->partTypes()->saveMany($parts);
 
         return redirect()->route('admin.performance');
     }
