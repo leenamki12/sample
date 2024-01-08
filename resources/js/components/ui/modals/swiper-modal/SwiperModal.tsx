@@ -8,14 +8,14 @@ import { NavigationOptions, type Swiper as SwiperRef } from 'swiper/types';
 import 'swiper/css/navigation';
 import 'swiper/css/navigation';
 
-import { AlbumProps } from '@/domain/home/components/album-list/AlbumList';
+import { Performance } from '@/types/admin/performance/index';
 import ArrowNext from '@assets/pages/icon_swiper_arrow_next.svg';
 import ArrowPrev from '@assets/pages/icon_swiper_arrow_prev.svg';
 
 import * as S from './SwiperModal.styled';
 
 type Props = {
-    data: AlbumProps;
+    data: Performance;
     setIsModalOpen: (isModalOpen: boolean) => void;
 };
 
@@ -30,7 +30,7 @@ function SwiperModal({ data, setIsModalOpen }: Props) {
                 <S.TitleContent>
                     <strong>{data.title}</strong>
                     <p>
-                        {data.date} {data.location}
+                        {data.date_time} {data.location}
                     </p>
                 </S.TitleContent>
                 <S.CloseButton onClick={() => setIsModalOpen(false)}>
@@ -64,10 +64,10 @@ function SwiperModal({ data, setIsModalOpen }: Props) {
                         },
                     }}
                 >
-                    {data.detailImages?.map((image, index) => (
+                    {data.images?.map((image, index) => (
                         <SwiperSlide key={index}>
                             <S.ImageBox>
-                                <img src={image} alt="" />
+                                <img src={`storage/${image.file_path}`} alt="" />
                             </S.ImageBox>
                         </SwiperSlide>
                     ))}
@@ -93,7 +93,11 @@ function SwiperModal({ data, setIsModalOpen }: Props) {
                     </button>
                 </S.NavigationBox>
             </S.SliderBox>
-            <S.InfoBox>{data.info}</S.InfoBox>
+            <S.InfoBox>
+                {/* {data.partTypes.map(part => (
+                    <span key={part.id}>part.name</span>
+                ))} */}
+            </S.InfoBox>
         </S.Wrapper>
     );
 }

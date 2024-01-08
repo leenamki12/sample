@@ -37,7 +37,11 @@ export const SliderBox = styled.div`
 `;
 
 export const ImageBox = styled.div`
-    ${tw`max-w-[500px] shadow-[0px_40px_70px_0px_rgba(0,0,0,0.5)]`}
+    ${tw`max-h-[500px] max-w-[500px] shadow-[0px_40px_70px_0px_rgba(0,0,0,0.5)]`}
+
+    img {
+        ${tw`h-full w-full object-cover`}
+    }
 `;
 
 export const NavigationBox = styled.div`

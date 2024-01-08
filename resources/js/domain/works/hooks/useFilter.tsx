@@ -70,6 +70,22 @@ const useFilter = <T extends string>(queryName: string) => {
         onFetched(updatedFilters);
     };
 
+    const onFilterReset = () => {
+        const updatedFilters: FilterProps<T> = Object.keys(selectedFilters).reduce(
+            (accumulatedFilters, filterType) => ({
+                ...accumulatedFilters,
+                [filterType]: [],
+            }),
+            {} as FilterProps<T>
+        );
+
+        const displayFilters: DisplayFilterProps<T>[] = getInitialDisplayFilters<T>(updatedFilters);
+
+        setDisplayFilters(displayFilters);
+        setSelectedFilters(updatedFilters);
+        onFetched(updatedFilters);
+    };
+
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -94,6 +110,7 @@ const useFilter = <T extends string>(queryName: string) => {
         selectedFilters,
         displayFilters,
         onFilterUpdate,
+        onFilterReset,
     };
 };
 

@@ -1,4 +1,4 @@
-import tw, { styled } from 'twin.macro';
+import tw, { styled, screen } from 'twin.macro';
 
 import { Button } from '@/components/ui';
 
@@ -11,21 +11,29 @@ export const WorksWrpper = styled.div`
 `;
 
 export const FilterTopWrapper = styled.div`
-    ${tw`flex`}
+    ${tw`flex gap-[10px]`}
 `;
 
 export const FilterTopButtons = styled.div`
-    ${tw`flex flex-1 gap-[10px]`}
+    ${tw`flex gap-[10px]`}
 `;
 
 export const FilterButton = styled(Button)`
-    ${tw`flex h-[44px] max-w-[110px] items-center justify-center gap-[5px] rounded-full border-white bg-transparent font-normal text-white`}
+    ${tw`p-[10px 20px] flex h-[44px] max-w-[110px] items-center justify-center gap-[5px] rounded-full border-white bg-transparent font-normal text-white`}
 
     &:hover {
         ${tw`text-[#181717]`}
         svg {
             ${tw` stroke-[#181717]`}
         }
+    }
+`;
+
+export const FilterSelectWrapper = styled.div`
+    ${tw`flex`}
+
+    button {
+        ${tw`p-[10px 20px] flex min-w-[60px] items-center space-x-[10px] rounded-full bg-white/60 text-center`}
     }
 `;
 
@@ -62,4 +70,71 @@ export const FilterSelectButton = styled(Button)<FilterSelectButtonProps>`
     }
 
     ${({ active }) => active && tw`bg-green`}
+`;
+
+export const AlbumListWrapper = styled.div`
+    ${tw`mt-[80px] overflow-hidden`}
+`;
+
+export const AlbumList = styled.ul`
+    ${tw`grid grid-cols-4 gap-[10px]`}
+`;
+
+export const AlbumItem = styled.li`
+    ${tw`relative h-full w-full`}
+
+    &::after {
+        ${tw`block pb-[100%] content-['']`}
+    }
+`;
+
+type AlbumProps = {
+    image: string;
+};
+
+export const ContentsBox = styled.div<AlbumProps>`
+    ${tw`relative h-full w-full cursor-pointer overflow-hidden bg-cover bg-center bg-no-repeat`}
+
+    background-image: url(${props => props.image});
+    background-position: center;
+
+    &:hover {
+        background:
+            radial-gradient(39% 39% at 50% 50%, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.7) 100%),
+            url(${props => props.image}),
+            lightgray 50%;
+        background-position: center;
+
+        ${tw`bg-cover bg-center bg-no-repeat`}
+    }
+`;
+
+export const TextBox = styled.div`
+    ${tw`absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center px-[30px] text-center font-wanderlochSecondary text-white opacity-0 transition-opacity duration-150`}
+
+    &:hover {
+        ${tw`opacity-100`}
+    }
+
+    strong {
+        ${tw`relative block whitespace-pre-line py-[30px] text-center text-[28px] leading-[54px]`}
+
+        &:before, &:after {
+            ${tw`absolute left-1/2 h-[5px] w-[100px] -translate-x-1/2 bg-white content-['']`}
+        }
+
+        &:before {
+            ${tw`top-0`}
+        }
+
+        &:after {
+            ${tw`bottom-0`}
+        }
+    }
+
+    p {
+        ${tw`mt-[20px] text-lg font-bold`}
+    }
+
+    ${screen('tablet')({ ...tw`hidden` })}
 `;

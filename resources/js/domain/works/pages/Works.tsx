@@ -2,11 +2,16 @@ import { useState } from 'react';
 
 import { AdjustmentsHorizontalIcon, ArrowPathIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { usePage } from '@inertiajs/react';
+import dayjs from 'dayjs';
 
 import { SubTitle } from '@/components/layouts';
+import Modal from '@/components/ui/modals/basic-modal/BasicModal';
+import SwiperModal from '@/components/ui/modals/swiper-modal/SwiperModal';
 import { PageProps } from '@/types';
+import { Performance } from '@/types/admin/performance/index';
 
 import { ContactContent } from '../../contact/components';
+import Pagination from '../components/pagination/Pagination';
 import useFilter from '../hooks/useFilter';
 
 import * as S from './Works.styled';
@@ -31,7 +36,11 @@ function Works() {
     const { performances, partTypes } = usePage<PageProps>().props;
 
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-    const { selectedFilters, displayFilters, onFilterUpdate } = useFilter<FilterType>('works');
+    const { selectedFilters, displayFilters, onFilterUpdate, onFilterReset } =
+        useFilter<FilterType>('works');
+
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [modalData, setModalData] = useState<Performance>();
 
     const monthlyItems = Array.from({ length: 12 }, (_, index) => ({
         key: (index + 1).toString(),
@@ -44,7 +53,7 @@ function Works() {
             key: 'parts',
             label: 'Part',
             items: [
-                { key: '', label: 'all' },
+                //{ key: 'all', label: 'all' },
                 ...partTypes.map(part => ({ key: part.name, label: part.name })),
             ],
         },
@@ -59,7 +68,7 @@ function Works() {
             key: 'years',
             label: 'Year',
             items: [
-                { key: '', label: 'all' },
+                //{ key: 'all', label: 'all' },
                 { key: '2023', label: '2023년' },
                 { key: '2024', label: '2024년' },
             ],
@@ -68,8 +77,19 @@ function Works() {
             index: 3,
             key: 'monthly',
             label: 'Month',
-            items: [{ key: '', label: 'all' }, ...monthlyItems],
+            items: [...monthlyItems], //{ key: 'all', label: 'all' },
         },
+    };
+
+    console.log(selectedFilters, displayFilters);
+
+    const handleOpenModal = (data: Performance) => {
+        setIsModalOpen(true);
+        setModalData(data);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
     };
 
     return (
@@ -94,7 +114,7 @@ function Works() {
                         />
                         {isFilterOpen && (
                             <S.FilterButton
-                                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                                onClick={() => onFilterReset()}
                                 element="teriary"
                                 label={
                                     <>
@@ -106,60 +126,97 @@ function Works() {
                         )}
                     </S.FilterTopButtons>
 
-                    {displayFilters.map(item => (
-                        <>{item.value} | </>
+                    {displayFilters.map((item, index) => (
+                        <S.FilterSelectWrapper key={item.value + index}>
+                            <button onClick={() => onFilterUpdate(item.type, item.value)}>
+                                <span>{item.value}</span> <XMarkIcon className="w-[20px]" />
+                            </button>
+                        </S.FilterSelectWrapper>
                     ))}
                 </S.FilterTopWrapper>
 
-                <S.FilterContentWrapper>
-                    {Object.values(defaultFilterItems)
-                        .sort((a, b) => a.index - b.index)
-                        .map(section => {
-                            return (
-                                section.items.length > 0 && (
-                                    <dl key={section.key}>
-                                        <dt>{section.label}</dt>
-                                        <dd>
-                                            <ul>
-                                                {section.items.map(filter => (
-                                                    <li key={filter.key}>
-                                                        <S.FilterSelectButton
-                                                            element="teriary"
-                                                            label={filter.label}
-                                                            onClick={() =>
-                                                                onFilterUpdate(
-                                                                    section.key,
-                                                                    filter.key
-                                                                )
-                                                            }
-                                                            active={
-                                                                selectedFilters[section.key]
-                                                                    ? selectedFilters[
-                                                                          section.key
-                                                                      ].includes(filter.key)
-                                                                    : false
-                                                            }
-                                                        />
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </dd>
-                                    </dl>
-                                )
-                            );
-                        })}
-                </S.FilterContentWrapper>
-                <div className="flex">
-                    {performances.data.map(item => (
-                        <div>
-                            <img src={`storage/${item.main_image_url}`} />
-                        </div>
-                    ))}
-                </div>
+                {isFilterOpen && (
+                    <S.FilterContentWrapper>
+                        {Object.values(defaultFilterItems)
+                            .sort((a, b) => a.index - b.index)
+                            .map((section, index) => {
+                                return (
+                                    section.items.length > 0 && (
+                                        <dl key={section.key + index}>
+                                            <dt>{section.label}</dt>
+                                            <dd>
+                                                <ul>
+                                                    {section.items.map((filter, index) => (
+                                                        <li key={filter.key + index}>
+                                                            <S.FilterSelectButton
+                                                                element="teriary"
+                                                                label={filter.label}
+                                                                onClick={() =>
+                                                                    onFilterUpdate(
+                                                                        section.key,
+                                                                        filter.label
+                                                                    )
+                                                                }
+                                                                active={
+                                                                    selectedFilters[section.key]
+                                                                        ? selectedFilters[
+                                                                              section.key
+                                                                          ].includes(filter.label)
+                                                                        : false
+                                                                }
+                                                            />
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </dd>
+                                        </dl>
+                                    )
+                                );
+                            })}
+                    </S.FilterContentWrapper>
+                )}
+                <S.AlbumListWrapper>
+                    <S.AlbumList>
+                        {performances.data.map(item => (
+                            <S.AlbumItem key={item.id}>
+                                <S.ContentsBox
+                                    image={`storage/${item.main_image_url}`}
+                                    onClick={() => handleOpenModal(item)}
+                                >
+                                    <S.TextBox>
+                                        <strong>{item.title}</strong>
+                                        <p>
+                                            {dayjs(item.date_time).format('YYYY.MM.DD')}
+                                            <br />
+                                            at {item.location}
+                                        </p>
+                                        <p>
+                                            {/* {item.partTypes.map(part => (
+                                                <div key={part.id}>{part.id}</div>
+                                            ))} */}
+                                        </p>
+                                    </S.TextBox>
+                                </S.ContentsBox>
+                            </S.AlbumItem>
+                        ))}
+                    </S.AlbumList>
+                </S.AlbumListWrapper>
+
+                <Pagination datas={performances} />
+                {/* <button onClick={}>more</button> */}
             </S.WorksWrpper>
-            <div>
+            <div id="contact">
                 <ContactContent title="Contact" />
             </div>
+            <Modal
+                show={isModalOpen}
+                onClose={handleCloseModal}
+                backgroundColor="transparent"
+                maxWidth="full"
+                className="overflow-visible"
+            >
+                {modalData && <SwiperModal data={modalData} setIsModalOpen={setIsModalOpen} />}
+            </Modal>
         </S.Wrapper>
     );
 }
