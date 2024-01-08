@@ -1,7 +1,7 @@
 <?php
 
+use App\Domains\Admin\Performance\Models\Performance;
 use App\Domains\Admin\PartType\Models\PartType;
-use App\Domains\Admin\Performance\Performance;
 use App\Http\Controllers\Web\Admin\PartTypeController;
 use App\Http\Controllers\Web\Admin\PerformanceController;
 use Illuminate\Foundation\Application;

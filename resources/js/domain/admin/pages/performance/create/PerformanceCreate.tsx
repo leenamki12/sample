@@ -62,6 +62,7 @@ function PerformanceCreate() {
     return (
         <>
             <TopSection title="공연 등록" />
+
             <S.Wrapper>
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>

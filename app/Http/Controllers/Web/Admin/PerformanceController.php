@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
-use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\Actions\PerformanceCreateAction;
-use App\Domains\Admin\Performance\Actions\PerformanceImageStoreAction;
+use App\Domains\Admin\Performance\Actions\PerformanceDeleteAction;
 use App\Domains\Admin\Performance\Actions\PerformanceQueryAction;
 use App\Domains\Admin\Performance\Actions\PerformanceShowAction;
 use App\Domains\Admin\Performance\Actions\PerformanceStoreAction;
 use App\Domains\Admin\Performance\Actions\PerformanceUpdateAction;
-use App\Domains\Admin\Performance\DTOs\PerformanceImageDTO;
-use App\Domains\Admin\Performance\DTOs\PerformanceStoreDTO;
-use App\Domains\Admin\Performance\Performance;
-use App\Domains\Admin\Performance\PerformanceImage;
+use App\Domains\Admin\Performance\Models\Performance;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceRequest;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceUpdateRequest;
@@ -57,19 +53,16 @@ class PerformanceController extends Controller
     public function update(PerformanceUpdateRequest $request, PerformanceUpdateAction $action, int $id)
     {
 
-        $performance = $action->handle($request, $id);
-
-        $parts = PartType::findMany($request->part_type_ids);
-        $performance->part_types()->sync($parts->pluck('id'));
+        $action->handle($request, $id);
 
         return redirect()->route('admin.performance');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, PerformanceDeleteAction $action)
     {
         $ids = $request->input('ids');
 
-        Performance::destroy($ids);
+        $action->handle($ids);
 
         return redirect()->route('admin.performance');
     }

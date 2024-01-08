@@ -2,7 +2,6 @@ import { FormEvent, FormEventHandler, useState } from 'react';
 
 import { router, useForm, usePage } from '@inertiajs/react';
 
-import { PageHeader } from '@/components/ui';
 import { PageProps } from '@/types';
 import { PartType, PartTypeFormKey } from '@/types/admin/part';
 
@@ -44,14 +43,15 @@ function PartList() {
 
     const onUpdateSubmit: FormEventHandler = e => {
         e.preventDefault();
-
-        patch(route('admin.part.update', { id: partUpdateData?.id }), {
-            replace: false,
-            onSuccess: () => {
-                alert('수정 되었습니다.');
-                setIsUpdateModalshow(false);
-            },
-        });
+        if (partUpdateData) {
+            patch(route('admin.part.update', { id: partUpdateData.id }), {
+                replace: false,
+                onSuccess: () => {
+                    alert('수정 되었습니다.');
+                    setIsUpdateModalshow(false);
+                },
+            });
+        }
     };
 
     const onDelete = (e: FormEvent<Element>, id: string | number) => {
@@ -73,11 +73,7 @@ function PartList() {
 
     return (
         <>
-            <PageHeader title="Part 관리" />
-
-            <TopSection title="Part 관리" />
-
-            <button onClick={() => setIsCreateModalshow(true)}>등록</button>
+            <TopSection title="Part 관리" onClick={() => setIsCreateModalshow(true)} />
 
             {parts.data.length > 0 ? (
                 <>

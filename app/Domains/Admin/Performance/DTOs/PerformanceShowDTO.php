@@ -2,7 +2,7 @@
 
 namespace App\Domains\Admin\Performance\DTOs;
 
-use App\Domains\Admin\Performance\PerformanceImage;
+use App\Domains\Admin\Performance\Models\PerformanceImage;
 use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;

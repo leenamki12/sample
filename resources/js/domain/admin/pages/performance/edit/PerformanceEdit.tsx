@@ -75,6 +75,7 @@ function PerformanceEdit() {
     return (
         <>
             <TopSection title="공연 수정" />
+
             <S.Wrapper>
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>

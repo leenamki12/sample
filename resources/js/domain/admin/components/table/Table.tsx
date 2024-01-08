@@ -1,7 +1,5 @@
 import React, { ChangeEvent, ReactElement, ReactNode, useRef, useState } from 'react';
 
-import { router } from '@inertiajs/react';
-
 import { Button, Checkbox } from '@/components/ui';
 
 import * as S from './Table.styled';
@@ -17,14 +15,14 @@ type Props = {
     children: ReactNode;
     onClick?: (id: number) => void;
     onDelete?: (items: number[]) => void;
-    createHref?: string;
+    onClickCreate?: () => void;
 };
 
-function Table({ isChecked, headerItems, children, onDelete, onClick, createHref }: Props) {
+function Table({ isChecked, headerItems, children, onDelete, onClick, onClickCreate }: Props) {
     const headerLength = headerItems.length;
     const allCheckboxRef = useRef<HTMLInputElement>(null);
-    const [checkedItems, setCheckedItems] = useState<number[]>([]);
     const listCheckboxRefs = React.Children.map(children, () => useRef<HTMLInputElement>(null));
+    const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
     const handleRowCheckboxChange = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
         event.stopPropagation(); // 이벤트 전파 막기
@@ -78,10 +76,6 @@ function Table({ isChecked, headerItems, children, onDelete, onClick, createHref
 
     const handleClickDelete = () => {
         onDelete?.(checkedItems);
-    };
-
-    const handleClickCreate = () => {
-        if (createHref) router.visit(route(createHref));
     };
 
     return (
@@ -142,13 +136,8 @@ function Table({ isChecked, headerItems, children, onDelete, onClick, createHref
                     type="button"
                     onClick={handleClickDelete}
                 />
-                {createHref && (
-                    <Button
-                        element="primary"
-                        label="등록"
-                        type="button"
-                        onClick={handleClickCreate}
-                    />
+                {onClickCreate && (
+                    <Button element="primary" label="등록" type="button" onClick={onClickCreate} />
                 )}
             </S.ButtonWrap>
         </>

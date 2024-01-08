@@ -2,10 +2,11 @@
 
 namespace App\Domains\Admin\Performance\Actions;
 
+use App\Domains\Admin\Performance\Models\Performance;
+use App\Domains\Admin\Performance\Models\PerformanceImage;
+use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\DTOs\PerformanceImageDTO;
 use App\Domains\Admin\Performance\DTOs\PerformanceStoreDTO;
-use App\Domains\Admin\Performance\Performance;
-use App\Domains\Admin\Performance\PerformanceImage;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceUpdateRequest;
 
 class PerformanceUpdateAction
@@ -19,6 +20,10 @@ class PerformanceUpdateAction
         $this->imageStoreAction = $imageStoreAction;
     }
 
+    /**
+     * @param PerformanceUpdateRequest $request
+     * @param int $id
+     */
     public function handle(PerformanceUpdateRequest $request, int $id): Performance
     {
         $files = $request->file('file_items');
@@ -31,55 +36,60 @@ class PerformanceUpdateAction
         $this->performance = Performance::find($id);
 
         // 이미지 처리
-        $this->handleImageCreate($files);
+        if($files){
+            $this->handleImageCreate($files);
+        }
 
         // 이미지 삭제 처리
-        $this->handleImageDestroy($fileDelete);
+        if($fileDelete){
+            $this->handleImageDestroy($fileDelete);
+        }
 
         $this->performance->update($performanceDto->toArray());
+
+        $parts = PartType::findMany($request->part_type_ids);
+        
+        $this->performance->part_types()->sync($parts->pluck('id'));
 
         return $this->performance;
     }
 
     private function handleImageCreate(array $files)
     {
-        if($files){
-            foreach ($files as $index => $file) {
-                $oldId = $this->fileInput[$index]['old_id'];
-                $imageCount = $this->performance->images->count();
+        foreach ($files as $index => $file) {
+            $oldId = $this->fileInput[$index]['old_id'];
+            $imageCount = $this->performance->images->count();
 
-                // 파일의 oldId가 존재하면 해당 이미지 삭제
-                if ($oldId) {
-                    $existingImage = $this->performance->images()->where('id', $oldId)->first();
+            // 파일의 oldId가 존재하면 해당 이미지 삭제
+            if ($oldId) {
+                $existingImage = $this->performance->images()->where('id', $oldId)->first();
 
-                    $existingImage->update([
-                        'file_path' => $file['file']->store('images', 'public'),
-                        'order_sequence' => $existingImage->order_sequence,
-                        'main_image' => $existingImage->main_image
-                    ]);
-                } else {
-                    $imageDto = PerformanceImageDTO::fromImage([
-                        'performance_id' => $this->performance->id,
-                        'file_path' => $file['file']->store('images', 'public'),
-                        'order_sequence' => $index + $imageCount,
-                        'main_image' => false
-                    ]);
+                $existingImage->update([
+                    'file_path' => $file['file']->store('images', 'public'),
+                    'order_sequence' => $existingImage->order_sequence,
+                    'main_image' => $existingImage->main_image
+                ]);
+            } else {
+                $imageDto = PerformanceImageDTO::fromImage([
+                    'id' => null,
+                    'performance_id' => $this->performance->id,
+                    'file_path' => $file['file']->store('images', 'public'),
+                    'order_sequence' => $index + $imageCount,
+                    'main_image' => false
+                ]);
 
-                    $this->imageStoreAction->handle($imageDto);
-                }
+                $this->imageStoreAction->handle($imageDto);
             }
         }
     }
 
     private function handleImageDestroy(array $fileDelete)
     {
-        if($fileDelete){
-            PerformanceImage::destroy($fileDelete);
+        PerformanceImage::destroy($fileDelete);
 
-            $nextImage = $this->performance->images->first();
-            $nextImage->update([
-                'main_image' => true
-            ]);
-        }
+        $nextImage = $this->performance->images->first();
+        $nextImage->update([
+            'main_image' => true
+        ]);
     }
 }

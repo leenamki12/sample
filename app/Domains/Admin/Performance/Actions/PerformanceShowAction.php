@@ -5,10 +5,14 @@ namespace App\Domains\Admin\Performance\Actions;
 use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\DTOs\PerformancePartTypesDTO;
 use App\Domains\Admin\Performance\DTOs\PerformanceShowDTO;
-use App\Domains\Admin\Performance\Performance;
+use App\Domains\Admin\Performance\Models\Performance;
 
 class PerformanceShowAction
 {
+    
+    /**
+     * @param int $id
+     */
     public function handle(int $id): array
     {
         $performance = Performance::with(['part_types', 'images' => function ($query) {

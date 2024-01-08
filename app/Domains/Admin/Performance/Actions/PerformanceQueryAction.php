@@ -4,7 +4,7 @@ namespace App\Domains\Admin\Performance\Actions;
 
 use App\Common\DTOs\PaginatedDTO;
 use App\Domains\Admin\Performance\DTOs\PerformanceQueryDTO;
-use App\Domains\Admin\Performance\Performance;
+use App\Domains\Admin\Performance\Models\Performance;
 
 class PerformanceQueryAction
 {

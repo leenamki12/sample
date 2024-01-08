@@ -3,8 +3,6 @@ import React from 'react';
 import { router, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 
-import { PageHeader } from '@/components/ui';
-import SwitchButton from '@/components/ui/switch/SwitchButton';
 import { PageProps } from '@/types';
 
 import { Pagination, Table, TableWrapper, Td, TopSection } from '../../components';
@@ -19,7 +17,7 @@ function PerformanceList() {
         { name: 'Part', width: 100 },
         { name: '제목', width: '*' },
         { name: '공연시간', width: 100 },
-        { name: '공연장소', width: 120 },
+        { name: '공연장소', width: 200 },
         { name: '노출여부', width: 80 },
         { name: '작성일', width: 100 },
     ];
@@ -43,10 +41,6 @@ function PerformanceList() {
                 location.reload();
             },
         });
-    };
-
-    const onUpdateEnabled = (value: boolean) => {
-        console.log(value);
     };
 
     const handleFilterCategories = (categories: string[]) => {
@@ -76,11 +70,13 @@ function PerformanceList() {
         }
     };
 
+    const handleClickCreate = () => {
+        router.visit(route('admin.performance.create'));
+    };
+
     return (
         <>
-            <PageHeader title="공연 관리" />
-
-            <TopSection title="공연 목록" />
+            <TopSection title="공연 목록" onClick={handleClickCreate} />
 
             <TableWrapper>
                 {performances.data && (
@@ -89,7 +85,7 @@ function PerformanceList() {
                         isChecked
                         onDelete={onDelete}
                         onClick={handleClickEditLink}
-                        createHref="admin.performance.create"
+                        onClickCreate={handleClickCreate}
                     >
                         {performances.data.map(item => {
                             const partItems = item.part_types.map(i => i.name);
@@ -106,12 +102,7 @@ function PerformanceList() {
                                     </Td>
                                     <Td>{dayjs(item.date_time).format('YYYY-MM-DD')}</Td>
                                     <Td>{item.location}</Td>
-                                    <Td>
-                                        <SwitchButton
-                                            defaultValue={!!item.visible}
-                                            onChange={onUpdateEnabled}
-                                        />
-                                    </Td>
+                                    <Td>{item.visible ? '노출' : '미노출'}</Td>
                                     <Td>{dayjs(item.created_at).format('YYYY-MM-DD')}</Td>
                                 </React.Fragment>
                             );
