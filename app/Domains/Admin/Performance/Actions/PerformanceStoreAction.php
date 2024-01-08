@@ -2,23 +2,49 @@
 
 namespace App\Domains\Admin\Performance\Actions;
 
-use App\Common\DTOs\PaginatedDTO;
-use App\Domains\Admin\Performance\DTOs\PerformanceQueryDTO;
+use App\Domains\Admin\PartType\Models\PartType;
+use App\Domains\Admin\Performance\DTOs\PerformanceImageDTO;
 use App\Domains\Admin\Performance\DTOs\PerformanceStoreDTO;
 use App\Domains\Admin\Performance\Performance;
+use App\Http\Controllers\Web\Admin\Requests\PerformanceRequest;
 
 class PerformanceStoreAction
 {
-    public function handle(PerformanceStoreDTO $dto)
+
+    private $imageStoreAction;
+
+    public function __construct(PerformanceImageStoreAction $imageStoreAction) {
+        $this->imageStoreAction = $imageStoreAction;
+    }
+
+    public function handle(PerformanceRequest $request): Performance
     {
+        $files = $request->file('file_items');
+        $partTypes = PartType::findMany($request['part_type_ids']);
+        $performanceDto = PerformanceStoreDTO::fromArray($request->toArray());
+
         // 공연 정보 저장
-        $performance = Performance::create([
-            'title' => $dto->title,
-            'date_time'=> $dto->dateTime,
-            'location'=> $dto->location,
-            'visible'=> $dto->visible,
-        ]);
+        $performance = Performance::create($performanceDto->toArray());
+
+        // 이미지 처리
+        $this->handleImageCreate($performance->id, $files);
+
+        // PartTypes와 연결
+        $performance->part_types()->saveMany($partTypes);
 
         return $performance;
+    }
+
+    private function handleImageCreate(int $performance_id, array $files)
+    {
+        foreach ($files as $index => $file) {
+            $imageDto = PerformanceImageDTO::fromImage([
+                'performance_id' => $performance_id,
+                'file_path' => $file['file']->store('images', 'public'),
+                'order_sequence' => $index,
+                'main_image' => $index === 0
+            ]);
+            $this->imageStoreAction->handle($imageDto);
+        }
     }
 }

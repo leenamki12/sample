@@ -1,10 +1,10 @@
 export type PartType = {
     id: number | string;
-    orderSequence: number;
-    performanceCount: number;
+    order_sequence: number;
+    performance_count: number;
     name: string;
-    createdAt: Date;
-    updatedAt: Date;
+    created_at: Date;
+    updated_at: Date;
 };
 
 export type PartTypeFormKey = 'name';

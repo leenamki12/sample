@@ -2,7 +2,6 @@
 
 namespace App\Domains\Admin\Performance\DTOs;
 
-use App\Domains\Admin\Performance\Performance;
 use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 
@@ -13,17 +12,17 @@ class PerformanceStoreDTO extends Data
         public string $title,
         public bool $visible,
         public string $location,
-        public Carbon $dateTime,
+        public string $date_time,
     ) {
     }
 
-    public static function fromPerformance(array $performance): self
+    public static function fromArray(array $performance): self
     {
         return new self(
-        $performance['title'],
-        $performance['visible'],
-        $performance['location'],
-        Carbon::parse($performance['dateTime']),
-      );
+            $performance['title'],
+            $performance['visible'],
+            $performance['location'],
+            Carbon::parse($performance['date_time'])->format('Y-m-d H:i:s'),
+        );
     }
 }

@@ -92,19 +92,19 @@ function PerformanceList() {
                         createHref="admin.performance.create"
                     >
                         {performances.data.map(item => {
-                            const partItems = item.partTypes.map(i => i.name);
+                            const partItems = item.part_types.map(i => i.name);
                             return (
                                 <React.Fragment key={item.id}>
                                     <Td>
                                         <S.ImageBox>
-                                            <img src={`/storage/${item.mainImageUrl}`} alt="" />
+                                            <img src={`/storage/${item.main_image_url}`} alt="" />
                                         </S.ImageBox>
                                     </Td>
                                     <Td>{handleFilterCategories(partItems)}</Td>
                                     <Td>
                                         <S.TitleBox>{handleFormatText(item.title)}</S.TitleBox>
                                     </Td>
-                                    <Td>{dayjs(item.dateTime).format('YYYY-MM-DD')}</Td>
+                                    <Td>{dayjs(item.date_time).format('YYYY-MM-DD')}</Td>
                                     <Td>{item.location}</Td>
                                     <Td>
                                         <SwitchButton

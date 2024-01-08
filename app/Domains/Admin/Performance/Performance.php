@@ -15,7 +15,7 @@ class Performance extends Model
         'visible',
     ];
 
-    public function partTypes()
+    public function part_types()
     {
         return $this->belongsToMany(PartType::class, 'performance_part_type');
     }

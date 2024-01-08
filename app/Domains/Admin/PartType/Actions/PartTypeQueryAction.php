@@ -24,6 +24,8 @@ class PartTypeQueryAction
 
         $dtoData = PaginatedDTO::fromPaginator($partTypes, PartTypeQueryDTO::class);
 
-        return $dtoData;
+        return [
+            'adminPartTypes' => $dtoData
+        ];
     }
 }

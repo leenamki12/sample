@@ -17,28 +17,21 @@ class PartTypeController extends Controller
 {
     public function index(PartTypeQueryAction $action)
     {
-        $partTypes = $action->handle();
+        $arrayData = $action->handle();
 
-        return Inertia::render('admin/pages/part/PartList', [
-            'adminPartTypes' => $partTypes
-        ]);
+        return Inertia::render('admin/pages/part/PartList', $arrayData);
     }
 
     public function store(PartTypeRequest $request, PartTypeStoreAction $action)
     {
-
-        $partDto = PartTypeDTO::from($request);
-
-        $action->handle($partDto);
+        $action->handle($request);
 
         return back();
     }
 
     public function update(PartTypeRequest $request, PartTypeUpdateAction $action, int $id)
     {
-        $partDto = PartTypeUpdateDTO::from($request);
-
-        $action->handle($partDto, $id);
+        $action->handle($request, $id);
 
         return back();
     }

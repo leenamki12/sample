@@ -14,8 +14,8 @@ import * as S from './PerformanceEdit.styled';
 
 export type FileItem = {
     file: File;
-    oldId?: number;
-    oldPath?: string;
+    old_id?: number;
+    old_path?: string;
 };
 
 type FormProps = {
@@ -24,13 +24,15 @@ type FormProps = {
     date_time: string;
     location: string;
     visible: boolean;
-    parts: number[];
-    fileItems: FileItem[];
-    deleteImages: number[];
+    part_type_ids: number[];
+    file_items: FileItem[];
+    delete_image_ids: number[];
 };
 
 function PerformanceEdit() {
-    const { performance, performanceEditParts } = usePage<PageProps>().props;
+    const { performance, categories } = usePage<PageProps>().props;
+
+    console.log(performance);
 
     const { data, post, setData, clearErrors, errors, processing } = useForm<FormProps>({
         id: `${performance.id}`,
@@ -38,14 +40,16 @@ function PerformanceEdit() {
         date_time: `${performance.date_time}`,
         location: performance.location,
         visible: performance.visible,
-        parts: performance.parts.map(item => item.id as number),
-        fileItems: [],
-        deleteImages: [],
+        part_type_ids: performance.part_types.map(item => item.id as number),
+        file_items: [],
+        delete_image_ids: [],
     });
 
-    const handleChangeInputData = (id: string, value: any) => {
-        setData(id as PerformanceFromkey, value);
-        clearErrors(id as PerformanceFromkey);
+    const handleChangeInputData = <K extends keyof FormProps>(id: K, value: FormProps[K]) => {
+        const dataKey = id as PerformanceFromkey;
+
+        setData(dataKey, value);
+        clearErrors(dataKey);
     };
 
     const onSubmit: FormEventHandler = e => {
@@ -54,11 +58,11 @@ function PerformanceEdit() {
     };
 
     const allParts: badge[] = useMemo(() => {
-        if (!performanceEditParts) {
+        if (!categories.part_types) {
             return [];
         }
-        const newItems = performanceEditParts.map(part => {
-            const findItme = performance.parts.find(find => find.id === part.id);
+        const newItems = categories.part_types.map(part => {
+            const findItme = performance.part_types.find(find => find.id === part.id);
             return {
                 id: part.id,
                 name: part.name,
@@ -66,7 +70,7 @@ function PerformanceEdit() {
             };
         });
         return newItems;
-    }, [performanceEditParts]);
+    }, [categories.part_types]);
 
     return (
         <>
@@ -75,7 +79,7 @@ function PerformanceEdit() {
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
                         <Badges
-                            onChange={values => handleChangeInputData('parts', values)}
+                            onChange={values => handleChangeInputData('part_type_ids', values)}
                             label="Part"
                             items={allParts}
                             isRequired
@@ -84,7 +88,7 @@ function PerformanceEdit() {
                         <LabelTextArea
                             label="제목"
                             id="title"
-                            onChange={handleChangeInputData}
+                            onChange={(_id, value) => handleChangeInputData('title', value)}
                             placeholder="공연 제목을 입력해주세요."
                             error={errors?.['title']}
                             defaultValue={data.title}
@@ -95,7 +99,7 @@ function PerformanceEdit() {
                             label="날짜 및 시간"
                             type="datetime-local"
                             id="date_time"
-                            onChange={handleChangeInputData}
+                            onChange={(_id, value) => handleChangeInputData('date_time', value)}
                             placeholder="공연 날짜 및 시간을 입력해주세요."
                             error={errors?.['date_time']}
                             defaultValue={data.date_time}
@@ -105,7 +109,7 @@ function PerformanceEdit() {
                             label="장소"
                             type="text"
                             id="location"
-                            onChange={handleChangeInputData}
+                            onChange={(_id, value) => handleChangeInputData('location', value)}
                             placeholder="공연 장소를 입력해주세요."
                             error={errors?.['location']}
                             defaultValue={data.location}
@@ -126,9 +130,9 @@ function PerformanceEdit() {
                             label="사진 업로드"
                             items={performance.images}
                             isRequired
-                            onDelete={images => handleChangeInputData('deleteImages', images)}
+                            onDelete={ids => handleChangeInputData('delete_image_ids', ids)}
                             onChange={files => {
-                                handleChangeInputData('files', files);
+                                handleChangeInputData('file_items', files);
                             }}
                         />
                     </S.InputList>

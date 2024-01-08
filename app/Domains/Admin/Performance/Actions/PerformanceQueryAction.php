@@ -8,7 +8,7 @@ use App\Domains\Admin\Performance\Performance;
 
 class PerformanceQueryAction
 {
-    public function handle()
+    public function handle(): array
     {
         $performances = Performance::orderBy('id', 'desc')->paginate(10);
 
@@ -21,12 +21,14 @@ class PerformanceQueryAction
             if ($mainImage) {
                 $performance->main_image_url = $mainImage->file_path;
             }
-            $performance->partTypes = $performance['partTypes'];
+            $performance->part_types = $performance['part_types'];
             $performance->order_sequence = ($totalItems + 1) - ($key + 1) - (($currentPage - 1) * $perPage);
         });
 
         $dtoData = PaginatedDTO::fromPaginator($performances, PerformanceQueryDTO::class);
 
-        return $dtoData;
+        return [
+            'performances' => $dtoData
+        ];
     }
 }

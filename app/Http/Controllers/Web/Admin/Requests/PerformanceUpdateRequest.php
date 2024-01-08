@@ -19,18 +19,18 @@ class PerformanceUpdateRequest extends FormRequest
             'date_time' => 'required|date',
             'location' => 'required|string',
             'visible' => 'boolean',
-            'parts' => 'array',
-            'parts.*' => 'exists:part_types,id', // 예: parts 테이블의 id와 연결된지 확인
-            'files' => 'array',
-            'parts_required' => 'required_without_all:parts',
+            'part_type_ids' => 'array',
+            'part_type_ids.*' => 'exists:part_types,id', // 예: parts 테이블의 id와 연결된지 확인
+            'file_items' => 'array',
+            'part_type_ids_required' => 'required_without_all:part_type_ids',
         ];
     }
 
     public function messages()
     {
         return [
-            'parts.*.exists' => '부적절한 부분이 포함되어 있습니다.',
-            'parts_required.required_without_all' => 'Part는 최소 1개를 선택해야합니다.',
+            'part_type_ids.*.exists' => '부적절한 부분이 포함되어 있습니다.',
+            'part_type_ids_required.required_without_all' => 'Part는 최소 1개를 선택해야합니다.',
         ];
     }
 }

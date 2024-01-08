@@ -4,13 +4,13 @@ import { PartType } from '../part';
 
 export type Performance = {
     id: number | string;
-    orderSequence: number;
+    order_sequence: number;
     title: string; // 공연 제목
-    dateTime: number; //공연시간
+    date_time: number; //공연시간
     location: string; // 주소
     visible: boolean;
-    mainImageUrl: string;
-    partTypes: PartType[];
+    main_image_url: string;
+    part_types: PartType[];
     images: Image[];
     created_at: Date;
     updated_at: Date;
@@ -19,12 +19,12 @@ export type Performance = {
 export type PerformanceFromkey =
     | 'id'
     | 'title'
-    | 'dateTime'
+    | 'date_time'
     | 'location'
     | 'visible'
-    | 'partTypeIds'
-    | 'fileItems';
+    | 'part_type_ids'
+    | 'file_items';
 
 export type Categories = {
-    partTypes: PartType[];
+    part_types: PartType[];
 };

@@ -87,12 +87,12 @@ function PartList() {
                                 key={item.name}
                                 onClick={() => handleClickUpdateModalShow(item)}
                             >
-                                <S.GridItemRowNum>{item.orderSequence}</S.GridItemRowNum>
+                                <S.GridItemRowNum>{item.order_sequence}</S.GridItemRowNum>
                                 <S.GridContent>
                                     <S.GridText>
                                         <S.GridTextName>{item.name}</S.GridTextName>
                                         <S.GridTextCount>
-                                            {item.performanceCount}개 등록
+                                            {item.performance_count}개 등록
                                         </S.GridTextCount>
                                     </S.GridText>
                                     <S.DeleteButton

@@ -7,12 +7,14 @@ use App\Domains\Admin\Performance\DTOs\PerformancePartTypesDTO;
 
 class PerformanceCreateAction
 {
-    public function handle()
+    public function handle(): array
     {
         $partTypes = PartType::orderBy('id', 'asc')->get();
 
         $dtoPartTypes =  PerformancePartTypesDTO::collection($partTypes);
 
-        return ['partTypes' => $dtoPartTypes];
+        return [
+          'categories' => ['part_types' => $dtoPartTypes]
+        ];
     }
 }

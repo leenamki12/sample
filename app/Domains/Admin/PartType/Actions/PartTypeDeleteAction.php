@@ -6,9 +6,9 @@ use App\Domains\Admin\PartType\Models\PartType;
 
 class PartTypeDeleteAction
 {
-    public function handle(int $partId): PartType
+    public function handle(int $id): PartType
     {
-        $part = PartType::find($partId);
+        $part = PartType::find($id);
 
         $part->delete();
 

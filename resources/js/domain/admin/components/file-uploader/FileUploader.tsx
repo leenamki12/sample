@@ -44,8 +44,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
             ...uploadFiles,
             {
                 file: file,
-                oldId: undefined,
-                oldPath: undefined,
+                old_id: undefined,
             },
         ]);
 
@@ -85,8 +84,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
         const newFiles = [...uploadFiles];
         newFiles[index] = {
             file: file,
-            oldId: oldItem?.id || undefined,
-            oldPath: oldItem?.file_path || undefined,
+            old_id: oldItem?.id || undefined,
         };
 
         setUploadFiles(newFiles);

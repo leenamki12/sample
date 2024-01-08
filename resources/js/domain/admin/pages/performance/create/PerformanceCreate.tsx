@@ -17,11 +17,11 @@ import * as S from './PerformanceCreate.styled';
 type FormProps = {
     id: string;
     title: string;
-    dateTime: string;
+    date_time: string;
     location: string;
     visible: boolean;
-    partTypeIds: number[];
-    fileItems: FileItem[];
+    part_type_ids: number[];
+    file_items: FileItem[];
 };
 
 function PerformanceCreate() {
@@ -29,11 +29,11 @@ function PerformanceCreate() {
     const { data, post, setData, clearErrors, errors, processing } = useForm<FormProps>({
         id: '',
         title: '',
-        dateTime: '',
+        date_time: '',
         location: '',
         visible: true,
-        partTypeIds: [],
-        fileItems: [],
+        part_type_ids: [],
+        file_items: [],
     });
 
     const handleChangeInputData = <K extends keyof FormProps>(id: K, value: FormProps[K]) => {
@@ -49,7 +49,7 @@ function PerformanceCreate() {
     };
 
     const parts: badge[] = useMemo(() => {
-        const newItems = categories.partTypes.map(part => {
+        const newItems = categories.part_types.map(part => {
             return {
                 id: part.id,
                 name: part.name,
@@ -66,7 +66,7 @@ function PerformanceCreate() {
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
                         <Badges
-                            onChange={values => handleChangeInputData('partTypeIds', values)}
+                            onChange={values => handleChangeInputData('part_type_ids', values)}
                             label="Part"
                             items={parts}
                             isRequired
@@ -85,10 +85,10 @@ function PerformanceCreate() {
                         <LabelTextInput
                             label="날짜 및 시간"
                             type="datetime-local"
-                            id="dateTime"
-                            onChange={(_id, value) => handleChangeInputData('dateTime', value)}
+                            id="date_time"
+                            onChange={(_id, value) => handleChangeInputData('date_time', value)}
                             placeholder="공연 장소를 입력해주세요."
-                            error={errors?.['dateTime']}
+                            error={errors?.['date_time']}
                             isRequired
                         />
                         <LabelTextInput
@@ -114,7 +114,7 @@ function PerformanceCreate() {
                         <FileUploader
                             label="사진 업로드"
                             isRequired
-                            onChange={images => handleChangeInputData('fileItems', images)}
+                            onChange={images => handleChangeInputData('file_items', images)}
                         />
                     </S.InputList>
                     <S.ButtonBox>
