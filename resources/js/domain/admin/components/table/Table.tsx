@@ -24,52 +24,48 @@ function Table({ isChecked, headerItems, children, onDelete, onClick, onClickCre
     const listCheckboxRefs = React.Children.map(children, () => useRef<HTMLInputElement>(null));
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
-    const handleRowCheckboxChange = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
-        event.stopPropagation(); // 이벤트 전파 막기
-
-        if (listCheckboxRefs) {
-            const checkboxStatusArray = listCheckboxRefs.map(
-                item => item.current?.checked || false
-            );
-
-            if (allCheckboxRef && allCheckboxRef.current) {
-                if (checkboxStatusArray.includes(false)) {
-                    allCheckboxRef.current.checked = false;
-                } else {
-                    allCheckboxRef.current.checked = true;
-                }
-            }
-
-            const items: number[] = [];
-
-            listCheckboxRefs.forEach((checkboxRef, index) => {
-                if (checkboxRef.current?.checked) {
-                    const itemId = index;
-                    items.push(itemId);
-                }
-            });
-
-            setCheckedItems(items);
+    const updateAllCheckboxState = () => {
+        if (!listCheckboxRefs) {
+            return;
         }
+
+        const allChecked = listCheckboxRefs.every(checkboxRef => checkboxRef.current?.checked);
+        if (allCheckboxRef.current) {
+            allCheckboxRef.current.checked = allChecked;
+        }
+
+        const checkedItems = listCheckboxRefs
+            .filter(checkboxRef => checkboxRef.current?.checked)
+            .map((_checkboxRef, index) => index);
+
+        setCheckedItems(checkedItems);
+    };
+
+    const handleRowCheckboxChange = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+        event.stopPropagation();
+        updateAllCheckboxState();
     };
 
     const handleAllCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-        event.stopPropagation(); // 이벤트 전파 막기
+        event.stopPropagation();
 
-        if (listCheckboxRefs) {
-            listCheckboxRefs.forEach(item => {
-                if (item.current) {
-                    item.current.checked = event.target.checked;
-                }
-            });
+        if (!listCheckboxRefs) {
+            return;
+        }
 
-            if (event.target.checked) {
-                const items: number[] = [];
-                React.Children.map(children, (_child, index) => items.push(index));
-
-                setCheckedItems(items);
-                return;
+        listCheckboxRefs.forEach(item => {
+            if (item.current) {
+                item.current.checked = event.target.checked;
             }
+        });
+
+        if (event.target.checked) {
+            const items: number[] = Array.from(
+                { length: listCheckboxRefs.length },
+                (_, index) => index
+            );
+            setCheckedItems(items);
+        } else {
             setCheckedItems([]);
         }
     };

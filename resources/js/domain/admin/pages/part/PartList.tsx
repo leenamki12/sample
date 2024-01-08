@@ -15,7 +15,7 @@ function PartList() {
     const [isUpdateModalShow, setIsUpdateModalshow] = useState(false);
     const [partUpdateData, setPartUpdateData] = useState<PartType>();
 
-    const { post, patch, setData, clearErrors, errors } = useForm({
+    const { post, patch, setData, clearErrors, errors, processing } = useForm({
         name: '',
     });
 
@@ -115,6 +115,7 @@ function PartList() {
                     onChange={handleChangeInputData}
                     onClose={() => setIsCreateModalshow(false)}
                     errors={errors}
+                    isProcessing={processing}
                 />
             )}
 
@@ -126,6 +127,7 @@ function PartList() {
                     onClose={() => setIsUpdateModalshow(false)}
                     errors={errors}
                     data={partUpdateData}
+                    isProcessing={processing}
                 />
             )}
         </>

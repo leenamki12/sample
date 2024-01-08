@@ -21,9 +21,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
     const [deleteItems, setDeleteItems] = useState<Image[]>([]);
     const [uploadFiles, setUploadFiles] = useState<FileItem[]>([]);
     const [uploadImages, setUploadImages] = useState<Image[]>(
-        items?.map(item => {
-            return { id: item.id, file_path: `/storage/${item.file_path}` };
-        }) || []
+        items?.map(item => ({ id: item.id, file_path: `/storage/${item.file_path}` })) || []
     );
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +38,8 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
             return;
         }
 
-        setUploadFiles([
-            ...uploadFiles,
+        setUploadFiles(prevUploadFiles => [
+            ...prevUploadFiles,
             {
                 file: file,
                 old_id: undefined,
@@ -52,8 +50,8 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             const previewImgUrl = reader.result;
-            setUploadImages([
-                ...uploadImages,
+            setUploadImages(prevUploadImages => [
+                ...prevUploadImages,
                 { id: undefined, file_path: previewImgUrl as string, file_name: file.name },
             ]);
         };
@@ -81,56 +79,65 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
             return;
         }
 
-        const newFiles = [...uploadFiles];
-        newFiles[index] = {
-            file: file,
-            old_id: oldItem?.id || undefined,
-        };
-
-        setUploadFiles(newFiles);
+        setUploadFiles(prevUploadFiles => {
+            const newFiles = [...prevUploadFiles];
+            newFiles[index] = {
+                file: file,
+                old_id: oldItem?.id || undefined,
+            };
+            return newFiles;
+        });
 
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             const previewImgUrl = reader.result;
-
-            const newImages = [...uploadImages];
-            newImages[index] = {
-                id: undefined,
-                file_name: file.name,
-                file_path: previewImgUrl as string,
-            };
-
-            setUploadImages(newImages);
+            setUploadImages(prevUploadImages => {
+                const newImages = [...prevUploadImages];
+                newImages[index] = {
+                    id: undefined,
+                    file_name: file.name,
+                    file_path: previewImgUrl as string,
+                };
+                return newImages;
+            });
         };
     };
 
-    function handleValidateFile(file: File) {
+    const handleValidateFile = (file: File) => {
         const maxSizeInBytes = 2 * 1024 * 1024;
         const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
-        // 용량 체크
         if (file.size > maxSizeInBytes) {
             return '파일 크기가 너무 큽니다. 2MB 이하의 파일을 선택하세요.';
         }
 
-        // 확장자 체크
         const extension = file.name.split('.').pop()?.toLowerCase();
         if (extension && !allowedExtensions.includes(extension)) {
             return '올바른 이미지 파일을 선택하세요. (jpg, jpeg, png, gif 확장자만 허용됩니다.)';
         }
 
-        return false;
-    }
+        return '';
+    };
 
     const handleClickImageDelete = (image: Image) => {
+        // 사용자에게 삭제 여부 확인
+        const isConfirmed = confirm(
+            '이미지를 삭제하시겠습니까?\n삭제 된 이미지는 복구가 불가능합니다.'
+        );
+
+        if (!isConfirmed) {
+            return;
+        }
+
         const updatedImages = uploadImages.filter(item => item.file_path !== image.file_path);
         setUploadImages(updatedImages);
 
         const updatedFiles = uploadFiles.filter(item => item.file.name !== image.file_name);
         setUploadFiles(updatedFiles);
+
         if (image.id) {
-            setDeleteItems([...deleteItems, image]);
+            setDeleteItems(prevDeleteItems => [...prevDeleteItems, image]);
         }
     };
 
@@ -139,7 +146,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
     }, [uploadFiles]);
 
     useEffect(() => {
-        onDelete?.(deleteItems.map(item => item.id) as number[]);
+        onDelete?.(deleteItems.map(item => item.id || 0));
     }, [deleteItems]);
 
     return (

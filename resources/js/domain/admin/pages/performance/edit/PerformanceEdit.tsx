@@ -32,8 +32,6 @@ type FormProps = {
 function PerformanceEdit() {
     const { performance, categories } = usePage<PageProps>().props;
 
-    console.log(performance);
-
     const { data, post, setData, clearErrors, errors, processing } = useForm<FormProps>({
         id: `${performance.id}`,
         title: `${performance.title}`,
@@ -54,7 +52,11 @@ function PerformanceEdit() {
 
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
-        post(route('admin.performance.update', { id: performance.id }));
+        post(route('admin.performance.update', { id: performance.id }), {
+            onFinish: () => {
+                alert('수정 완료 되었습니다.');
+            },
+        });
     };
 
     const allParts: badge[] = useMemo(() => {

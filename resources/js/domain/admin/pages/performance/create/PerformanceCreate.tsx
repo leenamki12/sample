@@ -45,7 +45,11 @@ function PerformanceCreate() {
 
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
-        post(route('admin.performance.store'));
+        post(route('admin.performance.store'), {
+            onFinish: () => {
+                alert('등록 완료 되었습니다.');
+            },
+        });
     };
 
     const parts: badge[] = useMemo(() => {

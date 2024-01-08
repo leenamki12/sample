@@ -14,6 +14,7 @@ type Props<T> = {
     errors?: Partial<Record<string, string>>;
     modalTitle: string;
     data?: T;
+    isProcessing?: boolean;
 };
 
 function CategoryEditModal<T extends PartType>({
@@ -23,6 +24,7 @@ function CategoryEditModal<T extends PartType>({
     onChange,
     onClose,
     errors,
+    isProcessing,
 }: Props<T>) {
     return (
         <S.Wrapper>
@@ -41,19 +43,19 @@ function CategoryEditModal<T extends PartType>({
                     {data && (
                         <S.DateList>
                             <S.DateItem>
-                                생성일 : {dayjs(data.createdAt).format('YYYY-MM-DD HH:mm')}
+                                생성일 : {dayjs(data.created_at).format('YYYY-MM-DD HH:mm')}
                             </S.DateItem>
-                            {data.createdAt != data.updatedAt && (
+                            {data.created_at != data.updated_at && (
                                 <S.DateItem>
                                     마지막 업데이트 :{' '}
-                                    {dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm')}
+                                    {dayjs(data.updated_at).format('YYYY-MM-DD HH:mm')}
                                 </S.DateItem>
                             )}
                         </S.DateList>
                     )}
                 </S.InputList>
                 <S.ButtonBox>
-                    <Button type="submit" label="저장" element="primary" />
+                    <Button type="submit" label="저장" element="primary" disabled={isProcessing} />
                     <Button label="취소" onClick={onClose} element="cancel" />
                 </S.ButtonBox>
             </S.Form>

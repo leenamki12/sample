@@ -28,6 +28,14 @@ function PerformanceList() {
             return;
         }
 
+        const isConfirmed = confirm(
+            '이미지를 삭제하시겠습니까?\n삭제 된 이미지는 복구가 불가능합니다.'
+        );
+
+        if (!isConfirmed) {
+            return;
+        }
+
         const selectedItems = performances.data
             .filter((_filterItem, index) => ids.includes(index))
             .map(item => item.id);
@@ -44,7 +52,7 @@ function PerformanceList() {
     };
 
     const handleFilterCategories = (categories: string[]) => {
-        if (categories.length == 0) {
+        if (categories.length === 0) {
             return '';
         }
 
@@ -54,16 +62,18 @@ function PerformanceList() {
     };
 
     const handleFormatText = (text: string) => {
-        return text.split('\n').map((line, index) => (
+        const lines = text.split('\n');
+
+        return lines.map((line, index) => (
             <React.Fragment key={`${line}_${index}`}>
                 {line}
-                {index !== text.split('\n').length - 1 && <br />}
+                {index !== lines.length - 1 && <br />}
             </React.Fragment>
         ));
     };
 
     const handleClickEditLink = (id: number) => {
-        const selectedItem = performances.data.find((_filterItem, index) => index === id);
+        const selectedItem = performances.data[id];
 
         if (selectedItem) {
             router.visit(route('admin.performance.edit', { id: selectedItem.id }));
