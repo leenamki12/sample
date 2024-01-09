@@ -72,15 +72,15 @@ export const FilterSelectButton = styled(Button)<FilterSelectButtonProps>`
     ${({ active }) => active && tw`bg-green`}
 `;
 
-export const AlbumListWrapper = styled.div`
+export const PerformanceListWrapper = styled.div`
     ${tw`mt-[80px] overflow-hidden`}
 `;
 
-export const AlbumList = styled.ul`
+export const PerformanceList = styled.ul`
     ${tw`grid grid-cols-4 gap-[10px]`}
 `;
 
-export const AlbumItem = styled.li`
+export const PerformanceItem = styled.li`
     ${tw`relative h-full w-full`}
 
     &::after {
@@ -88,11 +88,11 @@ export const AlbumItem = styled.li`
     }
 `;
 
-type AlbumProps = {
+type PerformanceProps = {
     image: string;
 };
 
-export const ContentsBox = styled.div<AlbumProps>`
+export const ContentsBox = styled.div<PerformanceProps>`
     ${tw`relative h-full w-full cursor-pointer overflow-hidden bg-cover bg-center bg-no-repeat`}
 
     background-image: url(${props => props.image});
@@ -116,25 +116,54 @@ export const TextBox = styled.div`
         ${tw`opacity-100`}
     }
 
+    ${screen('tablet')({ ...tw`hidden` })}
+`;
+
+export const TextTitle = styled.div`
+    ${tw`relative whitespace-pre-line py-[30px] text-center text-[28px] leading-[42px]`}
+
     strong {
-        ${tw`relative block whitespace-pre-line py-[30px] text-center text-[28px] leading-[54px]`}
+        ${tw`line-clamp-3`}
+    }
 
-        &:before, &:after {
-            ${tw`absolute left-1/2 h-[5px] w-[100px] -translate-x-1/2 bg-white content-['']`}
-        }
+    &:before,
+    &:after {
+        ${tw`absolute left-1/2 h-[5px] w-[100px] -translate-x-1/2 bg-white content-['']`}
+    }
 
+    &:before {
+        ${tw`top-0`}
+    }
+
+    &:after {
+        ${tw`bottom-0`}
+    }
+`;
+
+export const TextDate = styled.p`
+    ${tw`mt-[20px] text-lg font-bold`}
+`;
+
+export const TextPart = styled.div`
+    ${tw`absolute bottom-[30px] flex flex-wrap items-center justify-center px-[20px]`}
+
+    div {
+        ${tw`line-clamp-1`}
+    }
+
+    span {
         &:before {
-            ${tw`top-0`}
+            ${tw`inline-block px-[5px] content-['·']`}
         }
 
-        &:after {
-            ${tw`bottom-0`}
+        &:first-of-type:before {
+            ${tw`hidden`}
         }
     }
 
     p {
-        ${tw`mt-[20px] text-lg font-bold`}
+        &::before {
+            ${tw`inline-block px-[5px] content-['|']`}
+        }
     }
-
-    ${screen('tablet')({ ...tw`hidden` })}
 `;

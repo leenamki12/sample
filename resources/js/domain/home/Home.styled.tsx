@@ -16,7 +16,7 @@ export const LogoWrap = styled.div`
     ${screen('tablet')({ ...tw`py-[66px]` })}
 `;
 
-export const AlbumWrap = styled.div`
+export const PerformanceWrap = styled.div`
     ${tw`w-full overflow-hidden pb-[100px]`}
 `;
 

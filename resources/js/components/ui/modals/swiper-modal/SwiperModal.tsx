@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import dayjs from 'dayjs';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { NavigationOptions, type Swiper as SwiperRef } from 'swiper/types';
@@ -16,21 +17,29 @@ import * as S from './SwiperModal.styled';
 
 type Props = {
     data: Performance;
+    isModalOpen?: boolean;
     setIsModalOpen: (isModalOpen: boolean) => void;
 };
 
-function SwiperModal({ data, setIsModalOpen }: Props) {
+function SwiperModal({ data, isModalOpen, setIsModalOpen }: Props) {
     const swiperRef = useRef<SwiperRef>();
     const prevRef = useRef<HTMLButtonElement>(null);
     const nextRef = useRef<HTMLButtonElement>(null);
+    const [isLocked, setIsLocked] = useState<boolean>();
+
+    useEffect(() => {
+        swiperRef.current?.update();
+
+        setIsLocked(swiperRef.current?.isLocked);
+    }, [isModalOpen, isLocked]);
 
     return (
-        <S.Wrapper>
+        <S.Wrapper isLocked={isLocked}>
             <S.TitleBox>
                 <S.TitleContent>
                     <strong>{data.title}</strong>
                     <p>
-                        {data.date_time} {data.location}
+                        {dayjs(data.date_time).format('YYYY.MM.DD')} at {data.location}
                     </p>
                 </S.TitleContent>
                 <S.CloseButton onClick={() => setIsModalOpen(false)}>
@@ -72,31 +81,34 @@ function SwiperModal({ data, setIsModalOpen }: Props) {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-                <S.NavigationBox>
-                    <button
-                        type="button"
-                        className="prevButton"
-                        ref={prevRef}
-                        onClick={() => swiperRef.current?.slidePrev()}
-                    >
-                        <img src={ArrowPrev} alt="" />
-                        <p className="sr-only">이전</p>
-                    </button>
-                    <button
-                        type="button"
-                        className="nextButton"
-                        ref={nextRef}
-                        onClick={() => swiperRef.current?.slideNext()}
-                    >
-                        <img src={ArrowNext} alt="" />
-                        <p className="sr-only">다음</p>
-                    </button>
-                </S.NavigationBox>
+                {!isLocked && (
+                    <S.NavigationBox>
+                        <button
+                            type="button"
+                            className="prevButton"
+                            ref={prevRef}
+                            onClick={() => swiperRef.current?.slidePrev()}
+                        >
+                            <img src={ArrowPrev} alt="" />
+                            <p className="sr-only">이전</p>
+                        </button>
+                        <button
+                            type="button"
+                            className="nextButton"
+                            ref={nextRef}
+                            onClick={() => swiperRef.current?.slideNext()}
+                        >
+                            <img src={ArrowNext} alt="" />
+                            <p className="sr-only">다음</p>
+                        </button>
+                    </S.NavigationBox>
+                )}
             </S.SliderBox>
             <S.InfoBox>
-                {/* {data.partTypes.map(part => (
-                    <span key={part.id}>part.name</span>
-                ))} */}
+                {data.part_types.map(part => (
+                    <span key={part.id}>{part.name}</span>
+                ))}
+                <p>WanderLoch.Inc</p>
             </S.InfoBox>
         </S.Wrapper>
     );
