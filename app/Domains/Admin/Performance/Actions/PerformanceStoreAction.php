@@ -41,7 +41,7 @@ class PerformanceStoreAction
     private function handleImageCreate(int $performance_id, array $files)
     {
         foreach ($files as $index => $file) {
-            $imageDto = PerformanceImageDTO::fromImage([
+            $imageDto = PerformanceImageDTO::fromArray([
                 'id' => null,
                 'performance_id' => $performance_id,
                 'file_path' => $file['file']->store('images', 'public'),

@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Domains\Admin\Performance\Actions\PerformanceCreateAction;
 use App\Domains\Admin\Performance\Actions\PerformanceDeleteAction;
+use App\Domains\Admin\Performance\Actions\PerformanceFindAction;
 use App\Domains\Admin\Performance\Actions\PerformanceQueryAction;
-use App\Domains\Admin\Performance\Actions\PerformanceShowAction;
 use App\Domains\Admin\Performance\Actions\PerformanceStoreAction;
 use App\Domains\Admin\Performance\Actions\PerformanceUpdateAction;
-use App\Domains\Admin\Performance\Models\Performance;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceRequest;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceUpdateRequest;
@@ -43,7 +42,7 @@ class PerformanceController extends Controller
         return redirect()->route('admin.performance');
     }
 
-    public function edit(PerformanceShowAction $action, int $id)
+    public function edit(PerformanceFindAction $action, int $id)
     {
         $arrayData = $action->handle($id);
 

@@ -2,12 +2,11 @@
 
 namespace App\Domains\Admin\Performance\DTOs;
 
-use App\Domains\Admin\Performance\Models\PerformanceImage;
 use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
-class PerformanceShowDTO extends Data
+class PerformanceFindDTO extends Data
 {
     public function __construct(
         public int $id,
@@ -26,7 +25,7 @@ class PerformanceShowDTO extends Data
     ) {
     }
 
-    public static function fromPerformance(array $performance): self
+    public static function fromArray(array $performance): self
     {
         return new self(
             $performance['id'],

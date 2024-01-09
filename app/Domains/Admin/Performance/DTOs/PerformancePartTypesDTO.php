@@ -14,7 +14,7 @@ class PerformancePartTypesDTO extends Data
     ) {
     }
 
-    public static function fromPartTypes(array $part_type): self
+    public static function fromArray(array $part_type): self
     {
         return new self(
           $part_type['id'],

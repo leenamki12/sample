@@ -48,7 +48,7 @@ class PerformanceUpdateAction
         $this->performance->update($performanceDto->toArray());
 
         $parts = PartType::findMany($request->part_type_ids);
-        
+
         $this->performance->part_types()->sync($parts->pluck('id'));
 
         return $this->performance;
@@ -70,7 +70,7 @@ class PerformanceUpdateAction
                     'main_image' => $existingImage->main_image
                 ]);
             } else {
-                $imageDto = PerformanceImageDTO::fromImage([
+                $imageDto = PerformanceImageDTO::fromArray([
                     'id' => null,
                     'performance_id' => $this->performance->id,
                     'file_path' => $file['file']->store('images', 'public'),

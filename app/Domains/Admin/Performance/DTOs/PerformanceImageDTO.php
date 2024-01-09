@@ -18,7 +18,7 @@ class PerformanceImageDTO extends Data
     ) {
     }
 
-    public static function fromImage(array $image): self
+    public static function fromArray(array $image): self
     {
         return new self(
           $image['id'],
