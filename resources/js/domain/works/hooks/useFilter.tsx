@@ -30,7 +30,7 @@ const getInitialDisplayFilters = <T extends string>(
  *
  * @param {string} options.queryName - 검색할 route 페이지를 넣으세요.
  */
-const useFilter = <T extends string>(queryName: string) => {
+const useFilter = <T extends string>(queryName: string, defaultItems: readonly T[]) => {
     const defaultFilters: FilterProps<T> = {} as FilterProps<T>;
 
     const [selectedFilters, setSelectedFilters] = useState<FilterProps<T>>(defaultFilters);
@@ -89,15 +89,17 @@ const useFilter = <T extends string>(queryName: string) => {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
 
-        const updatedFilters = Object.keys(defaultFilters).reduce(
-            (accumulatedFilters, filterType) => {
-                const param = urlParams.getAll(filterType);
-                return param.length
-                    ? { ...accumulatedFilters, [filterType]: param }
-                    : accumulatedFilters;
-            },
-            defaultFilters
-        ) as FilterProps<T>;
+        const updatedFilters = defaultItems.reduce((accumulatedFilters, filterType) => {
+            // 콤마로 구분된 문자열을 하나의 배열에 합쳐서 저장
+            const param = urlParams.getAll(filterType).flatMap(item => item.split(','));
+
+            // updatedFilter에 저장
+            const updatedFilter = param.length
+                ? { ...accumulatedFilters, [filterType]: param }
+                : accumulatedFilters;
+
+            return updatedFilter;
+        }, defaultFilters) as FilterProps<T>;
 
         const initialDisplayFilters: DisplayFilterProps<T>[] =
             getInitialDisplayFilters<T>(updatedFilters);

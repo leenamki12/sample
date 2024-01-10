@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AdjustmentsHorizontalIcon, ArrowPathIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { usePage } from '@inertiajs/react';
+import axios from 'axios';
 import dayjs from 'dayjs';
 
 import { SubTitle } from '@/components/layouts';
@@ -16,7 +17,9 @@ import useFilter from '../hooks/useFilter';
 
 import * as S from './Works.styled';
 
-type FilterType = 'parts' | 'works' | 'years' | 'monthly';
+const FilterKeyItems = ['parts', 'works', 'years', 'monthly'] as const;
+
+type FilterKeyType = (typeof FilterKeyItems)[number];
 
 type FilterItem = {
     key: string;
@@ -24,7 +27,7 @@ type FilterItem = {
 };
 
 type FilterItems = {
-    [key in FilterType]: {
+    [key in FilterKeyType]: {
         index: number;
         key: key;
         label: string;
@@ -35,9 +38,12 @@ type FilterItems = {
 function Works() {
     const { performances, partTypes } = usePage<PageProps>().props;
 
-    const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
     const { selectedFilters, displayFilters, onFilterUpdate, onFilterReset } =
-        useFilter<FilterType>('works');
+        useFilter<FilterKeyType>('works', FilterKeyItems);
+
+    const [items, setItems] = useState<Performance[]>(performances.data);
+
+    const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [modalData, setModalData] = useState<Performance>();
@@ -81,8 +87,6 @@ function Works() {
         },
     };
 
-    console.log(selectedFilters, displayFilters);
-
     const handleOpenModal = (data: Performance) => {
         setIsModalOpen(true);
         setModalData(data);
@@ -91,6 +95,37 @@ function Works() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
+    const [nextPageUrl, setNextPageUrl] = useState<string | null>();
+
+    const handleClickPatch = async () => {
+        if (nextPageUrl) {
+            const params = window.location.search.slice(1);
+
+            try {
+                const response = await axios.get(`${nextPageUrl}&${params}`);
+                setItems(prevItems => [...prevItems, ...response.data.performances.data]);
+                setNextPageUrl(response?.data.performances.next_page_url);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (displayFilters.length > 0) {
+            setIsFilterOpen(true);
+        }
+    }, [displayFilters]);
+
+    useEffect(() => {
+        setItems(performances.data);
+        setNextPageUrl(
+            performances.next_page_url
+                ? performances.next_page_url.replace('/works?', '/works/load?')
+                : null
+        );
+    }, [performances.data]);
 
     return (
         <S.Wrapper>
@@ -114,7 +149,7 @@ function Works() {
                         />
                         {isFilterOpen && (
                             <S.FilterButton
-                                onClick={() => onFilterReset()}
+                                onClick={onFilterReset}
                                 element="teriary"
                                 label={
                                     <>
@@ -177,7 +212,7 @@ function Works() {
                 )}
                 <S.AlbumListWrapper>
                     <S.AlbumList>
-                        {performances.data.map(item => (
+                        {items.map(item => (
                             <S.AlbumItem key={item.id}>
                                 <S.ContentsBox
                                     image={`storage/${item.main_image_url}`}
@@ -201,6 +236,13 @@ function Works() {
                         ))}
                     </S.AlbumList>
                 </S.AlbumListWrapper>
+                {nextPageUrl && (
+                    <div>
+                        <button type="button" onClick={handleClickPatch}>
+                            more!!!!!!!
+                        </button>
+                    </div>
+                )}
 
                 <Pagination datas={performances} />
                 {/* <button onClick={}>more</button> */}
