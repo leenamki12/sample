@@ -54,8 +54,6 @@ function PerformanceCreate() {
         });
     };
 
-    console.log(categories);
-
     const parts: badge[] = useMemo(() => {
         const newItems = categories.part_types.map(part => {
             return {

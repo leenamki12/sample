@@ -25,36 +25,45 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
     );
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+        const files = event.target.files;
 
-        if (!file) {
+        if (!files || files.length === 0) {
             return;
         }
 
-        const validationCheck = handleValidateFile(file);
-
-        if (validationCheck) {
-            alert(validationCheck);
+        // 업로드 시도 전에 현재 업로드 이미지 개수가 5개 이상인 경우 업로드를 막음
+        if (uploadImages.length + files.length > 5) {
+            alert('최대 5개까지만 업로드 가능합니다.');
             return;
         }
 
-        setUploadFiles(prevUploadFiles => [
-            ...prevUploadFiles,
-            {
-                file: file,
-                old_id: undefined,
-            },
-        ]);
+        // 여러 파일을 반복 처리
+        for (const file of files) {
+            const validationCheck = handleValidateFile(file);
 
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            const previewImgUrl = reader.result;
-            setUploadImages(prevUploadImages => [
-                ...prevUploadImages,
-                { id: undefined, file_path: previewImgUrl as string, file_name: file.name },
+            if (validationCheck) {
+                alert(validationCheck);
+                continue; // 유효성 검사에 실패한 경우 다음 파일로 넘어감
+            }
+
+            setUploadFiles(prevUploadFiles => [
+                ...prevUploadFiles,
+                {
+                    file: file,
+                    old_id: undefined,
+                },
             ]);
-        };
+
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const previewImgUrl = reader.result;
+                setUploadImages(prevUploadImages => [
+                    ...prevUploadImages,
+                    { id: undefined, file_path: previewImgUrl as string, file_name: file.name },
+                ]);
+            };
+        }
     };
 
     const handleFileEdit = (
@@ -168,6 +177,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
                             type="file"
                             accept=".jpg, .jpeg, .png, .gif"
                             onChange={handleFileChange}
+                            multiple
                         />
                     </S.UploadButton>
                 ) : (
