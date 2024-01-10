@@ -11,6 +11,9 @@ class PerformanceDeleteAction
      */
     public function handle(array $ids)
     {
-        Performance::destroy($ids);
+        foreach ($ids as $performanceId) {
+            // 성능 레코드 삭제
+            Performance::destroy($performanceId);
+        }
     }
 }

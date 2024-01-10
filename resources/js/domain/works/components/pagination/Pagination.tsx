@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 
 import { Paginate } from '@/types/common';
 
