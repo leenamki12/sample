@@ -11,18 +11,29 @@ use Inertia\Inertia;
 
 //Home 첫번째 화면
 Route::get('/', function () {
+    // 퍼포먼스에서 노출이 활성화 된것들만 노출
+    $performances = Performance::where('visible', true);
+
+    $performances = $performances->orderBy('id', 'desc')->paginate();
+
+    $performances->each(function ($performance, $key) use ($performances) {
+        $mainImage = $performance->images()->where('main_image', true)->first();
+        if ($mainImage) {
+            $performance->main_image_url = $mainImage->file_path;
+        }
+        $performance->images = $performance->images()->get();
+        $performance->part_types = $performance['part_types'];
+        $performance->order_sequence = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
+    });
+
     return Inertia::render('home/Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'performances' => $performances
     ]);
 })->name('home');
-
-//대시보드
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
 
 //about
 Route::get('/about', function () {
@@ -75,7 +86,7 @@ Route::get('/works', function () {
         }
         $performance->images = $performance->images()->get();
         $performance->part_types = $performance['part_types'];
-        $performance->row_number = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
+        $performance->order_sequence = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
     });
 
     $partTypes = PartType::orderBy('id', 'asc')->get();

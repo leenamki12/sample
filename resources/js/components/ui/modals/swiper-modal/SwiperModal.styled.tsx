@@ -1,9 +1,21 @@
-import tw, { styled, screen } from 'twin.macro';
+import tw, { styled, screen, css } from 'twin.macro';
 
-export const Wrapper = styled.div`
+type SwiperProps = {
+    isLocked?: boolean;
+};
+
+export const Wrapper = styled.div<SwiperProps>`
     ${tw`mx-auto max-w-[1740px] px-[20px] text-center text-white`}
 
     ${screen('tablet')({ ...tw`px-[0px]` })}
+
+    ${SwiperProps =>
+        SwiperProps.isLocked &&
+        css`
+            .swiper-wrapper {
+                ${tw`justify-center`}
+            }
+        `}
 `;
 
 export const TitleBox = styled.div`
@@ -74,8 +86,24 @@ export const NavigationBox = styled.div`
     }
 `;
 
-export const InfoBox = styled.p`
-    ${tw`mt-[50px] font-pretendard text-[20px] font-bold`}
+export const InfoBox = styled.div`
+    ${tw`mt-[50px] flex flex-wrap items-center justify-center font-pretendard text-[20px] font-bold`}
 
-    ${screen('tablet')({ ...tw`text-base` })}
+    span {
+        &:before {
+            ${tw`inline-block px-[5px] content-['·']`}
+        }
+
+        &:first-of-type:before {
+            ${tw`hidden`}
+        }
+    }
+
+    p {
+        &::before {
+            ${tw`inline-block px-[5px] content-['|']`}
+        }
+    }
+
+    ${screen('tablet')({ ...tw`mt-[20px] text-base` })}
 `;

@@ -39,22 +39,26 @@ export const ContentsBox = styled.div<AlbumProps>`
 
         ${tw`absolute left-0 top-0 flex h-full w-full items-center justify-center px-[30px] font-wanderlochSecondary text-white opacity-0 transition-opacity duration-150`}
 
-        strong {
-            ${tw`relative block whitespace-pre-line py-[30px] text-center text-[28px] leading-[54px]`}
+        ${screen('tablet')({ ...tw`hidden` })}
+    }
+`;
 
-            &:before, &:after {
-                ${tw`absolute left-1/2 h-[5px] w-[100px] -translate-x-1/2 bg-white content-['']`}
-            }
+export const Title = styled.div`
+    ${tw`relative block whitespace-pre-line py-[30px] text-center text-[28px] leading-[54px]`}
 
-            &:before {
-                ${tw`top-0`}
-            }
+    strong {
+        ${tw`line-clamp-3`}
 
-            &:after {
-                ${tw`bottom-0`}
-            }
+        &:before, &:after {
+            ${tw`absolute left-1/2 h-[5px] w-[100px] -translate-x-1/2 bg-white content-['']`}
         }
 
-        ${screen('tablet')({ ...tw`hidden` })}
+        &:before {
+            ${tw`top-0`}
+        }
+
+        &:after {
+            ${tw`bottom-0`}
+        }
     }
 `;

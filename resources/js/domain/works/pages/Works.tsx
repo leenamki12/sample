@@ -219,20 +219,25 @@ function Works() {
                                     onClick={() => handleOpenModal(item)}
                                 >
                                     <S.TextBox>
-                                        <strong>{item.title}</strong>
-                                        <p>
+                                        <S.TextTitle>
+                                            <strong>{item.title}</strong>
+                                        </S.TextTitle>
+                                        <S.TextDate>
                                             {dayjs(item.date_time).format('YYYY.MM.DD')}
                                             <br />
                                             at {item.location}
-                                        </p>
-                                        <p>
-                                            {/* {item.partTypes.map(part => (
-                                                <div key={part.id}>{part.id}</div>
-                                            ))} */}
-                                        </p>
+                                        </S.TextDate>
+                                        <S.TextPart>
+                                            <div>
+                                                {item.part_types.map(part => (
+                                                    <span key={part.id}>{part.name}</span>
+                                                ))}
+                                            </div>
+                                            <p>WanderLoch.Inc</p>
+                                        </S.TextPart>
                                     </S.TextBox>
                                 </S.ContentsBox>
-                            </S.AlbumItem>
+                            </S.PerformanceItem>
                         ))}
                     </S.AlbumList>
                 </S.AlbumListWrapper>
@@ -257,7 +262,13 @@ function Works() {
                 maxWidth="full"
                 className="overflow-visible"
             >
-                {modalData && <SwiperModal data={modalData} setIsModalOpen={setIsModalOpen} />}
+                {modalData && (
+                    <SwiperModal
+                        data={modalData}
+                        setIsModalOpen={setIsModalOpen}
+                        isModalOpen={isModalOpen}
+                    />
+                )}
             </Modal>
         </S.Wrapper>
     );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useKeenSlider } from 'keen-slider/react';
 
@@ -6,26 +6,35 @@ import 'keen-slider/keen-slider.min.css';
 
 import Modal from '@/components/ui/modals/basic-modal/BasicModal';
 import SwiperModal from '@/components/ui/modals/swiper-modal/SwiperModal';
+import { Performance } from '@/types/admin/performance';
 
-import * as S from './AlbumList.styled';
-
-export type AlbumProps = {
-    title: string;
-    date: string;
-    location: string;
-    info?: string;
-    detailImages?: string[];
-} & S.AlbumProps;
+import * as S from './PerformanceList.styled';
 
 type Props = {
-    albums: AlbumProps[];
+    datas: Performance[];
     isRtl?: boolean;
 };
 
-function AlbumList({ albums, isRtl = false, ...props }: Props) {
+function PerformanceList({ datas, isRtl = false, ...props }: Props) {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    const [modalData, setModalData] = useState<AlbumProps>();
+    const [modalData, setModalData] = useState<Performance>();
+
+    const performanceData = useMemo(() => {
+        if (datas.length <= 5) {
+            const newData: Performance[] = [];
+
+            const maxLength = Math.ceil(6 / datas.length);
+
+            for (let i = 0; i < maxLength; i++) {
+                newData.push(...datas);
+            }
+
+            return newData;
+        } else {
+            return datas;
+        }
+    }, []);
 
     const animation = { duration: 20000, easing: (t: number) => t };
     const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
@@ -86,7 +95,7 @@ function AlbumList({ albums, isRtl = false, ...props }: Props) {
         }
     };
 
-    const handleOpenModal = (data: AlbumProps) => {
+    const handleOpenModal = (data: Performance) => {
         setIsModalOpen(true);
         handleAnimation(true);
         setModalData(data);
@@ -115,11 +124,16 @@ function AlbumList({ albums, isRtl = false, ...props }: Props) {
                 className="keen-slider"
                 {...props}
             >
-                {albums.map((album, index) => (
+                {performanceData.map((item, index) => (
                     <S.AlbumItem key={index} className={`keen-slider__slide number-slide${index}`}>
-                        <S.ContentsBox image={album.image} onClick={() => handleOpenModal(album)}>
+                        <S.ContentsBox
+                            image={`storage/${item.main_image_url}`}
+                            onClick={() => handleOpenModal(item)}
+                        >
                             <div>
-                                <strong>{album.title}</strong>
+                                <S.Title>
+                                    <strong>{item.title}</strong>
+                                </S.Title>
                             </div>
                         </S.ContentsBox>
                     </S.AlbumItem>
@@ -138,4 +152,4 @@ function AlbumList({ albums, isRtl = false, ...props }: Props) {
     );
 }
 
-export default AlbumList;
+export default PerformanceList;
