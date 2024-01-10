@@ -1,11 +1,11 @@
-import { FormEventHandler, useMemo } from 'react';
+import { FormEventHandler } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
 
 import { Button, LabelTextArea, LabelTextInput } from '@/components/ui';
 import SwitchButton from '@/components/ui/switch/SwitchButton';
 import { TopSection } from '@/domain/admin/components';
-import Badges, { badge } from '@/domain/admin/components/badges/Badges';
+import Badges from '@/domain/admin/components/badges/Badges';
 import FileUploader from '@/domain/admin/components/file-uploader/FileUploader';
 import { PageProps } from '@/types';
 import { PerformanceFromkey } from '@/types/admin/performance';
@@ -55,38 +55,11 @@ function PerformanceEdit() {
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
         post(route('admin.performance.update', { id: performance.id }), {
-            onFinish: () => {
+            onSuccess: () => {
                 alert('수정 완료 되었습니다.');
             },
         });
     };
-
-    const allParts: badge[] = useMemo(() => {
-        if (!categories.part_types) {
-            return [];
-        }
-        const newItems = categories.part_types.map(part => {
-            const foundPartType = performance.part_types.find(find => find.id === part.id);
-            return {
-                id: part.id,
-                name: part.name,
-                active: !!foundPartType,
-            };
-        });
-        return newItems;
-    }, [categories.part_types]);
-
-    const allWorks: badge[] = useMemo(() => {
-        const newItems = categories.work_types.map(work => {
-            const foundWorkType = performance.part_types.find(find => find.id === work.id);
-            return {
-                id: work.id,
-                name: work.name,
-                active: !!foundWorkType,
-            };
-        });
-        return newItems;
-    }, [categories.work_types]);
 
     return (
         <>
@@ -98,16 +71,20 @@ function PerformanceEdit() {
                         <Badges
                             onChange={values => handleChangeInputData('part_type_ids', values)}
                             label="Part"
-                            items={allParts}
+                            items={categories.part_types}
                             isRequired
                             emptyLink="admin.part"
+                            defaultSelectedItems={data.part_type_ids}
+                            error={errors.part_type_ids}
                         />
                         <Badges
                             onChange={values => handleChangeInputData('work_type_ids', values)}
                             label="Work"
-                            items={allWorks}
+                            items={categories.work_types}
                             isRequired
                             emptyLink="admin.work"
+                            defaultSelectedItems={data.work_type_ids}
+                            error={errors.work_type_ids}
                         />
                         <LabelTextArea
                             label="제목"
@@ -154,6 +131,7 @@ function PerformanceEdit() {
                             label="사진 업로드"
                             items={performance.images}
                             isRequired
+                            error={errors.file_items}
                             onDelete={ids => handleChangeInputData('delete_image_ids', ids)}
                             onChange={files => {
                                 handleChangeInputData('file_items', files);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { router } from '@inertiajs/react';
 
@@ -9,49 +9,45 @@ import * as S from './Badges.styled';
 export type badge = {
     id: string | number;
     name: string;
-    active: boolean;
 };
 
 type Props = {
     label: string;
     items: badge[];
+    defaultSelectedItems: number[];
     isRequired?: boolean;
     onChange: (selectedItem: number[]) => void;
     emptyLink?: string;
+    error?: string;
 };
 
-function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
-    const [selectdItems, setSelectedItems] = useState<number[]>([]);
+function Badges({
+    items,
+    defaultSelectedItems,
+    label,
+    isRequired,
+    onChange,
+    emptyLink,
+    error,
+}: Props) {
+    const [selectedItems, setSelectedItems] = useState<number[]>(defaultSelectedItems);
 
     const handleClickBadge = (id: number | string) => {
-        const isSelectedId = selectdItems.includes(id as number);
+        const isSelectedId = selectedItems.includes(id as number);
 
         if (isSelectedId) {
-            const newItems = selectdItems.filter(item => item !== id);
+            const newItems = selectedItems.filter(item => item !== id);
             setSelectedItems(newItems);
+            onChange(newItems);
         } else {
-            setSelectedItems([...selectdItems, id as number]);
+            setSelectedItems([...selectedItems, id as number]);
+            onChange([...selectedItems, id as number]);
         }
     };
 
     const handleClickLink = () => {
         if (emptyLink) router.visit(route(emptyLink));
     };
-
-    useEffect(() => {
-        if (items) {
-            const newItems = items
-                .filter(f => {
-                    return f.active;
-                })
-                .map(m => m.id as number);
-            setSelectedItems(newItems);
-        }
-    }, [items]);
-
-    useEffect(() => {
-        onChange(selectdItems);
-    }, [selectdItems]);
 
     return (
         <S.Wrapper>
@@ -62,7 +58,7 @@ function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
             <S.Badges>
                 {items.length > 0 ? (
                     items.map(item => {
-                        const isChecked = selectdItems.includes(item.id as number);
+                        const isChecked = selectedItems.includes(item.id as number);
                         return (
                             <S.Badge
                                 active={isChecked}
@@ -87,6 +83,7 @@ function Badges({ items, label, isRequired, onChange, emptyLink }: Props) {
                     </S.Empty>
                 )}
             </S.Badges>
+            {error && <S.Error>{error}</S.Error>}
         </S.Wrapper>
     );
 }

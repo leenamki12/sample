@@ -37,3 +37,7 @@ export const Empty = styled.div`
         ${tw`h-[36px] w-auto px-[20px] text-sm`}
     }
 `;
+
+export const Error = styled.div`
+    ${tw`mt-1 text-sm text-red-500`}
+`;

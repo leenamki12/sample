@@ -12,12 +12,13 @@ import * as S from './FileUploader.styled';
 type Props = {
     label: string;
     isRequired?: boolean;
+    items?: Image[];
+    error?: string;
     onChange: (files: FileItem[]) => void;
     onDelete?: (ids: number[]) => void;
-    items?: Image[];
 };
 
-function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
+function FileUploader({ label, isRequired, items, error, onChange, onDelete }: Props) {
     const [deleteItems, setDeleteItems] = useState<Image[]>([]);
     const [uploadFiles, setUploadFiles] = useState<FileItem[]>([]);
     const [uploadImages, setUploadImages] = useState<Image[]>(
@@ -229,6 +230,7 @@ function FileUploader({ label, isRequired, onChange, items, onDelete }: Props) {
                     <S.Empty>이미지를 등록해주세요.</S.Empty>
                 )}
             </S.Files>
+            {error && <S.Error>{error}</S.Error>}
             <S.Info>
                 <span>※</span> 이미지는 최대 5장까지 등록이 가능합니다.
                 <br />

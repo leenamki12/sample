@@ -1,11 +1,11 @@
-import { FormEventHandler, useMemo } from 'react';
+import { FormEventHandler } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
 
 import { Button, LabelTextArea, LabelTextInput } from '@/components/ui';
 import SwitchButton from '@/components/ui/switch/SwitchButton';
 import { TopSection } from '@/domain/admin/components';
-import Badges, { badge } from '@/domain/admin/components/badges/Badges';
+import Badges from '@/domain/admin/components/badges/Badges';
 import FileUploader from '@/domain/admin/components/file-uploader/FileUploader';
 import { PageProps } from '@/types';
 import { PerformanceFromkey } from '@/types/admin/performance';
@@ -48,33 +48,13 @@ function PerformanceCreate() {
     const onSubmit: FormEventHandler = e => {
         e.preventDefault();
         post(route('admin.performance.store'), {
-            onFinish: () => {
+            onSuccess: () => {
                 alert('등록 완료 되었습니다.');
             },
         });
     };
 
-    const parts: badge[] = useMemo(() => {
-        const newItems = categories.part_types.map(part => {
-            return {
-                id: part.id,
-                name: part.name,
-                active: false,
-            };
-        });
-        return newItems;
-    }, [categories]);
-
-    const works: badge[] = useMemo(() => {
-        const newItems = categories.work_types.map(work => {
-            return {
-                id: work.id,
-                name: work.name,
-                active: false,
-            };
-        });
-        return newItems;
-    }, [categories]);
+    console.log(errors);
 
     return (
         <>
@@ -83,20 +63,28 @@ function PerformanceCreate() {
             <S.Wrapper>
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
-                        <Badges
-                            onChange={values => handleChangeInputData('part_type_ids', values)}
-                            label="Part"
-                            items={parts}
-                            isRequired
-                            emptyLink="admin.part"
-                        />
-                        <Badges
-                            onChange={values => handleChangeInputData('work_type_ids', values)}
-                            label="Work"
-                            items={works}
-                            isRequired
-                            emptyLink="admin.work"
-                        />
+                        <div>
+                            <Badges
+                                onChange={values => handleChangeInputData('part_type_ids', values)}
+                                label="Part"
+                                items={categories.part_types}
+                                isRequired
+                                defaultSelectedItems={data.part_type_ids}
+                                emptyLink="admin.part"
+                                error={errors.part_type_ids}
+                            />
+                        </div>
+                        <div>
+                            <Badges
+                                onChange={values => handleChangeInputData('work_type_ids', values)}
+                                label="Work"
+                                items={categories.work_types}
+                                defaultSelectedItems={data.work_type_ids}
+                                isRequired
+                                emptyLink="admin.work"
+                                error={errors.work_type_ids}
+                            />
+                        </div>
                         <LabelTextArea
                             label="제목"
                             type="datetime-local"
@@ -139,6 +127,7 @@ function PerformanceCreate() {
                         <FileUploader
                             label="사진 업로드"
                             isRequired
+                            error={errors.file_items}
                             onChange={images => handleChangeInputData('file_items', images)}
                         />
                     </S.InputList>

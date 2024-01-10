@@ -117,3 +117,7 @@ export const LabelButton = styled.label`
         ${tw`border-[1px] border-[#666] bg-white text-[#666]`}
     }
 `;
+
+export const Error = styled.div`
+    ${tw`mt-1 text-sm text-red-500`}
+`;

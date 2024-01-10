@@ -4,6 +4,8 @@ import { router, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 
 import { PageProps } from '@/types';
+import { PartType } from '@/types/admin/part-types';
+import { WorkType } from '@/types/admin/work-types';
 
 import { Pagination, Table, TableWrapper, Td, TopSection } from '../../components';
 
@@ -15,6 +17,7 @@ function PerformanceList() {
     const tableHeaderItems = [
         { name: '대표이미지', width: 120 },
         { name: 'Part', width: 100 },
+        { name: 'Work', width: 100 },
         { name: '제목', width: '*' },
         { name: '공연시간', width: 100 },
         { name: '공연장소', width: 200 },
@@ -51,14 +54,14 @@ function PerformanceList() {
         });
     };
 
-    const handleFilterCategories = (categories: string[]) => {
+    const handleFilterCategories = (categories: PartType[] | WorkType[]) => {
         if (categories.length === 0) {
             return '';
         }
 
         const excludedCount = categories.length > 1 ? `외 ${categories.length - 1}개` : '';
 
-        return `${categories[0]} ${excludedCount}`;
+        return `${categories[0].name} ${excludedCount}`;
     };
 
     const handleFormatText = (text: string) => {
@@ -98,7 +101,6 @@ function PerformanceList() {
                         onClickCreate={handleClickCreate}
                     >
                         {performances.data.map(item => {
-                            const partItems = item.part_types.map(i => i.name);
                             return (
                                 <React.Fragment key={item.id}>
                                     <Td>
@@ -106,7 +108,8 @@ function PerformanceList() {
                                             <img src={`/storage/${item.main_image_url}`} alt="" />
                                         </S.ImageBox>
                                     </Td>
-                                    <Td>{handleFilterCategories(partItems)}</Td>
+                                    <Td>{handleFilterCategories(item.part_types)}</Td>
+                                    <Td>{handleFilterCategories(item.work_types)}</Td>
                                     <Td>
                                         <S.TitleBox>{handleFormatText(item.title)}</S.TitleBox>
                                     </Td>

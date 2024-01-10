@@ -17,6 +17,10 @@ class PerformanceQueryDTO extends Data
      * @var DataCollection|PerformancePartTypesDTO[]
     */
     public DataCollection $part_types;
+    /**
+     * @var DataCollection|PerformanceWorkTypesDTO[]
+    */
+    public DataCollection $work_types;
     public string $date_time;
     public string $location;
     public string $main_image_url;
@@ -31,6 +35,7 @@ class PerformanceQueryDTO extends Data
         $this->main_image_url = $performance['main_image_url'];
         $this->visible = (bool) $performance['visible'];
         $this->part_types = PerformancePartTypesDTO::collection($performance['part_types']);
+        $this->work_types = PerformanceWorkTypesDTO::collection($performance['work_types']);
         $this->date_time = Carbon::parse($performance['date_time'])->format('Y-m-d H:i:s');
         $this->created_at = Carbon::parse($performance['created_at'])->format('Y-m-d H:i:s');
     }

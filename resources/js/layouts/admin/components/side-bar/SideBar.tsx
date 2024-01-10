@@ -79,13 +79,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                     </S.CloseBox>
                                 </Transition.Child>
                                 <S.SideWrapper>
-                                    <S.SideLogo>
-                                        <img
-                                            className="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                            alt="Your Company"
-                                        />
-                                    </S.SideLogo>
+                                    <S.SideLogo className="text-white">WanderLoch</S.SideLogo>
                                     <S.SideNav>
                                         <S.NavList role="list">
                                             {navigation.map(item => (
@@ -106,21 +100,57 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                         <Disclosure as="div">
                                                             {({ open }) => (
                                                                 <>
-                                                                    <S.NavButton>
+                                                                    <S.NavButton
+                                                                        active={
+                                                                            item.href &&
+                                                                            Array.isArray(item.href)
+                                                                                ? item.href
+                                                                                      .map(
+                                                                                          string => {
+                                                                                              return (
+                                                                                                  route().current() ===
+                                                                                                  string
+                                                                                              );
+                                                                                          }
+                                                                                      )
+                                                                                      .includes(
+                                                                                          true
+                                                                                      )
+                                                                                      .toString()
+                                                                                : 'false'
+                                                                        }
+                                                                    >
+                                                                        {item.name}
                                                                         <ChevronRightIcon
                                                                             className={classNames(
                                                                                 open
-                                                                                    ? 'rotate-90 text-gray-500'
+                                                                                    ? 'rotate-90 text-gray-400'
                                                                                     : 'text-gray-400',
                                                                                 'h-5 w-5 shrink-0'
                                                                             )}
                                                                             aria-hidden="true"
                                                                         />
-                                                                        {item.name}
                                                                     </S.NavButton>
                                                                     <Disclosure.Panel
                                                                         as="ul"
                                                                         className="mt-1 px-2"
+                                                                        static={
+                                                                            item.href &&
+                                                                            Array.isArray(item.href)
+                                                                                ? item.href
+                                                                                      .map(
+                                                                                          string => {
+                                                                                              return (
+                                                                                                  route().current() ===
+                                                                                                  string
+                                                                                              );
+                                                                                          }
+                                                                                      )
+                                                                                      .includes(
+                                                                                          true
+                                                                                      )
+                                                                                : false
+                                                                        }
                                                                     >
                                                                         {item.children?.map(
                                                                             subItem => (
@@ -129,16 +159,20 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                                                         subItem.name
                                                                                     }
                                                                                 >
-                                                                                    <Link
+                                                                                    <S.SubNavLink
                                                                                         href={route(
                                                                                             subItem.href
                                                                                         )}
-                                                                                        className="block rounded-md py-2 pl-9 pr-2 text-sm leading-6 text-gray-700"
+                                                                                        active={route()
+                                                                                            .current(
+                                                                                                subItem.href
+                                                                                            )
+                                                                                            .toString()}
                                                                                     >
                                                                                         {
                                                                                             subItem.name
                                                                                         }
-                                                                                    </Link>
+                                                                                    </S.SubNavLink>
                                                                                 </li>
                                                                             )
                                                                         )}
@@ -150,8 +184,8 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                 </li>
                                             ))}
                                         </S.NavList>
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href={route('admin.setting')}
                                             className="group -mx-2 mt-auto flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                                         >
                                             <Cog6ToothIcon
@@ -159,7 +193,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
                                                 aria-hidden="true"
                                             />
                                             Settings
-                                        </a>
+                                        </Link>
                                     </S.SideNav>
                                 </S.SideWrapper>
                             </S.Panel>
@@ -171,13 +205,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }: Props) {
             {/* Static sidebar for desktop */}
             <S.DesktopWapper>
                 <S.SideWrapper>
-                    <S.SideLogo>
-                        <img
-                            className="h-8 w-auto"
-                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                            alt="Your Company"
-                        />
-                    </S.SideLogo>
+                    <S.SideLogo className="text-white">WanderLoch</S.SideLogo>
                     <S.SideNav>
                         <S.NavList role="list">
                             {navigation.map(item => (
