@@ -21,6 +21,7 @@ type FormProps = {
     location: string;
     visible: boolean;
     part_type_ids: number[];
+    work_type_ids: number[];
     file_items: FileItem[];
 };
 
@@ -33,6 +34,7 @@ function PerformanceCreate() {
         location: '',
         visible: true,
         part_type_ids: [],
+        work_type_ids: [],
         file_items: [],
     });
 
@@ -52,11 +54,24 @@ function PerformanceCreate() {
         });
     };
 
+    console.log(categories);
+
     const parts: badge[] = useMemo(() => {
         const newItems = categories.part_types.map(part => {
             return {
                 id: part.id,
                 name: part.name,
+                active: false,
+            };
+        });
+        return newItems;
+    }, [categories]);
+
+    const works: badge[] = useMemo(() => {
+        const newItems = categories.work_types.map(work => {
+            return {
+                id: work.id,
+                name: work.name,
                 active: false,
             };
         });
@@ -76,6 +91,13 @@ function PerformanceCreate() {
                             items={parts}
                             isRequired
                             emptyLink="admin.part"
+                        />
+                        <Badges
+                            onChange={values => handleChangeInputData('work_type_ids', values)}
+                            label="Work"
+                            items={works}
+                            isRequired
+                            emptyLink="admin.work"
                         />
                         <LabelTextArea
                             label="제목"

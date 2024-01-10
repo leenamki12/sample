@@ -3,7 +3,7 @@ import { FormEvent } from 'react';
 import dayjs from 'dayjs';
 
 import { Button, TextInput } from '@/components/ui';
-import { PartType } from '@/types/admin/part';
+import { PartType } from '@/types/admin/part-types';
 
 import * as S from './CategoryEditModal.styled';
 

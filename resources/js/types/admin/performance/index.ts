@@ -1,6 +1,7 @@
 import { Image } from '@/types/common';
 
-import { PartType } from '../part';
+import { PartType } from '../part-types';
+import { WorkType } from '../work-types';
 
 export type Performance = {
     id: number | string;
@@ -11,6 +12,7 @@ export type Performance = {
     visible: boolean;
     main_image_url: string;
     part_types: PartType[];
+    work_types: WorkType[];
     images: Image[];
     created_at: Date;
     updated_at: Date;
@@ -23,8 +25,10 @@ export type PerformanceFromkey =
     | 'location'
     | 'visible'
     | 'part_type_ids'
+    | 'work_type_ids'
     | 'file_items';
 
 export type Categories = {
     part_types: PartType[];
+    work_types: WorkType[];
 };

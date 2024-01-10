@@ -6,8 +6,6 @@ use App\Domains\Admin\PartType\Actions\PartTypeDeleteAction;
 use App\Domains\Admin\PartType\Actions\PartTypeQueryAction;
 use App\Domains\Admin\PartType\Actions\PartTypeStoreAction;
 use App\Domains\Admin\PartType\Actions\PartTypeUpdateAction;
-use App\Domains\Admin\PartType\DTOs\PartTypeDTO;
-use App\Domains\Admin\PartType\DTOs\PartTypeUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\Admin\Requests\PartTypeRequest;
 use Illuminate\Http\Request;

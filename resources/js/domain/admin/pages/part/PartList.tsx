@@ -3,7 +3,7 @@ import { FormEvent, FormEventHandler, useState } from 'react';
 import { router, useForm, usePage } from '@inertiajs/react';
 
 import { PageProps } from '@/types';
-import { PartType, PartTypeFormKey } from '@/types/admin/part';
+import { PartType, PartTypeFormKey } from '@/types/admin/part-types';
 
 import { TopSection, CategoryEditModal, Pagination, Empty } from '../../components';
 

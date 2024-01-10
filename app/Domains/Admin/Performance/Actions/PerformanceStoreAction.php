@@ -24,6 +24,7 @@ class PerformanceStoreAction
     {
         $files = $request->file('file_items');
         $partTypes = PartType::findMany($request['part_type_ids']);
+        $workTypes = PartType::findMany($request['work_type_ids']);
         $performanceDto = PerformanceStoreDTO::fromArray($request->toArray());
 
         // 공연 정보 저장
@@ -34,6 +35,7 @@ class PerformanceStoreAction
 
         // PartTypes와 연결
         $performance->part_types()->saveMany($partTypes);
+        $performance->work_types()->saveMany($workTypes);
 
         return $performance;
     }

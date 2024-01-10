@@ -15,7 +15,7 @@ class PartTypeQueryDTO extends Data
     public Carbon $created_at;
     public Carbon $updated_at;
 
-    public function __construct($partType) {
+    public function __construct(array $partType) {
         $this->id = $partType['id'];
         $this->name = $partType['name'];
         $this->order_sequence = $partType['order_sequence'];

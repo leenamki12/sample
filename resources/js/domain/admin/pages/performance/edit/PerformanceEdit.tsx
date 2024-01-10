@@ -25,6 +25,7 @@ type FormProps = {
     location: string;
     visible: boolean;
     part_type_ids: number[];
+    work_type_ids: number[];
     file_items: FileItem[];
     delete_image_ids: number[];
 };
@@ -39,6 +40,7 @@ function PerformanceEdit() {
         location: performance.location,
         visible: performance.visible,
         part_type_ids: performance.part_types.map(item => item.id as number),
+        work_type_ids: performance.work_types.map(item => item.id as number),
         file_items: [],
         delete_image_ids: [],
     });
@@ -64,15 +66,27 @@ function PerformanceEdit() {
             return [];
         }
         const newItems = categories.part_types.map(part => {
-            const findItme = performance.part_types.find(find => find.id === part.id);
+            const foundPartType = performance.part_types.find(find => find.id === part.id);
             return {
                 id: part.id,
                 name: part.name,
-                active: !!findItme,
+                active: !!foundPartType,
             };
         });
         return newItems;
     }, [categories.part_types]);
+
+    const allWorks: badge[] = useMemo(() => {
+        const newItems = categories.work_types.map(work => {
+            const foundWorkType = performance.part_types.find(find => find.id === work.id);
+            return {
+                id: work.id,
+                name: work.name,
+                active: !!foundWorkType,
+            };
+        });
+        return newItems;
+    }, [categories.work_types]);
 
     return (
         <>
@@ -87,6 +101,13 @@ function PerformanceEdit() {
                             items={allParts}
                             isRequired
                             emptyLink="admin.part"
+                        />
+                        <Badges
+                            onChange={values => handleChangeInputData('work_type_ids', values)}
+                            label="Work"
+                            items={allWorks}
+                            isRequired
+                            emptyLink="admin.work"
                         />
                         <LabelTextArea
                             label="제목"

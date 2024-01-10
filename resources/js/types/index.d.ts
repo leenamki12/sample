@@ -1,5 +1,6 @@
-import { PartType } from './admin/part';
+import { PartType } from './admin/part-types';
 import { Performance, Categories } from './admin/performance';
+import { WorkType } from './admin/work-types';
 import { Paginate } from './common';
 import { User } from './user';
 
@@ -18,11 +19,14 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
 
     /** Work  */
     partTypes: PartType[];
+    workTypes: WorkType[];
 
     /** admin */
     adminPartTypes: Paginate<PartType>;
+    adminWorkTypes: Paginate<WorkType>;
     performances: Paginate<Performance>;
     performance: Performance;
     performanceEditParts: PartType[];
+    performanceEditWorks: WorkType[];
     categories: Categories;
 };

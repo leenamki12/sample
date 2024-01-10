@@ -22,6 +22,7 @@ class PerformanceQueryAction
                 $performance->main_image_url = $mainImage->file_path;
             }
             $performance->part_types = $performance['part_types'];
+            $performance->work_types = $performance['work_types'];
             $performance->order_sequence = ($totalItems + 1) - ($key + 1) - (($currentPage - 1) * $perPage);
         });
 
