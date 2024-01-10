@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Badges = styled.div`
-    ${tw`flex gap-[10px]`}
+    ${tw`flex flex-wrap gap-[10px]`}
 `;
 
 export const Label = styled.div`

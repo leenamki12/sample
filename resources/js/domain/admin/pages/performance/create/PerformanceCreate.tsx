@@ -63,28 +63,24 @@ function PerformanceCreate() {
             <S.Wrapper>
                 <S.Form onSubmit={onSubmit}>
                     <S.InputList>
-                        <div>
-                            <Badges
-                                onChange={values => handleChangeInputData('part_type_ids', values)}
-                                label="Part"
-                                items={categories.part_types}
-                                isRequired
-                                defaultSelectedItems={data.part_type_ids}
-                                emptyLink="admin.part"
-                                error={errors.part_type_ids}
-                            />
-                        </div>
-                        <div>
-                            <Badges
-                                onChange={values => handleChangeInputData('work_type_ids', values)}
-                                label="Work"
-                                items={categories.work_types}
-                                defaultSelectedItems={data.work_type_ids}
-                                isRequired
-                                emptyLink="admin.work"
-                                error={errors.work_type_ids}
-                            />
-                        </div>
+                        <Badges
+                            onChange={values => handleChangeInputData('part_type_ids', values)}
+                            label="Part"
+                            items={categories.part_types}
+                            isRequired
+                            defaultSelectedItems={data.part_type_ids}
+                            emptyLink="admin.part"
+                            error={errors.part_type_ids}
+                        />
+                        <Badges
+                            onChange={values => handleChangeInputData('work_type_ids', values)}
+                            label="Work"
+                            items={categories.work_types}
+                            defaultSelectedItems={data.work_type_ids}
+                            isRequired
+                            emptyLink="admin.work"
+                            error={errors.work_type_ids}
+                        />
                         <LabelTextArea
                             label="제목"
                             type="datetime-local"
