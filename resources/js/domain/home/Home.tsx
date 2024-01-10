@@ -1,25 +1,15 @@
-import { Head, router, usePage } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 import { InnerContainer } from '@/components/layouts';
 import { Button } from '@/components/ui';
-import { PageProps } from '@/types';
 import Logo from '@assets/common/header_logo.svg';
 
-import { PerformanceList, BusinessContent } from './components';
+import { BusinessContent } from './components';
 import { ContactContent } from '../contact/components';
 
 import * as S from './Home.styled';
 
 export default function Home() {
-    const { performances } = usePage<PageProps>().props;
-
-    const performanceTopItems = performances.data.slice(0, performances.total / 2);
-
-    const performanceBottomItems = performances.data.slice(
-        performances.total / 2,
-        performances.total
-    );
-
     return (
         <S.Wrapper>
             <Head title="Welcome" />
@@ -27,10 +17,12 @@ export default function Home() {
                 <img src={Logo} alt="" />
             </S.LogoWrap>
             <S.PerformanceWrap>
-                <div>
-                    <PerformanceList datas={performanceTopItems} />
-                    <PerformanceList datas={performanceBottomItems} isRtl />
-                </div>
+                {/* <div>
+                    {performanceTopItems && <PerformanceList datas={performanceTopItems} />}
+                    {performanceBottomItems && (
+                        <PerformanceList datas={performanceBottomItems} isRtl />
+                    )}
+                </div> */}
                 <S.More>
                     <Button
                         label="more info"

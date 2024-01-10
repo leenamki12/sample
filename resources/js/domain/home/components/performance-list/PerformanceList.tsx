@@ -124,20 +124,24 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
                 className="keen-slider"
                 {...props}
             >
-                {performanceData.map((item, index) => (
-                    <S.AlbumItem key={index} className={`keen-slider__slide number-slide${index}`}>
-                        <S.ContentsBox
-                            image={`storage/${item.main_image_url}`}
-                            onClick={() => handleOpenModal(item)}
+                {performanceData.length > 0 &&
+                    performanceData.map((item, index) => (
+                        <S.AlbumItem
+                            key={index}
+                            className={`keen-slider__slide number-slide${index}`}
                         >
-                            <div>
-                                <S.Title>
-                                    <strong>{item.title}</strong>
-                                </S.Title>
-                            </div>
-                        </S.ContentsBox>
-                    </S.AlbumItem>
-                ))}
+                            <S.ContentsBox
+                                image={`storage/${item.main_image_url}`}
+                                onClick={() => handleOpenModal(item)}
+                            >
+                                <div>
+                                    <S.Title>
+                                        <strong>{item.title}</strong>
+                                    </S.Title>
+                                </div>
+                            </S.ContentsBox>
+                        </S.AlbumItem>
+                    ))}
             </div>
             <Modal
                 show={isModalOpen}
