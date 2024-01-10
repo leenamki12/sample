@@ -43,6 +43,8 @@ function Works() {
 
     const [items, setItems] = useState<Performance[]>(performances.data);
 
+    const [nextPageUrl, setNextPageUrl] = useState<string | null>();
+
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -95,8 +97,6 @@ function Works() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
-
-    const [nextPageUrl, setNextPageUrl] = useState<string | null>();
 
     const handleClickPatch = async () => {
         if (nextPageUrl) {
@@ -210,10 +210,10 @@ function Works() {
                             })}
                     </S.FilterContentWrapper>
                 )}
-                <S.AlbumListWrapper>
-                    <S.AlbumList>
+                <S.PerformanceListWrapper>
+                    <S.PerformanceList>
                         {items.map(item => (
-                            <S.AlbumItem key={item.id}>
+                            <S.PerformanceItem key={item.id}>
                                 <S.ContentsBox
                                     image={`storage/${item.main_image_url}`}
                                     onClick={() => handleOpenModal(item)}
@@ -239,8 +239,8 @@ function Works() {
                                 </S.ContentsBox>
                             </S.PerformanceItem>
                         ))}
-                    </S.AlbumList>
-                </S.AlbumListWrapper>
+                    </S.PerformanceList>
+                </S.PerformanceListWrapper>
                 {nextPageUrl && (
                     <div>
                         <button type="button" onClick={handleClickPatch}>
