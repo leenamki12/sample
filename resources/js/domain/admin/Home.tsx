@@ -55,7 +55,10 @@ function Home() {
                 />
             </S.InputList>
             <S.CheckboxWrapper>
-                <Checkbox label="아이디 저장" />
+                <Checkbox
+                    label="아이디 저장"
+                    onChange={e => setData('remember', e.target.checked)}
+                />
             </S.CheckboxWrapper>
             <S.ButtonBox>
                 <Button element="primary" type="submit" label="로그인" />
