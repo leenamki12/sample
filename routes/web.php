@@ -2,6 +2,7 @@
 
 use App\Domains\Admin\Performance\Models\Performance;
 use App\Domains\Admin\PartType\Models\PartType;
+use App\Domains\Admin\WorkType\Models\WorkType;
 use App\Http\Controllers\Web\Admin\PartTypeController;
 use App\Http\Controllers\Web\Admin\PerformanceController;
 use App\Http\Controllers\Web\Admin\SettingController;
@@ -27,6 +28,7 @@ Route::get('/', function () {
         }
         $performance->images = $performance->images()->get();
         $performance->part_types = $performance['part_types'];
+        $performance->work_types = $performance['work_types'];
         $performance->order_sequence = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
     });
 
@@ -54,6 +56,12 @@ Route::get('/works', function () {
 
     // 퍼포먼스에서 노출이 활성화 된것들만 노출
     $performances = Performance::where('visible', true);
+
+    // works 파라미터가 전달되면 해당하는 조건을 추가
+    if ($worksFilter = request('works')) {
+        $works = array_unique(explode(',', $worksFilter));
+        $performances->whereHas('work_types', fn($query) => $query->whereIn('name', $works));
+    }
 
     // parts 파라미터가 전달되면 해당하는 조건을 추가
     if ($partsFilter = request('parts')) {
@@ -90,14 +98,17 @@ Route::get('/works', function () {
         }
         $performance->images = $performance->images()->get();
         $performance->part_types = $performance['part_types'];
+        $performance->work_types = $performance['work_types'];
         $performance->order_sequence = ($performances->total() + 1) - ($key + 1) - (($performances->currentPage() - 1) * $performances->perPage());
     });
 
     $partTypes = PartType::orderBy('id', 'asc')->get();
+    $workTypes = WorkType::orderBy('id', 'asc')->get();
 
     return Inertia::render('works/pages/Works', [
         'performances' => $performances,
-        'partTypes' => $partTypes
+        'partTypes' => $partTypes,
+        'workTypes' => $workTypes
     ]);
 
 })->name('works');
@@ -107,6 +118,12 @@ Route::get('/works/load', function () {
 
     // 퍼포먼스에서 노출이 활성화 된것들만 노출
     $performances = Performance::where('visible', true);
+
+    // works 파라미터가 전달되면 해당하는 조건을 추가
+    if ($worksFilter = request('works')) {
+        $works = array_unique(explode(',', $worksFilter));
+        $performances->whereHas('work_types', fn($query) => $query->whereIn('name', $works));
+    }
 
     // parts 파라미터가 전달되면 해당하는 조건을 추가
     if ($partsFilter = request('parts')) {
@@ -143,6 +160,7 @@ Route::get('/works/load', function () {
         }
         $performance->images = $performance->images()->get();
         $performance->part_types = $performance['part_types'];
+        $performance->work_types = $performance['work_types'];
     });
 
     return response()->json([
