@@ -89,7 +89,7 @@ Route::get('/works', function () {
         });
     }
 
-    $performances = $performances->orderBy('id', 'desc')->paginate(4);
+    $performances = $performances->orderBy('id', 'desc')->paginate(12);
 
     $performances->each(function ($performance, $key) use ($performances) {
         $mainImage = $performance->images()->where('main_image', true)->first();
@@ -151,7 +151,7 @@ Route::get('/works/load', function () {
         });
     }
 
-    $performances = $performances->orderBy('id', 'desc')->paginate(4);
+    $performances = $performances->orderBy('id', 'desc')->paginate(12);
 
     $performances->each(function ($performance) {
         $mainImage = $performance->images()->where('main_image', true)->first();

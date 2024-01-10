@@ -63,7 +63,7 @@ function SwiperModal({ data, isModalOpen, setIsModalOpen }: Props) {
                         swiper.navigation.update();
                     }}
                     breakpoints={{
-                        640: {
+                        641: {
                             slidesPerView: 2,
                             spaceBetween: 20,
                         },

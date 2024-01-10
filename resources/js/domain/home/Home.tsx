@@ -26,23 +26,21 @@ export default function Home() {
             <S.LogoWrap>
                 <img src={Logo} alt="" />
             </S.LogoWrap>
-            <S.PerformanceWrap>
-                {performanceTopItems.length > 0 && performanceBottomItems.length > 0 && (
-                    <>
-                        <div>
-                            <PerformanceList datas={performanceTopItems} />
-                            <PerformanceList datas={performanceBottomItems} isRtl />
-                        </div>
-                        <S.More>
-                            <Button
-                                label="more info"
-                                element="more"
-                                onClick={() => router.visit(route('works'))}
-                            />
-                        </S.More>
-                    </>
-                )}
-            </S.PerformanceWrap>
+            {performanceTopItems.length > 0 && performanceBottomItems.length > 0 && (
+                <S.PerformanceWrap>
+                    <div>
+                        <PerformanceList datas={performanceTopItems} />
+                        <PerformanceList datas={performanceBottomItems} isRtl />
+                    </div>
+                    <S.More>
+                        <Button
+                            label="more info"
+                            element="more"
+                            onClick={() => router.visit(route('works'))}
+                        />
+                    </S.More>
+                </S.PerformanceWrap>
+            )}
             <S.BusinessWrap>
                 <InnerContainer>
                     <BusinessContent

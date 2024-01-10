@@ -126,7 +126,7 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
             >
                 {performanceData.length > 0 &&
                     performanceData.map((item, index) => (
-                        <S.AlbumItem
+                        <S.PerformanceItem
                             key={index}
                             className={`keen-slider__slide number-slide${index}`}
                         >
@@ -140,7 +140,7 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
                                     </S.Title>
                                 </div>
                             </S.ContentsBox>
-                        </S.AlbumItem>
+                        </S.PerformanceItem>
                     ))}
             </div>
             <Modal

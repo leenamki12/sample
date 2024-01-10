@@ -14,6 +14,8 @@ export const Wrapper = styled.div<SwiperProps>`
         css`
             .swiper-wrapper {
                 ${tw`justify-center`}
+
+                ${screen('mobile')({ ...tw`justify-normal` })}
             }
         `}
 `;
@@ -49,7 +51,7 @@ export const SliderBox = styled.div`
 `;
 
 export const ImageBox = styled.div`
-    ${tw`max-h-[500px] max-w-[500px] shadow-[0px_40px_70px_0px_rgba(0,0,0,0.5)]`}
+    ${tw`mx-auto max-h-[500px] max-w-[500px] shadow-[0px_40px_70px_0px_rgba(0,0,0,0.5)]`}
 
     img {
         ${tw`h-full w-full object-cover`}

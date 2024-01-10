@@ -18,6 +18,7 @@ export default {
                 tablet: { max: '768px' },
                 laptop: { max: '1024px' },
                 desktop: { max: '1280px' },
+                fullDesktop: { max: '1580px' },
             },
             fontFamily: {
                 sans: ['WanderLoch', 'Pretendard', ...defaultTheme.fontFamily.sans],

@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
     }
 `;
 
-export const AlbumItem = styled.li`
+export const PerformanceItem = styled.li`
     ${tw`relative h-[450px] min-w-[390px] text-black shadow-[0_40px_50px_0px_rgba(0,0,0,0.8)]`}
 
     ${screen('tablet')({ ...tw`h-[230px] min-w-[200px]` })}
