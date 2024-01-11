@@ -222,26 +222,32 @@ function Works() {
                                                 image={`storage/${item.main_image_url}`}
                                                 onClick={() => handleOpenModal(item)}
                                             >
-                                                <S.TextBox>
-                                                    <S.TextTitle>
-                                                        <strong>{item.title}</strong>
-                                                    </S.TextTitle>
-                                                    <S.TextDate>
-                                                        {dayjs(item.date_time).format('YYYY.MM.DD')}
-                                                        <br />
-                                                        at {item.location}
-                                                    </S.TextDate>
-                                                    <S.TextPart>
-                                                        <div>
-                                                            {item.part_types.map(part => (
-                                                                <span key={part.id}>
-                                                                    {part.name}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-                                                        <p>WanderLoch.Inc</p>
-                                                    </S.TextPart>
-                                                </S.TextBox>
+                                                <S.BackgroundGradiant
+                                                    image={`storage/${item.main_image_url}`}
+                                                >
+                                                    <S.TextBox>
+                                                        <S.TextTitle>
+                                                            <strong>{item.title}</strong>
+                                                        </S.TextTitle>
+                                                        <S.TextDate>
+                                                            {dayjs(item.date_time).format(
+                                                                'YYYY.MM.DD'
+                                                            )}
+                                                            <br />
+                                                            at {item.location}
+                                                        </S.TextDate>
+                                                        <S.TextPart>
+                                                            <div>
+                                                                {item.part_types.map(part => (
+                                                                    <span key={part.id}>
+                                                                        {part.name}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                            <p>WanderLoch.Inc</p>
+                                                        </S.TextPart>
+                                                    </S.TextBox>
+                                                </S.BackgroundGradiant>
                                             </S.ContentsBox>
                                         </S.PerformanceItem>
                                     ))}

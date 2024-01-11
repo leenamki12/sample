@@ -73,24 +73,28 @@ function About() {
                             subTitle="페스티벌"
                             text="자체 페스티벌 기획 및 제작"
                             backgroundImage={BusinessBanner01}
+                            path="#"
                         />
                         <BusinessList
                             title="Concert & Show"
                             subTitle=" 기획공연"
                             text="브랜드 사전홍보 및 콘텐츠 스토리텔링 각종 콘서트 및 공연 기획 및 제작"
                             backgroundImage={BusinessBanner02}
+                            path="works"
                         />
                         <BusinessList
                             title="Venue Agency"
                             subTitle="공간 운영 대행"
                             text="쉽게 희석될 명분 대신 데이터 기반으로 찾아낸 실소비자에 집중합니다."
                             backgroundImage={BusinessBanner03}
+                            path="#"
                         />
                         <BusinessList
                             title="Festival & Concert Producing and Opertion Agency"
                             subTitle="페스티벌 및 공연 제작 및 운영 대행"
                             text="타사 기획 페스티벌 및 단독공연 제작,연출 및 운영대행"
                             backgroundImage={BusinessBanner04}
+                            path="works"
                         />
                         <BusinessList
                             title="기타"

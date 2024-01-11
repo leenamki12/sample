@@ -9,6 +9,10 @@ export const Wrapper = styled.div<SwiperProps>`
 
     ${screen('tablet')({ ...tw`px-[0px]` })}
 
+    .swiper-wrapper {
+        ${tw`items-center`}
+    }
+
     ${SwiperProps =>
         SwiperProps.isLocked &&
         css`
