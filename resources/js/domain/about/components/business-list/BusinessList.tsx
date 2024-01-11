@@ -1,3 +1,5 @@
+import { router } from '@inertiajs/react';
+
 import { Button } from '@/components/ui';
 
 import * as S from './BusinessList.styled';
@@ -6,9 +8,10 @@ type Props = {
     title: string;
     subTitle: string;
     text: string;
+    path?: string;
 } & S.StyleProps;
 
-function BusinessList({ title, text, subTitle, backgroundImage }: Props) {
+function BusinessList({ title, text, subTitle, path, backgroundImage }: Props) {
     return (
         <S.Wrapper backgroundImage={backgroundImage}>
             <div>
@@ -18,7 +21,13 @@ function BusinessList({ title, text, subTitle, backgroundImage }: Props) {
                 <S.Text>{text}</S.Text>
             </div>
             <S.ButtonBox>
-                <Button label="more info" element="more" />
+                {path && (
+                    <Button
+                        label="more info"
+                        element="more"
+                        onClick={() => router.visit(route(path))}
+                    />
+                )}
             </S.ButtonBox>
         </S.Wrapper>
     );

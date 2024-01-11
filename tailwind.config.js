@@ -14,6 +14,7 @@ export default {
     theme: {
         extend: {
             screens: {
+                /**  ${screen('tablet')({ display: '', ...tw`` })} 이런식으로 사용 가능 */
                 mobile: { max: '640px' },
                 tablet: { max: '768px' },
                 laptop: { max: '1024px' },

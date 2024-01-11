@@ -10,8 +10,12 @@ export const LogoWrap = styled.div`
     img {
         ${tw`w-full max-w-[490px]`}
 
+        ${screen('laptop')({ ...tw`max-w-[350px]` })}
+
         ${screen('tablet')({ ...tw`max-w-[170px]` })}
     }
+
+    ${screen('laptop')({ ...tw`py-[130px]` })}
 
     ${screen('tablet')({ ...tw`py-[66px]` })}
 `;

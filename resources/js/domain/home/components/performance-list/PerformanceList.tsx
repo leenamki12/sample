@@ -46,6 +46,20 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
             perView: 'auto',
             spacing: 20,
         },
+        created(s) {
+            s.moveToIdx(4, true, animation);
+        },
+        updated(s) {
+            s.moveToIdx(s.track.details.abs + 4, true, animation);
+        },
+        animationEnded(s) {
+            const { rel, progress } = s.track.details;
+            if (rel === 0 && progress !== 0) {
+                s.moveToIdx(0, true, { duration: 0 });
+            } else {
+                s.moveToIdx(s.track.details.abs + 4, true, animation);
+            }
+        },
         breakpoints: {
             '(max-width: 640px)': {
                 drag: true,
@@ -54,31 +68,6 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
             '(max-width: 768px)': {
                 drag: true,
                 slides: { origin: 'center', perView: 'auto', spacing: 20 },
-                created(s) {
-                    s.animator.stop();
-                },
-                updated(s) {
-                    s.animator.stop();
-                },
-                animationEnded(s) {
-                    s.animator.stop();
-                },
-            },
-            '(min-width: 769px)': {
-                created(s) {
-                    s.moveToIdx(4, true, animation);
-                },
-                updated(s) {
-                    s.moveToIdx(s.track.details.abs + 4, true, animation);
-                },
-                animationEnded(s) {
-                    const { rel, progress } = s.track.details;
-                    if (rel === 0 && progress !== 0) {
-                        s.moveToIdx(0, true, { duration: 0 });
-                    } else {
-                        s.moveToIdx(s.track.details.abs + 4, true, animation);
-                    }
-                },
             },
         },
     });
@@ -89,7 +78,7 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
                 slider.current.animator.stop();
             }
         } else {
-            if (slider.current && window.innerWidth >= 768) {
+            if (slider.current) {
                 slider.current.moveToIdx(slider.current.track.details.abs + 4, true, animation);
             }
         }
@@ -134,11 +123,13 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
                                 image={`storage/${item.main_image_url}`}
                                 onClick={() => handleOpenModal(item)}
                             >
-                                <div>
-                                    <S.Title>
-                                        <strong>{item.title}</strong>
-                                    </S.Title>
-                                </div>
+                                <S.BackgroundGradiant image={`storage/${item.main_image_url}`}>
+                                    <S.TextBox>
+                                        <S.Title>
+                                            <strong>{item.title}</strong>
+                                        </S.Title>
+                                    </S.TextBox>
+                                </S.BackgroundGradiant>
                             </S.ContentsBox>
                         </S.PerformanceItem>
                     ))}
