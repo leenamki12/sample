@@ -2,7 +2,6 @@
 
 namespace App\Domains\Admin\Performance\DTOs;
 
-use App\Domains\Admin\Performance\Models\Performance;
 use Carbon\Carbon;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
@@ -21,6 +20,10 @@ class PerformanceQueryDTO extends Data
      * @var DataCollection|PerformanceWorkTypesDTO[]
     */
     public DataCollection $work_types;
+    /**
+     * @var DataCollection|PerformanceImageDTO[]
+    */
+    public DataCollection $images;
     public string $date_time;
     public string $location;
     public string $main_image_url;
@@ -34,6 +37,7 @@ class PerformanceQueryDTO extends Data
         $this->location = $performance['location'];
         $this->main_image_url = $performance['main_image_url'];
         $this->visible = (bool) $performance['visible'];
+        $this->images = PerformanceImageDTO::collection($performance['images']);
         $this->part_types = PerformancePartTypesDTO::collection($performance['part_types']);
         $this->work_types = PerformanceWorkTypesDTO::collection($performance['work_types']);
         $this->date_time = Carbon::parse($performance['date_time'])->format('Y-m-d H:i:s');
