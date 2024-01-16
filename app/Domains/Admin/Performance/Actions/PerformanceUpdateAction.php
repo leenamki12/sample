@@ -7,6 +7,7 @@ use App\Domains\Admin\Performance\Models\PerformanceImage;
 use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\DTOs\PerformanceImageDTO;
 use App\Domains\Admin\Performance\DTOs\PerformanceStoreDTO;
+use App\Domains\Admin\WorkType\Models\WorkType;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceUpdateRequest;
 
 class PerformanceUpdateAction
@@ -48,7 +49,7 @@ class PerformanceUpdateAction
         $this->performance->update($performanceDto->toArray());
 
         $parts = PartType::findMany($request->part_type_ids);
-        $works = PartType::findMany($request->work_type_ids);
+        $works = WorkType::findMany($request->work_type_ids);
 
         $this->performance->part_types()->sync($parts->pluck('id'));
         $this->performance->work_types()->sync($works->pluck('id'));

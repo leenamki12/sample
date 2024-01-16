@@ -6,6 +6,7 @@ use App\Domains\Admin\PartType\Models\PartType;
 use App\Domains\Admin\Performance\DTOs\PerformanceImageDTO;
 use App\Domains\Admin\Performance\DTOs\PerformanceStoreDTO;
 use App\Domains\Admin\Performance\Models\Performance;
+use App\Domains\Admin\WorkType\Models\WorkType;
 use App\Http\Controllers\Web\Admin\Requests\PerformanceRequest;
 
 class PerformanceStoreAction
@@ -24,7 +25,7 @@ class PerformanceStoreAction
     {
         $files = $request->file('file_items');
         $partTypes = PartType::findMany($request['part_type_ids']);
-        $workTypes = PartType::findMany($request['work_type_ids']);
+        $workTypes = WorkType::findMany($request['work_type_ids']);
         $performanceDto = PerformanceStoreDTO::fromArray($request->toArray());
 
         // 공연 정보 저장
