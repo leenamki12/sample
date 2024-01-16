@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { NavigationOptions, type Swiper as SwiperRef } from 'swiper/types';
 
 import 'swiper/css/navigation';
-import 'swiper/css/navigation';
 
 import { Performance } from '@/types/admin/performance/index';
 import ArrowNext from '@assets/pages/icon_swiper_arrow_next.svg';

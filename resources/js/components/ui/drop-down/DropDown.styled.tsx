@@ -14,7 +14,8 @@ export const MenuItems = styled(Menu.Items)`
 `;
 
 export const MenuItem = styled(Menu.Item)`
-    a {
+    a,
+    button {
         ${tw`flex items-center justify-between px-[12px] leading-[32px]`}
     }
 `;

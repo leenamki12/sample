@@ -33,7 +33,7 @@ function ContactContent({ title }: Props) {
                     </p>
                     <S.SnsList>
                         <li>
-                            <a href="">
+                            <a href="https://www.instagram.com/wanderloch/" target="_blank">
                                 <span>
                                     <img src={IconInstagram} alt="" />
                                 </span>
@@ -41,12 +41,12 @@ function ContactContent({ title }: Props) {
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <button onClick={() => alert('준비중 입니다.')}>
                                 <span>
                                     <img src={IconTwetter} alt="" />
                                 </span>
                                 X
-                            </a>
+                            </button>
                         </li>
                     </S.SnsList>
                 </S.SnsContent>

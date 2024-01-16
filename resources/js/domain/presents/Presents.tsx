@@ -27,7 +27,11 @@ function Presents() {
                     </S.GlowContent>
                     <S.GreenText>The Glow 2024 2024 04.13-14 at KINTEX</S.GreenText>
                     <S.ButtonBox>
-                        <Button element="border" label="Buy Ticket"></Button>
+                        <Button
+                            element="border"
+                            label="Buy Ticket"
+                            onClick={() => alert('준비중 입니다.')}
+                        ></Button>
                     </S.ButtonBox>
                 </InnerContainer>
             </S.Section>
@@ -51,7 +55,11 @@ function Presents() {
                     </S.VenueContent>
                     <S.GreenText>2024, Coming Soon</S.GreenText>
                     <S.ButtonBox>
-                        <Button element="border" label="대관문의"></Button>
+                        <Button
+                            element="border"
+                            label="대관문의"
+                            onClick={() => alert('준비중 입니다.')}
+                        ></Button>
                     </S.ButtonBox>
                 </InnerContainer>
             </S.Section>

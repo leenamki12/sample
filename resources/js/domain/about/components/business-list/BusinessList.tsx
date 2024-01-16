@@ -25,7 +25,7 @@ function BusinessList({ title, text, subTitle, path, backgroundImage }: Props) {
                     <Button
                         label="more info"
                         element="more"
-                        onClick={() => router.visit(route(path))}
+                        onClick={() => path === '#' ? alert('준비중 입니다.') : router.visit(route(path))}
                     />
                 )}
             </S.ButtonBox>

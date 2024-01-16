@@ -57,6 +57,9 @@ export default function DropDown({ label, items }: DropDownProps) {
                                             href={item.path}
                                             target={item.target}
                                             className={classNames(active ? 'bg-gray-100' : '')}
+                                            onClick={() =>
+                                                item.path === '#' && alert('준비중 입니다.')
+                                            }
                                         >
                                             {item.label}
                                             <ChevronRightIcon

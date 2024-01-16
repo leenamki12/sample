@@ -38,7 +38,7 @@ export const SnsList = styled.div`
 
         ${screen('tablet')({ ...tw`ml-0 mr-[10px]` })}
 
-        a {
+        a, button {
             ${tw`flex items-center justify-center text-base`}
 
             span {
