@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useKeenSlider } from 'keen-slider/react';
 
@@ -36,29 +36,15 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
         }
     }, []);
 
-    const animation = { duration: 20000, easing: (t: number) => t };
-    const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
+    const [sliderRef] = useKeenSlider<HTMLDivElement>({
         loop: true,
         renderMode: 'performance',
-        drag: false,
-        rtl: isRtl,
+        drag: true,
+        rtl: false,
         slides: {
+            origin: 'center',
             perView: 'auto',
             spacing: 20,
-        },
-        created(s) {
-            s.moveToIdx(4, true, animation);
-        },
-        updated(s) {
-            s.moveToIdx(s.track.details.abs + 4, true, animation);
-        },
-        animationEnded(s) {
-            const { rel, progress } = s.track.details;
-            if (rel === 0 && progress !== 0) {
-                s.moveToIdx(0, true, { duration: 0 });
-            } else {
-                s.moveToIdx(s.track.details.abs + 4, true, animation);
-            }
         },
         breakpoints: {
             '(max-width: 640px)': {
@@ -72,21 +58,8 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
         },
     });
 
-    const handleAnimation = (animationPause: boolean) => {
-        if (animationPause) {
-            if (slider.current) {
-                slider.current.animator.stop();
-            }
-        } else {
-            if (slider.current) {
-                slider.current.moveToIdx(slider.current.track.details.abs + 4, true, animation);
-            }
-        }
-    };
-
     const handleOpenModal = (data: Performance) => {
         setIsModalOpen(true);
-        handleAnimation(true);
         setModalData(data);
     };
 
@@ -94,25 +67,9 @@ function PerformanceList({ datas, isRtl = false, ...props }: Props) {
         setIsModalOpen(false);
     };
 
-    useEffect(() => {
-        if (!isModalOpen) handleAnimation(false);
-    }, [isModalOpen]);
-
     return (
         <S.Wrapper>
-            <div
-                ref={sliderRef}
-                onMouseEnter={() => {
-                    handleAnimation(true);
-                }}
-                onMouseLeave={() => {
-                    if (!isModalOpen) {
-                        handleAnimation(false);
-                    }
-                }}
-                className="keen-slider"
-                {...props}
-            >
+            <div ref={sliderRef} className="keen-slider" {...props}>
                 {performanceData.length > 0 &&
                     performanceData.map((item, index) => (
                         <S.PerformanceItem

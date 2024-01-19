@@ -25,7 +25,7 @@ function Presents() {
                         압도적인 경험, 그리고 눈을 뗄 수 없는 라인업 <br />
                         등장부터 활약까지 새로운 음악 페스티벌의 탄생
                     </S.GlowContent>
-                    <S.GreenText>The Glow 2024 2024 04.13-14 at KINTEX</S.GreenText>
+                    <S.GreenText>2024 04.13-14 at KINTEX</S.GreenText>
                     <S.ButtonBox>
                         <Button
                             element="border"

@@ -85,12 +85,12 @@ function About() {
                         <BusinessList
                             title="Venue Agency"
                             subTitle="공간 운영 대행"
-                            text="쉽게 희석될 명분 대신 데이터 기반으로 찾아낸 실소비자에 집중합니다."
+                            text="오프라인 공연장 운영 및 대관사업"
                             backgroundImage={BusinessBanner03}
                             path="#"
                         />
                         <BusinessList
-                            title="Festival & Concert Producing and Opertion Agency"
+                            title="Festival & Concert Producing and Operation Agency"
                             subTitle="페스티벌 및 공연 제작 및 운영 대행"
                             text="타사 기획 페스티벌 및 단독공연 제작,연출 및 운영대행"
                             backgroundImage={BusinessBanner04}

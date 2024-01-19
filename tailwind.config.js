@@ -22,9 +22,8 @@ export default {
                 fullDesktop: { max: '1580px' },
             },
             fontFamily: {
-                sans: ['WanderLoch', 'Pretendard', ...defaultTheme.fontFamily.sans],
+                sans: ['AppleSDGothicNeo', 'Pretendard', ...defaultTheme.fontFamily.sans],
                 pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans],
-                wanderlochSecondary: ['WanderLoch-secondary', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: '#1743B1',

@@ -146,7 +146,7 @@ export const BackgroundGradiant = styled.div<PerformanceStyleProps>`
 `;
 
 export const TextBox = styled.div`
-    ${tw`absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center px-[30px] text-center font-wanderlochSecondary text-white opacity-0 transition-opacity duration-150`}
+    ${tw`absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center px-[30px] text-center text-white opacity-0 transition-opacity duration-150`}
 
     &:hover {
         ${tw`opacity-100`}

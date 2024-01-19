@@ -55,10 +55,10 @@ export const SliderBox = styled.div`
 `;
 
 export const ImageBox = styled.div`
-    ${tw`mx-auto max-h-[500px] max-w-[500px] pb-[100%] shadow-[0px_40px_70px_0px_rgba(0,0,0,0.5)]`}
+    ${tw`mx-auto max-h-[500px] max-w-[500px] shadow-[0px_40px_70px_0px_rgba(0,0,0,0.5)]`}
 
     img {
-        ${tw`absolute left-0 top-0 h-full w-full object-cover`}
+        ${tw`h-full w-full object-cover`}
     }
 `;
 

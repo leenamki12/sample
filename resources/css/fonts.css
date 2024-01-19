@@ -1,33 +1,25 @@
 @charset "utf-8";
 
 @font-face {
-    font-family: 'WanderLoch';
+    font-family: 'AppleSDGothicNeo';
     font-style: normal;
     font-weight: 400;
-    src: url(../fonts/WanderLoch-primary-normal.ttf);
-    src: url(../fonts/WanderLoch-primary-normal.woff) format('woff');
+    src: url(../fonts/AppleSDGothicNeoR.ttf);
+    src: url(../fonts/AppleSDGothicNeoR.woff) format('woff');
 }
 
 @font-face {
-    font-family: 'WanderLoch';
-    font-style: normal;
-    font-weight: bold;
-    src: url(../fonts/WanderLoch-primary-bold.ttf);
-    src: url(../fonts/WanderLoch-primary-bold.woff) format('woff');
-}
-
-@font-face {
-    font-family: 'WanderLoch-secondary';
-    font-style: normal;
+    font-family: 'AppleSDGothicNeo';
+    font-style: medium;
     font-weight: 400;
-    src: url(../fonts/WanderLoch-secondary-normal.ttf);
-    src: url(../fonts/WanderLoch-secondary-normal.woff) format('woff');
+    src: url(../fonts/AppleSDGothicNeoM.ttf);
+    src: url(../fonts/AppleSDGothicNeoM.woff) format('woff');
 }
 
 @font-face {
-    font-family: 'WanderLoch-secondary';
+    font-family: 'AppleSDGothicNeo';
     font-style: normal;
     font-weight: bold;
-    src: url(../fonts/WanderLoch-secondary-bold.ttf);
-    src: url(../fonts/WanderLoch-secondary-bold.woff) format('woff');
+    src: url(../fonts/AppleSDGothicNeoB.ttf);
+    src: url(../fonts/AppleSDGothicNeoB.woff) format('woff');
 }
