@@ -38,7 +38,8 @@ function SwiperModal({ data, isModalOpen, setIsModalOpen }: Props) {
                 <S.TitleContent>
                     <strong>{data.title}</strong>
                     <p>
-                        {dayjs(data.date_time).format('YYYY.MM.DD')} at {data.location}
+                        {dayjs(data.date_time).format('YYYY.MM.DD')} ~{' '}
+                        {dayjs(data.end_date_time).format('YYYY.MM.DD')} at {data.location}
                     </p>
                 </S.TitleContent>
                 <S.CloseButton onClick={() => setIsModalOpen(false)}>

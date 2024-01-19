@@ -7,7 +7,7 @@ export type Performance = {
     id: number | string;
     order_sequence: number;
     title: string; // 공연 제목
-    date_time: number; //공연시간
+    date_time: string; //공연시간
     location: string; // 주소
     visible: boolean;
     main_image_url: string;
@@ -16,6 +16,8 @@ export type Performance = {
     images: Image[];
     created_at: Date;
     updated_at: Date;
+    main_visible: boolean;
+    end_date_time: string; //공연시간
 };
 
 export type PerformanceFromkey =
@@ -24,9 +26,11 @@ export type PerformanceFromkey =
     | 'date_time'
     | 'location'
     | 'visible'
+    | 'main_visible'
     | 'part_type_ids'
     | 'work_type_ids'
-    | 'file_items';
+    | 'file_items'
+    | 'end_date_time';
 
 export type Categories = {
     part_types: PartType[];

@@ -8,9 +8,14 @@ use App\Domains\Admin\Performance\Models\Performance;
 
 class PerformanceQueryAction
 {
-    public function handle(int $perPage = 10, bool $isVisibleChecked = false): array
+    public function handle(int $perPage = 10, bool $isVisibleChecked = false, bool $isMainVisibleChecked = false): array
     {
         $performances = Performance::query();
+
+        // $isMainVisibleChecked가 ture일 경우 메인 노출 컨텐츠만 불러오는 로직 추가
+        if ($isMainVisibleChecked) {
+            $performances->where('main_visible', true);
+        }
 
         // $isVisibleChecked가 ture일 경우 노출 컨텐츠만 불러오는 로직 추가
         if ($isVisibleChecked) {
@@ -44,7 +49,10 @@ class PerformanceQueryAction
             $months = array_unique(explode(',', $monthlyFilter));
             $performances->where(function ($query) use ($months) {
                 foreach ($months as $month) {
-                    $query->orWhereMonth('date_time', $month);
+                    $query->orWhere(function ($subquery) use ($month) {
+                        $subquery->whereMonth('date_time', $month)
+                                ->orWhereMonth('end_date_time', $month);
+                    });
                 }
             });
         }

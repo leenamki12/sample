@@ -20,8 +20,9 @@ function PerformanceList() {
         { name: 'Work', width: 100 },
         { name: '제목', width: '*' },
         { name: '공연시간', width: 100 },
-        { name: '공연장소', width: 200 },
+        { name: '공연장소', width: 150 },
         { name: '노출여부', width: 80 },
+        { name: '메인 노출', width: 80 },
         { name: '작성일', width: 100 },
     ];
 
@@ -113,9 +114,26 @@ function PerformanceList() {
                                     <Td>
                                         <S.TitleBox>{handleFormatText(item.title)}</S.TitleBox>
                                     </Td>
-                                    <Td>{dayjs(item.date_time).format('YYYY-MM-DD')}</Td>
+                                    <Td>
+                                        시작 : {dayjs(item.date_time).format('YYYY-MM-DD')}
+                                        <br />
+                                        종료 : {dayjs(item.end_date_time).format('YYYY-MM-DD')}
+                                    </Td>
                                     <Td>{item.location}</Td>
-                                    <Td>{item.visible ? '노출' : '미노출'}</Td>
+                                    <Td>
+                                        {item.visible ? (
+                                            <span className="pl-2.5 text-blue-500">노출</span>
+                                        ) : (
+                                            <span className="pl-2.5 text-red-500">미노출</span>
+                                        )}
+                                    </Td>
+                                    <Td>
+                                        {item.main_visible ? (
+                                            <span className="pl-2.5 text-blue-500">노출</span>
+                                        ) : (
+                                            <span className="pl-2.5 text-red-500">미노출</span>
+                                        )}
+                                    </Td>
                                     <Td>{dayjs(item.created_at).format('YYYY-MM-DD')}</Td>
                                 </React.Fragment>
                             );

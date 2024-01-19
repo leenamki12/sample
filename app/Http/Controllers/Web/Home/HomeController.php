@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index(PerformanceQueryAction $action)
     {
-        $arrayData = $action->handle(100);
+        $arrayData = $action->handle(100, false, true);
 
         return Inertia::render('home/Home', $arrayData);
     }

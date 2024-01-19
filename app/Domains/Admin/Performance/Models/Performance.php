@@ -15,6 +15,8 @@ class Performance extends Model
         'date_time',
         'location',
         'visible',
+        'main_visible',
+        'end_date_time',
     ];
 
     public function part_types()

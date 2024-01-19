@@ -19,6 +19,8 @@ class PerformanceUpdateRequest extends FormRequest
             'date_time' => 'required|date',
             'location' => 'required|string',
             'visible' => 'boolean',
+            'main_visible' => 'boolean',
+            'end_date_time' => 'required|date',
             'file_items' => 'array',
             'part_type_ids' => 'array',
             'part_type_ids.*' => 'exists:part_types,id', // 예: parts 테이블의 id와 연결된지 확인
@@ -33,7 +35,8 @@ class PerformanceUpdateRequest extends FormRequest
     {
         return [
             'title.required' => '제목을 입력해주세요.',
-            'date_time.required' => '날짜 및 시간을 입력해주세요.',
+            'date_time.required' => '시작 날짜 및 시간을 입력해주세요.',
+            'end_date_time.required' => '종료 날짜 및 시간을 입력해주세요.',
             'location.required' => '장소를 입력해주세요.',
             'part_type_ids.*.exists' => '부적절한 부분이 포함되어 있습니다.',
             'part_type_ids.required_without_all' => 'Part는 최소 1개를 선택해야합니다.',

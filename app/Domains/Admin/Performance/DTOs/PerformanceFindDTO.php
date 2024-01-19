@@ -12,8 +12,10 @@ class PerformanceFindDTO extends Data
         public int $id,
         public string $title,
         public bool $visible,
+        public bool $main_visible,
         public string $location,
         public string $date_time,
+        public string $end_date_time,
         /**
          * @var DataCollection|PerformancePartTypesDTO[]
         */
@@ -35,8 +37,10 @@ class PerformanceFindDTO extends Data
             $performance['id'],
             $performance['title'],
             $performance['visible'],
+            $performance['main_visible'],
             $performance['location'],
             Carbon::parse($performance['date_time'])->format('Y-m-d H:i:s'),
+            Carbon::parse($performance['end_date_time'])->format('Y-m-d H:i:s'),
             PerformancePartTypesDTO::collection($performance['part_types']),
             PerformancePartTypesDTO::collection($performance['work_types']),
             PerformanceImageDTO::collection($performance['images']),

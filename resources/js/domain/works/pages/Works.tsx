@@ -233,6 +233,10 @@ function Works() {
                                                             {dayjs(item.date_time).format(
                                                                 'YYYY.MM.DD'
                                                             )}
+                                                            <span className="mx-1">~</span>
+                                                            {dayjs(item.end_date_time).format(
+                                                                'YYYY.MM.DD'
+                                                            )}
                                                             <br />
                                                             at {item.location}
                                                         </S.TextDate>

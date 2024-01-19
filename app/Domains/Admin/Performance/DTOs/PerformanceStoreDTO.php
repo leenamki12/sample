@@ -11,8 +11,10 @@ class PerformanceStoreDTO extends Data
     public function __construct(
         public string $title,
         public bool $visible,
+        public bool $main_visible,
         public string $location,
         public string $date_time,
+        public string $end_date_time,
     ) {
     }
 
@@ -21,8 +23,10 @@ class PerformanceStoreDTO extends Data
         return new self(
             $performance['title'],
             $performance['visible'],
+            $performance['main_visible'],
             $performance['location'],
             Carbon::parse($performance['date_time'])->format('Y-m-d H:i:s'),
+            Carbon::parse($performance['end_date_time'])->format('Y-m-d H:i:s'),
         );
     }
 }

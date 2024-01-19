@@ -29,6 +29,8 @@ class PerformanceQueryDTO extends Data
     public string $main_image_url;
     public string $created_at;
     public bool $visible;
+    public bool $main_visible;
+    public string $end_date_time;
 
     public function __construct(array $performance) {
         $this->id = $performance['id'];
@@ -37,10 +39,12 @@ class PerformanceQueryDTO extends Data
         $this->location = $performance['location'];
         $this->main_image_url = $performance['main_image_url'];
         $this->visible = (bool) $performance['visible'];
+        $this->main_visible = (bool) $performance['main_visible'];
         $this->images = PerformanceImageDTO::collection($performance['images']);
         $this->part_types = PerformancePartTypesDTO::collection($performance['part_types']);
         $this->work_types = PerformanceWorkTypesDTO::collection($performance['work_types']);
         $this->date_time = Carbon::parse($performance['date_time'])->format('Y-m-d H:i:s');
+        $this->end_date_time = Carbon::parse($performance['end_date_time'])->format('Y-m-d H:i:s');
         $this->created_at = Carbon::parse($performance['created_at'])->format('Y-m-d H:i:s');
     }
 }
