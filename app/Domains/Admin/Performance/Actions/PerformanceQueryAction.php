@@ -53,8 +53,13 @@ class PerformanceQueryAction
             $performances->where(function ($query) use ($months) {
                 foreach ($months as $month) {
                     $query->orWhere(function ($subquery) use ($month) {
-                        $subquery->whereMonth('date_time', $month)
-                                ->orWhereMonth('end_date_time', $month);
+                        $subquery->where(function ($dateQuery) use ($month) {
+                            $dateQuery->whereMonth('date_time', $month)
+                                    ->whereYear('date_time', request('years', now()->year));
+                        })->orWhere(function ($endDateQuery) use ($month) {
+                            $endDateQuery->whereMonth('end_date_time', $month)
+                                        ->whereYear('end_date_time', request('years', now()->year));
+                        });
                     });
                 }
             });
