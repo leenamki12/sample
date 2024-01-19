@@ -39,7 +39,10 @@ class PerformanceQueryAction
             $years = array_unique(explode(',', $yearsFilter));
             $performances->where(function ($query) use ($years) {
                 foreach ($years as $year) {
-                    $query->orWhereYear('date_time', $year);
+                    $query->orWhere(function ($subquery) use ($year) {
+                        $subquery->whereYear('date_time', $year)
+                                ->orWhereYear('end_date_time', $year);
+                    });
                 }
             });
         }

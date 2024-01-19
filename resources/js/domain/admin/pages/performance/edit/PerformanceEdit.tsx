@@ -1,6 +1,7 @@
 import { FormEventHandler } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
+import dayjs from 'dayjs';
 
 import { Button, LabelTextArea, LabelTextInput } from '@/components/ui';
 import SwitchButton from '@/components/ui/switch/SwitchButton';
@@ -45,7 +46,7 @@ function PerformanceEdit() {
         work_type_ids: performance.work_types.map(item => item.id as number),
         file_items: [],
         delete_image_ids: [],
-        end_date_time: performance.end_date_time ? performance.end_date_time : '',
+        end_date_time: performance.end_date_time,
         main_visible: performance.main_visible,
     });
 
@@ -100,6 +101,7 @@ function PerformanceEdit() {
                             className="h-[120px]"
                             isRequired
                         />
+
                         <LabelTextInput
                             label="시작 날짜 및 시간"
                             type="datetime-local"
@@ -108,6 +110,9 @@ function PerformanceEdit() {
                             placeholder="시작 날짜 및 시간을 입력해주세요."
                             error={errors?.['date_time']}
                             defaultValue={data.date_time}
+                            max={dayjs(data.end_date_time)
+                                .subtract(1, 'day')
+                                .format('YYYY-MM-DD HH:mm:ss')}
                             isRequired
                         />
                         <LabelTextInput
@@ -118,6 +123,7 @@ function PerformanceEdit() {
                             placeholder="종료 날짜 및 시간을 입력해주세요."
                             error={errors?.['end_date_time']}
                             defaultValue={data.end_date_time}
+                            min={data.date_time}
                             isRequired
                         />
                         <LabelTextInput
