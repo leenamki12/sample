@@ -23,6 +23,8 @@ type FormProps = {
     part_type_ids: number[];
     work_type_ids: number[];
     file_items: FileItem[];
+    main_visible: boolean;
+    end_date_time: string;
 };
 
 function PerformanceCreate() {
@@ -36,6 +38,8 @@ function PerformanceCreate() {
         part_type_ids: [],
         work_type_ids: [],
         file_items: [],
+        end_date_time: '',
+        main_visible: true,
     });
 
     const handleChangeInputData = <K extends keyof FormProps>(id: K, value: FormProps[K]) => {
@@ -92,12 +96,21 @@ function PerformanceCreate() {
                             isRequired
                         />
                         <LabelTextInput
-                            label="날짜 및 시간"
+                            label="시작 날짜 및 시간"
                             type="datetime-local"
                             id="date_time"
                             onChange={(_id, value) => handleChangeInputData('date_time', value)}
-                            placeholder="공연 장소를 입력해주세요."
+                            placeholder="시작 날짜 및 시간을 입력해주세요."
                             error={errors?.['date_time']}
+                            isRequired
+                        />
+                        <LabelTextInput
+                            label="종료 날짜 및 시간"
+                            type="datetime-local"
+                            id="end_date_time"
+                            onChange={(_id, value) => handleChangeInputData('end_date_time', value)}
+                            placeholder="종료 날짜 및 시간을 입력해주세요."
+                            error={errors?.['end_date_time']}
                             isRequired
                         />
                         <LabelTextInput
@@ -118,6 +131,16 @@ function PerformanceCreate() {
                         <SwitchButton
                             defaultValue={data.visible}
                             onChange={value => handleChangeInputData('visible', value)}
+                        />
+
+                        <S.Label>
+                            <div className="flex items-center">
+                                메인 노출 여부 <span>*</span>
+                            </div>
+                        </S.Label>
+                        <SwitchButton
+                            defaultValue={data.main_visible}
+                            onChange={value => handleChangeInputData('main_visible', value)}
                         />
 
                         <FileUploader
