@@ -248,7 +248,7 @@ function Works() {
                                                                     </span>
                                                                 ))}
                                                             </div>
-                                                            <p>WanderLoch.Inc</p>
+                                                            <p>WanderLoch Inc.</p>
                                                         </S.TextPart>
                                                     </S.TextBox>
                                                 </S.BackgroundGradiant>

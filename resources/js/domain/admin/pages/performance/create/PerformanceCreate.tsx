@@ -1,7 +1,6 @@
 import { FormEventHandler } from 'react';
 
 import { useForm, usePage } from '@inertiajs/react';
-import dayjs from 'dayjs';
 
 import { Button, LabelTextArea, LabelTextInput } from '@/components/ui';
 import SwitchButton from '@/components/ui/switch/SwitchButton';
@@ -103,9 +102,7 @@ function PerformanceCreate() {
                             onChange={(_id, value) => handleChangeInputData('date_time', value)}
                             placeholder="시작 날짜 및 시간을 입력해주세요."
                             error={errors?.['date_time']}
-                            max={dayjs(data.end_date_time)
-                                .subtract(1, 'day')
-                                .format('YYYY-MM-DD HH:mm:ss')}
+                            max={data.end_date_time}
                             isRequired
                         />
                         <LabelTextInput

@@ -108,7 +108,7 @@ function SwiperModal({ data, isModalOpen, setIsModalOpen }: Props) {
                 {data.part_types.map(part => (
                     <span key={part.id}>{part.name}</span>
                 ))}
-                <p>WanderLoch.Inc</p>
+                <p>WanderLoch Inc.</p>
             </S.InfoBox>
         </S.Wrapper>
     );
