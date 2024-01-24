@@ -86,11 +86,14 @@ class PerformanceUpdateAction
         }
     }
 
-    private function handleImageDestroy(array $fileDelete)
+    private function handleImageDestroy(array $fileDeleteIds)
     {
-        PerformanceImage::destroy($fileDelete);
+        PerformanceImage::destroy($fileDeleteIds);
 
-        $nextImage = $this->performance->images->first();
+        $nextImage = $this->performance->images()
+        ->whereNotIn('id', $fileDeleteIds)
+        ->first();
+
         $nextImage->update([
             'main_image' => true
         ]);
