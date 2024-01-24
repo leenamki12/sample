@@ -90,12 +90,25 @@ class PerformanceUpdateAction
     {
         PerformanceImage::destroy($fileDeleteIds);
 
-        $nextImage = $this->performance->images()
+        $remainingImages = $this->performance->images()
         ->whereNotIn('id', $fileDeleteIds)
-        ->first();
+        ->get();
 
-        $nextImage->update([
-            'main_image' => true
-        ]);
+        // 첫 번째 이미지 업데이트
+        $nextImage = $remainingImages->shift();
+        if ($nextImage) {
+            $nextImage->update([
+                'main_image' => true,
+                'order_sequence' => 0,
+            ]);
+        }
+
+        // 나머지 이미지들에 대해 order_sequence 업데이트
+        $orderSequence = 1;
+        foreach ($remainingImages as $image) {
+            $image->update([
+                'order_sequence' => $orderSequence++,
+            ]);
+        }
     }
 }
