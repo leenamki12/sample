@@ -7,26 +7,23 @@ import { ReactElement } from 'react';
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 
-import ConnectLayout from './layouts/ConnectLayout';
-
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
+import AppLayout from './templates/AppLayout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: title => `${title} - ${appName}`,
     resolve: async name => {
-        const pages = import.meta.glob('./domain/**/*.tsx');
-        const pageModule = pages[`./domain/${name}.tsx`];
+        const pages = import.meta.glob('./pages/**/*.tsx');
+        const pageModule = pages[`./pages/${name}.tsx`];
 
         const page: any = await pageModule();
 
-        page.default.layout = name.startsWith('public/')
-            ? undefined
-            : (page: ReactElement) => <ConnectLayout children={page} name={name} />;
+        page.default.layout = (page: ReactElement) => <AppLayout children={page} name={name} />;
 
         return page;
     },
