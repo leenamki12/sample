@@ -21,8 +21,5 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Auth::provider('companies',  function ($app, array $config) {
-            return new CompaniesProvider($app, $config);
-        });
     }
 }

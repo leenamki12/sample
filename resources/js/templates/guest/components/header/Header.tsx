@@ -1,13 +1,40 @@
-import * as S from './Header.styled';
+import Logo from '@assets/common/logo.png';
+
+import * as s from './Header.styled';
 
 function Header() {
     return (
-        <S.Wrapper>
-            <S.InnerBox>
-                <S.LogoButton href={route('home')}>로고</S.LogoButton>
-                <S.Nav></S.Nav>
-            </S.InnerBox>
-        </S.Wrapper>
+        <s.Wrapper>
+            <s.InnerBox>
+                <s.LogoButton href={route('home')}>
+                    <img src={Logo} alt="" />
+                </s.LogoButton>
+                <s.Nav>
+                    <li>
+                        <a href="">NOTICE</a>
+                    </li>
+                    <li>
+                        <a href="">LINE UP</a>
+                    </li>
+                    <li>
+                        <a href="">TICKET</a>
+                    </li>
+                    <li>
+                        <a href="">MAP</a>
+                    </li>
+                    <li>
+                        <a href="">TIMETABLE</a>
+                    </li>
+                    <li>
+                        <a href="">FAQS</a>
+                    </li>
+                    <li>
+                        <a href="">GALLERY</a>
+                    </li>
+                </s.Nav>
+                <div>전체 메뉴</div>
+            </s.InnerBox>
+        </s.Wrapper>
     );
 }
 
