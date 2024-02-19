@@ -20,13 +20,12 @@ export const LogoButton = styled(Link)`
 `;
 
 export const Nav = styled.ul`
-    ${tw`flex items-center gap-[50px] pr-2`}
+    ${tw`flex items-center gap-[40px]`}
 
     ${screen('tablet')({ ...tw`w-full justify-center gap-[10px] border-t border-[#333] pr-0` })}
 
     li > a {
-        ${tw`font-pretendard text-[20px]`}
-
+        ${tw`text-[20px]`}
         ${screen('desktop')({ ...tw`text-lg` })}
 
         ${screen('tablet')({ ...tw`block p-[15px] text-base` })}

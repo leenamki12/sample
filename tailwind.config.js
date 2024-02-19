@@ -22,8 +22,8 @@ export default {
                 fullDesktop: { max: '1580px' },
             },
             fontFamily: {
-                sans: ['AppleSDGothicNeo', 'Pretendard', ...defaultTheme.fontFamily.sans],
-                pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans],
+                sans: ['loos-normal', 'AppleSDGothicNeo', ...defaultTheme.fontFamily.sans],
+                loos: ['loos-normal', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: '#1743B1',
