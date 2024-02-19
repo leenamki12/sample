@@ -17,7 +17,7 @@
     <meta property="og:image" content="{{ asset('link_logo.png') }}" /> --}}
 
     <!-- Fonts -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/aoi2pcm.css">
 
     <!-- Scripts -->
     @routes

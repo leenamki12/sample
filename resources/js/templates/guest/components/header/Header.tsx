@@ -1,3 +1,5 @@
+import { Bars3Icon } from '@heroicons/react/20/solid';
+
 import Logo from '@assets/common/logo.png';
 
 import * as s from './Header.styled';
@@ -29,10 +31,12 @@ function Header() {
                         <a href="">FAQS</a>
                     </li>
                     <li>
-                        <a href="">GALLERY</a>
+                        <a href="">CALLERY</a>
                     </li>
                 </s.Nav>
-                <div>전체 메뉴</div>
+                <div>
+                    <Bars3Icon className="h-[32px] w-[32px]" />
+                </div>
             </s.InnerBox>
         </s.Wrapper>
     );

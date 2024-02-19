@@ -1,5 +1,7 @@
+import TopVisual from './top-visual/TopVisual';
+
 function Home() {
-    return <div>메인페이지</div>;
+    return <TopVisual />;
 }
 
 export default Home;
