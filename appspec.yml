@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/mm-theglow-2024
+permissions:
+  - object: /home/ubuntu/mm-theglow-2024
+    owner: ubuntu
+    group: ubuntu
+    mode: 777
+
+hooks:
+  AfterInstall:
+    - location: scripts/after-install.sh
+      timeout: 300
+      runas: ubuntu

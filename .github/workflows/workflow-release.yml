@@ -1,0 +1,37 @@
+name: release
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  PROJECT_NAME: mm-theglow-2024
+  BUCKET_NAME: withbrother-mm-bucket
+  CODE_DEPLOY_APP_NAME: mm-theglow-deploy
+  DEPLOYMENT_GROUP_NAME: prod-deployment-group
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 소스코드 가져오기
+        uses: actions/checkout@v2
+
+      - name: AWS 자격 증명 구성
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: 프로젝트 압축
+        run: zip -r ${PROJECT_NAME}.zip .
+
+      - name: S3 버킷 업로드
+        run: aws s3 cp ${PROJECT_NAME}.zip s3://${BUCKET_NAME}/${CODE_DEPLOY_APP_NAME}/${DEPLOYMENT_GROUP_NAME}/${PROJECT_NAME}.zip
+
+      - name: Code Deploy 배포
+        run: aws deploy create-deployment --application-name ${CODE_DEPLOY_APP_NAME} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${DEPLOYMENT_GROUP_NAME} --s3-location bucket=${BUCKET_NAME},bundleType=zip,key=${CODE_DEPLOY_APP_NAME}/${DEPLOYMENT_GROUP_NAME}/${PROJECT_NAME}.zip
