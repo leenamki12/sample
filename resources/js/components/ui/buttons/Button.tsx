@@ -2,7 +2,6 @@ import { HTMLAttributes, PropsWithChildren, ReactNode, useMemo } from 'react';
 import React from 'react';
 
 import { ButtonProps, ButtonStyleProps } from '@/components/ui';
-import { StrKeyArray } from '@/types';
 
 import BorderButton from './BorderButton';
 import CancelButton from './CancelButton';
@@ -19,7 +18,11 @@ type Props = {
 } & ButtonStyleProps &
     HTMLAttributes<HTMLButtonElement>;
 
-const buttons: StrKeyArray<React.ComponentType<PropsWithChildren<ButtonProps>>> = {
+type ButtoType = {
+    [key: string]: React.ComponentType<PropsWithChildren<ButtonProps>>;
+};
+
+const buttons: ButtoType = {
     primary: PrimaryButton,
     secondary: SecondaryButton,
     teriary: TertiaryButton,
