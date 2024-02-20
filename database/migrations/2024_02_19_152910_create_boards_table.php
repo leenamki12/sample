@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\Board\Models\Types\BoardType;
+use App\Domains\Board\Models\Types\FaqCategoryType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -41,7 +42,7 @@ return new class extends Migration
         Schema::create('board_faqs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('board_id')->comment("게시글 ID")->constrained();
-            $table->string('category', 10)->comment("카테고리");
+            $table->enum('category', FaqCategoryType::values())->comment("카테고리");
             $table->longText('content')->comment("게시글 내용");
             $table->timestamps();
         });

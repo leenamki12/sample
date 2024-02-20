@@ -10,9 +10,9 @@ class BoardType
 
     const KEY = 'board.type';
 
-    const NOTICE = 'notice';
+    const NOTICE = 'NOTICE';
 
-    const FAQ = 'faq';
+    const FAQ = 'FAQ';
 
-    const GALLERY = 'gallery';
+    const GALLERY = 'GALLERY';
 }
