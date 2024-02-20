@@ -1,8 +1,10 @@
 <?php
 
-use Spatie\LaravelData\Data;
+namespace App\Domains\Board\Dtos;
 
-class BoardFaqDTO extends Data
+use App\Domains\Common\Dtos\BaseDTO;
+
+class BoardFaqDTO extends BaseDTO
 {
     public function __construct(
         public int $board_id,
