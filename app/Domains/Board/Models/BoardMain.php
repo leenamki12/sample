@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BoardMain extends Model
 {
+    protected $fillable = ['board_id'];
+    public $timestamps = false;
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);

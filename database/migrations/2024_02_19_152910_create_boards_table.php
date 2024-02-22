@@ -60,6 +60,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('board_galleries');
+        Schema::dropIfExists('board_faqs');
+        Schema::dropIfExists('board_notices');
+        Schema::dropIfExists('board_files');
+        Schema::dropIfExists('board_mains');
         Schema::dropIfExists('boards');
     }
 };

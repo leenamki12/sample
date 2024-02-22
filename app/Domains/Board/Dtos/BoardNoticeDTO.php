@@ -8,7 +8,6 @@ class BoardNoticeDTO extends BaseDTO
 {
     public function __construct(
         public int $board_id,
-        public string $title,
         public string $content,
     ){
 
