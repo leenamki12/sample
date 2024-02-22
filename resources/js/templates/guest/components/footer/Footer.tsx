@@ -1,21 +1,8 @@
-import DropDown, { LinkProps } from '@/components/ui/drop-down/DropDown';
+import Logo from '@assets/common/logo.png';
 
-import * as S from './Footer.styled';
+import * as s from './Footer.styled';
 
 function Footer() {
-    const familySiteLinks: LinkProps[] = [
-        {
-            label: 'The Glow',
-            path: '#',
-            target: '_blank',
-        },
-        {
-            label: 'Wanderloch Hall',
-            path: '#',
-            target: '_blank',
-        },
-    ];
-
     const handleScrollToTop = () => {
         const element = document.getElementById('app');
         if (element) {
@@ -24,23 +11,48 @@ function Footer() {
     };
 
     return (
-        <S.Wrapper>
-            <S.InnerBox>
-                <S.FamilyBox>
-                    <DropDown label="Family Site" items={familySiteLinks} />
-                </S.FamilyBox>
+        <s.Wrapper>
+            <s.InnerBox>
                 <div className="relative text-center">
-                    <S.LogoButton>로고</S.LogoButton>
-                    <S.Copyright>Copyright WanderLoch Inc. all rights reserved.</S.Copyright>
-                    <S.TopBox>
+                    <s.LogoButton>
+                        <img src={Logo} alt="" />
+                    </s.LogoButton>
+                    <s.LinkBox>
+                        <dt>Quick Links</dt>
+                        <dd>
+                            <ul>
+                                <li>
+                                    <a href="">HOME</a>
+                                </li>
+                                <li>
+                                    <a href="">ABOUT</a>
+                                </li>
+                                <li>
+                                    <a href="">FAQ</a>
+                                </li>
+                                <li>
+                                    <a href="">LINEUP</a>
+                                </li>
+                                <li>
+                                    <a href="">TICKET</a>
+                                </li>
+                            </ul>
+                        </dd>
+                    </s.LinkBox>
+                    <s.InfoBox>
+                        <dt>Contact info</dt>
+                        <dd>hello@Wandrrloch.com</dd>
+                    </s.InfoBox>
+                    <s.Copyright>© COPYRIGHT WANDERLOCH all rights reserved</s.Copyright>
+                    <s.TopBox>
                         <button type="button" onClick={handleScrollToTop}>
                             <span></span>
                             TOP
                         </button>
-                    </S.TopBox>
+                    </s.TopBox>
                 </div>
-            </S.InnerBox>
-        </S.Wrapper>
+            </s.InnerBox>
+        </s.Wrapper>
     );
 }
 

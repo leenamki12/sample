@@ -5,7 +5,6 @@ import { ButtonProps, ButtonStyleProps } from '@/components/ui';
 
 import BorderButton from './BorderButton';
 import CancelButton from './CancelButton';
-import MoreButton from './MoreButton';
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
 import TertiaryButton from './TertiaryButton';
@@ -29,7 +28,6 @@ const buttons: ButtoType = {
     border: BorderButton,
     cancel: CancelButton,
     text: TextButton,
-    more: MoreButton,
 };
 
 /**

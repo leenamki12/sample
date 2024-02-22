@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/react';
 import tw, { styled, screen } from 'twin.macro';
 
 export const Wrapper = styled.header`
-    ${tw`relative flex h-[100px] w-full items-center border-b-[1px] border-b-[#e9e9e9] bg-white`}
+    ${tw`sticky left-0 top-0 z-50 flex h-[100px] w-full items-center border-b-[1px] border-b-[#e9e9e9] bg-white`}
 
     ${screen('tablet')({ ...tw`h-auto` })}
 `;

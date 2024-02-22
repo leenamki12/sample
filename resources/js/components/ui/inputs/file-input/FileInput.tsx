@@ -1,7 +1,5 @@
 import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
-import { ReactComponent as FileIcon } from '@assets/common/icon_input_file.svg';
-
 import * as S from './FileInput.styled';
 
 type Props = {
@@ -47,9 +45,7 @@ export default function FileInput({
         <label htmlFor={id} className="relative">
             <S.Themp isFileSelected={!!selectedFile} isEnter={isEnter || isFocus} isError={!!error}>
                 {selectedFile?.name || placeholder}
-                <S.Icon>
-                    <FileIcon className="h-[22px] w-[22px]" />
-                </S.Icon>
+                <S.Icon></S.Icon>
             </S.Themp>
             <S.Wrapper isError={!!error}>
                 {Icon && <Icon className="w-[20px]" />}

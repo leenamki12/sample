@@ -15,6 +15,7 @@ export { default as Checkbox } from './checkbox/Checkbox';
 
 //buttons
 export { default as Button } from './buttons/Button';
+export { default as GradientButton } from './gradient-button/GradientButton';
 export type { ButtonProps } from './buttons/BaseButton';
 export type { ButtonStyleProps } from './buttons/styles/BaseButton.styled';
 
@@ -29,6 +30,14 @@ export { default as BasicModal } from './modals/basic-modal/BasicModal';
 export type { BasicModalProps } from './modals/basic-modal/BasicModal';
 export { default as InnerPrivacyModal } from './modals/Inner-privacy-modal/InnerPrivacyModal';
 export { default as SlideModal } from './modals/slide-modal/SlideModal';
-export { default as AddressModal } from './modals/address-modal/AddressModal';
 export { default as PasswordChangeModal } from './modals/password-change-modal/PasswordModal';
 export { default as PhotoModal } from './modals/photo-modal/PhotoModal';
+
+//Accordian
+export { default as Accordion } from './accordion/Accordion';
+export { default as AccordionItemNotice } from './accordion/items/accordion-item-notice/AccordionItemNotice';
+export { default as AccordionItemFaq } from './accordion/items/accordion-item-faq/AccordionItemFaq';
+
+//Accordian
+export { default as Tabs } from './tabs/Tabs';
+export { default as Tab } from './tabs/tab/Tab';

@@ -1,7 +1,7 @@
 import tw, { styled, screen } from 'twin.macro';
 
 export const Wrapper = styled.footer`
-    ${tw`relative w-full font-[pretendard] text-white`}
+    ${tw`relative w-full font-[pretendard]`}
 `;
 
 export const InnerBox = styled.div`
@@ -38,4 +38,39 @@ export const TopBox = styled.div`
     }
 
     ${screen('tablet')({ ...tw`hidden` })}
+`;
+
+export const LinkBox = styled.dl`
+    ${tw`mt-[30px] flex items-center justify-center gap-[20px]`}
+
+    dd > ul {
+        ${tw`flex`}
+    }
+
+    dd > ul li {
+        ${tw`relative ml-[10px] pl-[10px]`}
+
+        &:after {
+            content: '';
+            ${tw`absolute left-0 top-[50%] -mt-[6px] block h-[12px] w-[2px] bg-black`}
+        }
+
+        &:first-child after {
+            ${tw`hidden `}
+        }
+    }
+    dd > ul li:first-child {
+        ${tw`relative ml-[0] pl-[0]`}
+
+        &:after {
+            ${tw`hidden`}
+        }
+    }
+`;
+
+export const InfoBox = styled.dl`
+    ${tw`mt-[10px] flex items-center justify-center gap-[20px]`}
+
+    dd {
+    }
 `;
