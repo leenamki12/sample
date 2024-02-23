@@ -9,7 +9,7 @@ class FaqQueryAction
 {
     public function handle(array $filters, int $perPage = 10)
     {
-        $board = Board::with('faq');
+        $board = Board::with('faq')->whereHas('faq');
         $board = $this->filterByCreatedAt($board, $filters['start_date'], $filters['end_date']);
         $board = $this->filterByCategory($board, $filters['category']);
         $board = $this->filterByIsPublished($board, filter_var($filters['is_published'], FILTER_VALIDATE_BOOLEAN));
