@@ -22,26 +22,26 @@ return new class extends Migration
         });
 
         Schema::create('board_mains', function (Blueprint $table) {
-            $table->foreignId('board_id')->comment("게시글 ID")->constrained();
+            $table->foreignId('board_id')->unique()->comment("게시글 ID")->constrained();
         });
 
         Schema::create('board_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('board_id')->comment("게시글 ID")->constrained();
+            $table->foreignId('board_id')->nullable()->comment("게시글 ID")->constrained();
             $table->string('file_path', 200)->comment("파일 경로");
             $table->timestamps();
         });
 
         Schema::create('board_notices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('board_id')->comment("게시글 ID")->constrained();
+            $table->foreignId('board_id')->unique()->comment("게시글 ID")->constrained();
             $table->longText('content')->comment("게시글 내용");
             $table->timestamps();
         });
 
         Schema::create('board_faqs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('board_id')->comment("게시글 ID")->constrained();
+            $table->foreignId('board_id')->unique()->comment("게시글 ID")->constrained();
             $table->enum('category', FaqCategoryType::values())->comment("카테고리");
             $table->longText('content')->comment("게시글 내용");
             $table->timestamps();
@@ -49,7 +49,7 @@ return new class extends Migration
 
         Schema::create('board_galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('board_id')->comment("게시글 ID")->constrained();
+            $table->foreignId('board_id')->unique()->comment("게시글 ID")->constrained();
             $table->integer('year')->comment("년도");
             $table->timestamps();
         });

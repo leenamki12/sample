@@ -4,7 +4,6 @@ namespace App\Domains\Board\Actions;
 
 use App\Domains\Board\Dtos\BoardDTO;
 use App\Domains\Board\Dtos\BoardFaqDTO;
-use App\Domains\Board\Dtos\BoardMainDTO;
 use App\Domains\Board\Requests\FaqReq;
 
 class FaqUpdateAction
