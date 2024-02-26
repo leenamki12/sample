@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Marquee from 'react-fast-marquee';
 
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
@@ -14,14 +14,15 @@ import 'swiper/css/scrollbar';
 
 import * as s from './LineUp.styled';
 
-function LineUp() {
+const LineUp = React.forwardRef<HTMLDivElement>((_props, ref) => {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [swiper, setSwiper] = useState<SwiperType>();
 
     const handleTabClick = (index: number) => {
         setActiveTab(index);
 
-        swiper?.slideTo(0);
+        swiper?.slideToLoop(0);
+        swiper?.slideReset();
     };
 
     const handleClickSlideTo = (direction: 'prev' | 'next') => {
@@ -33,11 +34,11 @@ function LineUp() {
     };
 
     return (
-        <s.Wrapper>
+        <s.Wrapper ref={ref}>
             <Marquee className="w-full">
                 <img src={bg} alt="" />
             </Marquee>
-            <div className="relative z-10 -mt-[360px]">
+            <s.Inner>
                 <h2>LINEUP</h2>
                 <Tabs activeTab={activeTab} onTabClick={handleTabClick} className="mb-[60px]">
                     <Tab label="04 13 SAT" />
@@ -46,14 +47,23 @@ function LineUp() {
                 <s.SliderWrapper>
                     <Swiper
                         modules={[Pagination]}
-                        spaceBetween={30}
-                        slidesPerView={4}
-                        onSlideChange={() => console.log('slide change')}
+                        spaceBetween={20}
+                        slidesPerView={1.4}
+                        centeredSlides
+                        loop
                         pagination={{ clickable: true }}
                         onSwiper={swiper => {
                             setSwiper(swiper);
                         }}
                         style={{ paddingBottom: '50px' }}
+                        breakpoints={{
+                            768: {
+                                slidesPerView: 4,
+                                spaceBetween: 30,
+                                centeredSlides: false,
+                                loop: false,
+                            },
+                        }}
                     >
                         {lineUpDatas[activeTab].map(item => {
                             return (
@@ -74,9 +84,9 @@ function LineUp() {
                 <s.ButtonBox>
                     <GradientButton label="MORE INFO" />
                 </s.ButtonBox>
-            </div>
+            </s.Inner>
         </s.Wrapper>
     );
-}
+});
 
 export default LineUp;

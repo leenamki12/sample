@@ -1,10 +1,12 @@
+import React from 'react';
+
 import { AccordionItemNotice, GradientButton } from '@/components/ui';
 
 import * as s from './Notice.styled';
 
-function Notice() {
+const Notice = React.forwardRef<HTMLDivElement>((_props, ref) => {
     return (
-        <s.Wrapper>
+        <s.Wrapper ref={ref}>
             <h2>NOTICE</h2>
             <s.HomeAccordion>
                 <AccordionItemNotice
@@ -24,6 +26,6 @@ function Notice() {
             </s.ButtonBox>
         </s.Wrapper>
     );
-}
+});
 
 export default Notice;

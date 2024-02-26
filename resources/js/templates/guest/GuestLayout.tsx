@@ -9,7 +9,7 @@ export default function GuestLayout({ children }: PropsWithChildren) {
     return (
         <s.Wrapper>
             <Header />
-            <div className="w-full">{children}</div>
+            <div className="w-full overflow-x-hidden">{children}</div>
             <Footer />
         </s.Wrapper>
     );

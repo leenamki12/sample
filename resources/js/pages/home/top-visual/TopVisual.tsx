@@ -1,10 +1,12 @@
+import React from 'react';
+
 import { GradientButton } from '@/components/ui';
 
 import * as s from './TopVisual.styled';
 
-function TopVisual() {
+const TopVisual = React.forwardRef<HTMLDivElement>((_props, ref) => {
     return (
-        <s.Wrapper>
+        <s.Wrapper ref={ref}>
             <s.Inner>
                 <strong>2024.04.13-14 at KINTEX</strong>
                 <p>
@@ -15,6 +17,6 @@ function TopVisual() {
             </s.Inner>
         </s.Wrapper>
     );
-}
+});
 
 export default TopVisual;

@@ -1,4 +1,4 @@
-import Marquee from 'react-fast-marquee';
+import React from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -7,12 +7,23 @@ import bottomLogo from '@assets/home/image_gallery_bottom.png';
 
 import * as s from './Gallery.styled';
 
-function Gallery() {
+const Gallery = React.forwardRef<HTMLDivElement>((_props, ref) => {
     return (
-        <s.Wrapper>
+        <s.Wrapper ref={ref}>
             <h2>GALLERY</h2>
-            <div className="-mx-[50px]">
-                <Swiper spaceBetween={30} slidesPerView={6} style={{ paddingBottom: '30px' }} loop>
+            <s.SliderBox>
+                <Swiper
+                    spaceBetween={10}
+                    slidesPerView={2}
+                    breakpoints={{
+                        768: {
+                            slidesPerView: 6,
+                            spaceBetween: 30,
+                        },
+                    }}
+                    style={{ paddingBottom: '30px' }}
+                    loop
+                >
                     <SwiperSlide>
                         <div className="h-[250px] w-full bg-blue-100">a</div>
                     </SwiperSlide>
@@ -50,9 +61,20 @@ function Gallery() {
                         <div className="h-[250px] w-full bg-yellow-100">a</div>
                     </SwiperSlide>
                 </Swiper>
-            </div>
-            <div className="-mx-[50px]">
-                <Swiper spaceBetween={30} slidesPerView={6} style={{ paddingBottom: '0px' }} loop>
+            </s.SliderBox>
+            <s.SliderBox>
+                <Swiper
+                    spaceBetween={10}
+                    slidesPerView={2}
+                    breakpoints={{
+                        768: {
+                            slidesPerView: 6,
+                            spaceBetween: 30,
+                        },
+                    }}
+                    style={{ paddingBottom: '0px' }}
+                    loop
+                >
                     <SwiperSlide>
                         <div className="h-[250px] w-full bg-blue-100">a</div>
                     </SwiperSlide>
@@ -90,16 +112,16 @@ function Gallery() {
                         <div className="h-[250px] w-full bg-yellow-100">a</div>
                     </SwiperSlide>
                 </Swiper>
-            </div>
+            </s.SliderBox>
             <s.ButtonBox>
                 <GradientButton label="MORE INFO" />
             </s.ButtonBox>
 
-            <Marquee className="mt-[170px] w-full">
+            <s.GalleryMarquee>
                 <img src={bottomLogo} alt="" />
-            </Marquee>
+            </s.GalleryMarquee>
         </s.Wrapper>
     );
-}
+});
 
 export default Gallery;

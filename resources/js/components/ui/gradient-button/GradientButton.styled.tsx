@@ -1,4 +1,4 @@
-import tw, { styled } from 'twin.macro';
+import tw, { styled, screen } from 'twin.macro';
 
 export const Wrapper = styled.div`
     ${tw`relative h-[82px] w-[380px] cursor-pointer overflow-hidden rounded`}
@@ -34,6 +34,20 @@ export const Wrapper = styled.div`
         100% {
             transform: rotate(360deg);
             height: 1200px;
+        }
+    }
+
+    ${screen('tablet')({ ...tw`mx-[20px] h-[55px] w-[calc(100%-40px)]` })}
+    ${screen('mobile')({ ...tw`mx-[40px] h-[50px] w-[calc(100%-80px)]` })}
+
+    span {
+        ${screen('tablet')({
+            ...tw`bottom-[1px] left-[1px] right-[1px] top-[1px]`,
+        })}
+
+        em {
+            ${screen('tablet')({ ...tw`text-[20px]` })}
+            ${screen('mobile')({ ...tw`text-[16px]` })}
         }
     }
 `;

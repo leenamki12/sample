@@ -1,4 +1,4 @@
-import tw, { styled } from 'twin.macro';
+import tw, { styled, screen } from 'twin.macro';
 
 type WrapperProps = {
     isActive?: boolean;
@@ -14,4 +14,7 @@ export const Wrapper = styled.button<WrapperProps>`
                 ? tw`border-[#fff] text-[#fff]`
                 : tw`border-[#000] text-[#000]`
             : tw``}
+
+
+    ${screen('tablet')({ ...tw`text-[20px]` })}
 `;

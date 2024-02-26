@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
-import { AccordionItemFaq, GradientButton, Tab, Tabs } from '@/components/ui';
+import { AccordionItemFaq, GradientButton, Tab } from '@/components/ui';
 
 import { faqDatas } from './constants/faqs';
 
 import * as s from './Faq.styled';
 
-function Faq() {
+const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
     const [searchText, setSearchText] = useState('');
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<number>(0);
@@ -47,7 +47,7 @@ function Faq() {
     };
 
     return (
-        <s.Wrapper>
+        <s.Wrapper ref={ref}>
             <h2>FAQS</h2>
 
             <s.InputBox className="input_box">
@@ -61,11 +61,11 @@ function Faq() {
                 </button>
             </s.InputBox>
 
-            <Tabs activeTab={activeTab} onTabClick={handleTabClick} className="mb-[60px]">
+            <s.FaqTabs activeTab={activeTab} onTabClick={handleTabClick}>
                 <Tab label="티켓" />
                 <Tab label="입장" />
                 <Tab label="일반" />
-            </Tabs>
+            </s.FaqTabs>
 
             <s.SelectedCategory>{selectedCategory}</s.SelectedCategory>
 
@@ -92,6 +92,6 @@ function Faq() {
             </s.ButtonBox>
         </s.Wrapper>
     );
-}
+});
 
 export default Faq;
