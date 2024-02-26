@@ -31,7 +31,9 @@ class FaqQueryAction
 
     private function filterByCategory(Builder $builder, ?string $category) {
         if(!empty($category)) {
-            $builder->where('category', $category);
+            $builder->whereHas('faq', function ($query) use ($category) {
+                $query->where('category', $category);
+            });
         }
         return $builder;
     }

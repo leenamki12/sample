@@ -2,8 +2,6 @@
 
 namespace App\Domains\Board\Actions;
 
-use App\Domains\Board\Dtos\BoardFileDTO;
-use App\Domains\Board\Models\BoardFile;
 
 class FileUpdateAction
 {
