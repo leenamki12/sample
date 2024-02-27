@@ -4,7 +4,7 @@ import Divider from '@/components/ui/divider/Divider';
 
 import Faq from './faq/Faq';
 import Gallery from './gallery/Gallery';
-import LineUp from './lineup/LineUp';
+import LineUp from './line-up/LineUp';
 import Notice from './notice/Notice';
 import QuickMoveLink from './quick-move-link/QuickMoveLink';
 import Ticket from './ticket/Ticket';

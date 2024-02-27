@@ -1,7 +1,18 @@
-import { useHeader } from '@/templates/AppLayout';
 import { Head } from '@inertiajs/react';
 
-export default function PageHeader({ title, head }: { title: string; head?: string }) {
+import { useHeader } from '@/templates/AppLayout';
+
+import * as s from './PageHeader.styled';
+
+export default function PageHeader({
+    title,
+    head,
+    isBackground = false,
+}: {
+    title: string;
+    head?: string;
+    isBackground?: boolean;
+}) {
     const { setPageHeader } = useHeader();
 
     setTimeout(() => {
@@ -13,6 +24,7 @@ export default function PageHeader({ title, head }: { title: string; head?: stri
     return (
         <>
             <Head title={title || head} />
+            <s.Wrapper isBackground={isBackground}>{title}</s.Wrapper>
         </>
     );
 }
