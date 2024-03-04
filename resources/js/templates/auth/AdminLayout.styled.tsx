@@ -1,37 +1,93 @@
+import { PropsWithChildren, useState } from 'react';
+
+import { NotificationOutlined, QuestionCircleOutlined, PictureOutlined } from '@ant-design/icons';
+import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd';
+import { Content, Footer, Header } from 'antd/es/layout/layout';
+import Sider from 'antd/es/layout/Sider';
 import tw, { styled } from 'twin.macro';
 
 export const Wrapper = styled.div`
     ${tw`h-full min-h-screen`}
 `;
+type MenuItem = Required<MenuProps>['items'][number];
 
-export const SideWrapper = styled.div`
-    ${tw`h-full`}
-`;
+function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[]
+): MenuItem {
+    return {
+        key,
+        icon,
+        children,
+        label,
+    } as MenuItem;
+}
 
-export const ContentWrapper = styled.div`
-    ${tw`lg:pl-64`}
-`;
+const items: MenuItem[] = [
+    getItem('공지사항 관리', '1', <NotificationOutlined />, [
+        getItem('공지사항 목록', '1.1'),
+        getItem('공지사항 등록', '1.2'),
+    ]),
+    getItem('FAQ 관리', '2', <QuestionCircleOutlined />, [
+        getItem('FAQ 목록', '2.1'),
+        getItem('FAQ 등록', '2.2'),
+    ]),
+    getItem('GALLERY 관리', '3', <PictureOutlined />, [
+        getItem('GALLERY 목록', '3.1'),
+        getItem('GALLERY 등록', '3.2'),
+    ]),
+];
 
-export const Header = styled.div`
-    ${tw`sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-x-4 border-b border-gray-600 bg-[#202123] px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:hidden lg:px-8`}
-`;
+function AdminLayout({ children }: PropsWithChildren) {
+    const [collapsed, setCollapsed] = useState(false);
 
-export const MobileButton = styled.button`
-    ${tw`-m-2.5 p-2.5 text-gray-300 lg:hidden`}
-`;
+    console.log(collapsed);
 
-type LinkProps = {
-    active?: boolean;
-};
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
-export const HeaderInfo = styled.div<LinkProps>`
-    ${tw`sticky top-[64px] flex h-[55px] items-center justify-end overflow-x-auto overflow-y-hidden scroll-smooth border-b-[1px] bg-white px-[20px] text-center text-sm
-        duration-200 lg:top-0
-    `}
+    return (
+        <Layout style={{ minHeight: '100vh', position: 'sticky' }}>
+            <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+                <div className="demo-logo-vertical" />
+                <Menu
+                    theme="dark"
+                    defaultSelectedKeys={['3']}
+                    mode="inline"
+                    items={items}
+                    onClick={e => {
+                        console.log(e.keyPath);
+                    }}
+                />
+            </Sider>
+            <Layout>
+                <Header style={{ padding: 0, background: colorBgContainer }} />
+                <Content style={{ margin: '0 16px' }}>
+                    <Breadcrumb style={{ margin: '16px 0' }}>
+                        <Breadcrumb.Item>User</Breadcrumb.Item>
+                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <div
+                        style={{
+                            padding: 24,
+                            minHeight: 360,
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
+                        }}
+                        className="h-[4000px]"
+                    >
+                        {children}
+                    </div>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Footer>
+            </Layout>
+        </Layout>
+    );
+}
 
-    ${({ active }) => (active ? tw`translate-y-0` : tw`translate-y-[-100%]`)}
-`;
-
-export const Main = styled.main`
-    ${tw`max-w-[1200px] px-2 py-2 sm:px-4 sm:py-10`}
-`;
+export default AdminLayout;
