@@ -10,6 +10,7 @@ import React, {
 import { usePage } from '@inertiajs/react';
 
 import { PageProps } from '@/types';
+import { User } from '@/types/user';
 
 import AdminGuestLayout from './auth/AdminGuestLayout';
 import AdminLayout from './auth/AdminLayout.styled';
@@ -42,7 +43,8 @@ export default function AppLayout({ children, name }: Props) {
 
     const Layout = useMemo(() => {
         if (user && name.startsWith('admin/')) {
-            return Layouts[user.roles[0].name];
+            const role = user.roles[0] as unknown as User;
+            return Layouts[role.name];
         }
         if (props.layout === 'admin') {
             return AdminGuestLayout;
