@@ -11,7 +11,7 @@ export const Wrapper = styled.div<WrapperProps>`
 `;
 
 export const Title = styled.div`
-    ${tw`p-[30px 60px 30px 110px] relative cursor-pointer font-apple text-[18px] font-bold leading-6 hover:bg-slate-100`}
+    ${tw`p-[30px 60px 30px 110px] relative cursor-pointer whitespace-pre-wrap font-apple text-[18px] font-bold leading-6 hover:bg-slate-100`}
 
     ${screen('tablet')({ ...tw`p-[20px 40px 20px 60px] text-[16px]` })}
 

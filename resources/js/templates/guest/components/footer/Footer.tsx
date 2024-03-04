@@ -1,4 +1,5 @@
-import { usePage } from '@inertiajs/react';
+import { ArrowUpIcon } from '@heroicons/react/20/solid';
+import { Link, usePage } from '@inertiajs/react';
 
 import BuyMelon from '@assets/common/button_buy_melon.png';
 import BuyYes24 from '@assets/common/button_buy_yes24.png';
@@ -32,19 +33,19 @@ function Footer() {
                             <dd>
                                 <ul>
                                     <li>
-                                        <a href="">HOME</a>
+                                        <Link href={route('home')}>HOME</Link>
                                     </li>
                                     <li>
-                                        <a href="">ABOUT</a>
+                                        <Link href={route('about')}>ABOUT</Link>
                                     </li>
                                     <li>
-                                        <a href="">FAQ</a>
+                                        <Link href={route('faqs')}>FAQ</Link>
                                     </li>
                                     <li>
-                                        <a href="">LINEUP</a>
+                                        <Link href={route('line-up')}>LINEUP</Link>
                                     </li>
                                     <li>
-                                        <a href="">TICKET</a>
+                                        <Link href={route('ticket')}>TICKET</Link>
                                     </li>
                                 </ul>
                             </dd>
@@ -55,12 +56,12 @@ function Footer() {
                         </s.InfoBox>
                         <s.SnsList>
                             <li>
-                                <a href="">
+                                <a href="https://www.instagram.com/theglowseoul/" target="_blank">
                                     <img src={IconInstar} alt="" />
                                 </a>
                             </li>
                             <li>
-                                <a href="">
+                                <a href="https://twitter.com/theglowseoul" target="_blank">
                                     <img src={IconBlack} alt="" />
                                 </a>
                             </li>
@@ -69,7 +70,9 @@ function Footer() {
                         {url !== '/' && (
                             <s.TopBox>
                                 <button type="button" onClick={handleScrollToTop}>
-                                    <span></span>
+                                    <span>
+                                        <ArrowUpIcon className="w-[30px]" />
+                                    </span>
                                     TOP
                                 </button>
                             </s.TopBox>
@@ -80,16 +83,22 @@ function Footer() {
             <s.BuyWrapper>
                 <s.BuyInner>
                     <div>
-                        <img src={FooterLogo} alt="" />
+                        <img src={FooterLogo} alt="the glow 2024" />
                     </div>
                     <dl>
                         <dt>BUY NOW!</dt>
                         <dd>
-                            <a href="">
-                                <img src={BuyMelon} alt="" />
+                            <a
+                                href="https://ticket.melon.com/performance/index.htm?prodId=209446"
+                                target="blank"
+                            >
+                                <img src={BuyMelon} alt="멜론에서 예매 하러 가기" />
                             </a>
-                            <a href="">
-                                <img src={BuyYes24} alt="" />
+                            <a
+                                href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=48649"
+                                target="blank"
+                            >
+                                <img src={BuyYes24} alt="yes24에서 예매 하러 가기" />
                             </a>
                         </dd>
                     </dl>

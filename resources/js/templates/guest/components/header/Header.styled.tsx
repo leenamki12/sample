@@ -41,6 +41,21 @@ export const Nav = styled.ul`
     li > a:hover {
         ${tw`opacity-80`}
     }
+
+    li a.isActive {
+        ${tw`font-bold underline underline-offset-8`}
+    }
+
+    li > button {
+        ${tw`text-[20px]`}
+        ${screen('desktop')({ ...tw`text-lg` })}
+
+        ${screen('tablet')({ ...tw`block p-[15px] text-base` })}
+    }
+
+    li > button:hover {
+        ${tw`opacity-80`}
+    }
 `;
 
 type NavItemProps = {
@@ -102,6 +117,18 @@ export const AllMenu = styled.div<AllMenuProps>`
     }
 
     ul li a.isActive {
+        ${tw`font-bold shadow-md`}
+    }
+
+    ul li button {
+        ${tw`block h-[68px] w-[400px] text-center text-[25px] font-light leading-[68px]`}
+
+        ${screen('tablet')({
+            ...tw`mx-[20px] h-[56px] w-[calc(100%-40px)] text-[22px] leading-[56px]`,
+        })}
+    }
+
+    ul li button.isActive {
         ${tw`font-bold shadow-md`}
     }
 

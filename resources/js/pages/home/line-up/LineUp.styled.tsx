@@ -46,12 +46,14 @@ export const SliderWrapper = styled.div`
 `;
 
 export const SwiperSlideItem = styled(SwiperSlide)`
-    ${tw`overflow-hidden rounded`}
+    ${tw`cursor-pointer overflow-hidden rounded`}
 
     p {
-        ${tw`absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/75 text-[22px] text-white opacity-0 duration-300`}
+        ${tw`absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-black/75 text-[22px] text-white opacity-0 duration-300`}
 
-        ${screen('tablet')({ ...tw`bottom-0 top-auto h-[50px] bg-black text-[18px] opacity-100` })}
+        ${screen('tablet')({
+            ...tw`bottom-0 top-auto h-[50px] bg-black text-[18px] opacity-100`,
+        })}
     }
 
     &:hover > p {

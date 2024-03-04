@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { router } from '@inertiajs/react';
+
 import { GradientButton, Tab, Tabs } from '@/components/ui';
 
 import * as s from './TimeTable.styled';
@@ -25,7 +27,10 @@ const TimeTable = React.forwardRef<HTMLDivElement>((_props, ref) => {
             </Tabs>
             <s.TicketContent></s.TicketContent>
             <s.ButtonBox>
-                <GradientButton label="MORE INFO" />
+                <GradientButton
+                    label="MORE INFO"
+                    onClick={() => router.visit(route('time-table'))}
+                />
             </s.ButtonBox>
         </s.Wrapper>
     );

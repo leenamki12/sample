@@ -16,7 +16,7 @@ import AppLayout from './templates/AppLayout';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: title => `${title} - ${appName}`,
+    title: title => `${appName}${title ? ` - ${title}` : ''}`,
     resolve: async name => {
         const pages = import.meta.glob('./pages/**/*.tsx');
         const pageModule = pages[`./pages/${name}.tsx`];
@@ -37,7 +37,7 @@ createInertiaApp({
         delay: 250,
 
         // The color of the progress bar...
-        color: '#00be52',
+        color: '#d9d9d9',
 
         // Whether to include the default NProgress styles...
         includeCSS: true,

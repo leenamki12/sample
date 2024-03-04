@@ -1,6 +1,8 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
-import { AccordionItemNotice, GradientButton, PageHeader } from '@/components/ui';
+import { AccordionItemNotice, PageHeader } from '@/components/ui';
+
+import { noticeDatas } from './constants/notice';
 
 import * as s from './Home.styled';
 
@@ -16,22 +18,15 @@ function Home() {
                     </button>
                 </s.InputBox>
 
-                <s.HomeAccordion>
-                    <AccordionItemNotice
-                        title={'11111111'}
-                        content={
-                            'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd'
-                        }
-                    />
-                    <AccordionItemNotice title={'22222'} content={'asdasd'} />
-                    <AccordionItemNotice title={'3333'} content={'asdasd'} />
-                    <AccordionItemNotice title={'4444'} content={'asdasd'} />
-                    <AccordionItemNotice title={'5555'} content={'asdasd'} />
-                    <AccordionItemNotice title={'asd'} content={'asd'} />
+                <s.HomeAccordion selectedItem={0}>
+                    {noticeDatas.map(item => (
+                        <AccordionItemNotice
+                            key={item.title}
+                            title={item.title}
+                            content={item.content}
+                        />
+                    ))}
                 </s.HomeAccordion>
-                <s.ButtonBox>
-                    <GradientButton label="VIEW MORE" />
-                </s.ButtonBox>
             </s.Inner>
         </s.Wrapper>
     );

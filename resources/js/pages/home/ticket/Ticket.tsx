@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { router } from '@inertiajs/react';
+
 import { GradientButton } from '@/components/ui';
 
 import * as s from './Ticket.styled';
@@ -74,7 +76,7 @@ const Ticket = React.forwardRef<HTMLDivElement>((_props, ref) => {
             </s.TicketInfoMoble>
 
             <s.ButtonBox>
-                <GradientButton label="MORE INFO" />
+                <GradientButton label="MORE INFO" onClick={() => router.visit(route('ticket'))} />
             </s.ButtonBox>
         </s.Wrapper>
     );

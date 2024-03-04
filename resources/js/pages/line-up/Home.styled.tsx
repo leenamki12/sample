@@ -13,15 +13,20 @@ export const Inner = styled.div`
 `;
 
 export const ListItem = styled.div`
-    ${tw`relative overflow-hidden rounded`}
+    ${tw`relative cursor-pointer overflow-hidden rounded`}
 
-    p {
-        ${tw`absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/75 text-[22px] text-white opacity-0 duration-300`}
+    ${screen('tablet')({ ...tw`pb-[70px]` })}
 
-        ${screen('tablet')({ ...tw`bottom-0 top-auto h-[50px] bg-black text-[18px] opacity-100` })}
+
+    > div {
+        ${tw`absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-black/75 text-[22px] text-white opacity-0 duration-300`}
+
+        ${screen('tablet')({
+            ...tw`bottom-0 top-auto h-[70px] bg-black py-[10px] text-[18px] opacity-100`,
+        })}
     }
 
-    &:hover > p {
+    &:hover > div {
         ${tw`opacity-100`}
     }
 `;

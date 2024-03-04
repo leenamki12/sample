@@ -6,7 +6,7 @@ type Props = {
     isBackground: boolean;
 };
 
-export const Wrapper = styled.div<Props>`
+export const Wrapper = styled.h2<Props>`
     ${tw`h-[240px] text-center text-[50px] font-light leading-[240px]`}
 
     ${screen('tablet')({ ...tw`h-[140px] text-[30px] leading-[140px]` })}

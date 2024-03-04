@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import Divider from '@/components/ui/divider/Divider';
 
 import Faq from './faq/Faq';
-import Gallery from './gallery/Gallery';
 import LineUp from './line-up/LineUp';
 import Notice from './notice/Notice';
 import QuickMoveLink from './quick-move-link/QuickMoveLink';
@@ -77,8 +76,6 @@ function Home() {
             <TimeTable ref={componentsRefs.timetable} />
             <Divider />
             <Faq ref={componentsRefs.faq} />
-            <Divider />
-            <Gallery ref={componentsRefs.gallery} />
 
             <QuickMoveLink
                 current={`${visibleSection + 1}`}

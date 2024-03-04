@@ -1,12 +1,15 @@
+import { ReactNode } from 'react';
+
 import * as s from './GradientButton.styled';
 
 type Props = {
-    label: string;
+    label: string | ReactNode;
+    onClick?: () => void;
 };
 
-function GradientButton({ label }: Props) {
+function GradientButton({ label, onClick }: Props) {
     return (
-        <s.Wrapper>
+        <s.Wrapper onClick={onClick}>
             <div></div>
             <span>
                 <em>{label}</em>

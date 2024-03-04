@@ -1,6 +1,9 @@
 import React from 'react';
 
+import { router } from '@inertiajs/react';
+
 import { AccordionItemNotice, GradientButton } from '@/components/ui';
+import { noticeDatas } from '@/pages/notice/constants/notice';
 
 import * as s from './Notice.styled';
 
@@ -9,20 +12,12 @@ const Notice = React.forwardRef<HTMLDivElement>((_props, ref) => {
         <s.Wrapper ref={ref}>
             <h2>NOTICE</h2>
             <s.HomeAccordion>
-                <AccordionItemNotice
-                    title={'11111111'}
-                    content={
-                        'asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd'
-                    }
-                />
-                <AccordionItemNotice title={'22222'} content={'asdasd'} />
-                <AccordionItemNotice title={'3333'} content={'asdasd'} />
-                <AccordionItemNotice title={'4444'} content={'asdasd'} />
-                <AccordionItemNotice title={'5555'} content={'asdasd'} />
-                <AccordionItemNotice title={'asd'} content={'asd'} />
+                {noticeDatas.map(item => (
+                    <AccordionItemNotice title={item.title} content={item.content} />
+                ))}
             </s.HomeAccordion>
             <s.ButtonBox>
-                <GradientButton label="VIEW MORE" />
+                <GradientButton label="VIEW MORE" onClick={() => router.visit(route('notice'))} />
             </s.ButtonBox>
         </s.Wrapper>
     );

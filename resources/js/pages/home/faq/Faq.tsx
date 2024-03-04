@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { router } from '@inertiajs/react';
 
 import { AccordionItemFaq, GradientButton, Tab } from '@/components/ui';
-
-import { faqDatas } from './constants/faqs';
+import { faqDatas } from '@/pages/faqs/constants/faqs';
 
 import * as s from './Faq.styled';
 
@@ -88,7 +88,7 @@ const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
             )}
 
             <s.ButtonBox>
-                <GradientButton label="FAQS" />
+                <GradientButton label="FAQS" onClick={() => router.visit(route('faqs'))} />
             </s.ButtonBox>
         </s.Wrapper>
     );

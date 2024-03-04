@@ -25,7 +25,7 @@ export const ButtonBox = styled.div`
 `;
 
 export const InputBox = styled.div`
-    ${tw`mb-[90px] flex border-[2px] border-black`}
+    ${tw`mb-[90px] hidden border-[2px] border-black`}
 
     ${screen('tablet')({ ...tw`mx-[20px] mb-[40px] border-[1px]` })}
 

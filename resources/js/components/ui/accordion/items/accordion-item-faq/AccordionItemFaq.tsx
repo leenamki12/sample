@@ -21,7 +21,7 @@ const AccordionItemFaq = ({
                 <span>{isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
             </s.Title>
             <s.Content ref={parentRef}>
-                <div ref={childRef}>{content}</div>
+                {content && <div ref={childRef} dangerouslySetInnerHTML={{ __html: content }} />}
             </s.Content>
         </s.Wrapper>
     );

@@ -7,11 +7,11 @@ export const Wrapper = styled.div`
 `;
 
 export const Inner = styled.div`
-    ${tw`m-auto max-w-[1000px]`}
+    ${tw`m-auto max-w-[600px]`}
 `;
 
 export const TicketContent = styled.div`
-    ${tw`mt-[100px] h-[600px] rounded border border-black bg-[#fafafa]`}
+    ${tw`mt-[100px] overflow-hidden rounded border border-black bg-[#fafafa]`}
 
     ${screen('tablet')({ ...tw`mt-[30px] h-[300px]` })}
 `;

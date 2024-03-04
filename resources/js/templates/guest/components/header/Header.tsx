@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid';
+import { Link, usePage } from '@inertiajs/react';
 
 import buyTicket from '@assets/common/img_top_buyticket.png';
 import Logo from '@assets/common/logo.png';
@@ -8,7 +9,9 @@ import Logo from '@assets/common/logo.png';
 import * as s from './Header.styled';
 
 function Header() {
+    const url = usePage().url;
     const [isAllMenuOpen, setIsAllMenuOpen] = useState(false);
+
     return (
         <>
             <s.Wrapper>
@@ -19,25 +22,57 @@ function Header() {
                     {!isAllMenuOpen && (
                         <s.Nav>
                             <li>
-                                <a href="">NOTICE</a>
+                                <Link
+                                    href={route('notice')}
+                                    className={url === '/notice' ? 'isActive' : ''}
+                                >
+                                    NOTICE
+                                </Link>
                             </li>
                             <li>
-                                <a href="">LINE UP</a>
+                                <Link
+                                    href={route('line-up')}
+                                    className={url === '/line-up' ? 'isActive' : ''}
+                                >
+                                    LINE UP
+                                </Link>
                             </li>
                             <li>
-                                <a href="">TICKET</a>
+                                <Link
+                                    href={route('ticket')}
+                                    className={url === '/ticket' ? 'isActive' : ''}
+                                >
+                                    TICKET
+                                </Link>
                             </li>
                             <li>
-                                <a href="">MAP</a>
+                                <Link
+                                    href={route('map')}
+                                    className={url === '/map' ? 'isActive' : ''}
+                                >
+                                    MAP
+                                </Link>
                             </li>
                             <li>
-                                <a href="">TIMETABLE</a>
+                                <Link
+                                    href={route('time-table')}
+                                    className={url === '/time-table' ? 'isActive' : ''}
+                                >
+                                    TIMETABLE
+                                </Link>
                             </li>
                             <li>
-                                <a href="">FAQS</a>
+                                <Link
+                                    href={route('faqs')}
+                                    className={url === '/faqs' ? 'isActive' : ''}
+                                >
+                                    FAQS
+                                </Link>
                             </li>
                             <li>
-                                <a href="">CALLERY</a>
+                                <button type="button" onClick={() => alert('준비중입니다.')}>
+                                    CALLERY
+                                </button>
                             </li>
                         </s.Nav>
                     )}
@@ -50,33 +85,83 @@ function Header() {
                     </s.AllMenuButton>
                     <s.BuyTicketWrap>
                         <img src={buyTicket} alt="" />
-                        <a href="" className="melon"></a>
-                        <a href="" className="yes24"></a>
+                        <a
+                            href="https://ticket.melon.com/performance/index.htm?prodId=209446"
+                            target="blank"
+                            className="melon"
+                        >
+                            <div className="hidden">멜론에서 예매 하러 가기</div>
+                        </a>
+                        <a
+                            href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=48649"
+                            target="blank"
+                            className="yes24"
+                        >
+                            <div className="hidden">yes24에서 예매 하러 가기</div>
+                        </a>
                     </s.BuyTicketWrap>
                 </s.InnerBox>
             </s.Wrapper>
             <s.AllMenu isActive={isAllMenuOpen}>
                 <ul>
                     <li>
-                        <a href="">NOTICE</a>
+                        <Link
+                            href={route('notice')}
+                            className={url === '/notice' ? 'isActive' : ''}
+                            onClick={() => setIsAllMenuOpen(false)}
+                        >
+                            NOTICE
+                        </Link>
                     </li>
                     <li>
-                        <a href="">LINE UP</a>
+                        <Link
+                            href={route('line-up')}
+                            className={url === '/line-up' ? 'isActive' : ''}
+                            onClick={() => setIsAllMenuOpen(false)}
+                        >
+                            LINE UP
+                        </Link>
                     </li>
                     <li>
-                        <a href="">TICKET</a>
+                        <Link
+                            href={route('ticket')}
+                            className={url === '/ticket' ? 'isActive' : ''}
+                            onClick={() => setIsAllMenuOpen(false)}
+                        >
+                            TICKET
+                        </Link>
                     </li>
                     <li>
-                        <a href="">MAP</a>
+                        <Link
+                            href={route('map')}
+                            className={url === '/map' ? 'isActive' : ''}
+                            onClick={() => setIsAllMenuOpen(false)}
+                        >
+                            MAP
+                        </Link>
                     </li>
                     <li>
-                        <a href="">TIMETABLE</a>
+                        <Link
+                            href={route('time-table')}
+                            className={url === '/time-table' ? 'isActive' : ''}
+                            onClick={() => setIsAllMenuOpen(false)}
+                        >
+                            TIMETABLE
+                        </Link>
                     </li>
                     <li>
-                        <a href="">FAQS</a>
+                        <Link
+                            href={route('faqs')}
+                            className={url === '/faqs' ? 'isActive' : ''}
+                            onClick={() => setIsAllMenuOpen(false)}
+                        >
+                            FAQS
+                        </Link>
                     </li>
                     <li>
-                        <a href="">CALLERY</a>
+                        <button type="button" onClick={() => alert('준비중입니다.')}>
+                            CALLERY
+                        </button>
                     </li>
                 </ul>
             </s.AllMenu>
