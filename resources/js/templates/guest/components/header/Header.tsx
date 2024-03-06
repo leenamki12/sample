@@ -71,7 +71,7 @@ function Header() {
                             </li>
                             <li>
                                 <button type="button" onClick={() => alert('준비중입니다.')}>
-                                    CALLERY
+                                    GALLERY
                                 </button>
                             </li>
                         </s.Nav>
@@ -160,7 +160,7 @@ function Header() {
                     </li>
                     <li>
                         <button type="button" onClick={() => alert('준비중입니다.')}>
-                            CALLERY
+                            GALLERY
                         </button>
                     </li>
                 </ul>
