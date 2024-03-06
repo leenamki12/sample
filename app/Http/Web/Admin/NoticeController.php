@@ -42,8 +42,8 @@ class NoticeController extends Controller
 
     public function index(NoticeQueryReq $request, NoticeQueryAction $action)
     {
-        // $response = $action->handle($request->filters());
-        return Inertia::render('admin/notice/NoticeList');
+        $response = $action->handle($request->toArray());
+        return Inertia::render('admin/notice/NoticeList', ['notices' => $response]);
     }
 
     public function destroy(int $id, DeleteAction $action)

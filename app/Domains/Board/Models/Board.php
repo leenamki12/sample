@@ -14,6 +14,8 @@ class Board extends Model
         "is_published",
     ];
 
+    protected $appends = ['is_main_published'];
+
     public function main(): HasOne
     {
         return $this->hasOne(BoardMain::class);
@@ -37,5 +39,10 @@ class Board extends Model
     public function gallery(): HasOne
     {
         return $this->hasOne(BoardGallery::class);
+    }
+
+    public function getIsMainPublishedAttribute()
+    {
+        return !is_null($this->main);
     }
 }

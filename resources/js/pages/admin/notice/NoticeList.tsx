@@ -3,22 +3,35 @@ import { router } from '@inertiajs/react';
 import { Divider, Table, Button, DatePicker, Select, Input } from 'antd';
 import type { TableColumnsType } from 'antd';
 
-interface DataType {
-    key: React.Key;
+interface NoticeData {
+    id: number;
     title: string;
-    isMainVisible: boolean;
-    isMenuVisible: boolean;
-    createdAt: string;
+    is_published: boolean;
+    is_main_published: boolean;
+    created_at: string;
+    notice: {
+        id: number;
+        content: string;
+        created_at: string;
+        updated_at: string;
+    };
 }
 
-function Notice() {
+function Notice({ notices }: { notices: any }) {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
-    const [mainVisibility, setMainVisibility] = useState<string>('all');
-    const [menuVisibility, setMenuVisibility] = useState<string>('all');
-    const [noticeTitle, setNoticeTitle] = useState<string>('');
+    const [isMainPublished, setIsMainPublished] = useState<string>('all');
+    const [isPublished, setIsPublished] = useState<string>('all');
+    const [title, setTitle] = useState<string>('');
 
-    const columns: TableColumnsType<DataType> = [
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+            date.getDate()
+        ).padStart(2, '0')}`;
+    };
+
+    const columns: TableColumnsType<NoticeData> = [
         {
             title: '제목',
             dataIndex: 'title',
@@ -27,60 +40,37 @@ function Notice() {
         },
         {
             title: '메인 노출여부',
-            dataIndex: 'isMainVisible',
-            render: (isMainVisible: boolean) => (
-                <span style={{ color: isMainVisible ? 'blue' : 'red' }}>
-                    {isMainVisible ? '노출' : '미노출'}
+            dataIndex: 'is_main_published',
+            render: (isMainPublished: boolean) => (
+                <span style={{ color: isMainPublished ? 'blue' : 'red' }}>
+                    {isMainPublished ? '노출' : '미노출'}
                 </span>
             ),
             align: 'center',
         },
         {
             title: '메뉴 노출여부',
-            dataIndex: 'isMenuVisible',
-            render: (isMenuVisible: boolean) => (
-                <span style={{ color: isMenuVisible ? 'blue' : 'red' }}>
-                    {isMenuVisible ? '노출' : '미노출'}
+            dataIndex: 'is_published',
+            render: (isPublished: boolean) => (
+                <span style={{ color: isPublished ? 'blue' : 'red' }}>
+                    {isPublished ? '노출' : '미노출'}
                 </span>
             ),
             align: 'center',
         },
         {
             title: '작성일',
-            dataIndex: 'createdAt',
+            dataIndex: 'created_at',
             align: 'center',
-        },
-    ];
-
-    const data: DataType[] = [
-        {
-            key: '1',
-            title: '공지사항 제목 1',
-            isMainVisible: true,
-            isMenuVisible: false,
-            createdAt: '2024-02-10',
-        },
-        {
-            key: '2',
-            title: '공지사항 제목 2',
-            isMainVisible: false,
-            isMenuVisible: true,
-            createdAt: '2024-02-11',
-        },
-        {
-            key: '3',
-            title: '공지사항 제목 3',
-            isMainVisible: true,
-            isMenuVisible: true,
-            createdAt: '2024-02-12',
+            render: (createdAt: string) => formatDate(createdAt),
         },
     ];
 
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: NoticeData[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
-        getCheckboxProps: (record: DataType) => ({
+        getCheckboxProps: (record: NoticeData) => ({
             disabled: record.title === 'Disabled User',
             name: record.title,
         }),
@@ -95,12 +85,15 @@ function Notice() {
     };
 
     const handleSearch = () => {
-        console.log('검색');
-        console.log('startDate:', startDate);
-        console.log('endDate:', endDate);
-        console.log('mainVisibility:', mainVisibility);
-        console.log('menuVisibility:', menuVisibility);
-        console.log('noticeTitle:', noticeTitle);
+        const formData = {
+            start_date: startDate ? formatDate(startDate.toString()) : '',
+            end_date: endDate ? formatDate(endDate.toString()) : '',
+            is_main_published:
+                isMainPublished === 'all' ? '' : (isMainPublished === 'visible').toString(),
+            is_published: isPublished === 'all' ? '' : (isPublished === 'visible').toString(),
+            title: title,
+        };
+        console.log(formData);
     };
 
     const footerContent = () => (
@@ -132,13 +125,13 @@ function Notice() {
                         setEndDate(dates[1] ? dates[1].toDate() : null);
                     }}
                     format="YYYY-MM-DD"
-                    placeholder={['등록일자 시작', '등록일자 종료']}
+                    placeholder={['시작', '종료']}
                     style={{ marginRight: '1rem' }}
                 />
                 <label style={{ marginRight: '1rem' }}>메인 노출여부</label>
                 <Select
                     defaultValue="all"
-                    onChange={value => setMainVisibility(value)}
+                    onChange={value => setIsMainPublished(value)}
                     style={{ marginRight: '1rem', width: '100px' }}
                 >
                     <Select.Option value="all">전체</Select.Option>
@@ -148,7 +141,7 @@ function Notice() {
                 <label style={{ marginRight: '1rem' }}>메뉴 노출여부</label>
                 <Select
                     defaultValue="all"
-                    onChange={value => setMenuVisibility(value)}
+                    onChange={value => setIsPublished(value)}
                     style={{ marginRight: '1rem', width: '100px' }}
                 >
                     <Select.Option value="all">전체</Select.Option>
@@ -158,7 +151,7 @@ function Notice() {
                 <label style={{ marginRight: '1rem' }}>공지 제목</label>
                 <Input
                     placeholder="공지제목"
-                    onChange={e => setNoticeTitle(e.target.value)}
+                    onChange={e => setTitle(e.target.value)}
                     style={{ width: '300px', marginRight: '1rem' }}
                 />
                 <Button
@@ -176,7 +169,10 @@ function Notice() {
                     ...rowSelection,
                 }}
                 columns={columns}
-                dataSource={data}
+                dataSource={notices.data.map((notice: NoticeData) => ({
+                    ...notice,
+                    key: notice.id.toString(),
+                }))}
                 pagination={{ position: ['bottomCenter'] }}
                 footer={footerContent}
             />
