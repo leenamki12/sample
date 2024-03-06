@@ -66,10 +66,17 @@ function AdminLayout({ children }: PropsWithChildren) {
             <Layout>
                 <Header style={{ padding: 0, background: colorBgContainer }} />
                 <Content style={{ margin: '0 16px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb
+                        style={{ margin: '16px 0' }}
+                        items={[
+                            {
+                                title: '공지사항 관리',
+                            },
+                            {
+                                title: '공지사항 목록',
+                            },
+                        ]}
+                    />
                     <div
                         style={{
                             padding: 24,
