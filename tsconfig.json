@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "strictNullChecks": false, // rc-picker component 이슈로 bug fix 후 제거
         "allowJs": true,
         "module": "ESNext",
         "moduleResolution": "bundler",
@@ -10,15 +11,25 @@
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
         "paths": {
-            "@/*": ["./resources/js/*"],
-            "@assets/*": ["./resources/assets/*"]
+            "@/*": [
+                "./resources/js/*"
+            ],
+            "@assets/*": [
+                "./resources/assets/*"
+            ]
         },
-        "types": ["kakao.maps.d.ts"],
+        "types": [
+            "kakao.maps.d.ts"
+        ],
         "noUnusedLocals": true, //쓰지않는 지역변수 있으면 에러내기
         "noUnusedParameters": true, //쓰지않는 파라미터 있으면 에러내기
         "noImplicitReturns": true, //함수에서 return 빼먹으면 에러내기
         "noFallthroughCasesInSwitch": true //switch문 이상하면 에러내기
     },
     "singleQuote": true,
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.d.ts"
+    ]
 }
