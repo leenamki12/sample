@@ -4,10 +4,12 @@ namespace App\Http\Web\Admin;
 
 use App\Domains\Board\Actions\DeleteAction;
 use App\Domains\Board\Actions\FileUploadAction;
+use App\Domains\Board\Actions\MultipleDeleteAction;
 use App\Domains\Board\Actions\NoticeCreateAction;
 use App\Domains\Board\Actions\NoticeFindAction;
 use App\Domains\Board\Actions\NoticeQueryAction;
 use App\Domains\Board\Actions\NoticeUpdateAction;
+use App\Domains\Board\Requests\DeleteReq;
 use App\Domains\Board\Requests\NoticeReq;
 use App\Domains\Board\Requests\NoticeQueryReq;
 use App\Domains\Board\Requests\UploadReq;
@@ -53,6 +55,12 @@ class NoticeController extends Controller
     {
         $action->handle($id);
         return redirect()->route('admin.notice.index');
+    }
+
+    public function delete(DeleteReq $request, MultipleDeleteAction $action)
+    {
+        $action->handleRequest($request);
+        return ['result' => 'ok'];
     }
 
     public function upload(UploadReq $request, FileUploadAction $action)

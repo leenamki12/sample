@@ -64,8 +64,9 @@ function NoticeCreate() {
                     `https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif`
                 );
                 try {
-                    const formData = new FormData();
-                    formData.append('image', file);
+                    const formData = {
+                        image: file,
+                    };
                     const response = await axios.post(route('admin.notice.upload'), formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
