@@ -22,7 +22,7 @@ export const WithAccordionItem = (WrappedComponent: React.ComponentType<Props>) 
             if (!props.isOpen) {
                 parentRef.current.style.height = '0';
             } else {
-                parentRef.current.style.height = `${childRef.current.clientHeight + 702}px`;
+                parentRef.current.style.height = `${childRef.current.clientHeight + 2}px`;
             }
         }, [props.isOpen]);
 
