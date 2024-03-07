@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import NoticeSearch from './NoticeSearch';
 import { router } from '@inertiajs/react';
-import { Divider, Table, Button, DatePicker, Select, Input } from 'antd';
+import { Divider, Table, Button } from 'antd';
 import type { TableColumnsType } from 'antd';
 
 interface NoticeData {
@@ -17,13 +19,8 @@ interface NoticeData {
     };
 }
 
-function Notice({ notices }: { notices: any }) {
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
-    const [isMainPublished, setIsMainPublished] = useState<string>('all');
-    const [isPublished, setIsPublished] = useState<string>('all');
-    const [title, setTitle] = useState<string>('');
-
+const Notice: React.FC<{ notices: any }> = ({ notices }) => {
+    const [dataSource, setDataSource] = useState<NoticeData[]>(notices.data);
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
@@ -76,24 +73,31 @@ function Notice({ notices }: { notices: any }) {
         }),
     };
 
+    const handleSearch = (formData: any) => {
+        axios
+            .post('/admin/notice/search', {
+                params: formData,
+            })
+            .then(response => {
+                console.log(response.data);
+                setDataSource(
+                    response.data.data.map((notice: NoticeData) => ({
+                        ...notice,
+                        key: notice.id.toString(),
+                    }))
+                );
+            })
+            .catch(error => {
+                console.error('공지 정보 검색 실패: ', error);
+            });
+    };
+
     const handleDeleteSelected = () => {
         console.log('삭제 선택됨');
     };
 
     const onClickCreate = () => {
         router.visit(route('admin.notice.create'));
-    };
-
-    const handleSearch = () => {
-        const formData = {
-            start_date: startDate ? formatDate(startDate.toString()) : '',
-            end_date: endDate ? formatDate(endDate.toString()) : '',
-            is_main_published:
-                isMainPublished === 'all' ? '' : (isMainPublished === 'visible').toString(),
-            is_published: isPublished === 'all' ? '' : (isPublished === 'visible').toString(),
-            title: title,
-        };
-        console.log(formData);
     };
 
     const footerContent = () => (
@@ -117,51 +121,7 @@ function Notice({ notices }: { notices: any }) {
 
     return (
         <div>
-            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
-                <label style={{ marginRight: '1rem' }}>등록일자</label>
-                <DatePicker.RangePicker
-                    onChange={dates => {
-                        setStartDate(dates[0] ? dates[0].toDate() : null);
-                        setEndDate(dates[1] ? dates[1].toDate() : null);
-                    }}
-                    format="YYYY-MM-DD"
-                    placeholder={['시작', '종료']}
-                    style={{ marginRight: '1rem' }}
-                />
-                <label style={{ marginRight: '1rem' }}>메인 노출여부</label>
-                <Select
-                    defaultValue="all"
-                    onChange={value => setIsMainPublished(value)}
-                    style={{ marginRight: '1rem', width: '100px' }}
-                >
-                    <Select.Option value="all">전체</Select.Option>
-                    <Select.Option value="visible">노출</Select.Option>
-                    <Select.Option value="invisible">미노출</Select.Option>
-                </Select>
-                <label style={{ marginRight: '1rem' }}>메뉴 노출여부</label>
-                <Select
-                    defaultValue="all"
-                    onChange={value => setIsPublished(value)}
-                    style={{ marginRight: '1rem', width: '100px' }}
-                >
-                    <Select.Option value="all">전체</Select.Option>
-                    <Select.Option value="visible">노출</Select.Option>
-                    <Select.Option value="invisible">미노출</Select.Option>
-                </Select>
-                <label style={{ marginRight: '1rem' }}>공지 제목</label>
-                <Input
-                    placeholder="공지제목"
-                    onChange={e => setTitle(e.target.value)}
-                    style={{ width: '300px', marginRight: '1rem' }}
-                />
-                <Button
-                    type="primary"
-                    style={{ marginLeft: '1rem', backgroundColor: 'blue', borderColor: 'blue' }}
-                    onClick={handleSearch}
-                >
-                    검색
-                </Button>
-            </div>
+            <NoticeSearch onSearch={handleSearch} />
             <Divider />
             <Table
                 rowSelection={{
@@ -169,15 +129,12 @@ function Notice({ notices }: { notices: any }) {
                     ...rowSelection,
                 }}
                 columns={columns}
-                dataSource={notices.data.map((notice: NoticeData) => ({
-                    ...notice,
-                    key: notice.id.toString(),
-                }))}
+                dataSource={dataSource.map(notice => ({ ...notice, key: notice.id.toString() }))}
                 pagination={{ position: ['bottomCenter'] }}
                 footer={footerContent}
             />
         </div>
     );
-}
+};
 
 export default Notice;

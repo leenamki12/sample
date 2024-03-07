@@ -22,11 +22,13 @@ class NoticeQueryAction
 
     private function setFilter(array $filters)
     {
-        $keys = ['start_date', 'end_date', 'is_published', 'is_main_published', 'title'];
-        foreach($keys as $key) {
-            if(!array_key_exists($key, $filters)) {
+        if (!$filters) {
+            $keys = ['start_date', 'end_date', 'is_published', 'is_main_published', 'title'];
+            foreach($keys as $key) {
                 $filters[$key] = null;
             }
+        } else {
+            $filters = $filters['params'];
         }
         return $filters;
     }
