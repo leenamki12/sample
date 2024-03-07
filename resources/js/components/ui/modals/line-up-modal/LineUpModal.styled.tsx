@@ -4,7 +4,7 @@ export const SliderContent = styled.div`
     ${tw`absolute bottom-[10px] top-[10px] w-[550px] items-center`}
 
     ${screen('tablet')({
-        ...tw`w-full max-w-[400px]`,
+        ...tw`top-[0px] h-full w-full max-w-[400px] overflow-y-auto`,
     })}
 `;
 
@@ -23,4 +23,10 @@ export const SliderNextButton = styled.div`
     ${tw`absolute -right-[100px] top-[50%] h-[60px] w-[60px] translate-y-[-55px] cursor-pointer`}
 
     ${screen('tablet')({ ...tw`hidden` })}
+`;
+
+export const SliderText = styled.p`
+    ${tw`mt-[15px] whitespace-pre-wrap`}
+
+    ${screen('tablet')({ ...tw`text-left` })}
 `;

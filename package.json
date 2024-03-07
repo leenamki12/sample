@@ -67,6 +67,7 @@
         "react-fast-marquee": "^1.6.4",
         "react-kakao-maps-sdk": "^1.1.26",
         "react-quill": "^2.0.0",
+        "react-youtube": "^10.1.0",
         "styled-components": "^6.0.5",
         "swiper": "^11.0.5",
         "vite-plugin-svgr": "^3.2.0"

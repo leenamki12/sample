@@ -44,19 +44,22 @@ function LineUpModal({ items, selectedItemIndex, onClose }: Props) {
                     onSwiper={swiper => {
                         setSwiper(swiper);
                     }}
+                    autoHeight
                     loop
                 >
                     {items.map(item => {
                         return (
                             <SwiperSlide key={item.names.en}>
-                                <img src={item.image} alt="" className="w-full rounded-t-[20px]" />
-                                <div className="justify-center overflow-hidden rounded-b-[20px] bg-white px-[50px] py-[30px] text-center">
+                                <img
+                                    src={item.image}
+                                    alt=""
+                                    className="w-full rounded-t-[20px] tablet:rounded-none"
+                                />
+                                <div className="justify-center overflow-hidden rounded-b-[20px] bg-white px-[50px] py-[30px] text-center tablet:rounded-none">
                                     <strong className="inline border-t-[2px] border-black pt-[10px] text-center text-[30px]">
                                         {item.names.en}
                                     </strong>
-                                    <p className="mt-[15px] whitespace-pre-wrap">
-                                        {item.explanations.long}
-                                    </p>
+                                    <s.SliderText>{item.explanations.long}</s.SliderText>
                                     <ul className="mt-[20px] flex justify-center gap-[20px]">
                                         {item.links.instagram && (
                                             <li>

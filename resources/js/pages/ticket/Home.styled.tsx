@@ -13,5 +13,5 @@ export const Inner = styled.div`
 export const TicketContent = styled.div`
     ${tw`mt-[100px] overflow-hidden rounded border border-black bg-[#fafafa]`}
 
-    ${screen('tablet')({ ...tw`mt-[30px] h-[300px]` })}
+    ${screen('tablet')({ ...tw`mt-[30px]` })}
 `;

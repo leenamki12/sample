@@ -14,7 +14,7 @@ function Home() {
 
     const handleTabClick = (index: number) => {
         if (index === 1) {
-            alert('준비중입니다.');
+            alert('추후 공개됩니다.');
             return;
         }
         setActiveTab(index);

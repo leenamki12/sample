@@ -52,7 +52,9 @@ function Footer() {
                         </s.LinkBox>
                         <s.InfoBox>
                             <dt>Contact info</dt>
-                            <dd>hello@Wandrrloch.com</dd>
+                            <dd>
+                                <a href="mailto:hello@wanderloch.com">hello@wanderloch.com</a>
+                            </dd>
                         </s.InfoBox>
                         <s.SnsList>
                             <li>

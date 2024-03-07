@@ -70,7 +70,7 @@ function Header() {
                                 </Link>
                             </li>
                             <li>
-                                <button type="button" onClick={() => alert('준비중입니다.')}>
+                                <button type="button" onClick={() => alert('추후 공개됩니다.')}>
                                     GALLERY
                                 </button>
                             </li>
@@ -159,7 +159,7 @@ function Header() {
                         </Link>
                     </li>
                     <li>
-                        <button type="button" onClick={() => alert('준비중입니다.')}>
+                        <button type="button" onClick={() => alert('추후 공개됩니다.')}>
                             GALLERY
                         </button>
                     </li>

@@ -17,9 +17,9 @@ export const Wrapper = styled.div`
 `;
 
 export const TicketContent = styled.div`
-    ${tw`m-auto h-[700px] w-[700px] rounded-[20px] bg-white`}
+    ${tw`m-auto w-[1000px] overflow-hidden rounded-[20px] bg-white`}
 
-    ${screen('tablet')({ ...tw`mx-[20px] h-[400px] w-auto` })}
+    ${screen('tablet')({ ...tw`mx-[20px] w-auto` })}
 `;
 
 export const ButtonBox = styled.div`
