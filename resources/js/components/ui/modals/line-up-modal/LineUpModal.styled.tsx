@@ -26,7 +26,5 @@ export const SliderNextButton = styled.div`
 `;
 
 export const SliderText = styled.p`
-    ${tw`mt-[15px] whitespace-pre-wrap`}
-
-    ${screen('tablet')({ ...tw`text-left` })}
+    ${tw`mt-[15px] whitespace-pre-wrap text-left`}
 `;
