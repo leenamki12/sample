@@ -1,5 +1,18 @@
 export const noticeDatas = [
     {
+        title: '영상테스트',
+        content: `
+            <div style="font-size:20px;line-height:30px;padding:20px 0;">
+                <div>
+                    THE GLOW 2024
+                </div>
+                <div>
+                    <iframe width="840" height="472" src="https://www.youtube.com/embed/JaIMSzE5yLA?si=MdhqlXoKWxxm9H7e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        `,
+    },
+    {
         title: '타임테이블 공개',
         content: `
             <div style="font-size:20px;line-height:30px;padding:20px 0;">
