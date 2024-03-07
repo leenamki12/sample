@@ -39,8 +39,8 @@ const NoticeSearch: React.FC<NoticeSearchProps> = ({ onSearch }) => {
             <label style={{ marginRight: '1rem' }}>등록일자</label>
             <RangePicker
                 onChange={dates => {
-                    setStartDate(dates[0].toDate());
-                    setEndDate(dates[1].toDate());
+                    if (dates[0]) setStartDate(dates[0].toDate());
+                    if (dates[1]) setEndDate(dates[1].toDate());
                 }}
                 style={{ marginRight: '1rem' }}
             />
