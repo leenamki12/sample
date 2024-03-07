@@ -7,7 +7,7 @@ export const noticeDatas = [
                     THE GLOW 2024
                 </div>
                 <div>
-                    <iframe width="840" height="472" src="https://www.youtube.com/embed/JaIMSzE5yLA?si=MdhqlXoKWxxm9H7e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe style="width: 100%; height: 60vmin;" src="https://www.youtube.com/embed/JaIMSzE5yLA?si=MdhqlXoKWxxm9H7e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
             </div>
         `,
