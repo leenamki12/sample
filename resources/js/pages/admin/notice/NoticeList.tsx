@@ -75,7 +75,7 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
 
     const handleSearch = (formData: any) => {
         axios
-            .post('/admin/notice/search', {
+            .post(route('admin.notice.search'), {
                 params: formData,
             })
             .then(response => {

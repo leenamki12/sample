@@ -19,13 +19,13 @@ class NoticeController extends Controller
     public function store(NoticeReq $request, NoticeCreateAction $action)
     {
         $action->handleRequest($request);
-        return Inertia::render('admin/notice/NoticeList');
+        return redirect()->route('admin.notice.index');
     }
 
     public function update(NoticeReq $request, int $id, NoticeUpdateAction $action)
     {
         $action->handleRequest($request, $id);
-        return Inertia::render('admin/notice/NoticeList');
+        return redirect()->route('admin.notice.index');
     }
 
     public function show(int $id, NoticeFindAction $action)
@@ -52,7 +52,7 @@ class NoticeController extends Controller
     public function destroy(int $id, DeleteAction $action)
     {
         $action->handle($id);
-        return Inertia::render('admin/notice/NoticeList');
+        return redirect()->route('admin.notice.index');
     }
 
     public function upload(UploadReq $request, FileUploadAction $action)
