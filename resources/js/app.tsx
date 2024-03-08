@@ -13,7 +13,7 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 import AppLayout from './templates/AppLayout';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'THE GLOW 2024';
 
 createInertiaApp({
     title: title => `${appName}${title ? ` - ${title}` : ''}`,
