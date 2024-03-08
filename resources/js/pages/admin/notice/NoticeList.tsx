@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { router } from '@inertiajs/react';
-import { Divider, Table, Button } from 'antd';
+import { Divider, Table, Button, Modal, notification } from 'antd';
 import type { TableColumnsType } from 'antd';
 import axios from 'axios';
 
@@ -23,6 +23,7 @@ interface NoticeData {
 
 const Notice: React.FC<{ notices: any }> = ({ notices }) => {
     const [dataSource, setDataSource] = useState<NoticeData[]>(notices.data);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
@@ -66,8 +67,8 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
     ];
 
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: NoticeData[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        onChange: (selectedRowKeys: React.Key[]) => {
+            setSelectedRowKeys(selectedRowKeys);
         },
         getCheckboxProps: (record: NoticeData) => ({
             disabled: record.title === 'Disabled User',
@@ -77,7 +78,7 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
 
     const handleSearch = (formData: any) => {
         axios
-            .post('/admin/notice/search', {
+            .post(route('admin.notice.search'), {
                 params: formData,
             })
             .then(response => {
@@ -90,12 +91,37 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
                 );
             })
             .catch(error => {
-                console.error('공지 정보 검색 실패: ', error);
+                console.error('공지 검색 실패: ', error);
             });
     };
 
     const handleDeleteSelected = () => {
-        console.log('삭제 선택됨');
+        Modal.confirm({
+            title: '알림',
+            content: '선택한 공지를 삭제하시겠습니까?',
+            okText: '삭제',
+            cancelText: '취소',
+            onOk: async () => {
+                await axios
+                    .post(route('admin.notice.delete'), { board_ids: selectedRowKeys })
+                    .then(response => {
+                        console.log(response);
+                        notification.success({
+                            message: '알림',
+                            description: '선택한 공지가 성공적으로 삭제되었습니다.',
+                        });
+                        const remainingNotices = dataSource.filter(
+                            notice => !selectedRowKeys.includes(notice.id.toString())
+                        );
+                        setDataSource(
+                            remainingNotices.map((notice: NoticeData) => ({
+                                ...notice,
+                                key: notice.id.toString(),
+                            }))
+                        );
+                    });
+            },
+        });
     };
 
     const onClickCreate = () => {

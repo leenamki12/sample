@@ -4,12 +4,12 @@ namespace App\Domains\Board\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadReq extends FormRequest
+class DeleteReq extends FormRequest
 {
     public function rules()
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'board_ids' => 'required|array',
         ];
     }
 }
