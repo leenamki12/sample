@@ -1,31 +1,5 @@
 export const noticeDatas = [
     {
-        title: '영상테스트',
-        content: `
-            <div style="font-size:20px;line-height:30px;padding:20px 0;">
-                <div>
-                    THE GLOW 2024
-                </div>
-                <div>
-                    <iframe style="width: 100%; height: 60vmin;" src="https://www.youtube.com/embed/JaIMSzE5yLA?si=MdhqlXoKWxxm9H7e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-            </div>
-        `,
-    },
-    {
-        title: '타임테이블 공개',
-        content: `
-            <div style="font-size:20px;line-height:30px;padding:20px 0;">
-                <div>
-                    THE GLOW 2024의 타임테이블이 공개되었습니다.
-                </div>
-                <div>
-                    <img src="https://scontent.cdninstagram.com/v/t39.30808-6/429683473_324882270577804_5033522742284908637_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNjM4eDIwNDguc2RyIn0&_nc_ht=scontent.cdninstagram.com&_nc_cat=104&_nc_ohc=Zt2DN1L94NEAX_aL_nb&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzMxNzY1ODg4NTM2NzIzNzYwNA%3D%3D.2-ccb7-5&oh=00_AfDGyMOMeYWd5SUyCZc3S_Rob4rr2Z_8sgYPgb6JTcXt7g&oe=65EEC335&_nc_sid=10d13b" />
-                </div>
-            </div>
-        `,
-    },
-    {
         title: 'THE GLOW 2024 : 기본정보',
         content: `
             <div style="font-size:20px;line-height:30px;padding:20px 0;">
