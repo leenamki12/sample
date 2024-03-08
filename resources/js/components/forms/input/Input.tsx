@@ -7,9 +7,9 @@ type FormItemProps = {
     name: string;
     disabled?: boolean;
     rules?: FormRule[];
-} & InputProps;
+};
 
-function Input({ label, name, rules, disabled, ...props }: FormItemProps) {
+function Input({ label, name, rules, disabled, ...props }: FormItemProps & InputProps) {
     return (
         <s.Label name={name} rules={rules}>
             {label && <div>{label}</div>}
@@ -18,8 +18,18 @@ function Input({ label, name, rules, disabled, ...props }: FormItemProps) {
     );
 }
 
+function Password({ label, name, rules, disabled, ...props }: FormItemProps & InputProps) {
+    return (
+        <s.Label name={name} rules={rules}>
+            {label && <div>{label}</div>}
+            <s.PasswordItem disabled={disabled} {...props} />
+        </s.Label>
+    );
+}
+
 const Forms = Object.assign(Form, {
     Input: Input,
+    Password: Password,
 });
 
 export default Forms;

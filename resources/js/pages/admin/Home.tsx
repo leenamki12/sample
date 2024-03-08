@@ -1,4 +1,4 @@
-import { UserIcon } from '@heroicons/react/20/solid';
+import { LockClosedIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useForm } from '@inertiajs/react';
 import { Button, Checkbox, Form, Input } from 'antd';
 
@@ -45,11 +45,18 @@ function Home() {
                 autoComplete="off"
             >
                 <Forms.Input
-                    label="아이디"
                     name="identification"
                     rules={[{ required: true, message: '아이디를 정확히 입력하세요.' }]}
                     placeholder="아이디를 입력해주세요."
                     prefix={<UserIcon />}
+                    size="large"
+                />
+                <Forms.Password
+                    name="password"
+                    rules={[{ required: true, message: '비밀번호를 입력하세요.' }]}
+                    placeholder="비밀번호를 입력해주세요."
+                    prefix={<LockClosedIcon />}
+                    size="large"
                 />
             </Forms>
             <Form

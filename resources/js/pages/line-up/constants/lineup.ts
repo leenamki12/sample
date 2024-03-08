@@ -206,7 +206,7 @@ const satDatas: LineUpData[] = [
     },
     {
         names: {
-            en: 'Yoon JiYoung',
+            en: 'Yoon Jiyoung',
             ko: '윤지영',
         },
         explanations: {
