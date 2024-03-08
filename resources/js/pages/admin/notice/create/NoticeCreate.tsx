@@ -1,12 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill'; // Quill Editor import
-
-import { Form, Input, Switch, Button } from 'antd';
 
 import 'react-quill/dist/quill.snow.css'; // Quill Editor 스타일 import
 import { router } from '@inertiajs/react';
+import { Form, Input, Switch, Button } from 'antd';
 import axios from 'axios';
-
-import { useEffect, useRef, useState } from 'react';
 
 interface NoticeFormData {
     title: string;
