@@ -77,22 +77,6 @@ const satDatas: LineUpData[] = [
     },
     {
         names: {
-            en: 'Silica Gel',
-            ko: '실리카겔',
-        },
-        explanations: {
-            short: '고유의 사이키델리아, 폭발적인 에너지의 라이브 퍼포먼스가 응집하여 현재 가장 새롭고 용감한 사운드를 만드는 밴드 실리카겔',
-            long: `고유의 사이키델리아, 폭발적인 에너지의 라이브 퍼포먼스가 응집하여 현재 가장 새롭고 용감한 사운드를 만드는 밴드 실리카겔.\n\n그들의 가능성이 궁금하다면 그 답은 음악 속에서 찾을 수 있을 것입니다. 누구도 시도한 적 없기에 들어본 적 없는, 들어본 적 없기에 새로울 수밖에 없는, 이상한 것들은 늘 곱씹을수록 새로움을 선사하기 때문입니다.`,
-        },
-        links: {
-            instagram: 'https://www.instagram.com/silicagel.official',
-            youtube: 'https://www.youtube.com/@SilicaGel',
-            spotify: 'https://open.spotify.com/artist/2kxVxKOgoefmgkwoHipHsn',
-        },
-        image: sat02,
-    },
-    {
-        names: {
             en: 'THORNAPPLE',
             ko: '쏜애플',
         },
@@ -106,6 +90,22 @@ const satDatas: LineUpData[] = [
             spotify: 'https://open.spotify.com/artist/6S4fsREHT1NEjTb3lYD2pG',
         },
         image: sat03,
+    },
+    {
+        names: {
+            en: 'Silica Gel',
+            ko: '실리카겔',
+        },
+        explanations: {
+            short: '고유의 사이키델리아, 폭발적인 에너지의 라이브 퍼포먼스가 응집하여 현재 가장 새롭고 용감한 사운드를 만드는 밴드 실리카겔',
+            long: `고유의 사이키델리아, 폭발적인 에너지의 라이브 퍼포먼스가 응집하여 현재 가장 새롭고 용감한 사운드를 만드는 밴드 실리카겔.\n\n그들의 가능성이 궁금하다면 그 답은 음악 속에서 찾을 수 있을 것입니다. 누구도 시도한 적 없기에 들어본 적 없는, 들어본 적 없기에 새로울 수밖에 없는, 이상한 것들은 늘 곱씹을수록 새로움을 선사하기 때문입니다.`,
+        },
+        links: {
+            instagram: 'https://www.instagram.com/silicagel.official',
+            youtube: 'https://www.youtube.com/@SilicaGel',
+            spotify: 'https://open.spotify.com/artist/2kxVxKOgoefmgkwoHipHsn',
+        },
+        image: sat02,
     },
     {
         names: {
@@ -289,6 +289,22 @@ const sunDatas: LineUpData[] = [
     },
     {
         names: {
+            en: 'george',
+            ko: '죠지',
+        },
+        explanations: {
+            short: '가감 없이 솔직한 매력을 보여주는 알앤비 싱어송라이터 죠지. 언더그라운드에서 시작해 어느덧 메인 스트림을 아우르는 아티스트로 입지를 굳건히 다지고 있습니다.',
+            long: `가감 없이 솔직한 매력을 보여주는 알앤비 싱어송라이터 죠지. 언더그라운드에서 시작해 어느덧 메인 스트림을 아우르는 아티스트로 입지를 굳건히 다지고 있습니다.\n\n 2017년에 발표한 싱글 ‘Boat’를 선보이며 개성 있는 톤으로 국내 인지도를 높이기 시작했으며, 지난해 정규앨범 ‘FRR’을 발매하며 대중들에게 또 한 번 그의 존재감을 보여주며 활약을 예고했습니다.`,
+        },
+        links: {
+            instagram: 'https://www.instagram.com/leeeegeorge/',
+            youtube: 'https://www.youtube.com/@leeeegeorge',
+            spotify: 'https://open.spotify.com/artist/2pRZp2WxvnWWiSPcSSYkNVV',
+        },
+        image: sun03,
+    },
+    {
+        names: {
             en: 'Car, the garden',
             ko: '카더가든',
         },
@@ -306,22 +322,6 @@ const sunDatas: LineUpData[] = [
     },
     {
         names: {
-            en: 'george',
-            ko: '죠지',
-        },
-        explanations: {
-            short: '가감 없이 솔직한 매력을 보여주는 알앤비 싱어송라이터 죠지. 언더그라운드에서 시작해 어느덧 메인 스트림을 아우르는 아티스트로 입지를 굳건히 다지고 있습니다.',
-            long: `가감 없이 솔직한 매력을 보여주는 알앤비 싱어송라이터 죠지. 언더그라운드에서 시작해 어느덧 메인 스트림을 아우르는 아티스트로 입지를 굳건히 다지고 있습니다.\n\n 2017년에 발표한 싱글 ‘Boat’를 선보이며 개성 있는 톤으로 국내 인지도를 높이기 시작했으며, 지난해 정규앨범 ‘FRR’을 발매하며 대중들에게 또 한 번 그의 존재감을 보여주며 활약을 예고했습니다.`,
-        },
-        links: {
-            instagram: 'https://www.instagram.com/leeeegeorge/',
-            youtube: 'https://www.youtube.com/@leeeegeorge',
-            spotify: 'https://open.spotify.com/artist/2pRZp2WxvnWWiSPcSSYkNVV',
-        },
-        image: sun03,
-    },
-    {
-        names: {
             en: 'ADOY',
             ko: '아도이',
         },
@@ -335,23 +335,6 @@ const sunDatas: LineUpData[] = [
             spotify: 'https://open.spotify.com/artist/64sY7LsUjNE3ifONkftTXC',
         },
         image: sun04,
-    },
-    {
-        names: {
-            en: 'brb.',
-            ko: null,
-        },
-        explanations: {
-            short: 'Zie, Clo, Marc로 구성된 싱가포르 출신의 3인조 밴드 brb.는 80년대와 90년대의 향수를 오늘날의 사운드와 결합시키는 음악을 창조합니다.',
-            long: 'Zie, Clo, Marc로 구성된 싱가포르 출신의 3인조 밴드 brb.는 80년대와 90년대의 향수를 오늘날의 사운드와 결합시키는 음악을 창조합니다.\n\n 2018년 말 데뷔한 이후 그들은 전 세계의 팬들을 모았고, 아시아 전역의 페스티벌 무대에서부터 미국 투어까지 입지를 넓혀가며 글로벌 밴드로 자리매김하고 있습니다.',
-        },
-        links: {
-            instagram: 'https://www.instagram.com/holdonbrb/',
-            youtube: 'https://www.youtube.com/@brbpls',
-            spotify:
-                'https://open.spotify.com/artist/2XBiI8PjCnjJ3XKWtiKcvc?si=8oUa97r7S6CdXOdkJ5aZdA&nd=1&dlsi=e6df3600fcc04dbe',
-        },
-        image: sun05,
     },
     {
         names: {
@@ -388,6 +371,39 @@ const sunDatas: LineUpData[] = [
     },
     {
         names: {
+            en: '92914',
+            ko: null,
+        },
+        explanations: {
+            short: '로파이 사운드 안에서 인디 록/팝의 독특한 조화를 보여주며 음악팬들의 마음을 사로잡은 싱어송라이터 듀오.',
+            long: '로파이 사운드 안에서 인디 록/팝의 독특한 조화를 보여주며 음악팬들의 마음을 사로잡은 싱어송라이터 듀오.\n\n 다양한 플레이리스트와 편집 콘텐츠를 통해 지속적으로 새로운 마니아를 만들며 싱글 Okinawa로 유튜브 2500만 뷰 이상의 조회 수를 기록했다. 밴드와 듀오, 모든 형태에서 멋진 행보를 보여주는 92914는 전 세계로 뻗어나가고 있다.',
+        },
+        links: {
+            instagram: 'https://www.instagram.com/at92914/',
+            youtube: 'https://www.youtube.com/@at92914',
+            spotify: 'https://open.spotify.com/artist/0Zoe6ljAJo85rggnN6OaOF',
+        },
+        image: sun08,
+    },
+    {
+        names: {
+            en: 'brb.',
+            ko: null,
+        },
+        explanations: {
+            short: 'Zie, Clo, Marc로 구성된 싱가포르 출신의 3인조 밴드 brb.는 80년대와 90년대의 향수를 오늘날의 사운드와 결합시키는 음악을 창조합니다.',
+            long: 'Zie, Clo, Marc로 구성된 싱가포르 출신의 3인조 밴드 brb.는 80년대와 90년대의 향수를 오늘날의 사운드와 결합시키는 음악을 창조합니다.\n\n 2018년 말 데뷔한 이후 그들은 전 세계의 팬들을 모았고, 아시아 전역의 페스티벌 무대에서부터 미국 투어까지 입지를 넓혀가며 글로벌 밴드로 자리매김하고 있습니다.',
+        },
+        links: {
+            instagram: 'https://www.instagram.com/holdonbrb/',
+            youtube: 'https://www.youtube.com/@brbpls',
+            spotify:
+                'https://open.spotify.com/artist/2XBiI8PjCnjJ3XKWtiKcvc?si=8oUa97r7S6CdXOdkJ5aZdA&nd=1&dlsi=e6df3600fcc04dbe',
+        },
+        image: sun05,
+    },
+    {
+        names: {
             en: 'H3F',
             ko: null,
         },
@@ -405,19 +421,19 @@ const sunDatas: LineUpData[] = [
     },
     {
         names: {
-            en: '92914',
-            ko: null,
+            en: 'YOURA',
+            ko: '유라',
         },
         explanations: {
-            short: '로파이 사운드 안에서 인디 록/팝의 독특한 조화를 보여주며 음악팬들의 마음을 사로잡은 싱어송라이터 듀오.',
-            long: '로파이 사운드 안에서 인디 록/팝의 독특한 조화를 보여주며 음악팬들의 마음을 사로잡은 싱어송라이터 듀오.\n\n 다양한 플레이리스트와 편집 콘텐츠를 통해 지속적으로 새로운 마니아를 만들며 싱글 Okinawa로 유튜브 2500만 뷰 이상의 조회 수를 기록했다. 밴드와 듀오, 모든 형태에서 멋진 행보를 보여주는 92914는 전 세계로 뻗어나가고 있다.',
+            short: '이색적인 시야로 대중의 상상력을 자극하며, 다양한 스펙트럼의 음악으로 동양적인 신비로움을 한껏 보여줄 수 있는 아티스트 유라.',
+            long: `이색적인 시야로 대중의 상상력을 자극하며, 다양한 스펙트럼의 음악으로 동양적인 신비로움을 한껏 보여줄 수 있는 아티스트 유라\n\n지난해 데뷔 5년 만의 첫 정규 앨범 ‘꽤 많은 수의 촉수 돌기’를 발표, 또 한 번 아티스트로서의 새로운 발견을 이루어냈다는 리스너들의 찬사를 받으며 그녀의 행보가 주목되고 있습니다.`,
         },
         links: {
-            instagram: 'https://www.instagram.com/at92914/',
-            youtube: 'https://www.youtube.com/@at92914',
-            spotify: 'https://open.spotify.com/artist/0Zoe6ljAJo85rggnN6OaOF',
+            instagram: 'https://www.instagram.com/you.ra/',
+            youtube: 'https://www.youtube.com/@youra_official',
+            spotify: 'https://open.spotify.com/artist/5q9adPv91NFr8q2ZcKmX0V',
         },
-        image: sun08,
+        image: sun10,
     },
     {
         names: {
@@ -434,22 +450,6 @@ const sunDatas: LineUpData[] = [
             spotify: 'https://open.spotify.com/artist/3zyq3DzSd4aue9Q7s1qMVu',
         },
         image: sun09,
-    },
-    {
-        names: {
-            en: 'YOURA',
-            ko: '유라',
-        },
-        explanations: {
-            short: '이색적인 시야로 대중의 상상력을 자극하며, 다양한 스펙트럼의 음악으로 동양적인 신비로움을 한껏 보여줄 수 있는 아티스트 유라.',
-            long: `이색적인 시야로 대중의 상상력을 자극하며, 다양한 스펙트럼의 음악으로 동양적인 신비로움을 한껏 보여줄 수 있는 아티스트 유라\n\n지난해 데뷔 5년 만의 첫 정규 앨범 ‘꽤 많은 수의 촉수 돌기’를 발표, 또 한 번 아티스트로서의 새로운 발견을 이루어냈다는 리스너들의 찬사를 받으며 그녀의 행보가 주목되고 있습니다.`,
-        },
-        links: {
-            instagram: 'https://www.instagram.com/you.ra/',
-            youtube: 'https://www.youtube.com/@youra_official',
-            spotify: 'https://open.spotify.com/artist/5q9adPv91NFr8q2ZcKmX0V',
-        },
-        image: sun10,
     },
     {
         names: {

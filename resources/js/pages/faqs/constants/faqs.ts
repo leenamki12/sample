@@ -139,7 +139,7 @@ export const faqDatsOrdinary = [
         asked: `
             <div style="font-size:16px;line-height:26px;padding:20px 0;">
                 <div>
-                    아니요. 외부 음식물 반입은 불가하며, 500ml 이하의 페트병 생수만 반입이 가능합니다.
+                    아니요. 외부 음식물 반입은 불가하며, 500ml 이하의 페트병 생수만 반입이 가능합니다. 공연장 내부에 푸드존이 마련될 예정이니 자세한 내용은 추후 공지를 통해 확인해 주시기 바랍니다.
                 </div>
             </div>
         `,
@@ -162,7 +162,7 @@ export const faqDatsOrdinary = [
         asked: `
             <div style="font-size:16px;line-height:26px;padding:20px 0;">
                 <div>
-                    통상적인 수준의 기념 촬영은 가능합니다만, 공연 실황에 대한 스트리밍이나 촬영 및 녹음은 공연 저작권을 침해하는 행위로 엄격하게 금지됩니다. 또한 사진이나 영상 촬영으로 인해 타인의 시야나 통행 방해를 유발하는 경우, 현장 스태프의 제재를 받을 수 있습니다. (삼각대/모노포드/플래시 등 전문 촬영장비 반입 금지)
+                    공연 실황에 대한 스트리밍이나 촬영 및 녹음은 공연 저작권을 침해하는 행위로 엄격하게 금지됩니다. 또한 사진이나 영상 촬영으로 인해 타인의 시야나 통행 방해를 유발하는 경우, 현장 스태프의 제재를 받을 수 있습니다. (삼각대/모노포드/플래시 등 전문 촬영장비 반입 금지)
                 </div>
             </div>
         `,
@@ -181,7 +181,7 @@ export const faqDatsOrdinary = [
         questions: '흡연구역이 있나요?',
         asked: `
             <div style="font-size:16px;line-height:26px;padding:20px 0;">
-                <div>네. 킨텍스 전시장 외부의 지정된 흡연구역에서 흡연이 가능합니다.</div>
+                <div>건물 및 공연장 내부에서의 흡연은 불가하며, 킨텍스 전시장 외부의 지정된 흡연구역에서 흡연이 가능합니다. </div>
             </div>
         `,
     },
@@ -190,7 +190,7 @@ export const faqDatsOrdinary = [
         asked: `
             <div style="font-size:16px;line-height:26px;padding:20px 0;">
                 <div>
-                    네. 킨텍스 홈페이지를 통해 자세한 내용을 확인하실 수 있습니다.
+                    공연 관람에 대한 별도의 할인은 제공되지 않습니다. 주차 관련한 내용은 킨텍스 홈페이지를 통해 자세한 내용을 확인하실 수 있습니다.
                 </div><br/>
                 <div>
                     킨텍스 주차안내 : <a href="https://www.kintex.com/web/ko/service/parking_user.do" target="_blank">https://www.kintex.com/web/ko/service/parking_user.do</a>
@@ -203,7 +203,7 @@ export const faqDatsOrdinary = [
         asked: `
             <div style="font-size:16px;line-height:26px;padding:20px 0;">
                 <div>
-                    네. 서울에서 공연장까지 왕복하는 유료 셔틀버스가 운행될 예정입니다. 자세한 내용 및 관련 문의는 '퀸즈스마일' 카카오톡 플러스 친구를 통해 확인해 주시기 바랍니다.
+                    네. 서울에서 공연장까지 왕복하는 유료 셔틀버스가 운행될 예정입니다. 노선 등 셔틀버스 관련 문의는 '퀸즈스마일' 카카오톡 플러스 친구를 통해 확인해 주시기 바랍니다.
                 </div><br/>
                 <div>
                     셔틀버스 예매 : <a href="https://queenssmile.co.kr/shop/festival/MTIy" target="_blank">https://queenssmile.co.kr/shop/festival/MTIy</a><br/>
@@ -221,8 +221,11 @@ export const faqDatsOrdinary = [
                 </div><br/>
                 <div>
                     ※ 일정 높이와 규모의 단이 설치될 예정이며, 슬로프로 이동이 가능합니다.<br/>
-                    ※ 휠체어존은 스테이지마다 마련되며, 안전을 위해 동시 수용인원이 제한됩니다. 수용인원 초과 시 일시적으로 입장이 제한될 수 있으며, 진행요원의 안내에 따라 출입이 가능합니다. <br/>
+                    ※ 휠체어존은 스테이지마다 마련되며, 안전을 위해 동시 수용인원이 제한됩니다. 수용인원 초과 시 일시적으로 입장이 제한될 수 있으며, 진행요원의 안내에 따라 출입이 가능합니다.<br/>
                     ※ 휠체어존의 위치는 추후 공개될 현장 맵에서 확인이 가능하나, 시야 및 안전 등을 고려하여 최종적으로 배정되므로 정확한 위치는 현장에서 확인하실 수 있습니다.
+                </div>
+                <div>
+                    휠체어석과 관련한 정확한 안내 사항은 추후 공지를 통해 확인해 주시기 바랍니다.
                 </div>
             </div>
         `,

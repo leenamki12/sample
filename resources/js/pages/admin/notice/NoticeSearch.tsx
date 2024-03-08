@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { DatePicker, Select, Input, Button } from 'antd';
 
 const { RangePicker } = DatePicker;
@@ -39,8 +40,8 @@ const NoticeSearch: React.FC<NoticeSearchProps> = ({ onSearch }) => {
             <label style={{ marginRight: '1rem' }}>등록일자</label>
             <RangePicker
                 onChange={dates => {
-                    setStartDate(dates[0].toDate());
-                    setEndDate(dates[1].toDate());
+                    setStartDate(dates[0] && dates[0].toDate());
+                    setEndDate(dates[1] && dates[1].toDate());
                 }}
                 style={{ marginRight: '1rem' }}
             />

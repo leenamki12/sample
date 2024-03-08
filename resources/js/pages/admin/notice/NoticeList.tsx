@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import NoticeSearch from './NoticeSearch';
+
 import { router } from '@inertiajs/react';
 import { Divider, Table, Button } from 'antd';
 import type { TableColumnsType } from 'antd';
+import axios from 'axios';
+
+import NoticeSearch from './NoticeSearch';
 
 interface NoticeData {
     id: number;
