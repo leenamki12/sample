@@ -22,17 +22,32 @@ function Home() {
                     <Tab label="04 13 SAT" />
                     <Tab label="04 14 SUN" />
                 </Tabs>
-                <s.Inner>
-                    {lineUpDatas[activeTab].map((item, index) => (
-                        <s.ListItem onClick={() => setSelectedItemIndex(index)}>
-                            <img src={item.image} alt="" className="w-full" />
-                            <div>
-                                <p>{item.names.en}</p>
-                                <p>{item.names.ko}</p>
-                            </div>
-                        </s.ListItem>
-                    ))}
-                </s.Inner>
+                <div className={activeTab === 0 ? 'flex' : 'hidden'}>
+                    <s.Inner>
+                        {lineUpDatas[0].map((item, index) => (
+                            <s.ListItem onClick={() => setSelectedItemIndex(index)}>
+                                <img src={item.image} alt="" className="w-full" />
+                                <div>
+                                    <p>{item.names.en}</p>
+                                    <p>{item.names.ko}</p>
+                                </div>
+                            </s.ListItem>
+                        ))}
+                    </s.Inner>
+                </div>
+                <div className={activeTab === 1 ? 'block' : 'hidden'}>
+                    <s.Inner>
+                        {lineUpDatas[1].map((item, index) => (
+                            <s.ListItem onClick={() => setSelectedItemIndex(index)}>
+                                <img src={item.image} alt="" className="w-full" />
+                                <div>
+                                    <p>{item.names.en}</p>
+                                    <p>{item.names.ko}</p>
+                                </div>
+                            </s.ListItem>
+                        ))}
+                    </s.Inner>
+                </div>
             </s.Wrapper>
             {selectedItemIndex !== null && (
                 <LineUpModal
