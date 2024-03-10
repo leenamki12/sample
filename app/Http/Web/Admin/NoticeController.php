@@ -32,7 +32,8 @@ class NoticeController extends Controller
 
     public function show(int $id, NoticeFindAction $action)
     {
-        return $action->handle($id);
+
+        return Inertia::render('admin/notice/edit/NoticeEdit', ['notice' => $action->handle($id)]);
     }
 
     public function create()

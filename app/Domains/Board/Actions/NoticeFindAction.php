@@ -3,6 +3,7 @@
 namespace App\Domains\Board\Actions;
 
 use App\Domains\Board\Responses\NoticeFindRes;
+use Illuminate\Support\Facades\Log;
 
 class NoticeFindAction
 {
@@ -18,13 +19,18 @@ class NoticeFindAction
         $board = $dto->getModel();
         $notice = $board->notice;
         $main = $board->main;
+        $file_ids = [];
+        foreach($board->file as $file) {
+            array_push($file_ids, $file->id);
+        }
+
         return new NoticeFindRes(
             $board->id,
             $board->title,
             $notice->content,
             $board->is_published,
             ($main != null),
-            $board->created_at,
+            $file_ids
         );
     }
 }
