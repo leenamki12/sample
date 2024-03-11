@@ -77,10 +77,10 @@ function AdminLayout({ children }: PropsWithChildren) {
                 router.visit(route('admin.notice.create'));
                 break;
             case '2.1':
-                // FAQ 목록
+                router.visit(route('admin.faq.index'));
                 break;
             case '2.2':
-                // FAQ 등록
+                router.visit(route('admin.faq.create'));
                 break;
             case '3.1':
                 // 갤러리 목록

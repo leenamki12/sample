@@ -9,6 +9,8 @@ class FaqQueryAction
 {
     public function handle(array $filters, int $perPage = 10)
     {
+        $filters = $this->setFilter($filters);
+
         $board = Board::with('faq')->whereHas('faq');
         $board = $this->filterByCreatedAt($board, $filters['start_date'], $filters['end_date']);
         $board = $this->filterByCategory($board, $filters['category']);
@@ -16,7 +18,20 @@ class FaqQueryAction
         $board = $this->filterByIsMainPublished($board, filter_var($filters['is_main_published'], FILTER_VALIDATE_BOOLEAN));
         $board = $this->filterByTitle($board, $filters['title']);
 
-        return $board->paginate($perPage);
+        return $board->orderBy('id', 'desc')->paginate($perPage);
+    }
+
+    private function setFilter(array $filters)
+    {
+        if (!$filters) {
+            $keys = ['start_date', 'end_date', 'category', 'is_published', 'is_main_published', 'title'];
+            foreach($keys as $key) {
+                $filters[$key] = null;
+            }
+        } else {
+            $filters = $filters['params'];
+        }
+        return $filters;
     }
 
     private function filterByCreatedAt(Builder $builder, ?string $startDate, ?string $endDate) {
