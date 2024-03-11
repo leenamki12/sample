@@ -11,7 +11,7 @@ class NoticeFindRes extends Resource
         public string $content,
         public bool $is_published,
         public bool $is_main_published,
-        public string $created_at,
+        public array $file_ids,
     )
     {
 

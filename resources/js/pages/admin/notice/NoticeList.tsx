@@ -24,6 +24,15 @@ interface NoticeData {
 const Notice: React.FC<{ notices: any }> = ({ notices }) => {
     const [dataSource, setDataSource] = useState<NoticeData[]>(notices.data);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 10,
+        total: notices.total,
+        showSizeChanger: true,
+        onChange: (page: number) => {
+            pagination.current = page;
+        },
+    });
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
@@ -35,7 +44,9 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
         {
             title: '제목',
             dataIndex: 'title',
-            render: (text: string) => <a>{text}</a>,
+            render: (text: string, record: NoticeData) => (
+                <a onClick={() => handleNoticeDetail(record.id)}>{text}</a>
+            ),
             align: 'center',
         },
         {
@@ -82,17 +93,24 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
                 params: formData,
             })
             .then(response => {
-                console.log(response.data);
                 setDataSource(
                     response.data.data.map((notice: NoticeData) => ({
                         ...notice,
                         key: notice.id.toString(),
                     }))
                 );
+                setPagination(prevState => ({
+                    ...prevState,
+                    total: response.data.total,
+                }));
             })
             .catch(error => {
                 console.error('공지 검색 실패: ', error);
             });
+    };
+
+    const handleNoticeDetail = (id: number) => {
+        router.visit(route('admin.notice.show', { id }));
     };
 
     const handleDeleteSelected = () => {
@@ -158,7 +176,7 @@ const Notice: React.FC<{ notices: any }> = ({ notices }) => {
                 }}
                 columns={columns}
                 dataSource={dataSource.map(notice => ({ ...notice, key: notice.id.toString() }))}
-                pagination={{ position: ['bottomCenter'] }}
+                pagination={pagination}
                 footer={footerContent}
             />
         </div>

@@ -1,5 +1,6 @@
 import { PropsWithChildren, useState } from 'react';
 
+import { router } from '@inertiajs/react';
 import { NotificationOutlined, QuestionCircleOutlined, PictureOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
@@ -25,6 +26,13 @@ function getItem(
     } as MenuItem;
 }
 
+interface MenuItemData {
+    key: React.Key;
+    icon?: React.ReactNode;
+    label: React.ReactNode;
+    children?: MenuItemData[]; // Children 속성 추가
+}
+
 const items: MenuItem[] = [
     getItem('공지사항 관리', '1', <NotificationOutlined />, [
         getItem('공지사항 목록', '1.1'),
@@ -42,12 +50,48 @@ const items: MenuItem[] = [
 
 function AdminLayout({ children }: PropsWithChildren) {
     const [collapsed, setCollapsed] = useState(false);
-
-    console.log(collapsed);
+    const [selectedMenu, setSelectedMenu] = useState<string>('1.1');
 
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+    const findSelectedItem = (items: any[]): MenuItemData | undefined => {
+        for (const item of items) {
+            if (item.key === selectedMenu) return item;
+            if (item.children) {
+                const selectedItem = findSelectedItem(item.children);
+                if (selectedItem) return selectedItem;
+            }
+        }
+        return undefined;
+    };
+
+    const handleMenuClick = (e: any) => {
+        setSelectedMenu(e.key);
+        switch (e.key) {
+            case '1.1':
+                router.visit(route('admin.notice.index'));
+                break;
+            case '1.2':
+                router.visit(route('admin.notice.create'));
+                break;
+            case '2.1':
+                // FAQ 목록
+                break;
+            case '2.2':
+                // FAQ 등록
+                break;
+            case '3.1':
+                // 갤러리 목록
+                break;
+            case '3.2':
+                // 갤러리 등록
+                break;
+            default:
+                break;
+        }
+    };
 
     return (
         <Layout style={{ minHeight: '100vh', position: 'sticky' }}>
@@ -55,28 +99,21 @@ function AdminLayout({ children }: PropsWithChildren) {
                 <div className="demo-logo-vertical" />
                 <Menu
                     theme="dark"
-                    defaultSelectedKeys={['3']}
+                    defaultSelectedKeys={['1.1']}
+                    selectedKeys={[selectedMenu]}
                     mode="inline"
                     items={items}
                     onClick={e => {
-                        console.log(e.keyPath);
+                        handleMenuClick(e);
                     }}
                 />
             </Sider>
             <Layout>
                 <Header style={{ padding: 0, background: colorBgContainer }} />
                 <Content style={{ margin: '0 16px' }}>
-                    <Breadcrumb
-                        style={{ margin: '16px 0' }}
-                        items={[
-                            {
-                                title: '공지사항 관리',
-                            },
-                            {
-                                title: '공지사항 목록',
-                            },
-                        ]}
-                    />
+                    <div style={{ fontSize: '30px' }}>
+                        <b>{findSelectedItem(items).label}</b>
+                    </div>
                     <div
                         style={{
                             padding: 24,
