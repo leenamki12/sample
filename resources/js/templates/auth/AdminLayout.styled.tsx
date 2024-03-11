@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from 'react';
 
 import { router } from '@inertiajs/react';
 import { NotificationOutlined, QuestionCircleOutlined, PictureOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd';
+import { Layout, Menu, MenuProps, theme } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import tw, { styled } from 'twin.macro';
