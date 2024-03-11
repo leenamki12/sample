@@ -1,6 +1,6 @@
 import { LockClosedIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useForm } from '@inertiajs/react';
-import { Button, Checkbox, Form, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 
 import Forms from '@/components/forms/input/Input';
 
@@ -12,18 +12,16 @@ type FieldType = {
     remember?: boolean;
 };
 
-type FormProps = 'identification' | 'password' | 'remember';
-
 function Home() {
-    const { setData, post, /*reset, errors,*/ clearErrors } = useForm<FieldType>({
-        identification: '',
-        password: '',
-        remember: false,
+    const { data, setData, post, /*reset, errors,*/ clearErrors } = useForm<FieldType>({
+        identification: 'admin',
+        password: 'password',
+        remember: true,
     });
 
-    const handleChangeInputData = (id: string, value: string) => {
-        setData(id as FormProps, value);
-        clearErrors(id as FormProps);
+    const handleChangeData = (id: keyof FieldType, value: string | boolean) => {
+        setData(id, value);
+        clearErrors(id);
     };
 
     const onFinish = () => {
@@ -41,42 +39,40 @@ function Home() {
             </Typography.Title>
             <Forms
                 name="basic"
-                initialValues={{ remember: true }}
+                initialValues={data}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
                 className="w-[300px]"
             >
-                <Forms.Input
+                <Forms.Input<FieldType>
                     name="identification"
                     rules={[{ required: true, message: '아이디를 정확히 입력하세요.' }]}
                     placeholder="아이디를 입력해주세요."
                     prefix={<UserIcon />}
                     size="large"
-                    onChange={e => handleChangeInputData('identification', e.target.value)}
+                    onValueChange={handleChangeData}
+                    defaultValue={data.identification}
                 />
-                <Forms.Password
+                <Forms.Password<FieldType>
                     name="password"
                     rules={[{ required: true, message: '비밀번호를 입력하세요.' }]}
                     placeholder="비밀번호를 입력해주세요."
                     prefix={<LockClosedIcon />}
                     size="large"
-                    onChange={e => handleChangeInputData('password', e.target.value)}
+                    onValueChange={handleChangeData}
+                    defaultValue={data.password}
                 />
 
-                <Form.Item<FieldType> name="remember" valuePropName="checked">
-                    <Checkbox>아이디 기억하기</Checkbox>
-                </Form.Item>
+                <Forms.Checkbox<FieldType>
+                    name="remember"
+                    onValueChange={handleChangeData}
+                    defaultChecked={data.remember}
+                />
 
-                <Form.Item>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{ backgroundColor: 'blue', borderColor: 'blue' }}
-                    >
-                        로그인
-                    </Button>
-                </Form.Item>
+                <Button type="primary" htmlType="submit" className="w-full">
+                    로그인
+                </Button>
             </Forms>
         </s.Wrapper>
     );
