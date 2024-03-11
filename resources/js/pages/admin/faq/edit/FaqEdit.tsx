@@ -23,7 +23,7 @@ function FaqEdit({ faq }: { faq: FaqEditData }) {
             };
             router.put(route('admin.faq.update', { id: faq.id }), formData);
         } catch (error) {
-            console.error('Error updating faq:', error);
+            console.error('FAQ 수정 실패:', error);
         }
     };
 

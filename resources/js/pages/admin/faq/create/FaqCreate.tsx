@@ -22,7 +22,7 @@ function FaqCreate() {
             };
             router.post(route('admin.faq.store'), formData);
         } catch (error) {
-            console.error('Error saving faq:', error);
+            console.error('FAQ 등록 실패:', error);
         }
     };
 
