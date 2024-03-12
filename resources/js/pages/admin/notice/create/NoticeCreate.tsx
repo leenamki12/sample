@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import ReactQuill from 'react-quill'; // Quill Editor import
-
-import 'react-quill/dist/quill.snow.css'; // Quill Editor 스타일 import
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { router } from '@inertiajs/react';
 import { Form, Input, Switch, Button } from 'antd';
 import axios from 'axios';
@@ -41,10 +40,9 @@ function NoticeCreate() {
                 is_published: values.isPublished == true,
                 file_ids: fileIds,
             };
-            console.log(formData);
             router.post(route('admin.notice.store'), formData);
         } catch (error) {
-            console.error('Error saving notice:', error);
+            console.error('공지 등록 실패:', error);
         }
     };
 

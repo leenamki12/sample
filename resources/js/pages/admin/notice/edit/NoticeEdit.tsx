@@ -81,7 +81,7 @@ function NoticeEdit({ notice }: { notice: NoticeEditData }) {
             };
             router.put(route('admin.notice.update', { id: notice.id }), formData);
         } catch (error) {
-            console.error('Error updating notice:', error);
+            console.error('공지 수정 실패:', error);
         }
     };
 
