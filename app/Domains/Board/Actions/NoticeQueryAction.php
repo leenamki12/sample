@@ -7,30 +7,19 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class NoticeQueryAction
 {
-    public function handle(array $filters, int $perPage = 10)
+    public function handle(int $perPage = 10)
     {
-        $filters = $this->setFilter($filters);
+        $requestData = request(['start_date', 'end_date', 'is_published', 'is_main_published', 'title']);
 
         $board = Board::with('notice')->whereHas('notice');
-        $board = $this->filterByCreatedAt($board, $filters['start_date'], $filters['end_date']);
-        $board = $this->filterByIsPublished($board, $filters['is_published']);
-        $board = $this->filterByIsMainPublished($board, $filters['is_main_published']);
-        $board = $this->filterByTitle($board, $filters['title']);
+        if($requestData){
+            $board = $this->filterByCreatedAt($board, $requestData['start_date'], $requestData['end_date']);
+            $board = $this->filterByIsPublished($board, $requestData['is_published']);
+            $board = $this->filterByIsMainPublished($board, $requestData['is_main_published']);
+            $board = $this->filterByTitle($board, $requestData['title']);
+        }
 
         return $board->orderBy('id', 'desc')->paginate($perPage);
-    }
-
-    private function setFilter(array $filters)
-    {
-        if (!$filters) {
-            $keys = ['start_date', 'end_date', 'is_published', 'is_main_published', 'title'];
-            foreach($keys as $key) {
-                $filters[$key] = null;
-            }
-        } else {
-            $filters = $filters['params'];
-        }
-        return $filters;
     }
 
     private function filterByCreatedAt(Builder $builder, ?string $startDate, ?string $endDate) {
@@ -44,14 +33,20 @@ class NoticeQueryAction
     }
 
     private function filterByIsPublished(Builder $builder, ?string $isPublished) {
-        if(!empty($isPublished)) {
-            $result = filter_var($isPublished, FILTER_VALIDATE_BOOLEAN) == true;
-            $builder->where('is_published', $result);
+        if($isPublished === 'all'){
+            return $builder;
         }
+        $result = filter_var($isPublished, FILTER_VALIDATE_BOOLEAN) == true;
+        $builder->where('is_published', $result);
         return $builder;
     }
 
     private function filterByIsMainPublished(Builder $builder, ?string $isMainPublished) {
+
+        if($isMainPublished === 'all'){
+            return $builder;
+        }
+
         if (!empty($isMainPublished)) {
             if (filter_var($isMainPublished, FILTER_VALIDATE_BOOLEAN)) {
                 $builder->whereHas('main');

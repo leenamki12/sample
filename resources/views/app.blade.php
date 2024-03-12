@@ -26,6 +26,10 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/gh/eunchurn/NanumSquareNeo@0.0.6/nanumsquareneo.css" />
 
+    <!-- Fonts -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/eunchurn/NanumSquareNeo@0.0.6/nanumsquareneo.css" />
+
     <!-- Scripts -->
     @routes
     @viteReactRefresh

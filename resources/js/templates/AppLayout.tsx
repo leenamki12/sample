@@ -13,7 +13,7 @@ import { PageProps } from '@/types';
 import { User } from '@/types/user';
 
 import AdminGuestLayout from './auth/AdminGuestLayout';
-import AdminLayout from './auth/AdminLayout.styled';
+import AdminLayout from './auth/AdminLayout';
 import GuestLayout from './guest/GuestLayout';
 
 type Props = {
