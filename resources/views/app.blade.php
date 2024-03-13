@@ -19,6 +19,9 @@
 	<meta property="og:url" content="http://theglowseoul.com"/>
 	<meta property="og:type" content="website"/>
     <meta property="og:image" content="{{ asset('link_logo.jpg') }}" />
+
+    <meta name="naver-site-verification" content="0889a9409800442ae020780717c9dd8a8400f195" />
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/aoi2pcm.css">
 
@@ -35,6 +38,15 @@
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @inertiaHead
+
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-55ZMR583');</script>
+    <!-- End Google Tag Manager -->
 
     <!-- Meta Pixel Code -->
     <script>
@@ -57,6 +69,11 @@
 
 <body class="font-sans antialiased">
     @inertia
-</body>
 
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-55ZMR583"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+</body>
 </html>
