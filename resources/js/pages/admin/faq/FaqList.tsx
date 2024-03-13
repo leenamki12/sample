@@ -41,7 +41,7 @@ const Faq: React.FC<{ faqs: any }> = ({ faqs }) => {
             date.getDate()
         ).padStart(2, '0')}`;
     };
-    const getCategoryLabel = (category: string): string => {
+    const getCategoryLabel = (text: string, category: string): string => {
         switch (category) {
             case 'COMMON':
                 return '일반';
@@ -50,7 +50,7 @@ const Faq: React.FC<{ faqs: any }> = ({ faqs }) => {
             case 'ENTERANCE':
                 return '입장';
             default:
-                return '';
+                return text;
         }
     };
 
@@ -67,7 +67,7 @@ const Faq: React.FC<{ faqs: any }> = ({ faqs }) => {
             title: 'FAQ 항목',
             dataIndex: 'category',
             render: (text: string, record: FaqData) => (
-                <span>{getCategoryLabel(record.faq.category)}</span>
+                <span>{getCategoryLabel(text, record.faq.category)}</span>
             ),
             align: 'center',
         },
