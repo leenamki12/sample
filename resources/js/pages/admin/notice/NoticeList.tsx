@@ -26,7 +26,7 @@ interface NoticeData {
 const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
     const [dataSource, setDataSource] = useState<NoticeData[]>(notices.data);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [pagination, setPagination] = useState({
+    const [pagination] = useState({
         current: 1,
         pageSize: 10,
         total: notices.total,
@@ -49,7 +49,8 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
             render: (text: string, record: NoticeData) => (
                 <a onClick={() => handleNoticeDetail(record.id)}>{text}</a>
             ),
-            align: 'center',
+            align: 'left',
+            width: '*',
         },
         {
             title: '메인 노출여부',
@@ -60,6 +61,7 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
                 </span>
             ),
             align: 'center',
+            width: '150px',
         },
         {
             title: '메뉴 노출여부',
@@ -70,12 +72,14 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
                 </span>
             ),
             align: 'center',
+            width: '150px',
         },
         {
             title: '작성일',
             dataIndex: 'created_at',
             align: 'center',
             render: (createdAt: string) => formatDate(createdAt),
+            width: '200px',
         },
     ];
 
@@ -134,45 +138,47 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
         <div>
             <NoticeSearch />
             <Divider />
-            <Table
-                rowSelection={{
-                    type: 'checkbox',
-                    ...rowSelection,
-                }}
-                columns={columns}
-                dataSource={datas.map(notice => ({ ...notice, key: notice.id.toString() }))}
-                pagination={pagination}
-                footer={() => {
-                    return (
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                margin: '1rem 0',
-                            }}
-                        >
-                            <Button
-                                type="primary"
+            <div className="space-y-4 rounded bg-white p-[20px] shadow">
+                <Table
+                    rowSelection={{
+                        type: 'checkbox',
+                        ...rowSelection,
+                    }}
+                    columns={columns}
+                    dataSource={datas.map(notice => ({ ...notice, key: notice.id.toString() }))}
+                    pagination={pagination}
+                    footer={() => {
+                        return (
+                            <div
                                 style={{
-                                    marginRight: '1rem',
-                                    backgroundColor: 'blue',
-                                    borderColor: 'blue',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    margin: '1rem 0',
                                 }}
-                                onClick={handleDeleteSelected}
                             >
-                                선택 삭제
-                            </Button>
-                            <Button
-                                type="primary"
-                                style={{ backgroundColor: 'blue', borderColor: 'blue' }}
-                                onClick={onClickCreate}
-                            >
-                                등록
-                            </Button>
-                        </div>
-                    );
-                }}
-            />
+                                <Button
+                                    type="primary"
+                                    style={{
+                                        marginRight: '1rem',
+                                        backgroundColor: 'blue',
+                                        borderColor: 'blue',
+                                    }}
+                                    onClick={handleDeleteSelected}
+                                >
+                                    선택 삭제
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    style={{ backgroundColor: 'blue', borderColor: 'blue' }}
+                                    onClick={onClickCreate}
+                                >
+                                    등록
+                                </Button>
+                            </div>
+                        );
+                    }}
+                />
+            </div>
         </div>
     );
 };
