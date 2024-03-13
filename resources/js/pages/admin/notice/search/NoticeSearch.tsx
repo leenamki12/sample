@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { router, usePage } from '@inertiajs/react';
 import { DatePicker, Select, Input, Button } from 'antd';
-import { Option } from 'antd/es/mentions';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { DateButtonGroup } from '@/consts/date_button_group';
@@ -41,12 +40,14 @@ const NoticeSearch = () => {
     };
 
     const handleSearchClear = () => {
-        setDateSelectedButton(null);
-        setStartDate(null);
-        setEndDate(null);
-        setIsMainPublished('all');
-        setIsPublished('all');
-        setTitle('');
+        router.get(
+            route('admin.notice.index'),
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
+        );
     };
 
     const handleClickSetDate = (index: number, startDate: Dayjs, endDate: Dayjs) => {
@@ -136,9 +137,9 @@ const NoticeSearch = () => {
                             onChange={setIsMainPublished}
                             style={{ width: '100px' }}
                         >
-                            <Option value="all">전체</Option>
-                            <Option value="visible">노출</Option>
-                            <Option value="invisible">미노출</Option>
+                            <Select.Option value="all">전체</Select.Option>
+                            <Select.Option value="visible">노출</Select.Option>
+                            <Select.Option value="invisible">미노출</Select.Option>
                         </Select>
                     </div>
                     <div className="ml-4 flex items-center space-x-1">
@@ -149,22 +150,25 @@ const NoticeSearch = () => {
                             onChange={setIsPublished}
                             style={{ width: '100px' }}
                         >
-                            <Option value="all">전체</Option>
-                            <Option value="visible">노출</Option>
-                            <Option value="invisible">미노출</Option>
+                            <Select.Option value="all">전체</Select.Option>
+                            <Select.Option value="visible">노출</Select.Option>
+                            <Select.Option value="invisible">미노출</Select.Option>
                         </Select>
                     </div>
                 </s.Section>
                 <s.Section>
                     <s.Label>공지 제목</s.Label>
-                    <Input placeholder="공지제목" onChange={e => setTitle(e.target.value)} />
+                    <Input
+                        placeholder="제목을 입력해주세요."
+                        onChange={e => setTitle(e.target.value)}
+                    />
                 </s.Section>
             </s.Content>
             <div className="flex justify-center space-x-2">
                 <Button type="primary" onClick={handleSearch}>
                     검색
                 </Button>
-                <Button type="default" onClick={handleSearchClear}>
+                <Button type="default" className="bg-white" onClick={handleSearchClear}>
                     초기화
                 </Button>
             </div>
