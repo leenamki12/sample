@@ -1,5 +1,5 @@
 User-agent: *
+User-agent: Googlebot
+User-agent: Yeti
+User-agent: Daum
 Disallow: /admin
-
-
-
