@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
-
 import 'react-quill/dist/quill.snow.css';
 import { router } from '@inertiajs/react';
 import { Form, Input, Switch, Button } from 'antd';

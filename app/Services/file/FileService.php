@@ -14,7 +14,6 @@ class FileService
     public function store(UploadedFile $file)
     {
         $directory = self::PATH_DIRECTORY;
-        Log::info($directory);
         $fileName = uniqid() . '.' . $file->extension();
         $filePath = self::PATH_URL . $fileName;
         Storage::putFileAs($directory, $file, $fileName);

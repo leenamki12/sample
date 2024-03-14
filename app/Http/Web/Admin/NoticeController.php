@@ -11,7 +11,6 @@ use App\Domains\Board\Actions\NoticeQueryAction;
 use App\Domains\Board\Actions\NoticeUpdateAction;
 use App\Domains\Board\Requests\DeleteReq;
 use App\Domains\Board\Requests\NoticeReq;
-use App\Domains\Board\Requests\NoticeQueryReq;
 use App\Domains\Board\Requests\UploadReq;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
@@ -46,7 +45,7 @@ class NoticeController extends Controller
         return Inertia::render('admin/notice/NoticeList', ['notices' => $response]);
     }
 
-    public function search(NoticeQueryReq $request, NoticeQueryAction $action)
+    public function search(NoticeQueryAction $action)
     {
         return $action->handle();
     }
