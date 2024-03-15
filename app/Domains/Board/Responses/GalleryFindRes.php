@@ -9,6 +9,7 @@ class GalleryFindRes extends Resource
         public int $id,
         public string $title,
         public int $year,
+        public int $file_id,
         public string $file_path,
         public bool $is_published,
         public bool $is_main_published,

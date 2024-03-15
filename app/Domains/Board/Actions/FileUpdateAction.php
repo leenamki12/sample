@@ -11,7 +11,7 @@ class FileUpdateAction
 
     }
 
-    public function handle(int $fileId, int $boardId)
+    public function handle(int $fileId, int|null $boardId)
     {
         $file = $this->action->handle($fileId)->getModel();
         $file->board_id = $boardId;
