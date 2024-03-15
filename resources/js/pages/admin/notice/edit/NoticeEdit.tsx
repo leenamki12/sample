@@ -19,7 +19,6 @@ function NoticeEdit({ notice }: { notice: NoticeEditData }) {
     const quillRef = useRef<any>(null);
 
     const toolbarOptions = [
-        [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
         ['link', 'image', 'video'],
         [{ list: 'ordered' }, { list: 'bullet' }],
@@ -82,7 +81,7 @@ function NoticeEdit({ notice }: { notice: NoticeEditData }) {
             const formData = {
                 type: 'NOTICE',
                 title: values.title,
-                content: doc.documentElement.outerHTML,
+                content: doc.body.innerHTML,
                 is_main_published: values.is_main_published,
                 is_published: values.is_published,
                 file_ids: fileIds,
