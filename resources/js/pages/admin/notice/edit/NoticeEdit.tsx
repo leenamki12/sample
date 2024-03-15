@@ -70,11 +70,19 @@ function NoticeEdit({ notice }: { notice: NoticeEditData }) {
     }, []);
 
     const onFinish = (values: NoticeEditData) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(values.content, 'text/html');
+        const iframes = doc.getElementsByTagName('iframe');
+
+        for (let i = 0; i < iframes.length; i++) {
+            iframes[i].setAttribute('width', '600px');
+            iframes[i].setAttribute('height', '400px');
+        }
         try {
             const formData = {
                 type: 'NOTICE',
                 title: values.title,
-                content: values.content,
+                content: doc.documentElement.outerHTML,
                 is_main_published: values.is_main_published,
                 is_published: values.is_published,
                 file_ids: fileIds,
