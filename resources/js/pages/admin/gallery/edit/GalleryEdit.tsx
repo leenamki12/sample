@@ -61,7 +61,7 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                 year: Number(dayjs(values.year).format('YYYY')),
                 is_main_published: values.isMainPublished == true,
                 is_published: values.isPublished == true,
-                file_id: values.file_id,
+                file_id: fileId ? fileId : values.file_id,
             };
             router.put(route('admin.gallery.update', { id: gallery.id }), formData);
         } catch (error) {
