@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Divider, Table, Button, Modal, notification } from 'antd';
 import type { TableColumnsType } from 'antd';
-import axios from 'axios';
+import dayjs from 'dayjs';
 
-import FaqSearch from './FaqSearch';
+import { PageHeader } from '@/components/ui';
+import { Paginate } from '@/types/common/paginate';
+
+import FaqSearch from './search/FaqSearch';
+
+import * as s from './FaqList.styled';
 
 interface FaqData {
     id: number;
@@ -22,25 +27,34 @@ interface FaqData {
     };
 }
 
-const Faq: React.FC<{ faqs: any }> = ({ faqs }) => {
-    const [dataSource, setDataSource] = useState<FaqData[]>(faqs.data);
+const Faq: React.FC<{ faqs: Paginate<FaqData> }> = ({ faqs }) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 10,
-        total: faqs.total,
-        showSizeChanger: true,
-        onChange: (page: number) => {
-            pagination.current = page;
-        },
-    });
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-            date.getDate()
-        ).padStart(2, '0')}`;
-    };
+    const datas = useMemo(() => {
+        return faqs.data || [];
+    }, [faqs.data]);
+
+    const pagination = useMemo(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        return {
+            current: faqs.current_page,
+            pageSize: faqs.per_page,
+            total: faqs.total,
+            showSizeChanger: true,
+            onChange: (page: number) => {
+                urlParams.set('page', page.toString());
+                const queryString = urlParams.toString();
+                router.visit(route('admin.faq.index') + '?' + queryString);
+            },
+            onShowSizeChange: (_current: number, perPage: number) => {
+                urlParams.set('per_page', perPage.toString());
+                const queryString = urlParams.toString();
+                router.visit(route('admin.faq.index') + '?' + queryString);
+            },
+        };
+    }, [faqs]);
+
     const getCategoryLabel = (text: string, category: string): string => {
         switch (category) {
             case 'COMMON':
@@ -56,46 +70,51 @@ const Faq: React.FC<{ faqs: any }> = ({ faqs }) => {
 
     const columns: TableColumnsType<FaqData> = [
         {
-            title: '제목',
-            dataIndex: 'title',
-            render: (text: string, record: FaqData) => (
-                <a onClick={() => handleFaqDetail(record.id)}>{text}</a>
-            ),
-            align: 'center',
-        },
-        {
-            title: 'FAQ 항목',
+            title: '항목',
             dataIndex: 'category',
             render: (text: string, record: FaqData) => (
                 <span>{getCategoryLabel(text, record.faq.category)}</span>
             ),
             align: 'center',
+            width: '120px',
+        },
+        {
+            title: <div className="text-center">제목</div>,
+            dataIndex: 'title',
+            render: (text: string, record: any) => (
+                <Link href={route('admin.faq.show', { id: record.id })}>{text}</Link>
+            ),
+            align: 'left',
+            width: '*',
         },
         {
             title: '메인 노출여부',
             dataIndex: 'is_main_published',
-            render: (isMainPublished: boolean) => (
-                <span style={{ color: isMainPublished ? 'blue' : 'red' }}>
-                    {isMainPublished ? '노출' : '미노출'}
-                </span>
+            render: (isActive: boolean) => (
+                <s.TableColStatus isAcitve={isActive}>
+                    {isActive ? '노출' : '미노출'}
+                </s.TableColStatus>
             ),
             align: 'center',
+            width: '150px',
         },
         {
             title: '메뉴 노출여부',
             dataIndex: 'is_published',
-            render: (isPublished: boolean) => (
-                <span style={{ color: isPublished ? 'blue' : 'red' }}>
-                    {isPublished ? '노출' : '미노출'}
-                </span>
+            render: (isActive: boolean) => (
+                <s.TableColStatus isAcitve={isActive}>
+                    {isActive ? '노출' : '미노출'}
+                </s.TableColStatus>
             ),
             align: 'center',
+            width: '150px',
         },
         {
             title: '작성일',
             dataIndex: 'created_at',
             align: 'center',
-            render: (createdAt: string) => formatDate(createdAt),
+            render: (createdAt: string) => dayjs(createdAt).format('YYYY-MM-DD'),
+            width: '200px',
         },
     ];
 
@@ -109,99 +128,71 @@ const Faq: React.FC<{ faqs: any }> = ({ faqs }) => {
         }),
     };
 
-    const handleSearch = (formData: any) => {
-        axios
-            .post(route('admin.faq.search'), {
-                params: formData,
-            })
-            .then(response => {
-                setDataSource(
-                    response.data.data.map((faq: FaqData) => ({
-                        ...faq,
-                        key: faq.id.toString(),
-                    }))
-                );
-                setPagination(prevState => ({
-                    ...prevState,
-                    total: response.data.total,
-                }));
-            })
-            .catch(error => {
-                console.error('FAQ 검색 실패: ', error);
-            });
-    };
-
-    const handleFaqDetail = (id: number) => {
-        router.visit(route('admin.faq.show', { id }));
-    };
-
-    const handleDeleteSelected = () => {
+    const onDelete = () => {
         Modal.confirm({
             title: '알림',
             content: '선택한 FAQ를 삭제하시겠습니까?',
             okText: '삭제',
             cancelText: '취소',
             onOk: async () => {
-                await axios
-                    .post(route('admin.faq.delete'), { board_ids: selectedRowKeys })
-                    .then(response => {
-                        console.log(response);
+                router.delete(route('admin.faq.delete'), {
+                    data: {
+                        board_ids: selectedRowKeys as string[],
+                    },
+                    preserveScroll: true,
+                    preserveState: true,
+
+                    onSuccess: () => {
                         notification.success({
                             message: '알림',
                             description: '선택한 FAQ가 성공적으로 삭제되었습니다.',
                         });
-                        const remainingFaqs = dataSource.filter(
-                            faq => !selectedRowKeys.includes(faq.id.toString())
-                        );
-                        setDataSource(
-                            remainingFaqs.map((faq: FaqData) => ({
-                                ...faq,
-                                key: faq.id.toString(),
-                            }))
-                        );
-                    });
+                    },
+                });
             },
         });
     };
 
-    const onClickCreate = () => {
+    const handleClickCreate = () => {
         router.visit(route('admin.faq.create'));
     };
 
-    const footerContent = () => (
-        <div style={{ display: 'flex', justifyContent: 'space-between', margin: '1rem 0' }}>
-            <Button
-                type="primary"
-                style={{ marginRight: '1rem', backgroundColor: 'blue', borderColor: 'blue' }}
-                onClick={handleDeleteSelected}
-            >
-                선택 삭제
-            </Button>
-            <Button
-                type="primary"
-                style={{ backgroundColor: 'blue', borderColor: 'blue' }}
-                onClick={onClickCreate}
-            >
-                등록
-            </Button>
-        </div>
-    );
-
     return (
-        <div>
-            <FaqSearch onSearch={handleSearch} />
+        <>
+            <PageHeader title="FAQ 목록" hasAdmin />
+            <FaqSearch />
             <Divider />
-            <Table
-                rowSelection={{
-                    type: 'checkbox',
-                    ...rowSelection,
-                }}
-                columns={columns}
-                dataSource={dataSource.map(faq => ({ ...faq, key: faq.id.toString() }))}
-                pagination={pagination}
-                footer={footerContent}
-            />
-        </div>
+            <s.TableWrapper>
+                <Table
+                    rowSelection={{
+                        type: 'checkbox',
+                        ...rowSelection,
+                    }}
+                    columns={columns}
+                    dataSource={datas.map(faq => ({
+                        ...faq,
+                        key: faq.id.toString(),
+                    }))}
+                    pagination={pagination}
+                    footer={() => {
+                        return (
+                            <s.TableFooterButtonWrap>
+                                <Button
+                                    type="default"
+                                    onClick={onDelete}
+                                    disabled={selectedRowKeys.length === 0}
+                                >
+                                    선택 삭제
+                                </Button>
+                                <Button type="primary" onClick={handleClickCreate}>
+                                    등록
+                                </Button>
+                            </s.TableFooterButtonWrap>
+                        );
+                    }}
+                />
+            </s.TableWrapper>
+        </>
     );
 };
 

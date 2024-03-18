@@ -7,31 +7,26 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class FaqQueryAction
 {
-    public function handle(array $filters, int $perPage = 10)
+    public function handle(int $perPage = 10)
     {
-        $filters = $this->setFilter($filters);
+
+        $perPageIndex = $perPage;
+        $requestData = request(['start_date', 'end_date', 'is_main_published','is_published', 'title', 'category']);
+
+          if(request('per_page')){
+            $perPageIndex = request('per_page');
+        }
 
         $board = Board::with('faq')->whereHas('faq');
-        $board = $this->filterByCreatedAt($board, $filters['start_date'], $filters['end_date']);
-        $board = $this->filterByCategory($board, $filters['category']);
-        $board = $this->filterByIsPublished($board, filter_var($filters['is_published'], FILTER_VALIDATE_BOOLEAN));
-        $board = $this->filterByIsMainPublished($board, filter_var($filters['is_main_published'], FILTER_VALIDATE_BOOLEAN));
-        $board = $this->filterByTitle($board, $filters['title']);
-
-        return $board->orderBy('id', 'desc')->paginate($perPage);
-    }
-
-    private function setFilter(array $filters)
-    {
-        if (!$filters) {
-            $keys = ['start_date', 'end_date', 'category', 'is_published', 'is_main_published', 'title'];
-            foreach($keys as $key) {
-                $filters[$key] = null;
-            }
-        } else {
-            $filters = $filters['params'];
+        if($requestData){
+            $board = $this->filterByCreatedAt($board, $requestData['start_date'], $requestData['end_date']);
+            $board = $this->filterByIsPublished($board, $requestData['is_published']);
+            $board = $this->filterByIsMainPublished($board, $requestData['is_main_published']);
+            $board = $this->filterByTitle($board, $requestData['title']);
+            $board = $this->filterByCategory($board, $requestData['category']);
         }
-        return $filters;
+
+        return $board->orderBy('id', 'desc')->paginate($perPageIndex);
     }
 
     private function filterByCreatedAt(Builder $builder, ?string $startDate, ?string $endDate) {
@@ -45,29 +40,37 @@ class FaqQueryAction
     }
 
     private function filterByCategory(Builder $builder, ?string $category) {
-        if(!empty($category)) {
-            $builder->whereHas('faq', function ($query) use ($category) {
-                $query->where('category', $category);
-            });
+        if($category === 'all'){
+            return $builder;
         }
+        $builder->whereHas('faq', function ($query) use ($category) {
+            $query->where('category', $category);
+        });
         return $builder;
     }
 
-    private function filterByIsPublished(Builder $builder, ?bool $isPublished) {
-        if(!empty($isPublished)) {
-            $builder->where('is_published', $isPublished);
+    private function filterByIsPublished(Builder $builder, ?string $isPublished) {
+        if($isPublished === 'all'){
+            return $builder;
         }
+        $result = filter_var($isPublished, FILTER_VALIDATE_BOOLEAN) == true;
+        $builder->where('is_published', $result);
         return $builder;
     }
 
-    private function filterByIsMainPublished(Builder $builder, ?bool $isMainPublished) {
+    private function filterByIsMainPublished(Builder $builder, ?string $isMainPublished) {
+        if($isMainPublished === 'all'){
+            return $builder;
+        }
+
         if (!empty($isMainPublished)) {
-            if ($isMainPublished) {
+            if (filter_var($isMainPublished, FILTER_VALIDATE_BOOLEAN)) {
                 $builder->whereHas('main');
             } else {
                 $builder->whereDoesntHave('main');
             }
         }
+
         return $builder;
     }
 

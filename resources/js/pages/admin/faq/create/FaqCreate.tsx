@@ -1,34 +1,43 @@
-import { router } from '@inertiajs/react';
-import { Form, Input, Switch, Radio, Button } from 'antd';
+import { router, useForm } from '@inertiajs/react';
+import { Form, Input, Radio, Button, notification } from 'antd';
 
-interface FaqFormData {
-    title: string;
-    category: string;
-    content: string;
-    isPublished: boolean;
-    isMainPublished: boolean;
-}
+import Forms from '@/components/forms/forms';
+import { PageHeader } from '@/components/ui';
+
+import { FaqFormData } from '../types/faqs';
 
 function FaqCreate() {
-    const onFinish = async (values: FaqFormData) => {
-        try {
-            const formData = {
-                type: 'FAQ',
-                title: values.title,
-                category: values.category,
-                content: values.content,
-                is_main_published: values.isMainPublished == true,
-                is_published: values.isPublished == true,
-            };
-            router.post(route('admin.faq.store'), formData);
-        } catch (error) {
-            console.error('FAQ 등록 실패:', error);
-        }
+    const { data, setData, clearErrors } = useForm<FaqFormData>({
+        title: '',
+        content: '',
+        category: '',
+        is_published: false,
+        is_main_published: false,
+    });
+
+    const handleChangeData = (id: keyof FaqFormData, value: string | boolean) => {
+        setData(id, value);
+        clearErrors(id);
+    };
+
+    const onFinish = () => {
+        router.visit(route('admin.faq.store'), {
+            method: 'post',
+            data: { type: 'FAQ', ...data },
+
+            onSuccess: () => {
+                notification.success({
+                    message: '알림',
+                    description: '공지가 성공적으로 등록되었습니다.',
+                });
+            },
+        });
     };
 
     return (
-        <div style={{ margin: 'auto', padding: '20px' }}>
-            <Form
+        <div className="rounded bg-white p-[20px] shadow">
+            <PageHeader title="FAQ 등록" hasAdmin />
+            <Forms
                 name="faq_form"
                 onFinish={onFinish}
                 labelAlign="left"
@@ -36,23 +45,27 @@ function FaqCreate() {
                 wrapperCol={{ span: 24 }}
             >
                 <Form.Item
-                    label="FAQ 항목" // 수정된 항목
+                    label="FAQ 항목"
                     name="category"
                     rules={[{ required: true, message: 'FAQ 항목을 선택해주세요.' }]}
                 >
-                    <Radio.Group>
+                    <Radio.Group
+                        onChange={value => handleChangeData('category', value.target.value)}
+                    >
                         <Radio.Button value="TICKET">티켓</Radio.Button>
                         <Radio.Button value="ENTERANCE">입장</Radio.Button>
                         <Radio.Button value="COMMON">일반</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item
+
+                <Forms.Input<FaqFormData>
                     label="질문"
                     name="title"
                     rules={[{ required: true, message: '질문을 입력해주세요.' }]}
-                >
-                    <Input placeholder="질문을 입력해주세요." />
-                </Form.Item>
+                    placeholder="질문을 입력해주세요."
+                    size="large"
+                    onValueChange={handleChangeData}
+                />
 
                 <Form.Item
                     label="답변"
@@ -63,32 +76,30 @@ function FaqCreate() {
                         rows={16}
                         placeholder="답변을 입력해주세요."
                         style={{ resize: 'none' }}
+                        onChange={value => handleChangeData('content', value.target.value)}
                     />
                 </Form.Item>
 
-                <Form.Item label="메인 노출여부" name="isMainPublished" valuePropName="checked">
-                    <Switch />
-                </Form.Item>
+                <Forms.Switch
+                    label="메인 노출여부"
+                    name="is_main_published"
+                    valuePropName="checked"
+                    onValueChange={handleChangeData}
+                />
 
-                <Form.Item label="메뉴 노출여부" name="isPublished" valuePropName="checked">
-                    <Switch />
-                </Form.Item>
+                <Forms.Switch
+                    label="메뉴 노출여부"
+                    name="is_published"
+                    valuePropName="checked"
+                    onValueChange={handleChangeData}
+                />
 
-                <Form.Item wrapperCol={{ span: 24 }}>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                            display: 'block',
-                            margin: '0 auto',
-                            backgroundColor: 'blue',
-                            borderColor: 'blue',
-                        }}
-                    >
+                <Form.Item wrapperCol={{ span: 24 }} className="flex justify-center">
+                    <Button type="primary" htmlType="submit">
                         저장
                     </Button>
                 </Form.Item>
-            </Form>
+            </Forms>
         </div>
     );
 }

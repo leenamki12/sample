@@ -38,15 +38,15 @@ class FaqController extends Controller
         return Inertia::render('admin/faq/create/FaqCreate');
     }
 
-    public function index(FaqQueryReq $request, FaqQueryAction $action)
+    public function index(FaqQueryAction $action)
     {
-        $response = $action->handle($request->toArray());
+        $response = $action->handle();
         return Inertia::render('admin/faq/FaqList', ['faqs' => $response]);
     }
 
-    public function search(FaqQueryReq $request, FaqQueryAction $action)
+    public function search(FaqQueryAction $action)
     {
-        return $action->handle($request->toArray());
+        return $action->handle();
     }
 
     public function destroy(int $id, DeleteAction $action)

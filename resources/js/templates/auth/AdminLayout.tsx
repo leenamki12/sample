@@ -1,8 +1,8 @@
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { NotificationOutlined, QuestionCircleOutlined, PictureOutlined } from '@ant-design/icons';
-import { router, usePage } from '@inertiajs/react';
-import { ConfigProvider, Layout, Menu, MenuProps, Typography } from 'antd';
+import { router } from '@inertiajs/react';
+import { ConfigProvider, Layout, Menu, Typography } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import tw, { styled } from 'twin.macro';
@@ -13,7 +13,12 @@ export const Wrapper = styled.div`
     ${tw`h-full min-h-screen`}
 `;
 
-type MenuItem = Required<MenuProps>['items'][number];
+type MenuItem = {
+    label: React.ReactNode;
+    key: React.Key;
+    icon?: React.ReactNode;
+    children?: MenuItem[];
+};
 
 function getItem(
     label: React.ReactNode,
@@ -94,6 +99,19 @@ function AdminLayout({ children }: PropsWithChildren) {
         }
     };
 
+    useEffect(() => {
+        items.filter(item => {
+            if (item.children) {
+                const foundItem = item.children.find(child => child.label === pageTitle);
+                if (foundItem) {
+                    setSelectedMenu(foundItem.key as string);
+                    return false;
+                }
+            }
+            return false;
+        });
+    }, [pageTitle]);
+
     return (
         <ConfigProvider
             theme={{
@@ -115,7 +133,7 @@ function AdminLayout({ children }: PropsWithChildren) {
                     </div>
                     <Menu
                         theme="dark"
-                        defaultSelectedKeys={['1.1']}
+                        defaultSelectedKeys={['2.1']}
                         selectedKeys={[selectedMenu]}
                         mode="inline"
                         items={items}
