@@ -23,6 +23,7 @@ class GalleryFindAction
             $board->id,
             $board->title,
             $gallery->year,
+            $file->id,
             $file->file_path,
             $board->is_published,
             ($main != null),

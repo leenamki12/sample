@@ -48,7 +48,6 @@ class NoticeQueryAction
     }
 
     private function filterByIsMainPublished(Builder $builder, ?string $isMainPublished) {
-
         if($isMainPublished === 'all'){
             return $builder;
         }

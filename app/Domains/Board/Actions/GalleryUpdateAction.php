@@ -46,7 +46,11 @@ class GalleryUpdateAction
         } else {
             $model->main()->delete();
         }
+        $oldFileId = $model->file()->first()->id;
+        if($oldFileId != $fileId) {
+            $this->updateAction->handle($oldFileId, null);
+            $this->updateAction->handle($fileId, $dto->id);
+        }
 
-        $this->updateAction->handle($fileId, $dto->id);
     }
 }

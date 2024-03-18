@@ -4,19 +4,25 @@ namespace App\Domains\Board\Actions;
 
 use App\Domains\Board\Models\Board;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class GalleryQueryAction
 {
-    public function handle(array $filters, int $perPage = 10)
+    public function handle(int $perPage = 10)
     {
-        $board = Board::with('gallery')->whereHas('gallery');
-        $board = $this->filterByCreatedAt($board, $filters['start_date'], $filters['end_date']);
-        $board = $this->filterByYear($board, $filters['year']);
+        $requestData = request(['start_date', 'end_date', 'year', 'is_published', 'is_main_published', 'title']);
 
-        $board = $this->filterByIsPublished($board, filter_var($filters['is_published'], FILTER_VALIDATE_BOOLEAN));
-        $board = $this->filterByIsMainPublished($board, filter_var($filters['is_main_published'], FILTER_VALIDATE_BOOLEAN));
-        $board = $this->filterByTitle($board, $filters['title']);
-        return $board->paginate($perPage);
+        $board = Board::with('gallery')->whereHas('gallery');
+        $board = $board->with('file')->whereHas('file');
+        if($requestData) {
+            $board = $this->filterByCreatedAt($board, $requestData['start_date'], $requestData['end_date']);
+            $board = $this->filterByYear($board, $requestData['year']);
+            $board = $this->filterByIsPublished($board, $requestData['is_published']);
+            $board = $this->filterByIsMainPublished($board, $requestData['is_main_published']);
+            $board = $this->filterByTitle($board, $requestData['title']);
+        }
+
+        return $board->orderBy('id', 'desc')->paginate($perPage);
     }
 
     private function filterByCreatedAt(Builder $builder, ?string $startDate, ?string $endDate) {
@@ -38,16 +44,22 @@ class GalleryQueryAction
         return $builder;
     }
 
-    private function filterByIsPublished(Builder $builder, ?bool $isPublished) {
-        if(!empty($isPublished)) {
-            $builder->where('is_published', $isPublished);
+    private function filterByIsPublished(Builder $builder, ?string $isPublished) {
+        if($isPublished == 'all'){
+            return $builder;
         }
+        $result = filter_var($isPublished, FILTER_VALIDATE_BOOLEAN) == true;
+        $builder->where('is_published', $result);
         return $builder;
     }
 
-    private function filterByIsMainPublished(Builder $builder, ?bool $isMainPublished) {
+    private function filterByIsMainPublished(Builder $builder, ?string $isMainPublished) {
+        if($isMainPublished == 'all'){
+            return $builder;
+        }
+
         if (!empty($isMainPublished)) {
-            if ($isMainPublished) {
+            if (filter_var($isMainPublished, FILTER_VALIDATE_BOOLEAN)) {
                 $builder->whereHas('main');
             } else {
                 $builder->whereDoesntHave('main');

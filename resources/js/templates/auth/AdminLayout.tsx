@@ -84,10 +84,10 @@ function AdminLayout({ children }: PropsWithChildren) {
                 router.visit(route('admin.faq.create'));
                 break;
             case '3.1':
-                // 갤러리 목록
+                router.visit(route('admin.gallery.index'));
                 break;
             case '3.2':
-                // 갤러리 등록
+                router.visit(route('admin.gallery.create'));
                 break;
             default:
                 break;
