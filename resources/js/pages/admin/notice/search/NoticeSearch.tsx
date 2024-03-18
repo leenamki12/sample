@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { router, usePage } from '@inertiajs/react';
-import { DatePicker, Select, Input, Button } from 'antd';
+import { DatePicker, Select, Input, Button, notification } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { DateButtonGroup } from '@/consts/date_button_group';
@@ -35,6 +35,12 @@ const NoticeSearch = () => {
             {
                 preserveScroll: true,
                 preserveState: true,
+                onSuccess: () => {
+                    notification.success({
+                        message: '알림',
+                        description: '검색이 완료되었습니다.',
+                    });
+                },
             }
         );
     };
@@ -46,6 +52,12 @@ const NoticeSearch = () => {
             {
                 preserveScroll: true,
                 preserveState: true,
+                onSuccess: () => {
+                    notification.success({
+                        message: '알림',
+                        description: '초기화가 완료되었습니다.',
+                    });
+                },
             }
         );
     };

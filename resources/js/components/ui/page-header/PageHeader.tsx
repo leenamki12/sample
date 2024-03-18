@@ -8,10 +8,12 @@ export default function PageHeader({
     title,
     head,
     isBackground = false,
+    hasAdmin = false,
 }: {
     title: string;
     head?: string;
     isBackground?: boolean;
+    hasAdmin?: boolean;
 }) {
     const { setPageHeader } = useHeader();
 
@@ -24,7 +26,7 @@ export default function PageHeader({
     return (
         <>
             <Head title={title || head} />
-            <s.Wrapper isBackground={isBackground}>{title}</s.Wrapper>
+            {!hasAdmin && <s.Wrapper isBackground={isBackground}>{title}</s.Wrapper>}
         </>
     );
 }

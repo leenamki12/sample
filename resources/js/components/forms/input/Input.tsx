@@ -1,8 +1,8 @@
-import { Form, FormRule, InputProps, Checkbox } from 'antd';
+import { FormRule, InputProps } from 'antd';
 
 import * as s from './Input.styled';
 
-type FormItemProps<T> = {
+type Props<T> = {
     label?: string;
     name: keyof T;
     disabled?: boolean;
@@ -10,17 +10,16 @@ type FormItemProps<T> = {
     onValueChange: (name: keyof T, value: string) => void;
 };
 
-function FormInput<T = any>({
+export function FormInput<T = any>({
     label,
     name,
     rules,
     disabled,
     onValueChange,
     ...props
-}: FormItemProps<T> & InputProps) {
+}: Props<T> & InputProps) {
     return (
-        <s.Label name={name} rules={rules}>
-            {label && <div>{label}</div>}
+        <s.Label name={name} rules={rules} label={label}>
             <s.InputItem
                 disabled={disabled}
                 onChange={e => onValueChange(name, e.target.value)}
@@ -30,17 +29,16 @@ function FormInput<T = any>({
     );
 }
 
-function FormPassword<T = any>({
+export function FormPassword<T = any>({
     label,
     name,
     rules,
     disabled,
     onValueChange,
     ...props
-}: FormItemProps<T> & InputProps) {
+}: Props<T> & InputProps) {
     return (
-        <s.Label name={name} rules={rules}>
-            {label && <div>{label}</div>}
+        <s.Label name={name} rules={rules} label={label}>
             <s.PasswordItem
                 disabled={disabled}
                 onChange={e => onValueChange(name, e.target.value)}
@@ -49,34 +47,3 @@ function FormPassword<T = any>({
         </s.Label>
     );
 }
-
-type FormCheckboxProps<T> = {
-    name: keyof T;
-    valuePropName?: string;
-    disabled?: boolean;
-    onValueChange: (name: keyof T, value: string | boolean) => void;
-};
-
-function FormCheckbox<T = any>({
-    name,
-    valuePropName,
-    disabled,
-    onValueChange,
-    ...props
-}: FormCheckboxProps<T> & InputProps) {
-    return (
-        <Form.Item name={name as string} valuePropName={valuePropName}>
-            <Checkbox {...props} onChange={e => onValueChange(name, e.target.checked)}>
-                아이디 기억하기
-            </Checkbox>
-        </Form.Item>
-    );
-}
-
-const Forms = Object.assign(Form, {
-    Input: FormInput,
-    Password: FormPassword,
-    Checkbox: FormCheckbox,
-});
-
-export default Forms;

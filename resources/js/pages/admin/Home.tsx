@@ -2,7 +2,7 @@ import { LockClosedIcon, UserIcon } from '@heroicons/react/20/solid';
 import { useForm } from '@inertiajs/react';
 import { Button, Typography } from 'antd';
 
-import Forms from '@/components/forms/input/Input';
+import Forms from '@/components/forms/forms';
 
 import * as s from './Home.styled';
 
@@ -28,10 +28,6 @@ function Home() {
         post(route('login'));
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
     return (
         <s.Wrapper>
             <Typography.Title level={3} className="!mb-[30px] text-center">
@@ -41,7 +37,6 @@ function Home() {
                 name="basic"
                 initialValues={data}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 autoComplete="off"
                 className="w-[300px]"
             >

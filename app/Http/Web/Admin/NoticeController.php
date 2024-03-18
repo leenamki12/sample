@@ -59,7 +59,6 @@ class NoticeController extends Controller
     public function delete(DeleteReq $request, MultipleDeleteAction $action)
     {
         $action->handleRequest($request);
-        return ['result' => 'ok'];
     }
 
     public function upload(UploadReq $request, FileUploadAction $action)

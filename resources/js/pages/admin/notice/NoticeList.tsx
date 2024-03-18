@@ -1,53 +1,52 @@
 import React, { useMemo, useState } from 'react';
 
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Divider, Table, Button, Modal, notification } from 'antd';
 import type { TableColumnsType } from 'antd';
-import axios from 'axios';
+import dayjs from 'dayjs';
 
+import { PageHeader } from '@/components/ui';
 import { Paginate } from '@/types/common/paginate';
 
 import NoticeSearch from './search/NoticeSearch';
+import { NoticeData } from './types/Notice';
 
-interface NoticeData {
-    id: number;
-    title: string;
-    is_published: boolean;
-    is_main_published: boolean;
-    created_at: string;
-    notice: {
-        id: number;
-        content: string;
-        created_at: string;
-        updated_at: string;
-    };
-}
+import * as s from './NoticeList.styled';
 
 const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
-    const [dataSource, setDataSource] = useState<NoticeData[]>(notices.data);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [pagination] = useState({
-        current: 1,
-        pageSize: 10,
-        total: notices.total,
-        showSizeChanger: true,
-        onChange: (page: number) => {
-            pagination.current = page;
-        },
-    });
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-            date.getDate()
-        ).padStart(2, '0')}`;
-    };
+
+    const datas = useMemo(() => {
+        return notices.data || [];
+    }, [notices.data]);
+
+    const pagination = useMemo(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        return {
+            current: notices.current_page,
+            pageSize: notices.per_page,
+            total: notices.total,
+            showSizeChanger: true,
+            onChange: (page: number) => {
+                urlParams.set('page', page.toString());
+                const queryString = urlParams.toString();
+                router.visit(route('admin.notice.index') + '?' + queryString);
+            },
+            onShowSizeChange: (_current: number, perPage: number) => {
+                urlParams.set('per_page', perPage.toString());
+                const queryString = urlParams.toString();
+                router.visit(route('admin.notice.index') + '?' + queryString);
+            },
+        };
+    }, [notices]);
 
     const columns: TableColumnsType<NoticeData> = [
         {
-            title: '제목',
+            title: <div className="text-center">제목</div>,
             dataIndex: 'title',
             render: (text: string, record: NoticeData) => (
-                <a onClick={() => handleNoticeDetail(record.id)}>{text}</a>
+                <Link href={route('admin.notice.show', { id: record.id })}>{text}</Link>
             ),
             align: 'left',
             width: '*',
@@ -55,10 +54,10 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
         {
             title: '메인 노출여부',
             dataIndex: 'is_main_published',
-            render: (isMainPublished: boolean) => (
-                <span style={{ color: isMainPublished ? 'blue' : 'red' }}>
-                    {isMainPublished ? '노출' : '미노출'}
-                </span>
+            render: (isActive: boolean) => (
+                <s.TableColStatus isAcitve={isActive}>
+                    {isActive ? '노출' : '미노출'}
+                </s.TableColStatus>
             ),
             align: 'center',
             width: '150px',
@@ -66,10 +65,10 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
         {
             title: '메뉴 노출여부',
             dataIndex: 'is_published',
-            render: (isPublished: boolean) => (
-                <span style={{ color: isPublished ? 'blue' : 'red' }}>
-                    {isPublished ? '노출' : '미노출'}
-                </span>
+            render: (isActive: boolean) => (
+                <s.TableColStatus isAcitve={isActive}>
+                    {isActive ? '노출' : '미노출'}
+                </s.TableColStatus>
             ),
             align: 'center',
             width: '150px',
@@ -78,7 +77,7 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
             title: '작성일',
             dataIndex: 'created_at',
             align: 'center',
-            render: (createdAt: string) => formatDate(createdAt),
+            render: (createdAt: string) => dayjs(createdAt).format('YYYY-MM-DD'),
             width: '200px',
         },
     ];
@@ -93,93 +92,69 @@ const Notice: React.FC<{ notices: Paginate<NoticeData> }> = ({ notices }) => {
         }),
     };
 
-    const handleNoticeDetail = (id: number) => {
-        router.visit(route('admin.notice.show', { id }));
-    };
-
-    const handleDeleteSelected = () => {
+    const onDelete = () => {
         Modal.confirm({
             title: '알림',
             content: '선택한 공지를 삭제하시겠습니까?',
             okText: '삭제',
             cancelText: '취소',
             onOk: async () => {
-                await axios
-                    .post(route('admin.notice.delete'), { board_ids: selectedRowKeys })
-                    .then(response => {
-                        console.log(response);
+                router.delete(route('admin.notice.delete'), {
+                    data: {
+                        board_ids: selectedRowKeys as string[],
+                    },
+                    preserveScroll: true,
+                    preserveState: true,
+
+                    onSuccess: () => {
                         notification.success({
                             message: '알림',
                             description: '선택한 공지가 성공적으로 삭제되었습니다.',
                         });
-                        const remainingNotices = dataSource.filter(
-                            notice => !selectedRowKeys.includes(notice.id.toString())
-                        );
-                        setDataSource(
-                            remainingNotices.map((notice: NoticeData) => ({
-                                ...notice,
-                                key: notice.id.toString(),
-                            }))
-                        );
-                    });
+                    },
+                });
             },
         });
     };
 
-    const onClickCreate = () => {
+    const handleClickCreate = () => {
         router.visit(route('admin.notice.create'));
     };
 
-    const datas = useMemo(() => {
-        return notices.data;
-    }, [notices.data]);
-
     return (
-        <div>
+        <>
+            <PageHeader title="공지사항 목록" hasAdmin />
             <NoticeSearch />
             <Divider />
-            <div className="space-y-4 rounded bg-white p-[20px] shadow">
+            <s.TableWrapper>
                 <Table
                     rowSelection={{
                         type: 'checkbox',
                         ...rowSelection,
                     }}
+                    bordered
                     columns={columns}
                     dataSource={datas.map(notice => ({ ...notice, key: notice.id.toString() }))}
                     pagination={pagination}
                     footer={() => {
                         return (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    margin: '1rem 0',
-                                }}
-                            >
+                            <s.TableFooterButtonWrap>
                                 <Button
-                                    type="primary"
-                                    style={{
-                                        marginRight: '1rem',
-                                        backgroundColor: 'blue',
-                                        borderColor: 'blue',
-                                    }}
-                                    onClick={handleDeleteSelected}
+                                    type="default"
+                                    onClick={onDelete}
+                                    disabled={selectedRowKeys.length === 0}
                                 >
                                     선택 삭제
                                 </Button>
-                                <Button
-                                    type="primary"
-                                    style={{ backgroundColor: 'blue', borderColor: 'blue' }}
-                                    onClick={onClickCreate}
-                                >
+                                <Button type="primary" onClick={handleClickCreate}>
                                     등록
                                 </Button>
-                            </div>
+                            </s.TableFooterButtonWrap>
                         );
                     }}
                 />
-            </div>
-        </div>
+            </s.TableWrapper>
+        </>
     );
 };
 

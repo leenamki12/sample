@@ -1,153 +1,90 @@
-import { useRef, useEffect, useState } from 'react';
-import { Form, Input, Switch, Button } from 'antd';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
-import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
-interface NoticeEditData {
-    id: number;
-    title: string;
-    content: string;
-    is_published: boolean;
-    is_main_published: boolean;
-    file_ids: number[];
-}
+import { router, useForm } from '@inertiajs/react';
+import { Form, Button, notification } from 'antd';
 
-function NoticeEdit({ notice }: { notice: NoticeEditData }) {
+import Forms from '@/components/forms/forms';
+import { PageHeader } from '@/components/ui';
+
+import { NoticeData, NoticeFormData } from '../types/Notice';
+
+function NoticeEdit({ notice }: { notice: NoticeData }) {
     const [fileIds, setFileIds] = useState<number[]>([]);
-    const quillRef = useRef<any>(null);
 
-    const toolbarOptions = [
-        [{ header: [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        ['link', 'image', 'video'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-    ];
+    const { data, setData, clearErrors } = useForm<NoticeFormData>({
+        title: notice.title,
+        content: notice.content,
+        is_published: notice.is_published,
+        is_main_published: notice.is_main_published,
+        file_ids: notice.file_ids,
+    });
 
-    const modules = {
-        toolbar: {
-            container: toolbarOptions,
-        },
+    const handleChangeData = (id: keyof NoticeFormData, value: string | boolean) => {
+        setData(id, value);
+        clearErrors(id);
     };
 
-    useEffect(() => {
-        const editor = quillRef.current.getEditor();
-        const handleImage = () => {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.click();
+    const onSubmit = () => {
+        router.visit(route('admin.notice.update', { id: notice.id }), {
+            method: 'put',
+            data: { type: 'NOTICE', ...data, file_ids: fileIds },
 
-            input.onchange = async () => {
-                const file = input.files[0];
-                const range = editor.getSelection(true);
-                editor.insertEmbed(
-                    range.index,
-                    'image',
-                    `https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif`
-                );
-                try {
-                    const formData = new FormData();
-                    formData.append('image', file);
-                    const response = await axios.post(route('admin.notice.upload'), formData);
-
-                    setFileIds(prevIds => [...prevIds, response.data.file_id]);
-                    editor.deleteText(range.index, 1);
-                    editor.insertEmbed(range.index, 'image', response.data.url);
-                    editor.setSelection(range.index + 1);
-                } catch (e) {
-                    console.error(e);
-                    editor.deleteText(range.index, 1);
-                }
-            };
-        };
-
-        if (quillRef.current) {
-            const toolbar = editor.getModule('toolbar');
-            toolbar.addHandler('image', handleImage);
-        }
-    }, []);
-
-    const onFinish = (values: NoticeEditData) => {
-        try {
-            const formData = {
-                type: 'NOTICE',
-                title: values.title,
-                content: values.content,
-                is_main_published: values.is_main_published,
-                is_published: values.is_published,
-                file_ids: fileIds,
-            };
-            router.put(route('admin.notice.update', { id: notice.id }), formData);
-        } catch (error) {
-            console.error('공지 수정 실패:', error);
-        }
+            onSuccess: () => {
+                notification.success({
+                    message: '알림',
+                    description: '공지가 성공적으로 수정되었습니다.',
+                });
+            },
+        });
     };
 
     return (
-        <div style={{ margin: 'auto', padding: '20px' }}>
-            <Form
+        <div className="rounded bg-white p-[20px] shadow">
+            <PageHeader title="공지사항 수정" hasAdmin />
+            <Forms
                 name="notice_form"
-                onFinish={onFinish}
+                onFinish={onSubmit}
                 labelAlign="left"
                 labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                initialValues={{
-                    title: notice.title,
-                    content: notice.content,
-                    is_main_published: notice.is_main_published,
-                    is_published: notice.is_published,
-                }}
+                initialValues={data}
             >
-                <Form.Item
+                <Forms.Input<NoticeFormData>
                     label="제목"
                     name="title"
                     rules={[{ required: true, message: '제목을 입력해주세요.' }]}
-                >
-                    <Input placeholder="제목을 입력해주세요." />
-                </Form.Item>
+                    placeholder="제목을 입력해주세요."
+                    size="large"
+                    onValueChange={handleChangeData}
+                />
 
-                <Form.Item
+                <Forms.Editor<NoticeFormData>
                     label="공지내용"
                     name="content"
                     rules={[{ required: true, message: '공지내용을 입력해주세요.' }]}
-                >
-                    <ReactQuill
-                        ref={quillRef}
-                        theme="snow"
-                        modules={modules}
-                        style={{
-                            height: '400px',
-                            marginBottom: '50px',
-                        }}
-                        placeholder="공지내용을 입력해주세요."
-                    />
-                </Form.Item>
+                    onChangeValue={handleChangeData}
+                    onChangeFile={setFileIds}
+                />
 
-                <Form.Item label="메인 노출여부" name="is_main_published" valuePropName="checked">
-                    <Switch />
-                </Form.Item>
+                <Forms.Switch
+                    label="메인 노출여부"
+                    name="is_main_published"
+                    valuePropName="checked"
+                    onValueChange={handleChangeData}
+                />
 
-                <Form.Item label="메뉴 노출여부" name="is_published" valuePropName="checked">
-                    <Switch />
-                </Form.Item>
+                <Forms.Switch
+                    label="메뉴 노출여부"
+                    name="is_published"
+                    valuePropName="checked"
+                    onValueChange={handleChangeData}
+                />
 
-                <Form.Item wrapperCol={{ span: 24 }}>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{
-                            display: 'block',
-                            margin: '0 auto',
-                            backgroundColor: 'blue',
-                            borderColor: 'blue',
-                        }}
-                    >
+                <Form.Item wrapperCol={{ span: 24 }} className="flex justify-center">
+                    <Button type="primary" htmlType="submit">
                         저장
                     </Button>
                 </Form.Item>
-            </Form>
+            </Forms>
         </div>
     );
 }

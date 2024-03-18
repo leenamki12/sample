@@ -1,11 +1,13 @@
 import { PropsWithChildren, useState } from 'react';
 
 import { NotificationOutlined, QuestionCircleOutlined, PictureOutlined } from '@ant-design/icons';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { ConfigProvider, Layout, Menu, MenuProps, Typography } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import tw, { styled } from 'twin.macro';
+
+import { useHeader } from '../AppLayout';
 
 export const Wrapper = styled.div`
     ${tw`h-full min-h-screen`}
@@ -52,6 +54,8 @@ const items: MenuItem[] = [
 function AdminLayout({ children }: PropsWithChildren) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState<string>('1.1');
+
+    const { pageTitle } = useHeader();
 
     const findSelectedItem = (items: any[]): MenuItemData | undefined => {
         for (const item of items) {
@@ -123,14 +127,12 @@ function AdminLayout({ children }: PropsWithChildren) {
                 <Layout>
                     <Content style={{ margin: '0 24px' }}>
                         <div className="pt-[30px]">
-                            <Typography.Title level={2}>
-                                {findSelectedItem(items).label}
-                            </Typography.Title>
+                            <Typography.Title level={2}>{pageTitle}</Typography.Title>
                         </div>
                         <div>{children}</div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                        Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                        ©{new Date().getFullYear()} Created by withbrother
                     </Footer>
                 </Layout>
             </Layout>
