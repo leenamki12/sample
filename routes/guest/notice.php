@@ -1,10 +1,9 @@
 <?php
 
 
+use App\Http\Web\Client\NoticeController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/notice', function () {
-
-    return Inertia::render('notice/Home');
-})->name('notice');
+Route::prefix('notice')->group(function () {
+    Route::get('/', [NoticeController::class, 'index'])->name('notice');
+});

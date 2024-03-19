@@ -5,46 +5,53 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { PageHeader } from '@/components/ui';
 import { AccordionItemFaq, Tab } from '@/components/ui';
 
-import { faqDatas } from './constants/faqs';
-
 import * as s from './Home.styled';
+import { router } from '@inertiajs/react';
 
-function Home() {
+interface FaqData {
+    id: number;
+    title: string;
+    faq: {
+        category: string;
+        content: string;
+    };
+}
+
+function Home({ faqs }: { faqs: any }) {
     const [searchText, setSearchText] = useState('');
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<number>(0);
-    const [faqItems, setFaqItems] = useState(faqDatas[activeTab].data);
 
-    const selectedCategory = faqDatas[activeTab].category;
+    const categories = ['TICKET', 'ENTERANCE', 'COMMON'];
+    const categoryLabels = ['티켓', '입장', '일반'];
+    const selectedCategory = categoryLabels[activeTab];
 
     const handleTabClick = (index: number) => {
         setActiveTab(index);
-        setSelectedItem(null);
-
-        if (searchText === '') {
-            setFaqItems(faqDatas[index].data);
-        } else {
-            handleClickSearch(index);
-        }
+        handleSearch(index, searchText);
     };
 
     const handleChangedItem = (index: number | null) => {
         setSelectedItem(index);
     };
 
-    const handleClickSearch = (index: number) => {
-        if (searchText === '') {
-            setFaqItems(faqDatas[index].data);
-            return;
-        }
-
-        const filteredItems = faqDatas[index].data.filter(
-            item =>
-                item.questions.toLowerCase().includes(searchText.toLowerCase()) ||
-                item.asked.toLowerCase().includes(searchText.toLowerCase())
+    const handleSearch = (index: number, title: string) => {
+        const formData = {
+            start_date: '',
+            end_date: '',
+            category: categories[index],
+            title: title,
+            is_published: 'true',
+            is_main_published: 'all',
+        };
+        router.get(
+            route('faqs', formData),
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
         );
-
-        setFaqItems(filteredItems);
     };
 
     return (
@@ -55,9 +62,12 @@ function Home() {
                     <input
                         type="text"
                         placeholder="검색어를 입력해주세요."
-                        onChange={e => setSearchText(e.target.value)}
+                        onChange={e => {
+                            setSearchText(e.target.value);
+                            handleSearch(activeTab, e.target.value);
+                        }}
                     />
-                    <button type="button" onClick={() => handleClickSearch(activeTab)}>
+                    <button type="button" onClick={() => handleSearch(activeTab, searchText)}>
                         <MagnifyingGlassIcon className="h-[20px] w-[20px]" />
                     </button>
                 </s.InputBox>
@@ -70,17 +80,17 @@ function Home() {
 
                 <s.SelectedCategory>{selectedCategory}</s.SelectedCategory>
 
-                {faqItems.length > 0 ? (
+                {faqs.data.length > 0 ? (
                     <s.HomeAccordion
                         onChange={handleChangedItem}
                         category={selectedCategory}
                         selectedItem={selectedItem}
                     >
-                        {faqItems.map(item => (
+                        {faqs.data.map((faq: FaqData) => (
                             <AccordionItemFaq
-                                key={item.questions}
-                                title={item.questions}
-                                content={item.asked}
+                                key={faq.id}
+                                title={faq.title}
+                                content={faq.faq.content}
                             />
                         ))}
                     </s.HomeAccordion>

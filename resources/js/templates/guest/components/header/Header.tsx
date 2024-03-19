@@ -11,6 +11,21 @@ import * as s from './Header.styled';
 function Header() {
     const url = usePage().url;
     const [isAllMenuOpen, setIsAllMenuOpen] = useState(false);
+    const noticeFormData = {
+        start_date: '',
+        end_date: '',
+        is_published: 'true',
+        is_main_published: 'all',
+        title: '',
+    };
+    const faqFormData = {
+        start_date: '',
+        end_date: '',
+        category: 'TICKET',
+        is_published: 'true',
+        is_main_published: 'all',
+        title: '',
+    };
 
     return (
         <>
@@ -23,7 +38,7 @@ function Header() {
                         <s.Nav>
                             <li>
                                 <Link
-                                    href={route('notice')}
+                                    href={route('notice', noticeFormData)}
                                     className={url === '/notice' ? 'isActive' : ''}
                                 >
                                     NOTICE
@@ -63,7 +78,7 @@ function Header() {
                             </li>
                             <li>
                                 <Link
-                                    href={route('faqs')}
+                                    href={route('faqs', faqFormData)}
                                     className={url === '/faqs' ? 'isActive' : ''}
                                 >
                                     FAQS

@@ -1,10 +1,9 @@
 <?php
 
-
+use App\Http\Web\Client\FaqController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/faqs', function () {
 
-    return Inertia::render('faqs/Home');
-})->name('faqs');
+Route::prefix('faqs')->group(function () {
+    Route::get('/', [FaqController::class, 'index'])->name('faqs');
+});

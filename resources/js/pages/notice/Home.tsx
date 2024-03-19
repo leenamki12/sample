@@ -2,11 +2,17 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import { AccordionItemNotice, PageHeader } from '@/components/ui';
 
-import { noticeDatas } from './constants/notice';
-
 import * as s from './Home.styled';
 
-function Home() {
+interface NoticeData {
+    id: number;
+    title: string;
+    notice: {
+        content: string;
+    };
+}
+
+function Home({ notices }: { notices: any }) {
     return (
         <s.Wrapper>
             <PageHeader title="NOTICE" isBackground />
@@ -19,11 +25,11 @@ function Home() {
                 </s.InputBox>
 
                 <s.HomeAccordion selectedItem={0}>
-                    {noticeDatas.map(item => (
+                    {notices.data.map((notice: NoticeData) => (
                         <AccordionItemNotice
-                            key={item.title}
-                            title={item.title}
-                            content={item.content}
+                            key={notice.id}
+                            title={notice.title}
+                            content={`<div style="font-size:20px;line-height:30px">${notice.notice.content}</div>`}
                         />
                     ))}
                 </s.HomeAccordion>
