@@ -6,7 +6,7 @@ import { Form, Button, notification } from 'antd';
 import Forms from '@/components/forms/forms';
 import { PageHeader } from '@/components/ui';
 
-import { NoticeFormData } from '../types/notice';
+import { NoticeFormData } from '../types/Notice';
 
 function NoticeCreate() {
     const [fileIds, setFileIds] = useState<number[]>([]);
