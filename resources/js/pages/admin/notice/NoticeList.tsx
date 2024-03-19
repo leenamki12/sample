@@ -9,7 +9,7 @@ import { PageHeader } from '@/components/ui';
 import { Paginate } from '@/types/common/paginate';
 
 import NoticeSearch from './search/NoticeSearch';
-import { NoticeData } from './types/notice';
+import { NoticeData } from './types/Notice';
 
 import * as s from './NoticeList.styled';
 
