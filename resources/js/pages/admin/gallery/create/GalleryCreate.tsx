@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { router } from '@inertiajs/react';
+
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { router } from '@inertiajs/react';
 import { Form, Input, Switch, Button, DatePicker, Upload, message } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
+
+import { PageHeader } from '@/components/ui';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -66,7 +69,8 @@ function GalleryCreate() {
     );
 
     return (
-        <div style={{ margin: 'auto', padding: '20px' }}>
+        <div className="rounded bg-white p-[20px] shadow">
+            <PageHeader title="GALLERY 등록" hasAdmin />
             <Form
                 name="gallery_form"
                 onFinish={onFinish}

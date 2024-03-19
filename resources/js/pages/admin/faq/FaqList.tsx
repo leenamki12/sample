@@ -9,23 +9,9 @@ import { PageHeader } from '@/components/ui';
 import { Paginate } from '@/types/common/paginate';
 
 import FaqSearch from './search/FaqSearch';
+import { FaqData } from './types/faqs';
 
 import * as s from './FaqList.styled';
-
-interface FaqData {
-    id: number;
-    title: string;
-    is_published: boolean;
-    is_main_published: boolean;
-    created_at: string;
-    faq: {
-        id: number;
-        category: string;
-        content: string;
-        created_at: string;
-        updated_at: string;
-    };
-}
 
 const Faq: React.FC<{ faqs: Paginate<FaqData> }> = ({ faqs }) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);

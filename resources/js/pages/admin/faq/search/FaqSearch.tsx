@@ -183,7 +183,7 @@ const FaqSearch = () => {
                     </div>
                 </s.Section>
                 <s.Section>
-                    <s.Label>공지 제목</s.Label>
+                    <s.Label>FAQ 제목</s.Label>
                     <Input
                         placeholder="제목을 입력해주세요."
                         onChange={e => setTitle(e.target.value)}

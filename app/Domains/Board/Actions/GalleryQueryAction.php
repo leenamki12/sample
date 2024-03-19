@@ -10,7 +10,12 @@ class GalleryQueryAction
 {
     public function handle(int $perPage = 10)
     {
+        $perPageIndex = $perPage;
         $requestData = request(['start_date', 'end_date', 'year', 'is_published', 'is_main_published', 'title']);
+
+         if(request('per_page')){
+            $perPageIndex = request('per_page');
+        }
 
         $board = Board::with('gallery')->whereHas('gallery');
         $board = $board->with('file')->whereHas('file');
@@ -22,7 +27,7 @@ class GalleryQueryAction
             $board = $this->filterByTitle($board, $requestData['title']);
         }
 
-        return $board->orderBy('id', 'desc')->paginate($perPage);
+        return $board->orderBy('id', 'desc')->paginate($perPageIndex);
     }
 
     private function filterByCreatedAt(Builder $builder, ?string $startDate, ?string $endDate) {

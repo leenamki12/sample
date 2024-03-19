@@ -1,13 +1,16 @@
 import React, { useMemo, useState } from 'react';
 
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Divider, Table, Button, Modal, notification } from 'antd';
 import type { TableColumnsType } from 'antd';
-import axios from 'axios';
+import dayjs from 'dayjs';
 
+import { PageHeader } from '@/components/ui';
 import { Paginate } from '@/types/common/paginate';
 
 import GallerySearch from './search/GallerySearch';
+
+import * as s from './GalleryList.styled';
 
 interface GalleryData {
     id: number;
@@ -28,53 +31,62 @@ interface GalleryData {
 }
 
 const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) => {
-    const [dataSource, setDataSource] = useState<GalleryData[]>(galleries.data);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [pagination] = useState({
-        current: 1,
-        pageSize: 10,
-        total: galleries.total,
-        showSizeChanger: true,
-        onChange: (page: number) => {
-            pagination.current = page;
-        },
-    });
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-            date.getDate()
-        ).padStart(2, '0')}`;
-    };
+
+    const datas = useMemo(() => {
+        return galleries.data;
+    }, [galleries.data]);
+
+    const pagination = useMemo(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        return {
+            current: galleries.current_page,
+            pageSize: galleries.per_page,
+            total: galleries.total,
+            showSizeChanger: true,
+            onChange: (page: number) => {
+                urlParams.set('page', page.toString());
+                const queryString = urlParams.toString();
+                router.visit(route('admin.gallery.index') + '?' + queryString);
+            },
+            onShowSizeChange: (_current: number, perPage: number) => {
+                urlParams.set('per_page', perPage.toString());
+                const queryString = urlParams.toString();
+                router.visit(route('admin.gallery.index') + '?' + queryString);
+            },
+        };
+    }, [galleries]);
 
     const columns: TableColumnsType<GalleryData> = [
         {
             title: '이미지',
             dataIndex: 'file_path',
             render: (text: string, record: GalleryData) => (
-                <a onClick={() => handleGalleryDetail(record.id)}>
+                <Link href={route('admin.gallery.show', { id: record.id })}>
                     <img max-width="100px" height="100px" src={record.file[0].file_path} />
                     {text}
-                </a>
+                </Link>
             ),
             align: 'center',
-            width: '100px',
+            width: '300px',
         },
         {
-            title: '제목',
+            title: <div className="text-center">제목</div>,
             dataIndex: 'title',
             render: (text: string, record: GalleryData) => (
-                <a onClick={() => handleGalleryDetail(record.id)}>{text}</a>
+                <Link href={route('admin.gallery.show', { id: record.id })}>{text}</Link>
             ),
             align: 'left',
-            width: '200px',
+            width: '*',
         },
         {
             title: '메인 노출여부',
             dataIndex: 'is_main_published',
-            render: (isMainPublished: boolean) => (
-                <span style={{ color: isMainPublished ? 'blue' : 'red' }}>
-                    {isMainPublished ? '노출' : '미노출'}
-                </span>
+            render: (isActive: boolean) => (
+                <s.TableColStatus isAcitve={isActive}>
+                    {isActive ? '노출' : '미노출'}
+                </s.TableColStatus>
             ),
             align: 'center',
             width: '150px',
@@ -82,10 +94,10 @@ const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) 
         {
             title: '메뉴 노출여부',
             dataIndex: 'is_published',
-            render: (isPublished: boolean) => (
-                <span style={{ color: isPublished ? 'blue' : 'red' }}>
-                    {isPublished ? '노출' : '미노출'}
-                </span>
+            render: (isActive: boolean) => (
+                <s.TableColStatus isAcitve={isActive}>
+                    {isActive ? '노출' : '미노출'}
+                </s.TableColStatus>
             ),
             align: 'center',
             width: '150px',
@@ -94,7 +106,7 @@ const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) 
             title: '작성일',
             dataIndex: 'created_at',
             align: 'center',
-            render: (createdAt: string) => formatDate(createdAt),
+            render: (createdAt: string) => dayjs(createdAt).format('YYYY-MM-DD'),
             width: '200px',
         },
     ];
@@ -109,49 +121,38 @@ const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) 
         }),
     };
 
-    const handleGalleryDetail = (id: number) => {
-        router.visit(route('admin.gallery.show', { id }));
-    };
-
-    const handleDeleteSelected = () => {
+    const onDelete = () => {
         Modal.confirm({
             title: '알림',
             content: '선택한 이미지를 삭제하시겠습니까?',
             okText: '삭제',
             cancelText: '취소',
             onOk: async () => {
-                await axios
-                    .post(route('admin.gallery.delete'), { board_ids: selectedRowKeys })
-                    .then(response => {
-                        console.log(response);
+                router.delete(route('admin.gallery.delete'), {
+                    data: {
+                        board_ids: selectedRowKeys as string[],
+                    },
+                    preserveScroll: true,
+                    preserveState: true,
+
+                    onSuccess: () => {
                         notification.success({
                             message: '알림',
                             description: '선택한 이미지가 성공적으로 삭제되었습니다.',
                         });
-                        const remainingGallerys = dataSource.filter(
-                            gallery => !selectedRowKeys.includes(gallery.id.toString())
-                        );
-                        setDataSource(
-                            remainingGallerys.map((gallery: GalleryData) => ({
-                                ...gallery,
-                                key: gallery.id.toString(),
-                            }))
-                        );
-                    });
+                    },
+                });
             },
         });
     };
 
-    const onClickCreate = () => {
+    const handleClickCreate = () => {
         router.visit(route('admin.gallery.create'));
     };
 
-    const datas = useMemo(() => {
-        return galleries.data;
-    }, [galleries.data]);
-
     return (
         <div>
+            <PageHeader title="GALLERY 목록" hasAdmin />
             <GallerySearch />
             <Divider />
             <div className="space-y-4 rounded bg-white p-[20px] shadow">
@@ -165,32 +166,18 @@ const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) 
                     pagination={pagination}
                     footer={() => {
                         return (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    margin: '1rem 0',
-                                }}
-                            >
+                            <s.TableFooterButtonWrap>
                                 <Button
                                     type="primary"
-                                    style={{
-                                        marginRight: '1rem',
-                                        backgroundColor: 'blue',
-                                        borderColor: 'blue',
-                                    }}
-                                    onClick={handleDeleteSelected}
+                                    onClick={onDelete}
+                                    disabled={selectedRowKeys.length === 0}
                                 >
                                     선택 삭제
                                 </Button>
-                                <Button
-                                    type="primary"
-                                    style={{ backgroundColor: 'blue', borderColor: 'blue' }}
-                                    onClick={onClickCreate}
-                                >
+                                <Button type="primary" onClick={handleClickCreate}>
                                     등록
                                 </Button>
-                            </div>
+                            </s.TableFooterButtonWrap>
                         );
                     }}
                 />
