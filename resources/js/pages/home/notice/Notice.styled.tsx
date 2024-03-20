@@ -25,3 +25,7 @@ export const ButtonBox = styled.div`
 
     ${screen('tablet')({ ...tw`mt-[50px]` })}
 `;
+
+export const Empty = styled.div`
+    ${tw`flex h-[100px] items-center justify-center`}
+`;

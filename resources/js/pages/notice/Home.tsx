@@ -29,16 +29,19 @@ function Home({ notices }: { notices: any }) {
                         <MagnifyingGlassIcon className="h-[20px] w-[20px]" />
                     </button>
                 </s.InputBox>
-
-                <s.HomeAccordion selectedItem={0}>
-                    {datas.map((notice: NoticeData) => (
-                        <AccordionItemNotice
-                            key={notice.id}
-                            title={notice.title}
-                            content={`<div style="font-size:20px;line-height:30px">${notice.notice.content}</div>`}
-                        />
-                    ))}
-                </s.HomeAccordion>
+                {datas.length > 0 ? (
+                    <s.HomeAccordion selectedItem={0}>
+                        {datas.map((notice: NoticeData) => (
+                            <AccordionItemNotice
+                                key={notice.id}
+                                title={notice.title}
+                                content={`<div style="font-size:20px;line-height:30px">${notice.notice.content}</div>`}
+                            />
+                        ))}
+                    </s.HomeAccordion>
+                ) : (
+                    <s.Empty>공지사항이 없습니다.</s.Empty>
+                )}
             </s.Inner>
         </s.Wrapper>
     );
