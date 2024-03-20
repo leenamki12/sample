@@ -1,49 +1,54 @@
 import React, { useState } from 'react';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 
 import { AccordionItemFaq, GradientButton, Tab } from '@/components/ui';
+import useAxios from '@/hooks/useAxios';
+import { FaqData } from '@/pages/admin/faq/types/faqs';
 import { faqDatas } from '@/pages/faqs/constants/faqs';
+import { Paginate } from '@/types/common/paginate';
+import loading from '@assets/common/loading-svgrepo-com.svg';
 
 import * as s from './Faq.styled';
 
+const categories = ['TICKET', 'ENTERANCE', 'COMMON'];
+
 const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
+    const { faqs } = usePage<{ faqs: FaqData[] }>().props;
+
     const [searchText, setSearchText] = useState('');
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<number>(0);
-    const [faqItems, setFaqItems] = useState(faqDatas[activeTab].data);
+
+    const [newFaqDatas, setNewFaqDatas] = useState(faqs);
+    const { isLoading, request } = useAxios<Paginate<FaqData>>();
 
     const selectedCategory = faqDatas[activeTab].category;
 
-    const handleTabClick = (index: number) => {
+    const handleSearch = async (index: number) => {
         setActiveTab(index);
         setSelectedItem(null);
 
-        if (searchText === '') {
-            setFaqItems(faqDatas[index].data);
-        } else {
-            handleClickSearch(index);
-        }
+        const formData = {
+            start_date: '',
+            end_date: '',
+            category: categories[index],
+            title: searchText,
+            is_published: 'true',
+            is_main_published: 'all',
+        };
+
+        const { data } = await request({
+            method: 'get',
+            url: route('home.faqs', formData),
+        });
+
+        setNewFaqDatas(data.data);
     };
 
     const handleChangedItem = (index: number | null) => {
         setSelectedItem(index);
-    };
-
-    const handleClickSearch = (index: number) => {
-        if (searchText === '') {
-            setFaqItems(faqDatas[index].data);
-            return;
-        }
-
-        const filteredItems = faqDatas[index].data.filter(
-            item =>
-                item.questions.toLowerCase().includes(searchText.toLowerCase()) ||
-                item.asked.toLowerCase().includes(searchText.toLowerCase())
-        );
-
-        setFaqItems(filteredItems);
     };
 
     return (
@@ -56,35 +61,42 @@ const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
                     placeholder="검색어를 입력해주세요."
                     onChange={e => setSearchText(e.target.value)}
                 />
-                <button type="button" onClick={() => handleClickSearch(activeTab)}>
+                <button type="button" onClick={() => handleSearch(activeTab)}>
                     <MagnifyingGlassIcon className="h-[20px] w-[20px]" />
                 </button>
             </s.InputBox>
 
-            <s.FaqTabs activeTab={activeTab} onTabClick={handleTabClick}>
+            <s.FaqTabs activeTab={activeTab} onTabClick={handleSearch}>
                 <Tab label="티켓" />
                 <Tab label="입장" />
                 <Tab label="일반" />
             </s.FaqTabs>
 
             <s.SelectedCategory>{selectedCategory}</s.SelectedCategory>
-
-            {faqItems.length > 0 ? (
-                <s.HomeAccordion
-                    onChange={handleChangedItem}
-                    category={selectedCategory}
-                    selectedItem={selectedItem}
-                >
-                    {faqItems.map(item => (
-                        <AccordionItemFaq
-                            key={item.questions}
-                            title={item.questions}
-                            content={item.asked}
-                        />
-                    ))}
-                </s.HomeAccordion>
+            {isLoading ? (
+                <div className="flex h-[200px] w-full items-center justify-center">
+                    <img src={loading} alt="" className="w-[30px] animate-spin" />
+                </div>
             ) : (
-                <s.Empty>검색 된 FAQ가 없습니다.</s.Empty>
+                <>
+                    {newFaqDatas.length > 0 ? (
+                        <s.HomeAccordion
+                            onChange={handleChangedItem}
+                            category={selectedCategory}
+                            selectedItem={selectedItem}
+                        >
+                            {newFaqDatas.map(item => (
+                                <AccordionItemFaq
+                                    key={item.id}
+                                    title={item.title}
+                                    content={item.faq.content}
+                                />
+                            ))}
+                        </s.HomeAccordion>
+                    ) : (
+                        <s.Empty>검색 된 FAQ가 없습니다.</s.Empty>
+                    )}
+                </>
             )}
 
             <s.ButtonBox>

@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import { AccordionItemNotice, PageHeader } from '@/components/ui';
@@ -7,12 +9,16 @@ import * as s from './Home.styled';
 interface NoticeData {
     id: number;
     title: string;
+    is_published: boolean;
     notice: {
         content: string;
     };
 }
 
 function Home({ notices }: { notices: any }) {
+    const datas = useMemo(() => {
+        return notices.data.filter((item: NoticeData) => item.is_published);
+    }, [notices]);
     return (
         <s.Wrapper>
             <PageHeader title="NOTICE" isBackground />
@@ -25,7 +31,7 @@ function Home({ notices }: { notices: any }) {
                 </s.InputBox>
 
                 <s.HomeAccordion selectedItem={0}>
-                    {notices.data.map((notice: NoticeData) => (
+                    {datas.map((notice: NoticeData) => (
                         <AccordionItemNotice
                             key={notice.id}
                             title={notice.title}

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { router } from '@inertiajs/react';
 
 import { PageHeader } from '@/components/ui';
 import { AccordionItemFaq, Tab } from '@/components/ui';
+import loading from '@assets/common/loading-svgrepo-com.svg';
 
 import * as s from './Home.styled';
-import { router } from '@inertiajs/react';
 
 interface FaqData {
     id: number;
@@ -21,6 +22,7 @@ function Home({ faqs }: { faqs: any }) {
     const [searchText, setSearchText] = useState('');
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const categories = ['TICKET', 'ENTERANCE', 'COMMON'];
     const categoryLabels = ['티켓', '입장', '일반'];
@@ -50,6 +52,12 @@ function Home({ faqs }: { faqs: any }) {
             {
                 preserveScroll: true,
                 preserveState: true,
+                onBefore: () => {
+                    setIsLoading(true);
+                },
+                onFinish: () => {
+                    setIsLoading(false);
+                },
             }
         );
     };
@@ -79,23 +87,30 @@ function Home({ faqs }: { faqs: any }) {
                 </s.FaqTabs>
 
                 <s.SelectedCategory>{selectedCategory}</s.SelectedCategory>
-
-                {faqs.data.length > 0 ? (
-                    <s.HomeAccordion
-                        onChange={handleChangedItem}
-                        category={selectedCategory}
-                        selectedItem={selectedItem}
-                    >
-                        {faqs.data.map((faq: FaqData) => (
-                            <AccordionItemFaq
-                                key={faq.id}
-                                title={faq.title}
-                                content={faq.faq.content}
-                            />
-                        ))}
-                    </s.HomeAccordion>
+                {isLoading ? (
+                    <div className="flex h-[200px] w-full items-center justify-center">
+                        <img src={loading} alt="" className="w-[30px] animate-spin" />
+                    </div>
                 ) : (
-                    <s.Empty>검색 된 FAQ가 없습니다.</s.Empty>
+                    <>
+                        {faqs.data.length > 0 ? (
+                            <s.HomeAccordion
+                                onChange={handleChangedItem}
+                                category={selectedCategory}
+                                selectedItem={selectedItem}
+                            >
+                                {faqs.data.map((faq: FaqData) => (
+                                    <AccordionItemFaq
+                                        key={faq.id}
+                                        title={faq.title}
+                                        content={faq.faq.content}
+                                    />
+                                ))}
+                            </s.HomeAccordion>
+                        ) : (
+                            <s.Empty>검색 된 FAQ가 없습니다.</s.Empty>
+                        )}
+                    </>
                 )}
             </s.Inner>
         </s.Wrapper>

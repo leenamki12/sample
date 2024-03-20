@@ -18,6 +18,7 @@ class FaqFindAction
         $board = $dto->getModel();
         $faq = $board->faq;
         $main = $board->main;
+
         return new FaqFindRes(
             $board->id,
             $board->title,
