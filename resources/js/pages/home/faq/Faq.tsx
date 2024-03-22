@@ -51,6 +51,11 @@ const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
         setSelectedItem(index);
     };
 
+    function convertUrlToLink(text: string) {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+    }
+
     return (
         <s.Wrapper ref={ref}>
             <h2>FAQS</h2>
@@ -89,7 +94,7 @@ const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
                                 <AccordionItemFaq
                                     key={item.id}
                                     title={item.title}
-                                    content={item.faq.content}
+                                    content={convertUrlToLink(item.faq.content)}
                                 />
                             ))}
                         </s.HomeAccordion>

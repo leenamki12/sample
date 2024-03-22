@@ -62,6 +62,11 @@ function Home({ faqs }: { faqs: any }) {
         );
     };
 
+    function convertUrlToLink(text: string) {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+    }
+
     return (
         <s.Wrapper>
             <PageHeader title="FAQS" isBackground />
@@ -103,7 +108,7 @@ function Home({ faqs }: { faqs: any }) {
                                     <AccordionItemFaq
                                         key={faq.id}
                                         title={faq.title}
-                                        content={faq.faq.content}
+                                        content={convertUrlToLink(faq.faq.content)}
                                     />
                                 ))}
                             </s.HomeAccordion>
