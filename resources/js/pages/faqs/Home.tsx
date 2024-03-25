@@ -62,9 +62,12 @@ function Home({ faqs }: { faqs: any }) {
         );
     };
 
-    function convertUrlToLink(text: string) {
+    function getFormattedContent(text: string) {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
-        return text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+        return text
+            .replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`)
+            .split('\n')
+            .join('<br/>');
     }
 
     return (
@@ -108,7 +111,7 @@ function Home({ faqs }: { faqs: any }) {
                                     <AccordionItemFaq
                                         key={faq.id}
                                         title={faq.title}
-                                        content={convertUrlToLink(faq.faq.content)}
+                                        content={getFormattedContent(faq.faq.content)}
                                     />
                                 ))}
                             </s.HomeAccordion>

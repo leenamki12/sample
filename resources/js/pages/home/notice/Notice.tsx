@@ -20,7 +20,7 @@ const Notice = React.forwardRef<HTMLDivElement>((_props, ref) => {
                             <AccordionItemNotice
                                 key={item.id}
                                 title={item.title}
-                                content={item.notice.content}
+                                content={`<div style="font-size:20px;line-height:30px">${item.notice.content}</div>`}
                             />
                         );
                     })}
