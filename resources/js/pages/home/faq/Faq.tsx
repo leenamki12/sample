@@ -26,22 +26,28 @@ const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
 
     const selectedCategory = faqDatas[activeTab].category;
 
+    const getFormData = (
+        category: string,
+        is_published: string,
+        is_main_published: string
+    ): Record<string, string> => {
+        return {
+            start_date: '',
+            end_date: '',
+            category: category,
+            title: searchText,
+            is_published: is_published,
+            is_main_published: is_main_published,
+        };
+    };
+
     const handleSearch = async (index: number) => {
         setActiveTab(index);
         setSelectedItem(null);
 
-        const formData = {
-            start_date: '',
-            end_date: '',
-            category: categories[index],
-            title: searchText,
-            is_published: 'true',
-            is_main_published: 'all',
-        };
-
         const { data } = await request({
             method: 'get',
-            url: route('home.faqs', formData),
+            url: route('home.faqs', getFormData(categories[index], 'all', 'true')),
         });
 
         setNewFaqDatas(data.data);
@@ -108,7 +114,12 @@ const Faq = React.forwardRef<HTMLDivElement>((_props, ref) => {
             )}
 
             <s.ButtonBox>
-                <GradientButton label="FAQS" onClick={() => router.visit(route('faqs'))} />
+                <GradientButton
+                    label="FAQS"
+                    onClick={() =>
+                        router.visit(route('faqs', getFormData(categories[0], 'true', 'all')))
+                    }
+                />
             </s.ButtonBox>
         </s.Wrapper>
     );
