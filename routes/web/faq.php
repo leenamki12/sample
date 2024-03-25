@@ -11,7 +11,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('faq/{id}', [FaqController::class, 'show'])->name('admin.faq.show');
         Route::get('faq', [FaqController::class, 'index'])->name('admin.faq.index');
         Route::post('faq/search', [FaqController::class, 'search'])->name('admin.faq.search');
-        Route::post('faq/delete', [FaqController::class, 'delete'])->name('admin.faq.delete');
-        Route::delete('faq/{id}', [FaqController::class, 'destroy'])->name('admin.faq.destroy');
+        Route::delete('faq/delete', [FaqController::class, 'delete'])->name('admin.faq.delete');
     });
 });
