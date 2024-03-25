@@ -56,6 +56,7 @@ function Home({ faqs }: { faqs: any }) {
                     setIsLoading(true);
                 },
                 onFinish: () => {
+                    setSelectedItem(null);
                     setIsLoading(false);
                 },
             }
