@@ -58,6 +58,5 @@ class FaqController extends Controller
     public function delete(DeleteReq $request, MultipleDeleteAction $action)
     {
         $action->handleRequest($request);
-        return ['result' => 'ok'];
     }
 }
