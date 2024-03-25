@@ -3,7 +3,7 @@ import React from 'react';
 import { router, usePage } from '@inertiajs/react';
 
 import { AccordionItemNotice, GradientButton } from '@/components/ui';
-import { NoticeData } from '@/pages/admin/notice/types/notice';
+import { NoticeData } from '@/pages/admin/notice/types/Notice';
 
 import * as s from './Notice.styled';
 
