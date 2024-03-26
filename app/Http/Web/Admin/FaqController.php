@@ -10,7 +10,6 @@ use App\Domains\Board\Actions\FaqFindAction;
 use App\Domains\Board\Actions\FaqQueryAction;
 use App\Domains\Board\Actions\FaqUpdateAction;
 use App\Domains\Board\Requests\FaqReq;
-use App\Domains\Board\Requests\FaqQueryReq;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 

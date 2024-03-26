@@ -3,7 +3,6 @@
 namespace App\Domains\Board\Actions;
 
 use App\Domains\Board\Responses\NoticeFindRes;
-use Illuminate\Support\Facades\Log;
 
 class NoticeFindAction
 {
