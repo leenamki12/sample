@@ -10,7 +10,5 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::get('gallery/create', [GalleryController::class, 'create'])->name('admin.gallery.create');
     Route::get('gallery/{id}', [GalleryController::class, 'show'])->name('admin.gallery.show');
     Route::get('gallery', [GalleryController::class, 'index'])->name('admin.gallery.index');
-    Route::post('gallery', [GalleryController::class, 'search'])->name('admin.gallery.search');
-    Route::post('gallery/delete', [GalleryController::class, 'delete'])->name('admin.gallery.delete');
-    Route::delete('gallery/{id}', [GalleryController::class, 'destroy'])->name('admin.gallery.destroy');
+    Route::delete('gallery/delete', [GalleryController::class, 'delete'])->name('admin.gallery.delete');
 });
