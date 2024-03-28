@@ -15,8 +15,8 @@ interface GalleryFormData {
     id: number;
     title: string;
     year: number;
-    isPublished: boolean;
-    isMainPublished: boolean;
+    is_published: boolean;
+    is_main_published: boolean;
     file_id: number;
 }
 
@@ -24,8 +24,8 @@ interface GalleryData {
     id: number;
     title: string;
     year: number;
-    isPublished: boolean;
-    isMainPublished: boolean;
+    is_published: boolean;
+    is_main_published: boolean;
     file_id: number;
     file_path: string;
 }
@@ -62,8 +62,8 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                 type: 'GALLERY',
                 title: values.title,
                 year: Number(dayjs(values.year).format('YYYY')),
-                is_main_published: values.isMainPublished == true,
-                is_published: values.isPublished == true,
+                is_main_published: values.is_main_published == true,
+                is_published: values.is_published == true,
                 file_id: fileId ? fileId : values.file_id,
             };
             router.put(route('admin.gallery.update', { id: gallery.id }), formData);
@@ -91,8 +91,8 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                 initialValues={{
                     title: gallery.title,
                     year: dayjs().set('year', gallery.year),
-                    is_main_published: gallery.isMainPublished,
-                    is_published: gallery.isPublished,
+                    is_main_published: gallery.is_main_published,
+                    is_published: gallery.is_published,
                     file_id: gallery.file_id,
                 }}
             >
@@ -141,11 +141,11 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                     </Upload>
                 </Form.Item>
 
-                <Form.Item label="메인 노출여부" name="isMainPublished" valuePropName="checked">
+                <Form.Item label="메인 노출여부" name="is_main_published" valuePropName="checked">
                     <Switch />
                 </Form.Item>
 
-                <Form.Item label="메뉴 노출여부" name="isPublished" valuePropName="checked">
+                <Form.Item label="메뉴 노출여부" name="is_published" valuePropName="checked">
                     <Switch />
                 </Form.Item>
 
