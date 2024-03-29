@@ -3,7 +3,6 @@
 namespace App\Services\File;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class FileService
@@ -21,6 +20,6 @@ class FileService
     }
     public function delete(string $filePath)
     {
-        return Storage::delete($filePath);
+        return Storage::delete(self::PATH_DIRECTORY . '\\' . basename($filePath));
     }
 }
