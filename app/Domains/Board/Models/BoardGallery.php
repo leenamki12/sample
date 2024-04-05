@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class BoardGallery extends Model
 {
     protected $fillable = [
-        "year",
+        "year", "category"
     ];
     public function board(): BelongsTo
     {

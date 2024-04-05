@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { router } from '@inertiajs/react';
-import { Form, Input, Switch, Button, DatePicker, Upload, message } from 'antd';
+import { Form, Input, Radio, Switch, Button, DatePicker, Upload, message } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -14,6 +14,7 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 interface GalleryFormData {
     title: string;
     year: number;
+    category: string;
     isPublished: boolean;
     isMainPublished: boolean;
     file_id: number;
@@ -51,6 +52,7 @@ function GalleryCreate() {
                 type: 'GALLERY',
                 title: values.title,
                 year: Number(dayjs(values.year).format('YYYY')),
+                category: values.category,
                 is_main_published: values.isMainPublished == true,
                 is_published: values.isPublished == true,
                 file_id: fileId,
@@ -84,6 +86,16 @@ function GalleryCreate() {
                     rules={[{ required: true, message: '연도를 선택해주세요.' }]}
                 >
                     <DatePicker placeholder="연도 선택" picker="year" />
+                </Form.Item>
+                <Form.Item
+                    label="카테고리"
+                    name="category"
+                    rules={[{ required: true, message: '카테고리를 선택해주세요.' }]}
+                >
+                    <Radio.Group>
+                        <Radio.Button value="PHOTO">PHOTO</Radio.Button>
+                        <Radio.Button value="HISTORY">HISTORY</Radio.Button>
+                    </Radio.Group>
                 </Form.Item>
                 <Form.Item
                     label="제목"

@@ -9,6 +9,7 @@ class BoardGalleryDTO extends BaseDTO
     public function __construct(
         public ?int $board_id,
         public int $year,
+        public string $category,
     ){
 
     }

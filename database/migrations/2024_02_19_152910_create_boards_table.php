@@ -2,6 +2,7 @@
 
 use App\Domains\Board\Models\Types\BoardType;
 use App\Domains\Board\Models\Types\FaqCategoryType;
+use App\Domains\Board\Models\Types\GalleryCategoryType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -51,6 +52,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('board_id')->unique()->comment("게시글 ID")->constrained();
             $table->integer('year')->comment("년도");
+            $table->enum('category', GalleryCategoryType::values())->comment("카테고리");
             $table->timestamps();
         });
     }

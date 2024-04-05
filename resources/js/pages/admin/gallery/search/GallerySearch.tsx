@@ -16,6 +16,7 @@ const GallerySearch = () => {
     const [endDate, setEndDate] = useState<Dayjs>(null);
 
     const [year, setYear] = useState<number>(null);
+    const [category, setCategory] = useState<string>('all');
     const [isMainPublished, setIsMainPublished] = useState<string>('all');
     const [isPublished, setIsPublished] = useState<string>('all');
     const [title, setTitle] = useState<string>('');
@@ -25,6 +26,7 @@ const GallerySearch = () => {
             start_date: startDate ? dayjs(startDate).format('YYYY-MM-DD') : '',
             end_date: endDate ? dayjs(endDate).format('YYYY-MM-DD') : '',
             year: year ? year : '',
+            category: category || 'all',
             is_main_published:
                 isMainPublished === 'all' ? 'all' : (isMainPublished === 'visible').toString(),
             is_published: isPublished === 'all' ? 'all' : (isPublished === 'visible').toString(),
@@ -85,8 +87,10 @@ const GallerySearch = () => {
         const year = urlParams.get('year') ? Number(urlParams.get('year')) : null;
         const isMainPublished = publishedFilter(urlParams.get('is_main_published'));
         const isPublished = publishedFilter(urlParams.get('is_published'));
+        const isCategory = urlParams.get('category');
 
         setStartDate(startDate);
+        setCategory(isCategory || 'all');
         setEndDate(endDate);
         setYear(year);
         setIsMainPublished(isMainPublished);
@@ -147,6 +151,15 @@ const GallerySearch = () => {
                 <s.Section>
                     <s.Label>노출여부</s.Label>
                     <div className="flex items-center space-x-1">
+                        <div>카테고리</div>
+                        <div>:</div>
+                        <Select value={category} onChange={setCategory} style={{ width: '100px' }}>
+                            <Select.Option value="all">전체</Select.Option>
+                            <Select.Option value="photo">PHOTO</Select.Option>
+                            <Select.Option value="history">HISTORY</Select.Option>
+                        </Select>
+                    </div>
+                    <div className="ml-4 flex items-center space-x-1">
                         <div>메인</div>
                         <div>:</div>
                         <Select

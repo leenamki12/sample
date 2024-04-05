@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { router } from '@inertiajs/react';
-import { Form, Input, Switch, Button, DatePicker, Upload, message } from 'antd';
+import { Form, Input, Radio, Switch, Button, DatePicker, Upload, message } from 'antd';
 import type { GetProp, UploadProps } from 'antd';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -15,6 +15,7 @@ interface GalleryFormData {
     id: number;
     title: string;
     year: number;
+    category: string;
     is_published: boolean;
     is_main_published: boolean;
     file_id: number;
@@ -24,6 +25,7 @@ interface GalleryData {
     id: number;
     title: string;
     year: number;
+    category: string;
     is_published: boolean;
     is_main_published: boolean;
     file_id: number;
@@ -62,6 +64,7 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                 type: 'GALLERY',
                 title: values.title,
                 year: Number(dayjs(values.year).format('YYYY')),
+                category: values.category,
                 is_main_published: values.is_main_published == true,
                 is_published: values.is_published == true,
                 file_id: fileId ? fileId : values.file_id,
@@ -91,6 +94,7 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                 initialValues={{
                     title: gallery.title,
                     year: dayjs().set('year', gallery.year),
+                    category: gallery.category,
                     is_main_published: gallery.is_main_published,
                     is_published: gallery.is_published,
                     file_id: gallery.file_id,
@@ -102,6 +106,16 @@ function GalleryEdit({ gallery }: { gallery: GalleryData }) {
                     rules={[{ required: true, message: '연도를 선택해주세요.' }]}
                 >
                     <DatePicker placeholder="연도 선택" picker="year" />
+                </Form.Item>
+                <Form.Item
+                    label="카테고리"
+                    name="category"
+                    rules={[{ required: true, message: '카테고리를 선택해주세요.' }]}
+                >
+                    <Radio.Group>
+                        <Radio.Button value="PHOTO">PHOTO</Radio.Button>
+                        <Radio.Button value="HISTORY">HISTORY</Radio.Button>
+                    </Radio.Group>
                 </Form.Item>
                 <Form.Item
                     label="제목"

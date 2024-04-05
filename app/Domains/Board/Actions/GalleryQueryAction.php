@@ -10,7 +10,7 @@ class GalleryQueryAction
     public function handle(int $perPage = 10)
     {
         $perPageIndex = $perPage;
-        $requestData = request(['start_date', 'end_date', 'year', 'is_published', 'is_main_published', 'title']);
+        $requestData = request(['start_date', 'end_date', 'year', 'category', 'is_published', 'is_main_published', 'title']);
 
          if(request('per_page')){
             $perPageIndex = request('per_page');
@@ -21,6 +21,7 @@ class GalleryQueryAction
         if($requestData) {
             $board = $this->filterByCreatedAt($board, $requestData['start_date'], $requestData['end_date']);
             $board = $this->filterByYear($board, $requestData['year']);
+            $board = $this->filterByCategory($board, $requestData['category']);
             $board = $this->filterByIsPublished($board, $requestData['is_published']);
             $board = $this->filterByIsMainPublished($board, $requestData['is_main_published']);
             $board = $this->filterByTitle($board, $requestData['title']);
@@ -45,6 +46,16 @@ class GalleryQueryAction
                 $query->where('year', $year);
             });
         }
+        return $builder;
+    }
+
+    private function filterByCategory(Builder $builder, ?string $category) {
+        if($category === 'all'){
+            return $builder;
+        }
+        $builder->whereHas('gallery', function ($query) use ($category) {
+            $query->where('category', $category);
+        });
         return $builder;
     }
 

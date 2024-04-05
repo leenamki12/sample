@@ -21,6 +21,7 @@ interface GalleryData {
     gallery: {
         id: number;
         year: number;
+        category: string;
         created_at: string;
         updated_at: string;
     };
@@ -58,6 +59,17 @@ const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) 
         };
     }, [galleries]);
 
+    const getCategoryLabel = (text: string, category: string): string => {
+        switch (category) {
+            case 'PHOTO':
+                return 'PHOTO';
+            case 'HISTORY':
+                return 'HISTORY';
+            default:
+                return text;
+        }
+    };
+
     const columns: TableColumnsType<GalleryData> = [
         {
             title: '이미지',
@@ -70,6 +82,15 @@ const Gallery: React.FC<{ galleries: Paginate<GalleryData> }> = ({ galleries }) 
             ),
             align: 'center',
             width: '300px',
+        },
+        {
+            title: '카테고리',
+            dataIndex: 'category',
+            render: (text: string, record: GalleryData) => (
+                <span>{getCategoryLabel(text, record.gallery.category)}</span>
+            ),
+            align: 'center',
+            width: '120px',
         },
         {
             title: <div className="text-center">제목</div>,
