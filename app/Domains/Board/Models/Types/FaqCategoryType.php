@@ -8,8 +8,6 @@ class FaqCategoryType
 {
     use TypeTrait;
 
-    const KEY = 'category.type';
-
     const TICKET = 'TICKET';
 
     const ENTERANCE = 'ENTERANCE';
