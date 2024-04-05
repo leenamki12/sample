@@ -62,3 +62,15 @@ export const ButtonBox = styled.div`
 export const Empty = styled.div`
     ${tw`flex h-[100px] items-center justify-center`}
 `;
+
+export const ListWrap = styled.div`
+    ${tw`m-auto w-[1340px]`}
+
+    .ant-list-items {
+        ${tw`grid grid-cols-4 gap-[20px]`}
+
+        img {
+            ${tw`h-full w-full`}
+        }
+    }
+`;

@@ -19,7 +19,6 @@ interface FaqData {
 }
 
 function Home({ faqs }: { faqs: any }) {
-    console.log(faqs);
     const [searchText, setSearchText] = useState('');
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<number>(0);
