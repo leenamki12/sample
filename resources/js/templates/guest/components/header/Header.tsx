@@ -124,7 +124,7 @@ function Header() {
                 <ul>
                     <li>
                         <Link
-                            href={route('notice')}
+                            href={route('notice', noticeFormData)}
                             className={url === '/notice' ? 'isActive' : ''}
                             onClick={() => setIsAllMenuOpen(false)}
                         >
@@ -169,7 +169,7 @@ function Header() {
                     </li>
                     <li>
                         <Link
-                            href={route('faqs')}
+                            href={route('faqs', faqFormData)}
                             className={url === '/faqs' ? 'isActive' : ''}
                             onClick={() => setIsAllMenuOpen(false)}
                         >

@@ -19,6 +19,14 @@ function Footer() {
             element.scrollIntoView({ behavior: 'smooth' });
         }
     };
+    const faqFormData = {
+        start_date: '',
+        end_date: '',
+        category: 'TICKET',
+        is_published: 'true',
+        is_main_published: 'all',
+        title: '',
+    };
 
     return (
         <>
@@ -39,7 +47,7 @@ function Footer() {
                                         <Link href={route('about')}>ABOUT</Link>
                                     </li>
                                     <li>
-                                        <Link href={route('faqs')}>FAQ</Link>
+                                        <Link href={route('faqs', faqFormData)}>FAQ</Link>
                                     </li>
                                     <li>
                                         <Link href={route('line-up')}>LINEUP</Link>

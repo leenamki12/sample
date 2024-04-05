@@ -57,11 +57,20 @@ function Home({ faqs }: { faqs: any }) {
                     setIsLoading(true);
                 },
                 onFinish: () => {
+                    setSelectedItem(null);
                     setIsLoading(false);
                 },
             }
         );
     };
+
+    function getFormattedContent(text: string) {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text
+            .replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`)
+            .split('\n')
+            .join('<br/>');
+    }
 
     return (
         <s.Wrapper>
@@ -104,7 +113,7 @@ function Home({ faqs }: { faqs: any }) {
                                     <AccordionItemFaq
                                         key={faq.id}
                                         title={faq.title}
-                                        content={faq.faq.content}
+                                        content={getFormattedContent(faq.faq.content)}
                                     />
                                 ))}
                             </s.HomeAccordion>
