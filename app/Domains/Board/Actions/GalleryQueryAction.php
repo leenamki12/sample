@@ -4,7 +4,6 @@ namespace App\Domains\Board\Actions;
 
 use App\Domains\Board\Models\Board;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 
 class GalleryQueryAction
 {
