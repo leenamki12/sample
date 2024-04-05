@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Auth\VerifySmsController;
+use App\Http\Web\Client\GalleryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 
+});
+
+Route::prefix('gallery')->group(function () {
+    Route::get('/load', [GalleryController::class, 'load'])->name('gallery.load');
 });

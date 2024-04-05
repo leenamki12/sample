@@ -76,7 +76,8 @@ function Home() {
             <TimeTable ref={componentsRefs.timetable} />
             <Divider />
             <Faq ref={componentsRefs.faq} />
-
+            {/* <Divider />
+            <Gallery ref={componentsRefs.gallery} /> */}
             <QuickMoveLink
                 current={`${visibleSection + 1}`}
                 length={`${Object.keys(componentsRefs).length}`}
