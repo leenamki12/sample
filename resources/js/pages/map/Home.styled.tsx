@@ -71,7 +71,7 @@ export const ButtonBox = styled.div`
 `;
 
 export const MapFestivalContent = styled.div`
-    ${tw`m-auto h-[600px] max-w-[800px] overflow-hidden rounded border border-black bg-[#fafafa]`}
+    ${tw`m-auto h-[800px] max-w-[800px] overflow-hidden rounded border border-black bg-[#fafafa]`}
 
     ${screen('tablet')({ ...tw`mt-[30px] h-[300px]` })}
 `;

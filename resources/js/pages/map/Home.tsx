@@ -5,6 +5,8 @@ import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/20/solid';
 
 import { Tab, Tabs, PageHeader, GradientButton } from '@/components/ui';
 
+import content01 from '@assets/pages/map/img_map_festival01.jpg';
+
 import * as s from './Home.styled';
 function Home() {
     const [loading] = useKakaoLoader({
@@ -13,10 +15,6 @@ function Home() {
     const [activeTab, setActiveTab] = useState<number>(0);
 
     const handleTabClick = (index: number) => {
-        if (index === 1) {
-            alert('추후 공개됩니다.');
-            return;
-        }
         setActiveTab(index);
     };
 
@@ -80,7 +78,9 @@ function Home() {
                 </s.Inner>
             ) : (
                 <s.Inner>
-                    <s.MapFestivalContent></s.MapFestivalContent>
+                    <s.MapFestivalContent>
+                        <img src={content01} alt="" />
+                    </s.MapFestivalContent>
                     <s.MapFestivalInfoList>
                         <li>• 공연 당일 메인게이트 외부, 내부에 물품보관소가 운영됩니다</li>
                         <li>• 흡연은 별도로 준비된 흡연구역에서만 가능합니다.</li>
