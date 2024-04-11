@@ -85,12 +85,9 @@ function Header() {
                                 </Link>
                             </li>
                             <li>
-                                <Link
-                                    href={route('gallery')}
-                                    className={url === '/gallery' ? 'isActive' : ''}
-                                >
+                                <button type="button" onClick={() => alert('추후 공개됩니다.')}>
                                     GALLERY
-                                </Link>
+                                </button>
                             </li>
                         </s.Nav>
                     )}
