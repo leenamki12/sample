@@ -1,6 +1,8 @@
 import { ArrowUpIcon } from '@heroicons/react/20/solid';
 import { Link, usePage } from '@inertiajs/react';
 
+import BuyMelon from '@assets/common/button_buy_melon.png';
+import BuyYes24 from '@assets/common/button_buy_yes24.png';
 import FooterLogo from '@assets/common/footer_logo.png';
 import IconInstar from '@assets/common/icon_instar.png';
 import IconBlack from '@assets/common/icon_xmark.png';
@@ -93,6 +95,22 @@ function Footer() {
                     <div>
                         <img src={FooterLogo} alt="the glow 2024" />
                     </div>
+                    <dl>
+                        <dd>
+                            <a
+                                href="https://ticket.melon.com/performance/index.htm?prodId=209446"
+                                target="blank"
+                            >
+                                <img src={BuyMelon} alt="멜론에서 예매 하러 가기" />
+                            </a>
+                            <a
+                                href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=48649"
+                                target="blank"
+                            >
+                                <img src={BuyYes24} alt="yes24에서 예매 하러 가기" />
+                            </a>
+                        </dd>
+                    </dl>
                     <div className="bg"></div>
                 </s.BuyInner>
             </s.BuyWrapper>
