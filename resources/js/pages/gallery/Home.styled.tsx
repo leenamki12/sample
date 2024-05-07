@@ -66,11 +66,21 @@ export const Empty = styled.div`
 export const ListWrap = styled.div`
     ${tw`m-auto w-[1340px]`}
 
+    ${screen('tablet')({ ...tw`w-full` })}
+
     .ant-list-items {
         ${tw`grid grid-cols-4 gap-[20px]`}
 
         img {
             ${tw`h-full w-full`}
         }
+
+        ${screen('tablet')({ ...tw`grid-cols-2 gap-[10px]` })}
     }
+`;
+
+export const YearWrap = styled.div`
+    ${tw`m-auto mb-[50px] flex w-[360px] items-center justify-between`}
+
+    ${screen('tablet')({ ...tw`mb-[20px] w-full` })}
 `;

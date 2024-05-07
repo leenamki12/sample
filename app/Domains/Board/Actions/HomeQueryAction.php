@@ -25,6 +25,14 @@ class HomeQueryAction
             ->orderBy('id', 'desc')
             ->get();
 
-        return ['faqs' => $faqs, 'notices' => $notices];
+
+        $galleries = Board::with('gallery','file')
+            ->whereHas('gallery')
+            ->whereHas('main')
+            ->whereHas('file')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return ['faqs' => $faqs, 'notices' => $notices, 'galleries'=>$galleries];
     }
 }

@@ -12,7 +12,7 @@ import rightArrow from '@assets/pages/gallery/year_arrow_right.png';
 
 import * as s from './Home.styled';
 
-type Gallery = {
+export type Gallery = {
     id: number;
     title: string;
     file: {
@@ -22,6 +22,7 @@ type Gallery = {
 };
 
 function Home({ galleries }: { galleries: Paginate<Gallery> }) {
+    console.log(galleries);
     const currentYear = dayjs().year();
     const [activeTab, setActiveTab] = useState<number>(0);
     const [year, setYear] = useState(currentYear);
@@ -97,7 +98,7 @@ function Home({ galleries }: { galleries: Paginate<Gallery> }) {
                 </Tabs>
             </s.Inner>
             {activeTab === 0 && (
-                <div className="m-auto mb-[50px] flex w-[360px] items-center justify-between">
+                <s.YearWrap>
                     <button type="button" onClick={() => handleChangeYear('left')}>
                         <img src={leftArrow} alt="" />
                     </button>
@@ -105,7 +106,7 @@ function Home({ galleries }: { galleries: Paginate<Gallery> }) {
                     <button type="button" onClick={() => handleChangeYear('right')}>
                         <img src={rightArrow} alt="" />
                     </button>
-                </div>
+                </s.YearWrap>
             )}
             <s.ListWrap>
                 <Image.PreviewGroup
